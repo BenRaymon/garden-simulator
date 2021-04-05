@@ -4,4 +4,7 @@ public class ShoppingListModel extends Model {
 		return 0;
 	}
 	
+	public int countPlants() {
+		return -1;
+	}
 }
