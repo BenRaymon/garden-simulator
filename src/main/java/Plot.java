@@ -14,6 +14,17 @@ public class Plot{
 		
 	}
 	
+	public boolean checkSpread() {
+		
+		return false;
+	}
+	
+	public void movePlant() {
+		
+		
+	}
+	
+	
 
 	
 	
