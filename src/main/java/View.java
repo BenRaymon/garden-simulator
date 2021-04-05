@@ -9,4 +9,9 @@ public abstract class View extends Application{
 	
 	private HashMap<String, Image> lepImages = new HashMap<String, Image>();
 	
+	public void start() {
+		
+		
+	}
+	
 }
