@@ -1,38 +1,34 @@
 public class Point{
 	
-	double xCord;
-	double yCord;
+	private double xCord;
+	private double yCord;
 	
-	public Point{
+	public Point(){
 		
 	}
 	
-	public int getxCord() {
+	public double getxCord() {
 		return xCord;
 	}
 	
-	public int getyCord() {
+	public double getyCord() {
 		return yCord;
 	}
 	
-	public int setxCord(int x) {
+	public void setxCord(double x) {
 		xCord = x;
 	}
 	
-	public int setyCord(int y) {
+	public void setyCord(double y) {
 		yCord = y;
 	}
 	
-	public int isValid(){
-		
+	public boolean isValid(){
+		return true;
 	}
 	
 	public boolean checkBoundry() {
-		
-	}
-	
-	public boolean isValid() {
-		
+		return true;
 	}
 	
 }
