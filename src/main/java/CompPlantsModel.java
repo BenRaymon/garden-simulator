@@ -4,6 +4,6 @@ public class CompPlantsModel extends Model{
 	Plant plantB;
 	
 	public int compare() {
-		
+		return 0;
 	}
 }

@@ -11,22 +11,22 @@ public class GardenEditorModel extends Model {
 	}
 	
 	public int placePlant() {
-		
+		return 0;
 	}
 	
-	public int isValidPlacement() {
-		
+	public int isValidPlacement(Point point) {
+		return 0;
 	}
 	
 	public int updateStats() {
-		
+		return 0;
 	}
 	
 	public int search() {
-		
+		return 0;
 	}
 	
-	public int setPos() {
-		
+	public int setPos(Point point) {
+		return 0;
 	}
 }
