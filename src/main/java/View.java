@@ -14,4 +14,10 @@ public abstract class View extends Application{
 		
 	}
 	
+	
+	public void loadImages() {
+		
+		
+	}
+	
 }
