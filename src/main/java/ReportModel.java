@@ -8,7 +8,7 @@ public class ReportModel extends Model {
 		
 	}
 	
-	public int generatePlantChar() {
+	public int generatePlantChart() {
 		
 	}
 	
