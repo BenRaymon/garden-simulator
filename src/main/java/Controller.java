@@ -3,12 +3,9 @@ public class Controller{
 	View view;
 	
 	public void drawPlot() {
-		
-		
 	}
 	
-	public void dragPlot() {
-		
+	public void dragPlant() {
 	}
 	
 }

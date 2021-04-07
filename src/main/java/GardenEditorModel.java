@@ -7,7 +7,7 @@ public class GardenEditorModel extends Model {
 	String sortBy;
 	
 	public Plant selectPlant() {
-		
+		return null;
 	}
 	
 	public int placePlant() {
