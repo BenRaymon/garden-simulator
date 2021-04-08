@@ -6,6 +6,12 @@ public class Plot{
 	Options options;
 	ArrayList<Point> coordinates;
 	
+	public Plot(HashMap<String, Plant> plants, HashMap<String, Plant> plantsPlot, Options options, ArrayList<Point> coors){
+		recommendedPlants = plants;
+		plantsInPlot = plantsPlot;
+		this.options = options;
+		coordinates = coors;
+	}
 	
 	public void addCoordinate(Point point) {
 		coordinates.add(point);

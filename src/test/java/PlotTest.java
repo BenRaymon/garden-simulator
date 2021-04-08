@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class PlotTest {
+	
 	Plot p = new Plot();
 	
 	@Test
