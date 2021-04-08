@@ -4,6 +4,9 @@ import org.junit.Test;
 
 public class PlantTest {
 	Plant p;
+	Options o;
+	ArrayList<Lep> ls;
+	
 	
 	@Test
 	public void testCreatePlant() {

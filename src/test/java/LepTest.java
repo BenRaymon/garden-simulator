@@ -7,32 +7,35 @@ public class LepTest {
 	
 	@Test
 	public void testGetCommonName() {
-		fail("Not yet implemented");
+		assertEquals("taco", l.getCommonName());
 	}
 	
 	@Test
 	public void testSetCommonName() {
-		fail("Not yet implemented");
+		l.setCommonName("hamburger");
+		assertEquals("hamburger", l.getCommonName());
 	}
 	
 	@Test
 	public void testGetScientificName() {
-		fail("Not yet implemented");
+		assertEquals("scientificTaco", l.getScientificName());
 	}
 	
 	@Test
 	public void testSetScientificName() {
-		fail("Not yet implemented");
+		l.setScientificName("scientificHamburger");
+		assertEquals("scientificHamburger", l.getScientificName());
 	}
 	
 	@Test
 	public void testGetColor() {
-		fail("Not yet implemented");
+		assertEquals("blue", l.getColor());
 	}
 	
 	@Test
 	public void testSetColor() {
-		fail("Not yet implemented");
+		l.setColor("red");
+		assertEquals("red", l.getColor());
 	}
 
 }
