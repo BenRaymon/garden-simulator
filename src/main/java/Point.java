@@ -3,8 +3,9 @@ public class Point{
 	private double xCord;
 	private double yCord;
 	
-	public Point(){
-		
+	public  Point(){
+		xCord = 0;
+		yCord = 0;
 	}
 	
 	public double getxCord() {
