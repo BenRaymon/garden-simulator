@@ -1,3 +1,5 @@
+import javafx.scene.image.Image;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class CompPlantsView extends View{

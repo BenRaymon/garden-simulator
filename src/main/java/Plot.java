@@ -1,13 +1,14 @@
+import java.util.*;
+
 public class Plot{
-	List <Plant> reccomendedPlants;
-	List <Plant> plantsInPlot;
+	HashMap <String, Plant> reccomendedPlants;
+	HashMap <String, Plant> plantsInPlot;
 	Settings options;
 	List <Point> coordinates;
 	
 	
 	public void addPoint(Point point) {
 		coordinates.add(point);
-		
 	}
 	
 	public void removePlant() {
