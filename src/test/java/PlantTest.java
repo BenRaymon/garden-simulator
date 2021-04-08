@@ -11,7 +11,7 @@ public class PlantTest {
 	public void testGetOptions() {
 		assertEquals("taco", p.getOptions().getSoilType());
 		assertEquals(1, p.getOptions().getSunLevel());
-		assertEquals(2, p.getOptions().getSunLevel());
+		assertEquals(2, p.getOptions().getMoisture());
 	}
 	
 	@Test
@@ -19,7 +19,7 @@ public class PlantTest {
 		p.setOptions(new Options("newTaco", 3, 4));
 		assertEquals("newTaco", p.getOptions().getSoilType());
 		assertEquals(3, p.getOptions().getSunLevel());
-		assertEquals(4, p.getOptions().getSunLevel());
+		assertEquals(4, p.getOptions().getMoisture());
 	}
 	
 	@Test
@@ -124,8 +124,8 @@ public class PlantTest {
 	@Test
 	public void testSetPosition() {
 		p.setPosition(new Point(3.0, 4.0));
-		assertEquals(1.0, p.getPosition().getX(), 0.1);
-		assertEquals(2.0, p.getPosition().getY(), 0.1);
+		assertEquals(3.0, p.getPosition().getX(), 0.1);
+		assertEquals(4.0, p.getPosition().getY(), 0.1);
 	}
 
 }
