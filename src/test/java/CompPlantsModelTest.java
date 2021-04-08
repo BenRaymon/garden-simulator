@@ -8,5 +8,10 @@ public class CompPlantsModelTest {
 	public void test() {
 		fail("Not yet implemented");
 	}
+	
+	@Test
+	public void testCompare() {
+		fail("Not yet implemented");
+	}
 
 }
