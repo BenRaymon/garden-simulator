@@ -2,30 +2,26 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class ReportModelTest {
+public class ReportModelTest extends ReportModel {
 
-	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
 	
 	@Test
 	public void testGenerateReport() {
-		fail("Not yet implemented");
+		assertEquals(generateReport(),0);
 	}
 	
 	@Test
 	public void testGenerateLepChart() {
-		fail("Not yet implemented");
+		assertEquals(generateLepChart(),0);
 	}
 
 	@Test
 	public void testGeneratePlantChart() {
-		fail("Not yet implemented");
+		assertEquals(generatePlantChart(),0);
 	}
 	
 	@Test
 	public void testGenerateSummary() {
-		fail("Not yet implemented");
+		assertEquals(generateSummary(),0);
 	}
 }

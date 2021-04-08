@@ -2,16 +2,12 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class CompPlantsModelTest {
+public class CompPlantsModelTest extends CompPlantsModel {
 
-	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
 	
 	@Test
 	public void testCompare() {
-		fail("Not yet implemented");
+		assertEquals(compare(),0);
 	}
 
 }

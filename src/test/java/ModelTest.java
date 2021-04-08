@@ -2,30 +2,26 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class ModelTest {
+public class ModelTest extends Model{
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void testUpdate() {
+		assertEquals(update(),0);
 	}
 	
 	@Test
-	public void testUpdate() {
-		assertEquals(0,0);
+	public void testLoadData() {
+		assertEquals(loadData(),0);
 	}
 	
 	@Test
 	public void testSerializeData() {
-		assertEquals(0,0);
+		assertEquals(serializeData(),0);
 	}
 	
 	@Test
 	public void testSaveData() {
-		assertEquals(0,0);
-	}
-	
-	public void testLoadData() {
-		assertEquals(0,0);
+		assertEquals(saveData(),0);
 	}
 
 }
