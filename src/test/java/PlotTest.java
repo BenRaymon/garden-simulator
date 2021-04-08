@@ -2,6 +2,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+
+import org.junit.Test;
+
 public class PlotTest {
 	
 	Plot p = new Plot();
@@ -54,8 +57,6 @@ public class PlotTest {
 		assertEquals(p.getOptions(),op);
 
 	}
-	
-	
 	@Test
 	public void testCheckSpread() {
 		//fail("Not yet implemented");
