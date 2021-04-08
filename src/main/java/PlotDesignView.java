@@ -26,5 +26,16 @@ public class PlotDesignView extends View{
 		
 	}
 	
+	public void updateSunlightSlider() {
+		
+	}
+	
+	public void updateMoistureSlider() {
+		
+	}
+	
+	public void updateSoilSlider() {
+		
+	}
 	
 }
