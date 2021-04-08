@@ -2,11 +2,13 @@ import java.util.*;
 
 public abstract class Model {
 	
-	Garden ourGarden;
+	private Garden ourGarden;
 	
-	HashMap<String, Plant> allPlants = new HashMap<String, Plant>();
+	private static HashMap<String, Plant> allPlants = new HashMap<String, Plant>();
 	
-	HashMap<String, Lep> allLeps = new HashMap<String, Lep>();
+	public HashMap getPlants() {
+		return allPlants;
+	}
 	
 	public int update() {
 		return 0;

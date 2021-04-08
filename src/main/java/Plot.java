@@ -13,6 +13,10 @@ public class Plot{
 		coordinates = coors;
 	}
 	
+	public Plot() {
+		
+	}
+	
 	public void addCoordinate(Point point) {
 		coordinates.add(point);
 	}

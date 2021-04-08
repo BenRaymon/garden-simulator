@@ -5,15 +5,10 @@ import javafx.scene.image.Image;
 
 public abstract class View extends Application{
 
-	private HashMap<String, Image> plantImages = new HashMap<String, Image>();
+	private static HashMap<String, Image> plantImages = new HashMap<String, Image>();
 	
-	private HashMap<String, Image> lepImages = new HashMap<String, Image>();
-	
-	public void start() {
-	}
-	
-	
-	public void loadImages() {
+	public HashMap getImages() {
+		return plantImages;
 	}
 	
 }
