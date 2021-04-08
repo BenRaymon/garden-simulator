@@ -3,7 +3,7 @@ import java.util.*;
 public class Plot{
 	HashMap <String, Plant> reccomendedPlants;
 	HashMap <String, Plant> plantsInPlot;
-	Settings options;
+	Options options;
 	List <Point> coordinates;
 	
 	

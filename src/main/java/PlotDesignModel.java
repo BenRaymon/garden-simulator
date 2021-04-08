@@ -4,7 +4,7 @@ public class PlotDesignModel extends Model {
 	
 	HashMap<String, Plot> plots = new HashMap<String, Plot>();
 	
-	Settings currentSelection;
+	Options currentSelection;
 	
 	public int addCoordToPlot() {
 		return 0;

@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Plant{
 	
-	Settings options;
+	Options options;
 	double spreadRadius;
 	ArrayList<Lep> lepsSupported;
 	String color;
@@ -12,7 +12,7 @@ public class Plant{
 	String commonName;
 	Point position;
 	
-	public Plant(Settings options, double spreadRadius, ArrayList<Lep> lepsSupported, String color, String size,
+	public Plant(Options options, double spreadRadius, ArrayList<Lep> lepsSupported, String color, String size,
 			double cost, String scientificName, String commonName, Point position) {
 		super();
 		this.options = options;
@@ -26,10 +26,10 @@ public class Plant{
 		this.position = position;
 	}
 	
-	public Settings getOptions() {
+	public Options getOptions() {
 		return options;
 	}
-	public void setOptions(Settings options) {
+	public void setOptions(Options options) {
 		this.options = options;
 	}
 	public double getSpreadRadius() {
