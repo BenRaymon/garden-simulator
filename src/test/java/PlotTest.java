@@ -2,9 +2,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-
-import org.junit.Test;
-
 public class PlotTest {
 	
 	Plot p = new Plot();
@@ -60,13 +57,13 @@ public class PlotTest {
 	@Test
 	public void testCheckSpread() {
 		//fail("Not yet implemented");
-		assertEquals(p.checkSpread(),true);
+		assertTrue(p.checkSpread());
 	}
 	
 	@Test
 	public void testMovePlant() {
 		//fail("Not yet implemented");
-		assertEquals(p.movePlant(),true);
+		assertTrue(p.movePlant());
 		
 	}
 
