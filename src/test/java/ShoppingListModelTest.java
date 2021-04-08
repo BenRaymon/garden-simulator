@@ -6,13 +6,15 @@ public class ShoppingListModelTest {
 	@Test
 	public void testgenerateTotalCost() {
 		//fail("Not yet implemented");
-		assertEquals(0,0);
+		ShoppingListModel testModel = new ShoppingListModel();
+		assertEquals(testModel.generateTotalCost(),0.1);
 	}
 	
 	@Test
 	public void testcountPlants() {
 		//fail("Not yet implemented");
-		assertEquals(0,0);
+		ShoppingListModel testModel = new ShoppingListModel();
+		assertEquals(testModel.countPlants(),0);
 	}
 
 }

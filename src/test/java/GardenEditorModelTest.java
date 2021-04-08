@@ -6,37 +6,45 @@ public class GardenEditorModelTest {
 	@Test
 	public void testselectPlant() {
 		//fail("Not yet implemented");
-		assertEquals(null,null);
+		GardenEditorModel testModel = new GardenEditorModel();
+		assertEquals(testModel.selectPlant(),null);
 	}
 	
 	@Test
 	public void testplacePlant() {
 		//fail("Not yet implemented");
-		assertEquals(0,0);
+		GardenEditorModel testModel = new GardenEditorModel();
+		assertEquals(testModel.placePlant(),0);
 	}
 
 	@Test
 	public void testisValidPlacement() {
 		//fail("Not yet implemented");
-		assertEquals(0,0);
+		Point testPoint = new Point();
+		GardenEditorModel testModel = new GardenEditorModel();
+		assertEquals(testModel.isValidPlacement(testPoint),0);
 	}
 
 	@Test
-	public void testupdateStats(Point point) {
+	public void testupdateStats() {
 		//fail("Not yet implemented");
-		assertEquals(0,0);
+		GardenEditorModel testModel = new GardenEditorModel();
+		assertEquals(testModel.updateStats(),0);
 	}
 
 	@Test
 	public void testsearch() {
 		//fail("Not yet implemented");
-		assertEquals(0,0);
+		GardenEditorModel testModel = new GardenEditorModel();
+		assertEquals(testModel.search(),0);
 	}
 
 	@Test
-	public void testsetPos(Point point) {
+	public void testsetPos() {
 		//fail("Not yet implemented");
-		assertEquals(0,0);
+		Point testPoint = new Point();
+		GardenEditorModel testModel = new GardenEditorModel();
+		assertEquals(testModel.setPos(testPoint),0);
 	}
 
 }
