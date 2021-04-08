@@ -4,7 +4,7 @@ public class Plant{
 	
 	Options options;
 	double spreadRadius;
-	ArrayList<Lep> lepsSupported;
+	int lepsSupported;
 	String color;
 	String size;
 	double cost;
@@ -12,7 +12,7 @@ public class Plant{
 	String commonName;
 	Point position;
 	
-	public Plant(Options options, double spreadRadius, ArrayList<Lep> lepsSupported, String color, String size,
+	public Plant(Options options, double spreadRadius, int lepsSupported, String color, String size,
 			double cost, String scientificName, String commonName, Point position) {
 		this.options = options;
 		this.spreadRadius = spreadRadius;
@@ -37,11 +37,18 @@ public class Plant{
 	public void setSpreadRadius(double spreadRadius) {
 		this.spreadRadius = spreadRadius;
 	}
-	public ArrayList<Lep> getLepsSupported() {
+	public int getLepsSupported() {
 		return lepsSupported;
 	}
-	public void addSupportedLep(Lep lep) {
-		this.lepsSupported.add(lep);
+	
+	public void setLepsSupported(int ls) {
+		this.lepsSupported = ls;
+	}
+	public void incrementLepsSupportedByOne() {
+		this.lepsSupported++;
+	}
+	public void incrementLepsSupportedByX(int x) {
+		this.lepsSupported += x;
 	}
 	public String getColor() {
 		return color;
@@ -74,7 +81,7 @@ public class Plant{
 		this.commonName = commonName;
 	}
 	public Point getPosition() {
-		return position;
+		return this.position;
 	}
 	public void setPosition(Point position) {
 		this.position = position;

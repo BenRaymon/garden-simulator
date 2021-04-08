@@ -4,6 +4,12 @@ public class Options{
 	private int sunLevel;
 	private int moisture;
 	
+	public Options(String st, int sl, int m) {
+		this.soilType = st;
+		this.sunLevel = sl;
+		this.moisture = m;
+	}
+	
 	
 	public String getSoilType() {
 		return soilType;
