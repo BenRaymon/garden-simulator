@@ -6,7 +6,7 @@ public class PlotDesignModelTest {
 	@Test
 	public void testaddCoordToPlot() {
 		//fail("Not yet implemented");
-		assertEquals(null,null);
+		assertEquals(0,0);
 	}
 	
 	@Test
