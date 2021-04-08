@@ -3,34 +3,39 @@ import org.junit.Test;
 
 public class OptionsTest{
 	
+	Options test = new Options("a",2,3);
+	
 	@Test
 	public void testGetSoilType() {
-		fail("Not yet implemented");
+		assertEquals(test.getSoilType(),"a");
 	}
 	
 	@Test
 	public void testSetSoilType() {
-		fail("Not yet implemented");
+		test.setSoilType("b");
+		assertEquals(test.getSoilType(), "b");
 	}
 	
 	@Test
 	public void testGetSunLevel() {
-		fail("Not yet implemented");
+		assertEquals(test.getSunLevel(),2);
 	}
 	
 	@Test
 	public void testSetSunLevel() {
-		fail("Not yet implemented");
+		test.setSunLevel(1);
+		assertEquals(test.getSunLevel(),1);
 	}
 	
 	@Test
 	public void testGetMoisture() {
-		fail("Not yet implemented");
+		assertEquals(test.getMoisture(),3);
 	}
 	
 	@Test
 	public void testSetMoisture() {
-		fail("Not yet implemented");
+		test.setMoisture(2);
+		assertEquals(test.getMoisture(),2);
 	}
 	
 }
