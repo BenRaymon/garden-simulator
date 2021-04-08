@@ -5,7 +5,6 @@ public class Lep {
 	
 	
 	public Lep(String commonName, String scientificName, String color) {
-		super();
 		this.commonName = commonName;
 		this.scientificName = scientificName;
 		this.color = color;

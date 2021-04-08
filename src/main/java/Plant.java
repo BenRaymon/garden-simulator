@@ -14,7 +14,6 @@ public class Plant{
 	
 	public Plant(Options options, double spreadRadius, ArrayList<Lep> lepsSupported, String color, String size,
 			double cost, String scientificName, String commonName, Point position) {
-		super();
 		this.options = options;
 		this.spreadRadius = spreadRadius;
 		this.lepsSupported = lepsSupported;

@@ -3,24 +3,29 @@ public class Point{
 	private double xCord;
 	private double yCord;
 	
-	public  Point(){
+	public Point(){
 		xCord = 0;
 		yCord = 0;
 	}
 	
-	public double getxCord() {
+	public Point(double x, double y) {
+		xCord=x;
+		yCord=y;
+	}
+	
+	public double getX() {
 		return xCord;
 	}
 	
-	public double getyCord() {
+	public double getY() {
 		return yCord;
 	}
 	
-	public void setxCord(double x) {
+	public void setX(double x) {
 		xCord = x;
 	}
 	
-	public void setyCord(double y) {
+	public void setY(double y) {
 		yCord = y;
 	}
 	
