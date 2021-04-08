@@ -1,18 +1,59 @@
 import java.util.*;
 
 public class Plot{
-	HashMap <String, Plant> reccomendedPlants;
+	HashMap <String, Plant> recommendedPlants;
 	HashMap <String, Plant> plantsInPlot;
 	Options options;
-	List <Point> coordinates;
+	ArrayList<Point> coordinates;
 	
 	
-	public void addPoint(Point point) {
+	public void addCoordinate(Point point) {
 		coordinates.add(point);
 	}
 	
-	public void removePlant() {
-		
+	public void removeCoordinate(Point point) {
+		coordinates.remove(point);
+	}
+	
+	public ArrayList<Point> getCoordinates() {
+		return coordinates;
+	}
+	
+	public void addRecommendedPlant(String n, Plant p) {
+		recommendedPlants.put(n, p);
+	}
+	
+	public void removeRecommendedPlant(String n) {
+		// remove does return the object, may change this function
+		// to return it later
+		recommendedPlants.remove(n);
+	}
+	
+	public HashMap<String, Plant> getRecommendedPlants() {
+		return recommendedPlants;
+	}
+	
+	public void addPlantToPlot(String n, Plant p) {
+		plantsInPlot.put(n, p);
+	}
+	
+	public void removePlantFromPlot(String n) {
+		// remove does return the object, may change this function
+		// to return it later
+		plantsInPlot.remove(n);
+	}
+	
+	public HashMap<String, Plant> getPlantsInPlot() {
+		return plantsInPlot;
+	}
+
+	
+	public void setOptions(Options o) {
+		options = o;
+	}
+	
+	public Options getOptions() {
+		return options;
 	}
 	
 	public boolean checkSpread() {
@@ -21,7 +62,6 @@ public class Plot{
 	}
 	
 	public void movePlant() {
-		
 		
 	}
 	

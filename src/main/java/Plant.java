@@ -40,8 +40,8 @@ public class Plant{
 	public ArrayList<Lep> getLepsSupported() {
 		return lepsSupported;
 	}
-	public void setLepsSupported(ArrayList<Lep> lepsSupported) {
-		this.lepsSupported = lepsSupported;
+	public void addSupportedLep(Lep lep) {
+		this.lepsSupported.add(lep);
 	}
 	public String getColor() {
 		return color;
