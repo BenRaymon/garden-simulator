@@ -1,4 +1,5 @@
 import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 public class ControllerTest{
@@ -7,11 +8,11 @@ public class ControllerTest{
 	@Test
 	public void testDrawPlot() {
 		//fail("Not Yet Implemented");
-		assertEquals(control.dragPlant(),true);
+		assertTrue(control.dragPlant());
 	}
 	
 	@Test
 	public void testDragPlot() {
-		assertEquals(control.drawPlot(),true);
+		assertTrue(control.drawPlot());
 	}
 }
