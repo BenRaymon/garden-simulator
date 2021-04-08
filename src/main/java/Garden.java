@@ -5,7 +5,7 @@ public class Garden{
 	private float budget;
 	private ArrayList<Plot> plots;
 	private ArrayList<Lep> lepsSupported;
-	private ArrayList<Plant> plantsInGarded;
+	private ArrayList<Plant> plantsInGarden;
 	
 	public float getSpent() {
 		return spent;
@@ -51,8 +51,8 @@ public class Garden{
 		return lepsSupported;
 	}
 	
-	public ArrayList<Plant> getPlantsInGarded() {
-		return plantsInGarded;
+	public ArrayList<Plant> getPlantsInGarden() {
+		return plantsInGarden;
 	}
 	
 	
