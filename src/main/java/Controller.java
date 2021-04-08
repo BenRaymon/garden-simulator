@@ -2,10 +2,12 @@ public class Controller{
 	Model model;
 	View view;
 	
-	public void drawPlot() {
+	public boolean drawPlot() {
+		return true;
 	}
 	
-	public void dragPlant() {
+	public boolean dragPlant() {
+		return true;
 	}
 	
 }
