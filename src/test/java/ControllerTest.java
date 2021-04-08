@@ -3,14 +3,15 @@ import org.junit.Test;
 
 public class ControllerTest{
 	
-	
+	Controller control = new Controller();
 	@Test
 	public void testDrawPlot() {
-		fail("Not Yet Implemented");
+		//fail("Not Yet Implemented");
+		assertEquals(control.dragPlant(),true);
 	}
 	
 	@Test
 	public void testDragPlot() {
-		fail("Not Yet Implemented");
+		assertEquals(control.drawPlot(),true);
 	}
 }
