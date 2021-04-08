@@ -4,8 +4,17 @@ public class Garden{
 	private double spent;
 	private double budget;
 	private ArrayList<Plot> plots;
-	private ArrayList<Lep> lepsSupported;
+	private int lepsSupported;
 	private ArrayList<Plant> plantsInGarden;
+	
+	public Garden() {
+		spent = 0;
+		budget = 0;
+		lepsSupported = 0;
+		plantsInGarden = new ArrayList<Plant>();
+		plots = new ArrayList<Plot>();
+	}
+	
 	
 	public double getSpent() {
 		return spent;
@@ -23,15 +32,11 @@ public class Garden{
 		this.budget = budget;
 	}
 	
-	public void newPlot() {
-		plots.add(new Plot());
+	public void addPlot(Plot p) {
+		plots.add(p);
 	}
 	
 	public void loadPlants() {
-		
-	}
-	
-	public void loadLeps() {
 		
 	}
 	
@@ -47,7 +52,7 @@ public class Garden{
 		return plots;
 	}
 
-	public ArrayList<Lep> getLepsSupported() {
+	public int getLepsSupported() {
 		return lepsSupported;
 	}
 	
