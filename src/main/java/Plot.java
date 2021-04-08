@@ -1,10 +1,10 @@
 import java.util.*;
 
 public class Plot{
-	HashMap <String, Plant> recommendedPlants;
-	HashMap <String, Plant> plantsInPlot;
-	Options options;
-	ArrayList<Point> coordinates;
+	private HashMap <String, Plant> recommendedPlants;
+	private HashMap <String, Plant> plantsInPlot;
+	private Options options;
+	private ArrayList<Point> coordinates;
 	
 	public Plot(HashMap<String, Plant> plants, HashMap<String, Plant> plantsPlot, Options options, ArrayList<Point> coors){
 		recommendedPlants = plants;
