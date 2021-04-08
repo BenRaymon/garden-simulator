@@ -13,9 +13,6 @@ public class Plot{
 		coordinates = coors;
 	}
 	
-	public Plot() {
-		
-	}
 	
 	public void addCoordinate(Point point) {
 		coordinates.add(point);
@@ -71,7 +68,12 @@ public class Plot{
 		return false;
 	}
 	
-	public void movePlant() {
+	
+	
+	public boolean movePlant() {
+		
+		
+		return true;
 		
 	}
 	
