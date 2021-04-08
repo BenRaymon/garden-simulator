@@ -3,35 +3,46 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class PointTest {
+	
+	Point testP = new Point(1.0, 1.0);
 
 	@Test
+	public void testEmptyConstructor() {
+		Point testEmptyP = new Point();
+		assertEquals(testEmptyP.getX(), 0, 0);
+		assertEquals(testEmptyP.getY(), 0, 0);
+	}
+	
+	@Test
 	public void testGetX() {
-		fail("Not yet implemented");
+		assertEquals(testP.getX(), 1.0, 0);
 	}
 	
 	@Test
 	public void testGetY() {
-		fail("Not yet implemented");
+		assertEquals(testP.getY(), 1.0, 0);
 	}
 	
 	@Test
 	public void testSetX() {
-		fail("Not yet implemented");
+		testP.setX(2.5);
+		assertEquals(testP.getX(), 2.5, 0);
 	}
 	
 	@Test
 	public void testSetY() {
-		fail("Not yet implemented");
+		testP.setY(2.5);
+		assertEquals(testP.getY(), 2.5, 0);
 	}
 	
 	@Test
 	public void testIsValid() {
-		fail("Not yet implemented");
+		assertEquals(testP.isValid(), true);
 	}
 	
 	@Test
 	public void testCheckBoundry() {
-		fail("Not yet implemented");
+		assertEquals(testP.checkBoundry(), true);
 	}
 	
 }
