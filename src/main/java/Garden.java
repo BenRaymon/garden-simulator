@@ -1,25 +1,25 @@
 import java.util.ArrayList;
 
 public class Garden{
-	private float spent;
-	private float budget;
+	private double spent;
+	private double budget;
 	private ArrayList<Plot> plots;
 	private ArrayList<Lep> lepsSupported;
 	private ArrayList<Plant> plantsInGarden;
 	
-	public float getSpent() {
+	public double getSpent() {
 		return spent;
 	}
 	
-	public void setSpent(float spent) {
+	public void setSpent(double spent) {
 		this.spent = spent;
 	}
 	
-	public float getBudget() {
+	public double getBudget() {
 		return budget;
 	}
 	
-	public void setBudget(float budget) {
+	public void setBudget(double budget) {
 		this.budget = budget;
 	}
 	

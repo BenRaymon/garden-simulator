@@ -1,6 +1,6 @@
 public class ShoppingListModel extends Model {
 	
-	public float generateTotalCost() {
+	public double generateTotalCost() {
 		return 0;
 	}
 	

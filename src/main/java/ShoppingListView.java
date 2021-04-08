@@ -18,7 +18,7 @@ public class ShoppingListView extends View{
 		
 	}
 	
-	public void display(String title, float budget, float cost, int plantCount, HashMap plantsInGarden) {
+	public void display(String title, double budget, double cost, int plantCount, HashMap plantsInGarden) {
 		
 	}
 	
