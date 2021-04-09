@@ -6,24 +6,20 @@ public class Plot{
 	private Options options;
 	private ArrayList<Point> coordinates;
 	
-	public Plot(HashMap<String, Plant> plants, HashMap<String, Plant> plantsPlot, Options options, ArrayList<Point> coors){
-		recommendedPlants = plants;
-		plantsInPlot = plantsPlot;
-		this.options = options;
-		coordinates = coors;
-	}
-	
-	public Plot() {
-		
+	public Plot(Options o) {
+		this.recommendedPlants = new HashMap<String, Plant>();
+		this.plantsInPlot = new HashMap<String, Plant>();
+		this.options = o;
+		this.coordinates = new ArrayList<Point>();
 	}
 	
 	
 	public void addCoordinate(Point point) {
-		//coordinates.add(point);
+		coordinates.add(point);
 	}
 	
 	public void removeCoordinate(Point point) {
-		//coordinates.remove(point);
+		coordinates.remove(point);
 	}
 	
 	public ArrayList<Point> getCoordinates() {
@@ -31,13 +27,13 @@ public class Plot{
 	}
 	
 	public void addRecommendedPlant(String n, Plant p) {
-		//recommendedPlants.put(n, p);
+		recommendedPlants.put(n, p);
 	}
 	
 	public void removeRecommendedPlant(String n) {
 		// remove does return the object, may change this function
 		// to return it later
-		//recommendedPlants.remove(n);
+		recommendedPlants.remove(n);
 	}
 	
 	public HashMap<String, Plant> getRecommendedPlants() {
@@ -45,13 +41,13 @@ public class Plot{
 	}
 	
 	public void addPlantToPlot(String n, Plant p) {
-		//plantsInPlot.put(n, p);
+		plantsInPlot.put(n, p);
 	}
 	
 	public void removePlantFromPlot(String n) {
 		// remove does return the object, may change this function
 		// to return it later
-		//plantsInPlot.remove(n);
+		plantsInPlot.remove(n);
 	}
 	
 	public HashMap<String, Plant> getPlantsInPlot() {
@@ -69,7 +65,7 @@ public class Plot{
 	
 	public boolean checkSpread() {
 		
-		return false;
+		return true;
 	}
 	
 	
