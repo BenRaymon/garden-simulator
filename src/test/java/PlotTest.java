@@ -16,15 +16,14 @@ public class PlotTest {
 		//fail("Not yet implemented");
 		p.addCoordinate(tempPoint);
 		p.addCoordinate(tempPoint2);
-		assertEquals(p.getCoordinates()[0],tempPoint);
+		assertEquals(p.getCoordinates().get(0),tempPoint);
 	}
 	
 	@Test
 	public void testRemoveCoordinate() {
 		//fail("Not yet implemented");
-		
 		p.removeCoordinate(tempPoint);
-		assertEquals(testPlot.getCoordinates()[0],tempPoint2);
+		assertEquals(p.getCoordinates().get(0),tempPoint2);
 	}
 	
 	@Test

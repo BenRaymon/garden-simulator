@@ -13,13 +13,17 @@ public class Plot{
 		coordinates = coors;
 	}
 	
+	public Plot() {
+		
+	}
+	
 	
 	public void addCoordinate(Point point) {
-		coordinates.add(point);
+		//coordinates.add(point);
 	}
 	
 	public void removeCoordinate(Point point) {
-		coordinates.remove(point);
+		//coordinates.remove(point);
 	}
 	
 	public ArrayList<Point> getCoordinates() {
@@ -27,13 +31,13 @@ public class Plot{
 	}
 	
 	public void addRecommendedPlant(String n, Plant p) {
-		recommendedPlants.put(n, p);
+		//recommendedPlants.put(n, p);
 	}
 	
 	public void removeRecommendedPlant(String n) {
 		// remove does return the object, may change this function
 		// to return it later
-		recommendedPlants.remove(n);
+		//recommendedPlants.remove(n);
 	}
 	
 	public HashMap<String, Plant> getRecommendedPlants() {
@@ -41,13 +45,13 @@ public class Plot{
 	}
 	
 	public void addPlantToPlot(String n, Plant p) {
-		plantsInPlot.put(n, p);
+		//plantsInPlot.put(n, p);
 	}
 	
 	public void removePlantFromPlot(String n) {
 		// remove does return the object, may change this function
 		// to return it later
-		plantsInPlot.remove(n);
+		//plantsInPlot.remove(n);
 	}
 	
 	public HashMap<String, Plant> getPlantsInPlot() {
