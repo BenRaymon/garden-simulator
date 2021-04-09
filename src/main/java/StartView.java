@@ -16,9 +16,6 @@ public class StartView extends View{
 	private Button loadGarden;
 	private Scene scene;
 	
-	Button nextPage = new Button("Next Page");
-	Button backPage = new Button("Back Page");
-	Text title = new Text("START");
 	
 	public StartView(Stage stage) {
 		GridPane base = new GridPane();
@@ -26,13 +23,14 @@ public class StartView extends View{
 		base.setVgap(10);
 		base.setAlignment(Pos.CENTER);
 		
-		
-		
 		//create a temporary vbox for the name and button
+		nextPage = new Button("Next Page");
+		backPage = new Button("Back Page");
+		pageTitle = new Text("START");
 		VBox temp = new VBox(5);
 		temp.getChildren().add(nextPage);
 		temp.getChildren().add(backPage);
-		temp.getChildren().add(title);
+		temp.getChildren().add(pageTitle);
 		temp.setAlignment(Pos.CENTER);
 		base.add(temp, 0, 1);
 		
