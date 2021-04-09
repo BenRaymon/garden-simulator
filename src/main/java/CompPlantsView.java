@@ -9,11 +9,6 @@ public class CompPlantsView extends View{
 	private Text plantSummaryA;
 	private Text plantSummaryB;
 	
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	
 }

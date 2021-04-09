@@ -12,11 +12,6 @@ public class GardenEditorView extends View{
 	private Text plantCount;
 	private Text budget;
 	
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	public void updateValues() {
 		

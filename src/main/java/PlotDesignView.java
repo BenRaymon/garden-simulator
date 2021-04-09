@@ -12,11 +12,6 @@ public class PlotDesignView extends View{
 	private Button drawPlot;
 	private TextField budget;
 
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	public void fillPlot(Color color) {
 		
