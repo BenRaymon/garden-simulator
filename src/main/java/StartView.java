@@ -23,6 +23,20 @@ public class StartView extends View{
 		base.setVgap(10);
 		base.setAlignment(Pos.CENTER);
 		
+		
+		//Buttons for load and new gardens
+		HBox buttons = new HBox();
+		buttons.setSpacing(100);
+		newGarden = new Button("Create New Garden");
+		newGarden.setMinHeight(50);
+		newGarden.setMinWidth(150);
+		loadGarden = new Button("Load Garden");
+		loadGarden.setMinHeight(50);
+		loadGarden.setMinWidth(150);
+		buttons.getChildren().add(newGarden);
+		buttons.getChildren().add(loadGarden);
+		base.add(buttons, 0, 0);
+
 		//create a temporary vbox for the name and button
 		nextPage = new Button("Next Page");
 		backPage = new Button("Back Page");
