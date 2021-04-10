@@ -15,7 +15,8 @@ public class Controller extends Application{
 		
 		//LOAD PLANT INFO
 		model = new StartModel();
-		((StartModel) model).loadAllPlants();
+		boolean check = ((StartModel) model).loadAllPlants();
+		System.out.println("CHECK " + check);
 		
 		//create a start and plot design page
 		StartView startView = new StartView(stage);

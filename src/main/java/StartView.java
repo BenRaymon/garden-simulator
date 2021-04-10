@@ -1,3 +1,8 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.nio.file.Paths;
+
 import javafx.geometry.Pos;
 
 import javafx.scene.Group;
@@ -67,7 +72,25 @@ public class StartView extends View{
 	}
 	
 	public boolean loadImages() {
+		//load data file and create a list of lines
+		File plantData = Paths.get("src/main/resources/result.csv").toFile().getAbsoluteFile();
+		BufferedReader br;
+		
+		try {
+			br = new BufferedReader(new FileReader(plantData));
+		    String line;
+		    while ((line = br.readLine()) != null) {
+		        addImage(line);
+		    }
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return true;
+	}
+	
+	public void addImage(String line) {
+		String loc = line.split(",")[17];
 	}
 	
 }

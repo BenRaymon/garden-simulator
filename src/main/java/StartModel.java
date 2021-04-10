@@ -15,23 +15,26 @@ public class StartModel extends Model{
 	
 	public boolean loadAllPlants() {
 		
-		//File file = new File(getClass().getClassLoader().getResource("report.csv").getFile());
-		File test = Paths.get("src/main/resources/result.csv").toFile().getAbsoluteFile();
-		System.out.println(test);
-		
-		try (BufferedReader br = new BufferedReader(new FileReader(test))) {
+		//load data file and create a list of lines
+		File plantData = Paths.get("src/main/resources/result.csv").toFile().getAbsoluteFile();
+		BufferedReader br;
+		int numLines = 0;
+		try {
+			br = new BufferedReader(new FileReader(plantData));
 		    String line;
 		    while ((line = br.readLine()) != null) {
 		        loadPlant(line);
+		        numLines++;
 		    }
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
-		return true;
+	    
+		if(getPlants().size() == numLines - 1)
+			return true;
+		else
+			return false;
 	}
 	
 	public void loadPlant(String line) {
