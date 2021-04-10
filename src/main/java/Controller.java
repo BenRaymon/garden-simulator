@@ -7,44 +7,43 @@ import javafx.stage.Stage;
 
 public class Controller extends Application{
 	Model model;
-	View view;
-	ArrayList<View> pages = new ArrayList<View>();
+	ArrayList<View> pageViews = new ArrayList<View>();
 	
 	@Override
 	public void start(Stage stage) throws Exception {
 		// TODO Auto-generated method stub
 		//create a start and plot design page
 		StartView startView = new StartView(stage);
-		pages.add(startView);
+		pageViews.add(startView);
 		PlotDesignView plotDesignView = new PlotDesignView(stage);
-		pages.add(plotDesignView);
+		pageViews.add(plotDesignView);
 		GardenEditorView gardenEditorView = new GardenEditorView(stage);
-		pages.add(gardenEditorView);
+		pageViews.add(gardenEditorView);
 		CompPlantsView compPlantsView = new CompPlantsView(stage);
-		pages.add(compPlantsView);
+		pageViews.add(compPlantsView);
 		ShoppingListView shopView = new ShoppingListView(stage);
-		pages.add(shopView);
+		pageViews.add(shopView);
 		ReportView reportView = new ReportView(stage);
-		pages.add(reportView);
+		pageViews.add(reportView);
 		
 		//set the first scene to start
 		stage.setScene(startView.getScene());
 		
 		//TEMPORARY TO SWITCH FROM PAGE TO PAGE IN PRE-ALPHA
 		//set page switch buttons on each page
-		for(int i = 0; i < pages.size(); i++) {
-			pages.get(i).next = pages.get((i+1) % (pages.size()));
+		for(int i = 0; i < pageViews.size(); i++) {
+			pageViews.get(i).next = pageViews.get((i+1) % (pageViews.size()));
 			
 			if( i > 0) 
-				pages.get(i).back = pages.get((i-1) % pages.size());
+				pageViews.get(i).back = pageViews.get((i-1) % pageViews.size());
 			
 			final int x = i; 
-			pages.get(i).nextPage.setOnMouseClicked(event ->{
-				stage.setScene(pages.get(x).next.getScene());
+			pageViews.get(i).nextPage.setOnMouseClicked(event ->{
+				stage.setScene(pageViews.get(x).next.getScene());
 			});
 			
-			pages.get(i).backPage.setOnMouseClicked(event ->{
-				stage.setScene(pages.get(x).back.getScene());
+			pageViews.get(i).backPage.setOnMouseClicked(event ->{
+				stage.setScene(pageViews.get(x).back.getScene());
 			});
 		}
 		// END TEMP CODE
@@ -54,6 +53,7 @@ public class Controller extends Application{
 		//Button functionality for startView Create New Garden
 		startView.getNewGarden().setOnMouseClicked(event ->{
 			stage.setScene(plotDesignView.getScene());
+			model = new PlotDesignModel();
 		});
 	
 	
@@ -63,10 +63,6 @@ public class Controller extends Application{
 		System.out.println("in main 1");
 		launch(args);
 		
-	}
-	
-	public void setView(View view) {
-		this.view = view;
 	}
 	
 	public void setModel(Model model) {
