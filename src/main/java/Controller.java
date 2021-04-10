@@ -12,6 +12,11 @@ public class Controller extends Application{
 	@Override
 	public void start(Stage stage) throws Exception {
 		// TODO Auto-generated method stub
+		
+		//LOAD PLANT INFO
+		model = new StartModel();
+		((StartModel) model).loadAllPlants();
+		
 		//create a start and plot design page
 		StartView startView = new StartView(stage);
 		pageViews.add(startView);
@@ -55,7 +60,6 @@ public class Controller extends Application{
 			stage.setScene(plotDesignView.getScene());
 			model = new PlotDesignModel();
 		});
-	
 	
 	}
 	

@@ -25,6 +25,10 @@ public class Plant{
 		this.position = position;
 	}
 	
+	public Plant() {
+		
+	}
+	
 	public Options getOptions() {
 		return options;
 	}
