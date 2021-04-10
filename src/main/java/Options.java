@@ -1,34 +1,49 @@
+import java.util.ArrayList;
+
 public class Options{
 	
-	private String soilType;
-	private int sunLevel;
-	private int moisture;
+	private ArrayList<String> soilTypes;
+	private ArrayList<String> sunLevels;
+	private ArrayList<String> moistures;
 	
-	public Options(String st, int sl, int m) {
-		this.soilType = st;
-		this.sunLevel = sl;
-		this.moisture = m;
+	public Options(ArrayList<String> st, ArrayList<String> sl, ArrayList<String> m) {
+		this.soilTypes = st;
+		this.sunLevels = sl;
+		this.moistures = m;
+	}
+	
+	public String toString() {
+		
+		String str = soilTypes.toString() + sunLevels.toString() + moistures.toString();
+		return str;
+	}
+
+	public ArrayList<String> getSoilTypes() {
+		return soilTypes;
+	}
+
+	public void setSoilTypes(ArrayList<String> soilTypes) {
+		this.soilTypes = soilTypes;
+	}
+
+	public ArrayList<String> getSunLevels() {
+		return sunLevels;
+	}
+
+	public void setSunLevels(ArrayList<String> sunLevels) {
+		this.sunLevels = sunLevels;
+	}
+
+	public ArrayList<String> getMoistures() {
+		return moistures;
+	}
+
+	public void setMoistures(ArrayList<String> moistures) {
+		this.moistures = moistures;
 	}
 	
 	
-	public String getSoilType() {
-		return soilType;
-	}
-	public void setSoilType(String soilType) {
-		this.soilType = soilType;
-	}
-	public int getSunLevel() {
-		return sunLevel;
-	}
-	public void setSunLevel(int sunLevel) {
-		this.sunLevel = sunLevel;
-	}
-	public int getMoisture() {
-		return moisture;
-	}
-	public void setMoisture(int moisture) {
-		this.moisture = moisture;
-	}
+	
 	
 	
 	

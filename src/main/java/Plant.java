@@ -2,93 +2,207 @@ import java.util.ArrayList;
 
 public class Plant{
 	
-	Options options;
-	double spreadRadius;
-	int lepsSupported;
-	String color;
-	String size;
-	double cost;
-	String scientificName;
-	String commonName;
-	Point position;
 	
-	public Plant(Options options, double spreadRadius, int lepsSupported, String color, String size,
-			double cost, String scientificName, String commonName, Point position) {
-		this.options = options;
-		this.spreadRadius = spreadRadius;
-		this.lepsSupported = lepsSupported;
-		this.color = color;
-		this.size = size;
-		this.cost = cost;
-		this.scientificName = scientificName;
+	private Point position;
+	private String commonName;
+	private String scientificName;
+	private String family;
+	private String color;
+	private int sizeLower;
+	private int sizeUpper;
+	private int spreadRadiusLower;
+	private int spreadRadiusUpper;
+	private Options options;
+	private double cost;
+	private int lepsSupported;
+	private char type;
+	
+	public Plant(String commonName, String scientificName, String family, String color, int sizeLower, int sizeUpper, 
+			int spreadRadiusLower, int spreadRadiusUpper, Options options, double cost, int lepsSupported, char type) {
 		this.commonName = commonName;
-		this.position = position;
+		this.scientificName = scientificName;
+		this.family = family;
+		this.color = color;
+		this.sizeLower = sizeLower;
+		this.sizeUpper = sizeUpper;
+		this.spreadRadiusLower = spreadRadiusLower;
+		this.options = options;
+		this.lepsSupported = lepsSupported;
+		this.cost = cost;
+		this.type=type;
+		this.position = new Point(0,0);
+		
 	}
+	
+	
 	
 	public Plant() {
 		
 	}
-	
-	public Options getOptions() {
-		return options;
+
+	public String toString() {
+		
+		String str = commonName +"|"+scientificName+"|"+family+"|"+color+"|"+sizeLower+"|"+sizeUpper+"|"+
+				spreadRadiusLower+"|"+spreadRadiusUpper+"|"+cost+"|"+lepsSupported+"|"+type;
+		
+		return str;
 	}
-	public void setOptions(Options options) {
-		this.options = options;
-	}
-	public double getSpreadRadius() {
-		return spreadRadius;
-	}
-	public void setSpreadRadius(double spreadRadius) {
-		this.spreadRadius = spreadRadius;
-	}
-	public int getLepsSupported() {
-		return lepsSupported;
-	}
-	
-	public void setLepsSupported(int ls) {
-		this.lepsSupported = ls;
-	}
-	public void incrementLepsSupportedByOne() {
-		this.lepsSupported++;
-	}
-	public void incrementLepsSupportedByX(int x) {
-		this.lepsSupported += x;
-	}
-	public String getColor() {
-		return color;
-	}
-	public void setColor(String color) {
-		this.color = color;
-	}
-	public String getSize() {
-		return size;
-	}
-	public void setSize(String size) {
-		this.size = size;
-	}
-	public double getCost() {
-		return cost;
-	}
-	public void setCost(double cost) {
-		this.cost = cost;
-	}
-	public String getScientificName() {
-		return scientificName;
-	}
-	public void setScientificName(String scientificName) {
-		this.scientificName = scientificName;
-	}
-	public String getCommonName() {
-		return commonName;
-	}
-	public void setCommonName(String commonName) {
-		this.commonName = commonName;
-	}
+
+
 	public Point getPosition() {
-		return this.position;
+		return position;
 	}
+
+
+
 	public void setPosition(Point position) {
 		this.position = position;
 	}
+
+
+
+	public String getCommonName() {
+		return commonName;
+	}
+
+
+
+	public void setCommonName(String commonName) {
+		this.commonName = commonName;
+	}
+
+
+
+	public String getScientificName() {
+		return scientificName;
+	}
+
+
+
+	public void setScientificName(String scientificName) {
+		this.scientificName = scientificName;
+	}
+
+
+
+	public String getFamily() {
+		return family;
+	}
+
+
+
+	public void setFamily(String family) {
+		this.family = family;
+	}
+
+
+
+	public String getColor() {
+		return color;
+	}
+
+
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+
+
+	public int getSizeLower() {
+		return sizeLower;
+	}
+
+
+
+	public void setSizeLower(int sizeLower) {
+		this.sizeLower = sizeLower;
+	}
+
+
+
+	public int getSizeUpper() {
+		return sizeUpper;
+	}
+
+
+
+	public void setSizeUpper(int sizeUpper) {
+		this.sizeUpper = sizeUpper;
+	}
+
+
+
+	public int getSpreadRadiusLower() {
+		return spreadRadiusLower;
+	}
+
+
+
+	public void setSpreadRadiusLower(int spreadRadiusLower) {
+		this.spreadRadiusLower = spreadRadiusLower;
+	}
+
+
+
+	public int getSpreadRadiusUpper() {
+		return spreadRadiusUpper;
+	}
+
+
+
+	public void setSpreadRadiusUpper(int spreadRadiusUpper) {
+		this.spreadRadiusUpper = spreadRadiusUpper;
+	}
+
+
+
+	public Options getOptions() {
+		return options;
+	}
+
+
+
+	public void setOptions(Options options) {
+		this.options = options;
+	}
+
+
+
+	public double getCost() {
+		return cost;
+	}
+
+
+
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+
+
+
+	public int getLepsSupported() {
+		return lepsSupported;
+	}
+
+
+
+	public void setLepsSupported(int lepsSupported) {
+		this.lepsSupported = lepsSupported;
+	}
+
+
+
+	public char getType() {
+		return type;
+	}
+
+
+
+	public void setType(char type) {
+		this.type = type;
+	}
+	
+	
 	
 }

@@ -35,7 +35,33 @@ public class StartModel extends Model{
 	}
 	
 	public void loadPlant(String line) {
-		System.out.println("Line:  " + line);
+		if(line.contains("﻿"))
+			return;
+		
+		//split csv line into array of strings
+		String[] words = line.split(",");
+		//load arraylists for two sunlevels, soiltypes and moistures
+		ArrayList<String> sl = new ArrayList<String>();
+		sl.add(words[8].replace("\"", ""));
+		sl.add(words[9].replace("\"", "").trim());
+		ArrayList<String> m = new ArrayList<String>();
+		m.add(words[10].replace("\"", ""));
+		m.add(words[11].replace("\"", "").trim());
+		ArrayList<String> st = new ArrayList<String>();
+		st.add(words[12].replace("\"", ""));
+		st.add(words[13].replace("\"", "").trim());
+		//create an options for the plant
+		Options op = new Options(st, sl, m);
+		//create plant instance
+		Plant addPlant = new Plant(words[0], words[1], words[2], words[3], Integer.parseInt(words[4]), Integer.parseInt(words[5]), 
+							Integer.parseInt(words[6]), Integer.parseInt(words[7]),op, Double.parseDouble(words[14]), Integer.parseInt(words[15]), 
+							words[16].charAt(0));
+		//add plant to the static hashmap
+		getPlants().put(addPlant.getCommonName(), addPlant);
+		
+		//DEBUG
+		System.out.println(addPlant.toString() + "||" + op.toString());
+		System.out.println(getPlants().size());
 	}
 	
 	
