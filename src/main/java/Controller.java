@@ -48,6 +48,15 @@ public class Controller extends Application{
 			});
 		}
 		// END TEMP CODE
+		
+		
+		
+		//Button functionality for startView Create New Garden
+		startView.getNewGarden().setOnMouseClicked(event ->{
+			stage.setScene(plotDesignView.getScene());
+		});
+	
+	
 	}
 	
 	public static void main(String[] args) {

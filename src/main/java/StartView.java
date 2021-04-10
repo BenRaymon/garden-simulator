@@ -58,6 +58,10 @@ public class StartView extends View{
 		return scene;
 	}
 	
+	public Button getNewGarden() {
+		return newGarden;
+	}
+	
 	public boolean loadImages() {
 		return true;
 	}
