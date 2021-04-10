@@ -13,11 +13,6 @@ public class Controller extends Application{
 	public void start(Stage stage) throws Exception {
 		// TODO Auto-generated method stub
 		
-		//LOAD PLANT INFO
-		model = new StartModel();
-		boolean check = ((StartModel) model).loadAllPlants();
-		System.out.println("CHECK " + check);
-		
 		//create a start and plot design page
 		StartView startView = new StartView(stage);
 		pageViews.add(startView);
@@ -34,6 +29,11 @@ public class Controller extends Application{
 		
 		//set the first scene to start
 		stage.setScene(startView.getScene());
+		
+		//LOAD PLANT INFO
+		model = new StartModel();
+		((StartModel) model).loadAllPlants();
+		startView.loadImages();
 		
 		//TEMPORARY TO SWITCH FROM PAGE TO PAGE IN PRE-ALPHA
 		//set page switch buttons on each page

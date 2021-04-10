@@ -19,7 +19,7 @@ public abstract class View {
 	public abstract Scene getScene();
 	// END TEMP CODE
 	
-	public HashMap getImages() {
+	public HashMap<String, Image> getImages() {
 		return plantImages;
 	}
 	
