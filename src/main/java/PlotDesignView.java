@@ -29,8 +29,11 @@ public class PlotDesignView extends View{
 	private BorderPane base;
 	private Button toGarden;
 	private GraphicsContext gc;
+	private Controller controller;
 	
-	public PlotDesignView(Stage stage) {
+	public PlotDesignView(Stage stage, Controller c) {
+		
+		controller = c;
 		base = new BorderPane();
 		
 		//create last and next page buttons
@@ -39,7 +42,7 @@ public class PlotDesignView extends View{
 		
 		//create Canvas
 		//FIXME Draw on Canvas 
-		Canvas drawArea = new Canvas(600,700);
+		Canvas drawArea = new Canvas(600,800);
 		gc = drawArea.getGraphicsContext2D();
 		gc.setFill(Color.GREEN);
 		gc.setStroke(Color.BLACK);
@@ -59,11 +62,16 @@ public class PlotDesignView extends View{
 		
 		//add the drawplot button
 		drawPlot = new Button("Draw Plot");
+		drawPlot.setOnMouseClicked(controller.getDrawPlotHandler());
 		left_grid.add(drawPlot, 0, 30);
 		
 		//create and set scene with base
 		scene = new Scene(base, 800, 800);
-        stage.setScene(scene);
+		scene.setOnDragDetected(controller.getDrawPlotDragDetected());
+		scene.setOnMouseDragged(controller.getDrawPlotDragged());
+		scene.setOnMouseDragReleased(controller.getOnDrawPlotDone());
+		scene.setOnMouseReleased(controller.getOnDrawPlotDone());
+		stage.setScene(scene);
         stage.show();
         
         //scene.setOnMousePressed(event->{

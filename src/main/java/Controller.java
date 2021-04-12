@@ -1,12 +1,15 @@
 import java.util.*;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -23,7 +26,7 @@ public class Controller extends Application{
 		//create a start and plot design page
 		StartView startView = new StartView(stage);
 		pageViews.add(startView);
-		PlotDesignView plotDesignView = new PlotDesignView(stage);
+		PlotDesignView plotDesignView = new PlotDesignView(stage, this);
 		pageViews.add(plotDesignView);
 		GardenEditorView gardenEditorView = new GardenEditorView(stage, this);
 		pageViews.add(gardenEditorView);
@@ -42,78 +45,18 @@ public class Controller extends Application{
 		((StartModel) model).loadAllPlants();
 		startView.loadImages();
 		
-		//TEMPORARY TO SWITCH FROM PAGE TO PAGE IN PRE-ALPHA
-		//set page switch buttons on each page
-		for(int i = 0; i < pageViews.size(); i++) {
-			pageViews.get(i).next = pageViews.get((i+1) % (pageViews.size()));
-			
-			if( i > 0) 
-				pageViews.get(i).back = pageViews.get((i-1) % pageViews.size());
-			
-			final int x = i; 
-			pageViews.get(i).nextPage.setOnMouseClicked(event ->{
-				stage.setScene(pageViews.get(x).next.getScene());
-			});
-			
-			pageViews.get(i).backPage.setOnMouseClicked(event ->{
-				stage.setScene(pageViews.get(x).back.getScene());
-			});
-		}
-		// END TEMP CODE
-		
+		//Button functionality for toGarden
 		plotDesignView.getToGarden().setOnMouseClicked(event->{
 			pageViews.set(2,new GardenEditorView(stage, this));
-			
 			stage.setScene(pageViews.get(2).getScene());
 			model = new PlotDesignModel();
 		});
-		
 		
 		//Button functionality for startView Create New Garden
 		startView.getNewGarden().setOnMouseClicked(event ->{
 			stage.setScene(plotDesignView.getScene());
 			model = new PlotDesignModel();
 		});
-		
-		//plotdesignview drawPlot button listener
-		plotDesignView.getDrawPlot().setOnMouseClicked(event ->{
-			//get Options values and create a new plot with these options
-			double sunlight = plotDesignView.getSlider("Sun").getValue();
-			double soiltype = plotDesignView.getSlider("Soil").getValue();
-			double moisture = plotDesignView.getSlider("Moisture").getValue();
-			Options o = new Options(sunlight, soiltype, moisture);
-			((PlotDesignModel)model).newPlot(o);
-		});
-		
-		//plotdesignview scene drag listener
-		plotDesignView.getScene().setOnMousePressed(event->{
-        	System.out.println("Mouse pressed");
-        	//start drawing a plot
-        	plotDesignView.getGC().beginPath();
-        	plotDesignView.getGC().lineTo(event.getX() - 195, event.getY());
-        	plotDesignView.getGC().stroke();
-        	//get index of the plot we are adding right now
-        	int index = ((PlotDesignModel)model).getNumPlots() - 1; 
-        	//create a point for the plot
-        	Point p = new Point(event.getX() - 195, event.getY());
-        	//add coordinate to plot
-        	((PlotDesignModel)model).addCoordToPlot(index, p);
-        });
-		
-		plotDesignView.getScene().setOnMouseDragged(event->{
-        	System.out.println("Mouse Dragged");
-        	//Draw the line as the mouse is dragged
-        	plotDesignView.getGC().lineTo(event.getX() - 195, event.getY());
-        	plotDesignView.getGC().stroke();	
-        	plotDesignView.getGC().fill();
-        	//get index of the plot we are adding right now
-        	int index = ((PlotDesignModel)model).getNumPlots() - 1; 
-        	//create a point for the plot
-        	Point p = new Point(event.getX() - 195, event.getY());
-        	//add coordinate to plot
-        	((PlotDesignModel)model).addCoordToPlot(index, p);
-        });
-
 	}
 	
 	public static void main(String[] args) {
@@ -122,8 +65,81 @@ public class Controller extends Application{
 		
 	}
 	
-	public void attachImageViewDragHandler(ImageView iv) {
-		iv.setOnDragDetected(event -> {
+	//Hanlder for the DrawPlot button in PlotDesignnView
+	public EventHandler getDrawPlotHandler() {
+		return (event -> {
+			PlotDesignView plv = (PlotDesignView)pageViews.get(1);
+			//get Options values and create a new plot with these options
+			double sunlight = plv.getSlider("Sun").getValue();
+			double soiltype = plv.getSlider("Soil").getValue();
+			double moisture = plv.getSlider("Moisture").getValue();
+			Options o = new Options(sunlight, soiltype, moisture);
+			((PlotDesignModel)model).newPlot(o);
+		});
+	}
+	
+	//Handler for detecting start of drag for drawing plot
+	public EventHandler getDrawPlotDragDetected() {
+		return (event->{
+        	System.out.println("Mouse pressed");
+        	
+			PlotDesignView plv = ((PlotDesignView)pageViews.get(1));
+			MouseEvent me = (MouseEvent)event;
+        	//start drawing a plot
+        	plv.getGC().beginPath();
+        	plv.getGC().lineTo(me.getX() - 195, me.getY());
+        	plv.getGC().stroke();
+        	//get index of the plot we are adding right now
+        	int index = ((PlotDesignModel)model).getNumPlots() - 1; 
+        	//create a point for the plot
+        	Point p = new Point(me.getX() - 195, me.getY());
+        	//add coordinate to plot
+        	((PlotDesignModel)model).addCoordToPlot(index, p);
+        });
+	}
+	
+	//Handler for while plot is being drawn
+	public EventHandler getDrawPlotDragged() {
+		return (event->{
+			System.out.println("Mouse Dragged");
+			PlotDesignView plv = ((PlotDesignView)pageViews.get(1));
+			MouseEvent me = (MouseEvent)event;
+        	//Draw the line as the mouse is dragged
+        	plv.getGC().lineTo(me.getX() - 195, me.getY());
+        	plv.getGC().stroke();	
+        	plv.getGC().fill();
+        	//get index of the plot we are adding right now
+        	int index = ((PlotDesignModel)model).getNumPlots() - 1; 
+        	//create a point for the plot
+        	Point p = new Point(me.getX() - 195, me.getY());
+        	//add coordinate to plot
+        	((PlotDesignModel)model).addCoordToPlot(index, p);
+        });
+	}
+	
+	//Hanlder for when plot is done being drawn
+	public EventHandler getOnDrawPlotDone() {
+		return (event->{
+			System.out.println("Mouse Released");
+			PlotDesignView plv = ((PlotDesignView)pageViews.get(1));
+			PlotDesignModel plm = (PlotDesignModel) model;
+			MouseEvent me = (MouseEvent)event;
+        	//Close the path
+        	plv.getGC().closePath();
+        	//get index of the plot we are adding right now
+        	int index = plm.getNumPlots() - 1; 
+        	//create a point for the plot
+        	Point p = new Point(me.getX() - 195, me.getY());
+        	//add coordinate to plot
+        	plm.addCoordToPlot(index, p);
+        });
+	}
+	
+	//Handler for image being dragged
+	public EventHandler getOnImageDraggedHandler() {
+		return (event -> {
+			System.out.println("On dragged (drag detected handler)");
+			ImageView iv = (ImageView)event.getSource();
 			Dragboard db = iv.startDragAndDrop(TransferMode.ANY);
 			
 			ClipboardContent content = new ClipboardContent();
@@ -137,22 +153,26 @@ public class Controller extends Application{
 		});
 	}
 	
-	public void attachOnDragOverToBorderPane(BorderPane bp) {
-		bp.setOnDragOver(event -> {
-			event.acceptTransferModes(TransferMode.ANY);
+	//Handler for dragOver
+	public EventHandler getOnDragOverHandler() {
+		return (event -> {
+			System.out.println("On drag over");
+			((DragEvent) event).acceptTransferModes(TransferMode.ANY);
 			event.consume();
 		});
 	}
 	
-	public void attachOnDragDroppedToGardenEditorBorderPane(BorderPane bp) {
-		bp.setOnDragDropped(event -> {
-			System.out.println("test");
-			Dragboard db = event.getDragboard();
-			((GardenEditorView)pageViews.get(2)).createNewImageInBase(event, ((Image)db.getContent(DataFormat.IMAGE)));
+	//Handler for dropping image into plot
+	public EventHandler getOnDragDroppedHandler() {
+		return (event -> {
+			System.out.println("On drag dropped");
+			DragEvent drag = (DragEvent) event;
+			Dragboard db = drag.getDragboard();
+			((GardenEditorView)pageViews.get(2)).createNewImageInBase(drag, ((Image)db.getContent(DataFormat.IMAGE)));
 //			model.setX(event.getSceneX());
 //			model.setY(event.getSceneY());
-			event.setDropCompleted(true);
-			event.consume();
+			drag.setDropCompleted(true);
+			drag.consume();
 		});
 	}
 	

@@ -18,6 +18,7 @@ public class GardenEditorView extends View{
 
 	private Controller controller;
 	private ArrayList<ImageView> imageViewsForPlantsInGarden;
+	private HashMap<String, Image> recommendedPlantImages;
 	private ListView recommendedPlants;
 	private Image selectedPlant;
 	private Text selectedPlantInfo;
@@ -33,8 +34,8 @@ public class GardenEditorView extends View{
 		imageViewsForPlantsInGarden = new ArrayList<ImageView>();
 		controller = c;
 		base = new BorderPane();
-		controller.attachOnDragOverToBorderPane(base);
-		controller.attachOnDragDroppedToGardenEditorBorderPane(base);
+		base.setOnDragOver(controller.getOnDragOverHandler());
+		base.setOnDragDropped(controller.getOnDragDroppedHandler());
 		
 		createTop();
 		setPlantImages();
@@ -55,12 +56,13 @@ public class GardenEditorView extends View{
 	//Supposed to draw images in the top grid pane
 	public void setPlantImages(){
 		System.out.println(getImages().size());
-		getImages().forEach((key,value) -> {
+		recommendedPlantImages = getImages();
+		recommendedPlantImages.forEach((key,value) -> {
 			ImageView temp = new ImageView((Image)value);
 	        temp.setPreserveRatio(true);
 	        temp.setFitHeight(100);
 	        temp.setFitWidth(100);
-	        controller.attachImageViewDragHandler(temp);
+	        temp.setOnDragDetected(controller.getOnImageDraggedHandler());
 	        top.add(temp, imageInc, 0);
 	        imageInc++;
 		});
@@ -148,7 +150,7 @@ public class GardenEditorView extends View{
     	iv.setFitHeight(100);
     	iv.setX(event.getX());
 		iv.setY(event.getY());
-		controller.attachImageViewDragHandler(iv);
+		iv.setOnDragDetected(controller.getOnImageDraggedHandler());
 		// right here problem
 		//imc.setHandlerForClick(iv);
 		imageViewsForPlantsInGarden.add(iv);
