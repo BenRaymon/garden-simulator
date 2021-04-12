@@ -28,6 +28,7 @@ public class Plant{
 		this.sizeLower = sizeLower;
 		this.sizeUpper = sizeUpper;
 		this.spreadRadiusLower = spreadRadiusLower;
+		this.spreadRadiusUpper = spreadRadiusUpper;
 		this.options = options;
 		this.lepsSupported = lepsSupported;
 		this.cost = cost;
