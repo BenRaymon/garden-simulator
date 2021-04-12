@@ -2,8 +2,10 @@ import java.util.*;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
@@ -145,8 +147,8 @@ public class Controller extends Application{
 	public void attachOnDragDroppedToGardenEditorBorderPane(BorderPane bp) {
 		bp.setOnDragDropped(event -> {
 			System.out.println("test");
-			//Dragboard db = event.getDragboard();
-			((GardenEditorView)pageViews.get(2)).createNewImageInBase(event);
+			Dragboard db = event.getDragboard();
+			((GardenEditorView)pageViews.get(2)).createNewImageInBase(event, ((Image)db.getContent(DataFormat.IMAGE)));
 //			model.setX(event.getSceneX());
 //			model.setY(event.getSceneY());
 			event.setDropCompleted(true);

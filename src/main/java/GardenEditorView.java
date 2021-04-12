@@ -30,6 +30,7 @@ public class GardenEditorView extends View{
 	private int imageInc = 0;
 	
 	public GardenEditorView(Stage stage, Controller c) {
+		imageViewsForPlantsInGarden = new ArrayList<ImageView>();
 		controller = c;
 		base = new BorderPane();
 		controller.attachOnDragOverToBorderPane(base);
@@ -139,10 +140,10 @@ public class GardenEditorView extends View{
 		
 	}
 	
-	public void createNewImageInBase(DragEvent event) {
+	public void createNewImageInBase(DragEvent event, Image i) {
 		System.out.println("Creating new gardeneditorview image");
 		ImageView iv = new ImageView();
-    	iv.setImage(((ImageView)event.getAcceptingObject()).getImage());
+    	iv.setImage(i);
     	iv.setPreserveRatio(true);
     	iv.setFitHeight(100);
     	iv.setX(event.getX());
