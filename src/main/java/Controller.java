@@ -92,6 +92,7 @@ public class Controller extends Application{
         	//Draw the line as the mouse is dragged
         	plotDesignView.getGC().lineTo(event.getX() - 195, event.getY());
         	plotDesignView.getGC().stroke();	
+        	plotDesignView.getGC().fill();
         	//get index of the plot we are adding right now
         	int index = ((PlotDesignModel)model).getNumPlots() - 1; 
         	//create a point for the plot
