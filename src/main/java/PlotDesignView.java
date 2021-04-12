@@ -39,7 +39,7 @@ public class PlotDesignView extends View{
 		
 		//create Canvas
 		//FIXME Draw on Canvas 
-		Canvas drawArea = new Canvas(600,800);
+		Canvas drawArea = new Canvas(600,700);
 		gc = drawArea.getGraphicsContext2D();
 		gc.setFill(Color.GREEN);
 		gc.setStroke(Color.BLACK);
