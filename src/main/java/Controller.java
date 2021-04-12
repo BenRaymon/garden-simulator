@@ -111,19 +111,6 @@ public class Controller extends Application{
         	//add coordinate to plot
         	((PlotDesignModel)model).addCoordToPlot(index, p);
         });
-		
-		gardenEditorView.getBase().setOnDragOver(event -> {
-			event.acceptTransferModes(TransferMode.ANY);
-			event.consume();
-		});
-		
-		gardenEditorView.getBase().setOnDragDropped(event -> {
-			gardenEditorView.createNewImageInBase(event);
-			//model.setX(event.getSceneX());
-			//model.setY(event.getSceneY());
-			event.setDropCompleted(true);
-			event.consume();
-		});
 
 	}
 	
@@ -141,9 +128,9 @@ public class Controller extends Application{
 			content.putImage(iv.getImage());
 			db.setContent(content);
 			
-//			if (view.getBorderPane().getChildren().contains(event.getSource())) {
-//				iv.setImage(null);
-//			}
+			if (((GardenEditorView)pageViews.get(2)).getBase().getChildren().contains(event.getSource())) {
+				iv.setImage(null);
+			}
 			event.consume();
 		});
 	}
@@ -157,7 +144,8 @@ public class Controller extends Application{
 	
 	public void attachOnDragDroppedToGardenEditorBorderPane(BorderPane bp) {
 		bp.setOnDragDropped(event -> {
-			Dragboard db = event.getDragboard();
+			System.out.println("test");
+			//Dragboard db = event.getDragboard();
 			((GardenEditorView)pageViews.get(2)).createNewImageInBase(event);
 //			model.setX(event.getSceneX());
 //			model.setY(event.getSceneY());

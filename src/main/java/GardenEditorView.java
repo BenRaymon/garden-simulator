@@ -32,6 +32,8 @@ public class GardenEditorView extends View{
 	public GardenEditorView(Stage stage, Controller c) {
 		controller = c;
 		base = new BorderPane();
+		controller.attachOnDragOverToBorderPane(base);
+		controller.attachOnDragDroppedToGardenEditorBorderPane(base);
 		
 		createTop();
 		setPlantImages();
@@ -58,8 +60,6 @@ public class GardenEditorView extends View{
 	        temp.setFitHeight(100);
 	        temp.setFitWidth(100);
 	        controller.attachImageViewDragHandler(temp);
-			controller.attachOnDragOverToBorderPane(base);
-			controller.attachOnDragDroppedToGardenEditorBorderPane(base);
 	        top.add(temp, imageInc, 0);
 	        imageInc++;
 		});
@@ -148,8 +148,6 @@ public class GardenEditorView extends View{
     	iv.setX(event.getX());
 		iv.setY(event.getY());
 		controller.attachImageViewDragHandler(iv);
-		controller.attachOnDragOverToBorderPane(base);
-		controller.attachOnDragDroppedToGardenEditorBorderPane(base);
 		// right here problem
 		//imc.setHandlerForClick(iv);
 		imageViewsForPlantsInGarden.add(iv);
