@@ -46,19 +46,15 @@ public class GardenEditorView extends View{
 	
 	//Supposed to draw images in the top grid pane
 	public void setPlantImages(){
-		System.out.println("In setPlantImages");
+		System.out.println(getImages().size());
 		getImages().forEach((key,value) -> {
-			System.out.println("Plant Name," +  key);
 			ImageView temp = new ImageView((Image)value);
 	        temp.setPreserveRatio(true);
 	        temp.setFitHeight(100);
 	        temp.setFitWidth(100);
 	        top.add(temp, imageInc, 0);
-	        System.out.println(imageInc);
 	        imageInc++;
 		});
-		Text t = new Text("Testing");
-		top.add(t, 0, 1);
 		base.setTop(top);
 		
 	}

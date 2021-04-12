@@ -54,6 +54,12 @@ public class Controller extends Application{
 		}
 		// END TEMP CODE
 		
+		plotDesignView.getToGarden().setOnMouseClicked(event->{
+			pageViews.set(2,new GardenEditorView(stage));
+			
+			stage.setScene(pageViews.get(2).getScene());
+			model = new PlotDesignModel();
+		});
 		
 		
 		//Button functionality for startView Create New Garden

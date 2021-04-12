@@ -27,11 +27,11 @@ public class PlotDesignView extends View{
 	private TextField budget;
 	private Scene scene;
 	private BorderPane base;
+	private Button toGarden;
 	private GraphicsContext gc;
 	
 	public PlotDesignView(Stage stage) {
 		base = new BorderPane();
-		
 		
 		//create last and next page buttons
 		GridPane bottom = createBottom();
@@ -46,11 +46,16 @@ public class PlotDesignView extends View{
 		gc.setLineWidth(1);
 		base.setCenter(drawArea);
 		
+		toGarden = new Button("To Garden");
+		
+		
 		//Create Sliders
 		GridPane left_grid = createLeftGrid();
 		createSunSlider(left_grid);
 		createMoistureSlider(left_grid);
 		createSoilSlider(left_grid);
+		
+		left_grid.add(toGarden, 0, 45);
 		
 		//add the drawplot button
 		drawPlot = new Button("Draw Plot");
@@ -73,6 +78,10 @@ public class PlotDesignView extends View{
         //	gc.lineTo(event.getX() - left_grid.getWidth() - 15, event.getY());
         //	gc.stroke();
         //});
+	}
+	
+	public Button getToGarden() {
+		return toGarden;
 	}
 	
 	public GridPane createBottom() {
