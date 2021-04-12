@@ -8,19 +8,21 @@ public class Plant{
 	private String scientificName;
 	private String family;
 	private String color;
-	private int sizeLower;
-	private int sizeUpper;
+	private double sizeLower;
+	private double  sizeUpper;
 	private int spreadRadiusLower;
 	private int spreadRadiusUpper;
 	private Options options;
 	private double cost;
 	private int lepsSupported;
 	private char type;
+	private String genera;
 	
-	public Plant(String commonName, String scientificName, String family, String color, int sizeLower, int sizeUpper, 
+	public Plant(String commonName, String scientificName, String genera, String family, String color, double sizeLower, double sizeUpper, 
 			int spreadRadiusLower, int spreadRadiusUpper, Options options, double cost, int lepsSupported, char type) {
 		this.commonName = commonName;
 		this.scientificName = scientificName;
+		this.genera = genera;
 		this.family = family;
 		this.color = color;
 		this.sizeLower = sizeLower;
@@ -59,6 +61,15 @@ public class Plant{
 		this.position = position;
 	}
 
+	public String getGenera() {
+		return genera;
+	}
+
+
+
+	public void setGenera(String genera) {
+		this.genera = genera;
+	}
 
 
 	public String getCommonName() {
@@ -109,7 +120,7 @@ public class Plant{
 
 
 
-	public int getSizeLower() {
+	public double getSizeLower() {
 		return sizeLower;
 	}
 
@@ -121,7 +132,7 @@ public class Plant{
 
 
 
-	public int getSizeUpper() {
+	public double getSizeUpper() {
 		return sizeUpper;
 	}
 

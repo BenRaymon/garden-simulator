@@ -16,7 +16,7 @@ public class StartModel extends Model{
 	public boolean loadAllPlants() {
 		
 		//load data file and create a list of lines
-		File plantData = Paths.get("src/main/resources/result.csv").toFile().getAbsoluteFile();
+		File plantData = Paths.get("src/main/resources/data.csv").toFile().getAbsoluteFile();
 		BufferedReader br;
 		int numLines = 0;
 		try {
@@ -38,27 +38,23 @@ public class StartModel extends Model{
 	}
 	
 	public void loadPlant(String line) {
-		if(line.contains("﻿"))
+		if(line.contains("commonName"))
 			return;
 		
 		//split csv line into array of strings
 		String[] words = line.split(",");
 		//load arraylists for two sunlevels, soiltypes and moistures
-		ArrayList<String> sl = new ArrayList<String>();
-		sl.add(words[8].replace("\"", ""));
-		sl.add(words[9].replace("\"", "").trim());
-		ArrayList<String> m = new ArrayList<String>();
-		m.add(words[10].replace("\"", ""));
-		m.add(words[11].replace("\"", "").trim());
-		ArrayList<String> st = new ArrayList<String>();
-		st.add(words[12].replace("\"", ""));
-		st.add(words[13].replace("\"", "").trim());
+		ArrayList<String> st  = new ArrayList<String>();
+		ArrayList<String> sl  = new ArrayList<String>();
+		ArrayList<String> m  = new ArrayList<String>();
+		
+		
 		//create an options for the plant
 		Options op = new Options(st, sl, m);
 		//create plant instance
-		Plant addPlant = new Plant(words[0], words[1], words[2], words[3], Integer.parseInt(words[4]), Integer.parseInt(words[5]), 
-							Integer.parseInt(words[6]), Integer.parseInt(words[7]),op, Double.parseDouble(words[14]), Integer.parseInt(words[15]), 
-							words[16].charAt(0));
+		Plant addPlant = new Plant(words[0], words[1], words[2], words[3], words[4], Double.parseDouble(words[5]), Double.parseDouble(words[6]), 
+							Integer.parseInt(words[7]), Integer.parseInt(words[8]),op, Double.parseDouble(words[9]), Integer.parseInt(words[10]), 
+							words[11].charAt(0));
 		//add plant to the static hashmap
 		getPlants().put(addPlant.getCommonName(), addPlant);
 		
