@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javafx.geometry.Pos;
@@ -6,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -14,6 +16,7 @@ import javafx.stage.Stage;
 
 public class GardenEditorView extends View{
 
+	private ArrayList<ImageView> imageViewsForPlantsInGarden;
 	private ListView recommendedPlants;
 	private Image selectedPlant;
 	private Text selectedPlantInfo;
@@ -107,6 +110,18 @@ public class GardenEditorView extends View{
 		
 	}
 	
+	public GridPane getTop() {
+		return this.top;
+	}
+	
+	public BorderPane getBase() {
+		return this.base;
+	}
+	
+	public ArrayList<ImageView> getImageViewsForPlantsInGarden() {
+		return this.imageViewsForPlantsInGarden;
+	}
+	
 	public Scene getScene() {
 		return scene;
 	}
@@ -117,6 +132,20 @@ public class GardenEditorView extends View{
 	
 	public void updateInfo() {
 		
+	}
+	
+	public void createNewImageInBase(DragEvent event) {
+		ImageView iv = new ImageView();
+    	iv.setImage(((ImageView)event.getAcceptingObject()).getImage());
+    	iv.setPreserveRatio(true);
+    	iv.setFitHeight(100);
+    	iv.setX(event.getX());
+		iv.setY(event.getY());
+		
+		// right here problem
+		//imc.setHandlerForClick(iv);
+		imageViewsForPlantsInGarden.add(iv);
+    	base.getChildren().add(iv);
 	}
 	
 	

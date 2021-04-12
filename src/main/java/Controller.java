@@ -2,6 +2,10 @@ import java.util.*;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -106,6 +110,38 @@ public class Controller extends Application{
         	//add coordinate to plot
         	((PlotDesignModel)model).addCoordToPlot(index, p);
         });
+		
+		((GardenEditorView)pageViews.get(2)).getTop().getChildren().forEach((value) -> {
+			// value is an image view
+			value.setOnDragDetected(event -> {
+				System.out.println("In onDragDetected event");
+				Dragboard db = ((ImageView)value).startDragAndDrop(TransferMode.ANY);
+				
+				ClipboardContent content = new ClipboardContent();
+				content.putImage(((ImageView)value).getImage());
+				db.setContent(content);
+				
+//				if (view.getBorderPane().getChildren().contains(event.getSource())) {
+//					value.setImage(null);
+//				}
+				event.consume();
+			});
+		});
+		
+		((GardenEditorView)pageViews.get(2)).getBase().setOnDragOver(event -> {
+			event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+			event.consume();
+		});
+		
+		((GardenEditorView)pageViews.get(2)).getBase().setOnDragDropped(event -> {
+			Dragboard db = event.getDragboard();
+			
+			gardenEditorView.createNewImageInBase(event);
+			//model.setX(event.getSceneX());
+			//model.setY(event.getSceneY());
+			event.setDropCompleted(true);
+			event.consume();
+		});
 
 	}
 	
