@@ -59,13 +59,13 @@ public class PlotDesignView extends View{
         scene.setOnMousePressed(event->{
         	System.out.println("Mouse pressed");
         	gc.beginPath();
-        	gc.lineTo(event.getX(),event.getY());
+        	gc.lineTo(event.getX() - left_grid.getWidth() - 10, event.getY() - 95);
         	gc.stroke();
         });
         
         scene.setOnMouseDragged(event->{
         	System.out.println("Mouse Dragged");
-        	gc.lineTo(event.getX(),event.getY());
+        	gc.lineTo(event.getX() - left_grid.getWidth() - 10, event.getY() - 95);
         	gc.stroke();
         });
 	}
