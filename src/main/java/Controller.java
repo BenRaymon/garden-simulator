@@ -62,6 +62,13 @@ public class Controller extends Application{
 			model = new PlotDesignModel();
 		});
 		
+		//plotdesignview drawPlot button listener
+		plotDesignView.getDrawPlot().setOnMouseClicked(event ->{
+			double sunlight = plotDesignView.getSlider("Sun").getValue();
+			double soiltype = plotDesignView.getSlider("Soil").getValue();
+			double moisture = plotDesignView.getSlider("Moisture").getValue();
+		});
+		
 		//plotdesignview scene drag listener
 		plotDesignView.getScene().setOnMousePressed(event->{
         	System.out.println("Mouse pressed");
@@ -73,6 +80,7 @@ public class Controller extends Application{
 		plotDesignView.getScene().setOnMouseDragged(event->{
         	System.out.println("Mouse Dragged");
         	plotDesignView.getGC().lineTo(event.getX() - 195, event.getY());
+        	//((PlotDesignModel)model).addCoordToPlot();
         	plotDesignView.getGC().stroke();
         });
 

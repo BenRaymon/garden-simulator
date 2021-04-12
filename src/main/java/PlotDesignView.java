@@ -47,9 +47,13 @@ public class PlotDesignView extends View{
 		
 		//Create Sliders
 		GridPane left_grid = createLeftGrid();
-		createSunSlider(left_grid);
-		createMoistureSlider(left_grid);
-		createSoilSlider(left_grid);
+		createSlider(left_grid, sunlight, "Sun Slider", 1);
+		createSlider(left_grid, soilType, "Soil Type", 10);
+		createSlider(left_grid, moisture, "Moisture", 20);
+		
+		//add the drawplot button
+		drawPlot = new Button("Draw Plot");
+		left_grid.add(drawPlot, 0, 30);
 		
 		//create and set scene with base
 		scene = new Scene(base, 800, 800);
@@ -92,7 +96,7 @@ public class PlotDesignView extends View{
 		GridPane left_grid = new GridPane();
 		left_grid.setAlignment(Pos.CENTER);
 		left_grid.setStyle("-fx-background-color: pink");
-		left_grid.setGridLinesVisible(true);
+		//left_grid.setGridLinesVisible(true);
 		left_grid.setMinWidth(200);
 		left_grid.setHgap(10);
 		left_grid.setVgap(10);
@@ -109,30 +113,13 @@ public class PlotDesignView extends View{
 		return slider;
 		
 	}
-	public void createSunSlider(GridPane left_pane) {
-		//Also putting this in a V-box because that's what Ben did
-		sunlight = new Slider(1,3,0);
-		Text t = new Text("Sunlight Level");
-		sliderStandards(sunlight);
-		left_pane.add(t, 0, 0);
-		left_pane.add(sunlight,0,1);
-
-	}
 	
-	public void createMoistureSlider(GridPane left_pane) {
-		moisture = new Slider(1,3,0);
-		sliderStandards(moisture);
-		Text t = new Text("Moisture Level");
-		left_pane.add(t, 0, 9);
-		left_pane.add(moisture, 0, 10);
-	}
-	
-	public void createSoilSlider(GridPane left_pane) {
-		soilType = new Slider(1,3,0);
-		sliderStandards(soilType);
-		Text t = new Text("Soil Type");
-		left_pane.add(t, 0, 19);
-		left_pane.add(soilType, 0, 20);
+	public void createSlider(GridPane left_pane, Slider slider, String text, int num) {
+		slider = new Slider(1,3,0);
+		sliderStandards(slider);
+		Text t = new Text(text);
+		left_pane.add(t, 0, num-1);
+		left_pane.add(slider, 0, num);
 	}
 	
 	public Scene getScene() {
@@ -141,6 +128,24 @@ public class PlotDesignView extends View{
 	
 	public GraphicsContext getGC() {
 		return gc;
+	}
+	
+	public Button getDrawPlot() {
+		return drawPlot;
+	}
+	
+	public Slider getSlider(String name) {
+		if (name.equals("Sun")) {
+			return sunlight;
+		}
+		else if (name.equals("Soil")) {
+			return soilType;
+		}
+		else if (name.equals("Moisture")) {
+			return moisture;
+		}
+		else 
+			return null;
 	}
 	
 	

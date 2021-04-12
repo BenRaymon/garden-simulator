@@ -2,7 +2,7 @@ import java.util.*;
 
 public class PlotDesignModel extends Model {
 	
-	HashMap<String, Plot> plots = new HashMap<String, Plot>();
+	private ArrayList<Plot> plots = new ArrayList<Plot>();
 	
 	Options currentSelection;
 	
@@ -11,6 +11,11 @@ public class PlotDesignModel extends Model {
 	}
 	
 	public int buildPlot() {
+		return 0;
+	}
+	
+	public int newPlot(Options o) {
+		plots.add(new Plot(o));
 		return 0;
 	}
 	

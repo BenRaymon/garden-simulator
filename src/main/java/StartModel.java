@@ -43,14 +43,11 @@ public class StartModel extends Model{
 		
 		//split csv line into array of strings
 		String[] words = line.split(",");
-		//load arraylists for two sunlevels, soiltypes and moistures
-		ArrayList<String> st  = new ArrayList<String>();
-		ArrayList<String> sl  = new ArrayList<String>();
-		ArrayList<String> m  = new ArrayList<String>();
+		//load options for sunlevels, soiltypes and moistures
 		
 		
 		//create an options for the plant
-		Options op = new Options(st, sl, m);
+		Options op = new Options(new int[3],new int[3],new int[3]);
 		//create plant instance
 		Plant addPlant = new Plant(words[0], words[1], words[2], words[3], words[4], Double.parseDouble(words[5]), Double.parseDouble(words[6]), 
 							Integer.parseInt(words[7]), Integer.parseInt(words[8]),op, Double.parseDouble(words[9]), Integer.parseInt(words[10]), 
