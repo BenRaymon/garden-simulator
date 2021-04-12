@@ -16,7 +16,9 @@ public class Options{
 		soilTypes = new int[3];
 		sunLevels = new int[3];
 		moistures = new int[3];
-		
+		soilTypes[(int)st] = 1;
+		sunLevels[(int)sl] = 1;
+		moistures[(int)m] = 1;
 	}
 	
 	public String toString() {

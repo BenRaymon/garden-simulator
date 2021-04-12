@@ -64,24 +64,40 @@ public class Controller extends Application{
 		
 		//plotdesignview drawPlot button listener
 		plotDesignView.getDrawPlot().setOnMouseClicked(event ->{
+			//get Options values and create a new plot with these options
 			double sunlight = plotDesignView.getSlider("Sun").getValue();
 			double soiltype = plotDesignView.getSlider("Soil").getValue();
 			double moisture = plotDesignView.getSlider("Moisture").getValue();
+			Options o = new Options(sunlight, soiltype, moisture);
+			((PlotDesignModel)model).newPlot(o);
 		});
 		
 		//plotdesignview scene drag listener
 		plotDesignView.getScene().setOnMousePressed(event->{
         	System.out.println("Mouse pressed");
+        	//start drawing a plot
         	plotDesignView.getGC().beginPath();
         	plotDesignView.getGC().lineTo(event.getX() - 195, event.getY());
         	plotDesignView.getGC().stroke();
+        	//get index of the plot we are adding right now
+        	int index = ((PlotDesignModel)model).getNumPlots() - 1; 
+        	//create a point for the plot
+        	Point p = new Point(event.getX() - 195, event.getY());
+        	//add coordinate to plot
+        	((PlotDesignModel)model).addCoordToPlot(index, p);
         });
 		
 		plotDesignView.getScene().setOnMouseDragged(event->{
         	System.out.println("Mouse Dragged");
+        	//Draw the line as the mouse is dragged
         	plotDesignView.getGC().lineTo(event.getX() - 195, event.getY());
-        	//((PlotDesignModel)model).addCoordToPlot();
-        	plotDesignView.getGC().stroke();
+        	plotDesignView.getGC().stroke();	
+        	//get index of the plot we are adding right now
+        	int index = ((PlotDesignModel)model).getNumPlots() - 1; 
+        	//create a point for the plot
+        	Point p = new Point(event.getX() - 195, event.getY());
+        	//add coordinate to plot
+        	((PlotDesignModel)model).addCoordToPlot(index, p);
         });
 
 	}

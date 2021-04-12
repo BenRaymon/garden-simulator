@@ -37,4 +37,8 @@ public class Point{
 		return true;
 	}
 	
+	public String toString() {
+		return "("+ xCord + ", " + yCord + ")";
+	}
+	
 }
