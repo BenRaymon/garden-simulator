@@ -31,10 +31,7 @@ public class StartModel extends Model{
 			e.printStackTrace();
 		}
 	    
-		if(getPlants().size() == numLines - 1)
-			return true;
-		else
-			return false;
+		return (getPlants().size() == 366); 
 	}
 	
 	public void loadPlant(String line) {
