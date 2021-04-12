@@ -4,7 +4,8 @@ import org.junit.Test;
 
 public class PlotTest {
 	
-	Plot p = new Plot(new Options("taco", 1, 2));
+	Options op = new Options(2.0, 1.0, 3.0);
+	Plot p = new Plot(op);
 	
 	@Test
 	public void testAddGetCoordinate() {
@@ -24,9 +25,9 @@ public class PlotTest {
 	@Test
 	public void testAddRecommendedPlant() {
 		//fail("Not yet implemented");
-		p.addRecommendedPlant("plant", new Plant(new Options("taco", 1, 2), 69.0, 5, "blue", "large", 600.0, "scientificTaco", "taco", new Point(1.0, 2.0)));
-		assertEquals(p.getRecommendedPlants().get("plant").getCommonName(), "taco");
-		assertEquals(p.getRecommendedPlants().get("plant").getScientificName(), "scientificTaco");
+		p.addRecommendedPlant("plant", new Plant("name", "sciName", "genera", "fam", "color", 0, 0,0, 0, op, 0, 0, 't'));
+		assertEquals(p.getRecommendedPlants().get("plant").getCommonName(), "name");
+		assertEquals(p.getRecommendedPlants().get("plant").getScientificName(), "sciName");
 	}
 	
 	@Test
@@ -37,7 +38,7 @@ public class PlotTest {
 			p.removeRecommendedPlant("plant");
 			assertEquals(p.getRecommendedPlants().size(), oldSize - 1);
 		} else {
-			p.addRecommendedPlant("plant", new Plant(new Options("taco", 1, 2), 69.0, 5, "blue", "large", 600.0, "scientificTaco", "taco", new Point(1.0, 2.0)));
+			p.addRecommendedPlant("plant", new Plant("name", "sciName", "genera", "fam", "color", 0, 0,0, 0, op, 0, 0, 't'));
 			assertEquals(p.getRecommendedPlants().size(), 1);
 			p.removeRecommendedPlant("plant");
 			assertEquals(p.getRecommendedPlants().size(), 0);
@@ -48,7 +49,7 @@ public class PlotTest {
 	@Test
 	public void testPlantToPlot() {
 		//fail("Not yet implemented");
-		Plant testPlant = new Plant(new Options("taco", 1, 2), 69.0, 5, "blue", "large", 600.0, "scientificTaco", "taco", new Point(1.0, 2.0));
+		Plant testPlant = new Plant("name", "sciName", "genera", "fam", "color", 0, 0,0, 0, op, 0, 0, 't');
 		p.addPlantToPlot("plant", testPlant);
 		assertEquals(p.getPlantsInPlot().containsKey("plant"),true);
 		int oldSize = p.getPlantsInPlot().size();
@@ -58,17 +59,33 @@ public class PlotTest {
 	
 	@Test
 	public void testGetOptions() {
-		assertEquals("taco", p.getOptions().getSoilType());
-		assertEquals(1, p.getOptions().getSunLevel());
-		assertEquals(2, p.getOptions().getMoisture());
+		assertEquals(1, p.getOptions().getSoilTypes()[1]);
+		assertEquals(1, p.getOptions().getSunLevels()[0]);
+		assertEquals(1, p.getOptions().getMoistures()[2]);
+
+		assertEquals(0, p.getOptions().getSoilTypes()[0]);
+		assertEquals(0, p.getOptions().getSunLevels()[1]);
+		assertEquals(0, p.getOptions().getMoistures()[0]);
+
+		assertEquals(0, p.getOptions().getSoilTypes()[2]);
+		assertEquals(0, p.getOptions().getSunLevels()[2]);
+		assertEquals(0, p.getOptions().getMoistures()[1]);
 	}
 	
 	@Test
 	public void testSetOptions() {
-		p.setOptions(new Options("newTaco", 3, 4));
-		assertEquals("newTaco", p.getOptions().getSoilType());
-		assertEquals(3, p.getOptions().getSunLevel());
-		assertEquals(4, p.getOptions().getMoisture());
+		p.setOptions(new Options(1.0, 2.0, 1.0));
+		assertEquals(1, p.getOptions().getSoilTypes()[0]);
+		assertEquals(1, p.getOptions().getSunLevels()[1]);
+		assertEquals(1, p.getOptions().getMoistures()[0]);
+
+		assertEquals(0, p.getOptions().getSoilTypes()[1]);
+		assertEquals(0, p.getOptions().getSunLevels()[0]);
+		assertEquals(0, p.getOptions().getMoistures()[1]);
+
+		assertEquals(0, p.getOptions().getSoilTypes()[2]);
+		assertEquals(0, p.getOptions().getSunLevels()[2]);
+		assertEquals(0, p.getOptions().getMoistures()[2]);
 	}
 	
 	@Test
