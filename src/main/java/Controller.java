@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -22,7 +23,7 @@ public class Controller extends Application{
 		pageViews.add(startView);
 		PlotDesignView plotDesignView = new PlotDesignView(stage);
 		pageViews.add(plotDesignView);
-		GardenEditorView gardenEditorView = new GardenEditorView(stage);
+		GardenEditorView gardenEditorView = new GardenEditorView(stage, this);
 		pageViews.add(gardenEditorView);
 		CompPlantsView compPlantsView = new CompPlantsView(stage);
 		pageViews.add(compPlantsView);
@@ -59,7 +60,7 @@ public class Controller extends Application{
 		// END TEMP CODE
 		
 		plotDesignView.getToGarden().setOnMouseClicked(event->{
-			pageViews.set(2,new GardenEditorView(stage));
+			pageViews.set(2,new GardenEditorView(stage, this));
 			
 			stage.setScene(pageViews.get(2).getScene());
 			model = new PlotDesignModel();
@@ -111,31 +112,12 @@ public class Controller extends Application{
         	((PlotDesignModel)model).addCoordToPlot(index, p);
         });
 		
-		((GardenEditorView)pageViews.get(2)).getTop().getChildren().forEach((value) -> {
-			// value is an image view
-			value.setOnDragDetected(event -> {
-				System.out.println("In onDragDetected event");
-				Dragboard db = ((ImageView)value).startDragAndDrop(TransferMode.ANY);
-				
-				ClipboardContent content = new ClipboardContent();
-				content.putImage(((ImageView)value).getImage());
-				db.setContent(content);
-				
-//				if (view.getBorderPane().getChildren().contains(event.getSource())) {
-//					value.setImage(null);
-//				}
-				event.consume();
-			});
-		});
-		
-		((GardenEditorView)pageViews.get(2)).getBase().setOnDragOver(event -> {
-			event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+		gardenEditorView.getBase().setOnDragOver(event -> {
+			event.acceptTransferModes(TransferMode.ANY);
 			event.consume();
 		});
 		
-		((GardenEditorView)pageViews.get(2)).getBase().setOnDragDropped(event -> {
-			Dragboard db = event.getDragboard();
-			
+		gardenEditorView.getBase().setOnDragDropped(event -> {
 			gardenEditorView.createNewImageInBase(event);
 			//model.setX(event.getSceneX());
 			//model.setY(event.getSceneY());
@@ -151,7 +133,7 @@ public class Controller extends Application{
 		
 	}
 	
-	public static void attachImageViewDragHandler(ImageView iv) {
+	public void attachImageViewDragHandler(ImageView iv) {
 		iv.setOnDragDetected(event -> {
 			Dragboard db = iv.startDragAndDrop(TransferMode.ANY);
 			
@@ -162,6 +144,24 @@ public class Controller extends Application{
 //			if (view.getBorderPane().getChildren().contains(event.getSource())) {
 //				iv.setImage(null);
 //			}
+			event.consume();
+		});
+	}
+	
+	public void attachOnDragOverToBorderPane(BorderPane bp) {
+		bp.setOnDragOver(event -> {
+			event.acceptTransferModes(TransferMode.ANY);
+			event.consume();
+		});
+	}
+	
+	public void attachOnDragDroppedToGardenEditorBorderPane(BorderPane bp) {
+		bp.setOnDragDropped(event -> {
+			Dragboard db = event.getDragboard();
+			((GardenEditorView)pageViews.get(2)).createNewImageInBase(event);
+//			model.setX(event.getSceneX());
+//			model.setY(event.getSceneY());
+			event.setDropCompleted(true);
 			event.consume();
 		});
 	}

@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 public class GardenEditorView extends View{
 
+	private Controller controller;
 	private ArrayList<ImageView> imageViewsForPlantsInGarden;
 	private ListView recommendedPlants;
 	private Image selectedPlant;
@@ -28,7 +29,8 @@ public class GardenEditorView extends View{
 	private Scene scene;
 	private int imageInc = 0;
 	
-	public GardenEditorView(Stage stage) {
+	public GardenEditorView(Stage stage, Controller c) {
+		controller = c;
 		base = new BorderPane();
 		
 		createTop();
@@ -55,7 +57,9 @@ public class GardenEditorView extends View{
 	        temp.setPreserveRatio(true);
 	        temp.setFitHeight(100);
 	        temp.setFitWidth(100);
-	        Controller.attachImageViewDragHandler(temp);
+	        controller.attachImageViewDragHandler(temp);
+			controller.attachOnDragOverToBorderPane(base);
+			controller.attachOnDragDroppedToGardenEditorBorderPane(base);
 	        top.add(temp, imageInc, 0);
 	        imageInc++;
 		});
@@ -136,13 +140,16 @@ public class GardenEditorView extends View{
 	}
 	
 	public void createNewImageInBase(DragEvent event) {
+		System.out.println("Creating new gardeneditorview image");
 		ImageView iv = new ImageView();
     	iv.setImage(((ImageView)event.getAcceptingObject()).getImage());
     	iv.setPreserveRatio(true);
     	iv.setFitHeight(100);
     	iv.setX(event.getX());
 		iv.setY(event.getY());
-		Controller.attachImageViewDragHandler(iv);
+		controller.attachImageViewDragHandler(iv);
+		controller.attachOnDragOverToBorderPane(base);
+		controller.attachOnDragDroppedToGardenEditorBorderPane(base);
 		// right here problem
 		//imc.setHandlerForClick(iv);
 		imageViewsForPlantsInGarden.add(iv);
