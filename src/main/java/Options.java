@@ -1,34 +1,60 @@
+import java.util.ArrayList;
+
 public class Options{
 	
-	private String soilType;
-	private int sunLevel;
-	private int moisture;
+	private int[] soilTypes;
+	private int[] sunLevels;
+	private int[] moistures;
 	
-	public Options(String st, int sl, int m) {
-		this.soilType = st;
-		this.sunLevel = sl;
-		this.moisture = m;
+	public Options(int[] st, int[] sl, int[] m) {
+		this.soilTypes = st;
+		this.sunLevels = sl;
+		this.moistures = m;
 	}
 	
+	public Options(double st, double sl, double m) {
+		soilTypes = new int[3];
+		sunLevels = new int[3];
+		moistures = new int[3];
+		soilTypes[(int)st-1] = 1;
+		sunLevels[(int)sl-1] = 1;
+		moistures[(int)m-1] = 1;
+	}
 	
-	public String getSoilType() {
-		return soilType;
+	public String toString() {
+		
+		String str = soilTypes.toString() + sunLevels.toString() + moistures.toString();
+		return str;
 	}
-	public void setSoilType(String soilType) {
-		this.soilType = soilType;
+
+	public int[] getSoilTypes() {
+		return soilTypes;
 	}
-	public int getSunLevel() {
-		return sunLevel;
+
+	public void setSoilTypes(int[] soilTypes) {
+		this.soilTypes = soilTypes;
 	}
-	public void setSunLevel(int sunLevel) {
-		this.sunLevel = sunLevel;
+
+	public int[] getSunLevels() {
+		return sunLevels;
 	}
-	public int getMoisture() {
-		return moisture;
+
+	public void setSunLevels(int[] sunLevels) {
+		this.sunLevels = sunLevels;
 	}
-	public void setMoisture(int moisture) {
-		this.moisture = moisture;
+
+	public int[] getMoistures() {
+		return moistures;
 	}
+
+	public void setMoistures(int[] moistures) {
+		this.moistures = moistures;
+	}
+
+	
+	
+	
+	
 	
 	
 	

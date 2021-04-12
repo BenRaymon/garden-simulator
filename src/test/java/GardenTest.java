@@ -47,7 +47,7 @@ public class GardenTest {
 	
 	@Test
 	public void testAddPlot() {
-		testGarden.addPlot(new Plot(new Options("test", 1, 1)));
+		testGarden.addPlot(new Plot(new Options(1, 1, 1)));
 		assertEquals(testGarden.getPlots().size(), 1);
 	}
 	

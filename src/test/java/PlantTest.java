@@ -5,33 +5,53 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 public class PlantTest {
-	Plant p = new Plant(new Options("taco", 1, 2), 69.0, 5, "blue", "large", 600.0, "scientificTaco", "taco", new Point(1.0, 2.0));
+	Options op = new Options(new int[] {1,1,1}, new int[] {0,1,1}, new int[] {1,0,0});
+	Plant p = new Plant("name", "sciName", "genera", "fam", "blue", 1.0, 5.0,69,80, op, 600.0, 5, 't');
 	
 	@Test
 	public void testGetOptions() {
-		assertEquals("taco", p.getOptions().getSoilType());
-		assertEquals(1, p.getOptions().getSunLevel());
-		assertEquals(2, p.getOptions().getMoisture());
+		assertEquals(1, p.getOptions().getSoilTypes()[0]);
+		assertEquals(0, p.getOptions().getSunLevels()[0]);
+		assertEquals(1, p.getOptions().getMoistures()[0]);
+
+		assertEquals(1, p.getOptions().getSoilTypes()[1]);
+		assertEquals(1, p.getOptions().getSunLevels()[1]);
+		assertEquals(0, p.getOptions().getMoistures()[1]);
+
+		assertEquals(1, p.getOptions().getSoilTypes()[2]);
+		assertEquals(1, p.getOptions().getSunLevels()[2]);
+		assertEquals(0, p.getOptions().getMoistures()[2]);
 	}
 	
 	@Test
 	public void testSetOptions() {
-		p.setOptions(new Options("newTaco", 3, 4));
-		assertEquals("newTaco", p.getOptions().getSoilType());
-		assertEquals(3, p.getOptions().getSunLevel());
-		assertEquals(4, p.getOptions().getMoisture());
+		p.setOptions(new Options(1.0, 2.0, 1.0));
+		assertEquals(1, p.getOptions().getSoilTypes()[0]);
+		assertEquals(1, p.getOptions().getSunLevels()[1]);
+		assertEquals(1, p.getOptions().getMoistures()[0]);
+
+		assertEquals(0, p.getOptions().getSoilTypes()[1]);
+		assertEquals(0, p.getOptions().getSunLevels()[0]);
+		assertEquals(0, p.getOptions().getMoistures()[1]);
+
+		assertEquals(0, p.getOptions().getSoilTypes()[2]);
+		assertEquals(0, p.getOptions().getSunLevels()[2]);
+		assertEquals(0, p.getOptions().getMoistures()[2]);
 	}
 	
 	@Test
 	public void testGetSpreadRadius() {
-		assertEquals(69.0, p.getSpreadRadius(), 0.5);
+		assertEquals(69, p.getSpreadRadiusLower());
+		assertEquals(80, p.getSpreadRadiusUpper());
 	}
 	
 	
 	@Test
 	public void testSetSpreadRadius() {
-		p.setSpreadRadius(75.0);
-		assertEquals(75.0, p.getSpreadRadius(), 0.5);
+		p.setSpreadRadiusLower(0);
+		p.setSpreadRadiusUpper(10);
+		assertEquals(0, p.getSpreadRadiusLower());
+		assertEquals(10, p.getSpreadRadiusUpper());
 	}
 	
 	@Test
@@ -43,21 +63,6 @@ public class PlantTest {
 	public void testSetLepsSupported() {
 		p.setLepsSupported(8);
 		assertEquals(8, p.getLepsSupported());
-	}
-	
-	
-	@Test
-	public void testIncrementLepsSupportedByOne() {
-		p.setLepsSupported(8);
-		p.incrementLepsSupportedByOne();
-		assertEquals(9, p.getLepsSupported());
-	}
-	
-	@Test
-	public void testIncrementLepsSupportedByX() {
-		p.setLepsSupported(9);
-		p.incrementLepsSupportedByX(6);
-		assertEquals(15, p.getLepsSupported());
 	}
 	
 	@Test
@@ -73,13 +78,16 @@ public class PlantTest {
 	
 	@Test
 	public void testGetSize() {
-		assertEquals("large", p.getSize());
+		assertEquals(1.0, p.getSizeLower(), 0.5);
+		assertEquals(5.0, p.getSizeUpper(), 0.5);
 	}
 	
 	@Test
 	public void testSetSize() {
-		p.setSize("pequeno");
-		assertEquals("pequeno", p.getSize());
+		p.setSizeLower(2);
+		p.setSizeUpper(10);
+		assertEquals(2.0, p.getSizeLower(), 0.5);
+		assertEquals(10.0, p.getSizeUpper(), 0.5);
 	}
 	
 	@Test
@@ -95,7 +103,7 @@ public class PlantTest {
 	
 	@Test
 	public void testGetScientificName() {
-		assertEquals("scientificTaco", p.getScientificName());
+		assertEquals("sciName", p.getScientificName());
 	}
 	
 	@Test
@@ -106,7 +114,7 @@ public class PlantTest {
 	
 	@Test
 	public void testGetCommonName() {
-		assertEquals("taco", p.getCommonName());
+		assertEquals("name", p.getCommonName());
 	}
 	
 	@Test
@@ -117,8 +125,8 @@ public class PlantTest {
 	
 	@Test
 	public void testGetPosition() {
-		assertEquals(1.0, p.getPosition().getX(), 0.1);
-		assertEquals(2.0, p.getPosition().getY(), 0.1);
+		assertEquals(0, p.getPosition().getX(), 0);
+		assertEquals(0, p.getPosition().getY(), 0);
 	}
 	
 	@Test

@@ -1,0 +1,13 @@
+{
+  "commonName": "White Oak",
+  "scientificName":"Quercus Alba",
+  "family":"Fagaceae",
+  "size":"tall",
+  "spreadRadius":"75-100",
+  "sunLevel":["Full Sun", "Partial Sun"],
+  "moisture":["Dry", "Moist"],
+  "soilType":["Loamy", "Sandy"],
+  "cost":6.0,
+  "lepsSupported":463,
+  "type":"w"
+}
