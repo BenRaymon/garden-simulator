@@ -151,6 +151,21 @@ public class Controller extends Application{
 		
 	}
 	
+	public static void attachImageViewDragHandler(ImageView iv) {
+		iv.setOnDragDetected(event -> {
+			Dragboard db = iv.startDragAndDrop(TransferMode.ANY);
+			
+			ClipboardContent content = new ClipboardContent();
+			content.putImage(iv.getImage());
+			db.setContent(content);
+			
+//			if (view.getBorderPane().getChildren().contains(event.getSource())) {
+//				iv.setImage(null);
+//			}
+			event.consume();
+		});
+	}
+	
 	public void setModel(Model model) {
 		this.model = model;
 	}

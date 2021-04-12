@@ -55,6 +55,7 @@ public class GardenEditorView extends View{
 	        temp.setPreserveRatio(true);
 	        temp.setFitHeight(100);
 	        temp.setFitWidth(100);
+	        Controller.attachImageViewDragHandler(temp);
 	        top.add(temp, imageInc, 0);
 	        imageInc++;
 		});
@@ -141,7 +142,7 @@ public class GardenEditorView extends View{
     	iv.setFitHeight(100);
     	iv.setX(event.getX());
 		iv.setY(event.getY());
-		
+		Controller.attachImageViewDragHandler(iv);
 		// right here problem
 		//imc.setHandlerForClick(iv);
 		imageViewsForPlantsInGarden.add(iv);
