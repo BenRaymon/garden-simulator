@@ -61,7 +61,21 @@ public class Controller extends Application{
 			stage.setScene(plotDesignView.getScene());
 			model = new PlotDesignModel();
 		});
-	
+		
+		//plotdesignview scene drag listener
+		plotDesignView.getScene().setOnMousePressed(event->{
+        	System.out.println("Mouse pressed");
+        	plotDesignView.getGC().beginPath();
+        	plotDesignView.getGC().lineTo(event.getX() - 195, event.getY());
+        	plotDesignView.getGC().stroke();
+        });
+		
+		plotDesignView.getScene().setOnMouseDragged(event->{
+        	System.out.println("Mouse Dragged");
+        	plotDesignView.getGC().lineTo(event.getX() - 195, event.getY());
+        	plotDesignView.getGC().stroke();
+        });
+
 	}
 	
 	public static void main(String[] args) {

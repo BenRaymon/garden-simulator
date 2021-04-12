@@ -27,6 +27,7 @@ public class PlotDesignView extends View{
 	private TextField budget;
 	private Scene scene;
 	private BorderPane base;
+	private GraphicsContext gc;
 	
 	public PlotDesignView(Stage stage) {
 		base = new BorderPane();
@@ -38,8 +39,7 @@ public class PlotDesignView extends View{
 		
 		//create Canvas
 		//FIXME Draw on Canvas 
-		Canvas drawArea = new Canvas(600,600);
-		GraphicsContext gc;
+		Canvas drawArea = new Canvas(600,800);
 		gc = drawArea.getGraphicsContext2D();
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(1);
@@ -56,18 +56,18 @@ public class PlotDesignView extends View{
         stage.setScene(scene);
         stage.show();
         
-        scene.setOnMousePressed(event->{
-        	System.out.println("Mouse pressed");
-        	gc.beginPath();
-        	gc.lineTo(event.getX() - left_grid.getWidth() - 10, event.getY() - 95);
-        	gc.stroke();
-        });
+        //scene.setOnMousePressed(event->{
+        //	System.out.println("Mouse pressed");
+        //	gc.beginPath();
+        //	gc.lineTo(event.getX() - left_grid.getWidth() - 15, event.getY());
+        //	gc.stroke();
+        //});
         
-        scene.setOnMouseDragged(event->{
-        	System.out.println("Mouse Dragged");
-        	gc.lineTo(event.getX() - left_grid.getWidth() - 10, event.getY() - 95);
-        	gc.stroke();
-        });
+        //scene.setOnMouseDragged(event->{
+        //	System.out.println("Mouse Dragged");
+        //	gc.lineTo(event.getX() - left_grid.getWidth() - 15, event.getY());
+        //	gc.stroke();
+        //});
 	}
 	
 	public GridPane createBottom() {
@@ -90,14 +90,14 @@ public class PlotDesignView extends View{
 	
 	public GridPane createLeftGrid(){
 		GridPane left_grid = new GridPane();
-		left_grid.setAlignment(Pos.CENTER_LEFT);
+		left_grid.setAlignment(Pos.CENTER);
 		left_grid.setStyle("-fx-background-color: pink");
 		left_grid.setGridLinesVisible(true);
+		left_grid.setMinWidth(200);
 		left_grid.setHgap(10);
 		left_grid.setVgap(10);
 		base.setLeft(left_grid);
 		return left_grid;
-
 	}
 	
 	
@@ -139,6 +139,9 @@ public class PlotDesignView extends View{
 		return scene;
 	}
 	
+	public GraphicsContext getGC() {
+		return gc;
+	}
 	
 	
 	public void fillPlot(Color color) {
