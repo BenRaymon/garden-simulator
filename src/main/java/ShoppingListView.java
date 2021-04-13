@@ -24,6 +24,7 @@ public class ShoppingListView extends View{
 	private BorderPane base;
 	private VBox leftVBox;
 	private VBox rightVBox;
+	private VBox bottomVBox;
 	
 	public ShoppingListView(Stage stage, Controller c) {
 		System.out.println("In shopping list view");
@@ -32,13 +33,25 @@ public class ShoppingListView extends View{
 		base = new BorderPane();
 		leftVBox = this.createLeftVBox();
 		rightVBox = this.createRightVBox();
+		bottomVBox = this.createBottomVBox();
 		
+		addGardenButton();
 		addPlaceHolderText();
 		
 		//create and set scene with base
 		scene = new Scene(base, 800, 800);
         stage.setScene(scene);
         stage.show();
+	}
+	
+	public VBox createBottomVBox() {
+		VBox bottom_vbox = new VBox(2);
+		bottom_vbox.setAlignment(Pos.BASELINE_CENTER);
+		bottom_vbox.setStyle("-fx-background-color: aqua");
+		bottom_vbox.setMinWidth(800);
+		base.setBottom(bottom_vbox);
+		return bottom_vbox;
+	
 	}
 	
 	public VBox createLeftVBox(){
@@ -59,6 +72,12 @@ public class ShoppingListView extends View{
 		right_vbox.setMinWidth(400);
 		base.setRight(right_vbox);
 		return right_vbox;
+	}
+	
+	public void addGardenButton() {
+		Button toGarden = new Button("Garden Editor");
+		toGarden.setOnMouseClicked(controller.getToGardenOnClickHandler());
+		bottomVBox.getChildren().add(toGarden);
 	}
 	
 	private void addPlaceHolderText() {
