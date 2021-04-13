@@ -20,6 +20,7 @@ public class Controller extends Application{
 	View view;
 	Stage stage;
 	ArrayList<View> pageViews = new ArrayList<View>();
+	SplashView splashView;
 	StartView startView;
 	PlotDesignView plotDesignView;
 	GardenEditorView gardenEditorView;
@@ -32,6 +33,7 @@ public class Controller extends Application{
 		this.stage = s;
 		
 		// Create the views
+		splashView = new SplashView(stage, this);
 		startView = new StartView(stage, this);
 		plotDesignView = new PlotDesignView(stage, this);
 		gardenEditorView = new GardenEditorView(stage, this);
@@ -48,7 +50,8 @@ public class Controller extends Application{
 		pageViews.add(reportView);
 		
 		//set the first scene to start
-		stage.setScene(startView.getScene());
+		//stage.setScene(startView.getScene());
+		stage.setScene(splashView.getScene());
 		
 		//LOAD PLANT INFO
 		model = new StartModel();
