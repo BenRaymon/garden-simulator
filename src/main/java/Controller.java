@@ -30,7 +30,6 @@ public class Controller extends Application{
 	@Override
 	public void start(Stage s) throws Exception {
 		this.stage = s;
-		// TODO Auto-generated method stub
 		
 		// Create the views
 		startView = new StartView(stage, this);
