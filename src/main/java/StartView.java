@@ -104,27 +104,11 @@ public class StartView extends View{
 			e.printStackTrace();
 		}
 		
-		if(getImages().size() == numLines - 1) {
-			showImages();
-			return true;
-		}
-		else
-			return false;
+		return true;
+		
 	}
 	
 	//TEMPORARY FUNCTION TO SEE HOW THE IMAGES LOOK
-	public void showImages() {
-		
-		
-		getImages().forEach((key,value) -> {
-			ImageView temp = new ImageView((Image)value);
-	        temp.setPreserveRatio(true);
-	        temp.setFitHeight(100);
-	        temp.setFitWidth(100);
-	        tempImages.add(temp, ++tempNum, 0);
-		});
-	    
-	}
 	
 	public File getFile(String fileName) {
 		return Paths.get("src/main/resources/" + fileName).toFile().getAbsoluteFile();
