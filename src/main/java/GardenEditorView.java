@@ -106,12 +106,8 @@ public class GardenEditorView extends View{
 	}
 	
 	public void addPageButtons(GridPane bottom) {
-		nextPage = new Button("Next Page");
-		backPage = new Button("Back Page");
 		toShoppingList = new Button("Shopping List");
 		toShoppingList.setOnMouseClicked(controller.getToShoppingListOnClickHandler());
-		bottom.add(nextPage, 1, 0);
-		bottom.add(backPage, 0, 0);
 		bottom.add(toShoppingList, 2, 0);
 		
 	}

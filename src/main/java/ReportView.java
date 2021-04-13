@@ -23,13 +23,9 @@ public class ReportView extends View{
 		
 		
 		//create a temporary vbox for the name and buttons
-		nextPage = new Button("Next Page");
-		backPage = new Button("Back Page");
 		pageTitle = new Text("Report Page");
 		
 		VBox temp = new VBox(5);
-		temp.getChildren().add(nextPage);
-		temp.getChildren().add(backPage);
 		temp.getChildren().add(pageTitle);
 		temp.setAlignment(Pos.CENTER);
 		base.add(temp, 0, 1);

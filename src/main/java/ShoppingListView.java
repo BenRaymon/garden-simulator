@@ -29,12 +29,8 @@ public class ShoppingListView extends View{
 		base.setAlignment(Pos.CENTER);
 		
 		//create a temporary vbox for the name and button
-		nextPage = new Button("Next Page");
-		backPage = new Button("Back Page");
 		pageTitle = new Text("Shopping List");
 		VBox temp = new VBox(5);
-		temp.getChildren().add(nextPage);
-		temp.getChildren().add(backPage);
 		temp.getChildren().add(pageTitle);
 		temp.setAlignment(Pos.CENTER);
 		base.add(temp, 0, 1);

@@ -38,7 +38,6 @@ public class PlotDesignView extends View{
 		
 		//create last and next page buttons
 		GridPane bottom = createBottom();
-		addPageButtons(bottom);
 		
 		//create Canvas
 		//FIXME Draw on Canvas 
@@ -102,13 +101,6 @@ public class PlotDesignView extends View{
 		bottom.setVgap(10);
 		base.setBottom(bottom);
 		return bottom;
-	}
-	
-	public void addPageButtons(GridPane bottom) {
-		nextPage = new Button("Next Page");
-		backPage = new Button("Back Page");
-		bottom.add(nextPage,1,0);
-		bottom.add(backPage,0,0);
 	}
 	
 	public GridPane createLeftGrid(){

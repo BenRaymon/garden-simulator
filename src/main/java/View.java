@@ -11,8 +11,6 @@ public abstract class View {
 	private static HashMap<String, Image> plantImages = new HashMap<String, Image>();
 	
 	//TEMPORARY FOR CHANGING PAGES IN PRE-ALPHA
-	Button nextPage;
-	Button backPage;
 	Text pageTitle;
 	View next;
 	View back;
