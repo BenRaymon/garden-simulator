@@ -126,7 +126,7 @@ public class Controller extends Application{
         	//Draw the line as the mouse is dragged
         	plv.getGC().lineTo(me.getX() - 195, me.getY());
         	plv.getGC().stroke();	
-        	plv.getGC().fill();
+        	
         	//get index of the plot we are adding right now
         	int index = ((PlotDesignModel)model).getNumPlots() - 1; 
         	//create a point for the plot
@@ -144,7 +144,12 @@ public class Controller extends Application{
 			PlotDesignModel plm = (PlotDesignModel) model;
 			MouseEvent me = (MouseEvent)event;
         	//Close the path
+			
         	plv.getGC().closePath();
+        	plv.getGC().fill();
+        	plv.getGC().beginPath();
+        	
+        	
         	//get index of the plot we are adding right now
         	int index = plm.getNumPlots() - 1; 
         	//create a point for the plot
