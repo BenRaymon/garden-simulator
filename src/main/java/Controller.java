@@ -48,13 +48,6 @@ public class Controller extends Application{
 		((StartModel) model).loadAllPlants();
 		startView.loadImages();
 		
-		//Button functionality for toGarden
-		plotDesignView.getToGarden().setOnMouseClicked(event->{
-			pageViews.set(2,new GardenEditorView(stage, this));
-			stage.setScene(pageViews.get(2).getScene());
-			model = new PlotDesignModel();
-		});
-		
 		//Button functionality for startView Create New Garden
 		startView.getNewGarden().setOnMouseClicked(event ->{
 			stage.setScene(plotDesignView.getScene());
@@ -67,6 +60,15 @@ public class Controller extends Application{
 		System.out.println("in main 1");
 		launch(args);
 		
+	}
+	
+	//Button functionality for toGarden
+	public EventHandler getToGardenOnClickHandler() {
+		return (event -> {
+			pageViews.set(2,new GardenEditorView(stage, this));
+			stage.setScene(pageViews.get(2).getScene());
+			model = new PlotDesignModel();
+		});
 	}
 	
 	public EventHandler getToShoppingListOnClickHandler() {

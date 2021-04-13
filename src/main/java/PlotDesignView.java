@@ -50,6 +50,7 @@ public class PlotDesignView extends View{
 		base.setCenter(drawArea);
 		
 		toGarden = new Button("To Garden");
+		toGarden.setOnMouseClicked(controller.getToGardenOnClickHandler());
 		
 		
 		//Create Sliders
