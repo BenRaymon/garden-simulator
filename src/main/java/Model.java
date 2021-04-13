@@ -6,7 +6,7 @@ public abstract class Model {
 	
 	private static HashMap<String, Plant> allPlants = new HashMap<String, Plant>();
 	
-	public HashMap getPlants() {
+	public static HashMap<String, Plant> getPlants() {
 		return allPlants;
 	}
 	

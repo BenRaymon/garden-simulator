@@ -16,6 +16,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class Controller extends Application{
+	BackgroundLoaderController backgroundLoader;
+	
 	Model model;
 	View view;
 	Stage stage;
@@ -31,6 +33,9 @@ public class Controller extends Application{
 	@Override
 	public void start(Stage s) throws Exception {
 		this.stage = s;
+		
+		// Initialize the background loader controller with the image and plant maps to be populated from disk
+		backgroundLoader = new BackgroundLoaderController(View.getImages(), Model.getPlants());
 		
 		// Create the views
 		splashView = new SplashView(stage, this);
@@ -54,13 +59,15 @@ public class Controller extends Application{
 		stage.setScene(splashView.getScene());
 		
 		// Load assets in the background in SplashModel via BackgroundLoader
-		model = new SplashModel();
-		((SplashModel) model).loadAssets();
+		backgroundLoader.loadData();
+		
+		//model = new SplashModel();
+		//((SplashModel) model).loadAssets();
 		//splashView.loadImages();
 		
 		
 		//LOAD PLANT INFO
-//		model = new StartModel();
+		model = new StartModel();
 //		((StartModel) model).loadAllPlants();
 //		startView.loadImages();
 		

@@ -5,10 +5,6 @@ import java.nio.file.Paths;
 
 public class SplashModel extends Model {
 	
-	public void loadAssets() {
-		
-	}
-	
 	public boolean loadAllPlants() {
 		
 		//load data file and create a list of lines
