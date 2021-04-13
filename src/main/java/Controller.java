@@ -75,7 +75,12 @@ public class Controller extends Application{
 		return (event -> {
 			//pageViews.set(2,new GardenEditorView(stage, this));
 			stage.setScene(gardenEditorView.getScene());
-			model = new PlotDesignModel();
+			Garden garden = new Garden(((PlotDesignModel)model).getPlots());
+			model = new GardenEditorModel(garden);
+			GardenEditorModel gm = (GardenEditorModel)model;
+			for (Plot p : gm.getGarden().getPlots()) {
+				gardenEditorView.drawPlot(p.getCoordinates());
+			}
 		});
 	}
 	

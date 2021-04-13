@@ -7,12 +7,12 @@ public class Garden{
 	private int lepsSupported;
 	private ArrayList<Plant> plantsInGarden;
 	
-	public Garden() {
+	public Garden(ArrayList<Plot> plots) {
 		spent = 0;
 		budget = 0;
 		lepsSupported = 0;
 		plantsInGarden = new ArrayList<Plant>();
-		plots = new ArrayList<Plot>();
+		this.plots = plots;
 	}
 	
 	

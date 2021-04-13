@@ -6,6 +6,16 @@ public class GardenEditorModel extends Model {
 	
 	String sortBy;
 	
+	Garden garden;
+	
+	public GardenEditorModel(Garden g) {
+		garden = g;
+	}
+	
+	public Garden getGarden() {
+		return garden;
+	}
+	
 	public Plant selectPlant() {
 		return null;
 	}

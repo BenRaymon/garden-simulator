@@ -3,6 +3,8 @@ import java.util.HashMap;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
@@ -11,6 +13,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -29,6 +32,7 @@ public class GardenEditorView extends View{
 	private BorderPane base;
 	private Scene scene;
 	private Button toShoppingList;
+	private GraphicsContext gc;
 	private int imageInc = 0;
 	
 	public GardenEditorView(Stage stage, Controller c) {
@@ -37,6 +41,13 @@ public class GardenEditorView extends View{
 		base = new BorderPane();
 		base.setOnDragOver(controller.getOnDragOverHandler());
 		base.setOnDragDropped(controller.getOnDragDroppedHandler());
+		
+		Canvas drawArea = new Canvas(600,650);
+		gc = drawArea.getGraphicsContext2D();
+		gc.setFill(Color.GREEN);
+		gc.setStroke(Color.BLACK);
+		gc.setLineWidth(1);
+		base.setCenter(drawArea);
 		
 		createTop();
 		setPlantImages();
@@ -51,6 +62,19 @@ public class GardenEditorView extends View{
 		scene = new Scene(base, 800, 800);
         stage.setScene(scene);
         stage.show();
+	}
+	
+	public void drawPlot(ArrayList<Point> points) {
+		
+		double[] xcords = new double[points.size()];
+		double[] ycords = new double[points.size()];
+		int i = 0;
+		for(Point p : points) {
+			xcords[i] = p.getX();
+			ycords[i++] = p.getY() - 150;
+		}
+		gc.fillPolygon(xcords, ycords, i);
+		
 	}
 	
 	
