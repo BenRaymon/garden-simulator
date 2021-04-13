@@ -51,7 +51,7 @@ public class Controller extends Application{
 		
 		//set the first scene to start
 		//stage.setScene(startView.getScene());
-		stage.setScene(startView.getScene());
+		stage.setScene(splashView.getScene());
 		
 		// SplashModel loads the data and images in concurrently whilst showing a splash screen
 		// It then goes to the start screen when it is finished

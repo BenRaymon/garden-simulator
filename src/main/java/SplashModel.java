@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.nio.file.Paths;
+import java.util.concurrent.TimeUnit;
 
 public class SplashModel extends Model {
 	private Controller controller;
@@ -19,9 +20,8 @@ public class SplashModel extends Model {
 		// Wait for loading to complete
 		// Will probably try to make some kind of loading bar for beta/full release
 		while(!backgroundLoader.isCompleted());
-		
-		// Tell the controller to change from the splash screen to the start screen
-		c.loadStartScreen();
-	}
 
+		// Tell the controller to change from the splash screen to the start screen
+		controller.loadStartScreen();
+	}
 }
