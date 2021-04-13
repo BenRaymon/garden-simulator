@@ -20,24 +20,32 @@ public class Controller extends Application{
 	View view;
 	Stage stage;
 	ArrayList<View> pageViews = new ArrayList<View>();
+	StartView startView;
+	PlotDesignView plotDesignView;
+	GardenEditorView gardenEditorView;
+	CompPlantsView compPlantsView;
+	ShoppingListView shopView;
+	ReportView reportView;
 	
 	@Override
 	public void start(Stage s) throws Exception {
 		this.stage = s;
 		// TODO Auto-generated method stub
 		
-		//create a start and plot design page
-		StartView startView = new StartView(stage);
+		// Create the views
+		startView = new StartView(stage, this);
+		plotDesignView = new PlotDesignView(stage, this);
+		gardenEditorView = new GardenEditorView(stage, this);
+		compPlantsView = new CompPlantsView(stage, this);
+		shopView = new ShoppingListView(stage, this);
+		reportView = new ReportView(stage, this);
+		
+		// Add views to the ArrayList of views
 		pageViews.add(startView);
-		PlotDesignView plotDesignView = new PlotDesignView(stage, this);
 		pageViews.add(plotDesignView);
-		GardenEditorView gardenEditorView = new GardenEditorView(stage, this);
 		pageViews.add(gardenEditorView);
-		CompPlantsView compPlantsView = new CompPlantsView(stage);
 		pageViews.add(compPlantsView);
-		ShoppingListView shopView = new ShoppingListView(stage, this);
 		pageViews.add(shopView);
-		ReportView reportView = new ReportView(stage);
 		pageViews.add(reportView);
 		
 		//set the first scene to start
@@ -47,12 +55,6 @@ public class Controller extends Application{
 		model = new StartModel();
 		((StartModel) model).loadAllPlants();
 		startView.loadImages();
-		
-		//Button functionality for startView Create New Garden
-		startView.getNewGarden().setOnMouseClicked(event ->{
-			stage.setScene(plotDesignView.getScene());
-			model = new PlotDesignModel();
-		});
 		
 	}
 	
@@ -69,6 +71,15 @@ public class Controller extends Application{
 			stage.setScene(pageViews.get(2).getScene());
 			model = new PlotDesignModel();
 		});
+	}
+	
+	//Button functionality for startView Create New Garden
+	public EventHandler getNewGardenOnClickHandler() {
+		return (event -> {
+			stage.setScene(plotDesignView.getScene());
+			model = new PlotDesignModel();
+		});
+		
 	}
 	
 	public EventHandler getToShoppingListOnClickHandler() {

@@ -30,11 +30,13 @@ public class StartView extends View{
 	private Button loadGarden;
 	private Scene scene;
 	private GridPane base;
+	private Controller controller;
 	
 	GridPane tempImages = new GridPane();
 	int tempNum = 0;
 	
-	public StartView(Stage stage) {
+	public StartView(Stage stage, Controller c) {
+		controller = c;
 		base = new GridPane();
 		base.setHgap(10);
 		base.setVgap(10);
@@ -47,6 +49,7 @@ public class StartView extends View{
 		newGarden = new Button("Create New Garden");
 		newGarden.setMinHeight(50);
 		newGarden.setMinWidth(150);
+		newGarden.setOnMouseClicked(controller.getNewGardenOnClickHandler());
 		loadGarden = new Button("Load Garden");
 		loadGarden.setMinHeight(50);
 		loadGarden.setMinWidth(150);

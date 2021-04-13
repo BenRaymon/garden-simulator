@@ -14,8 +14,10 @@ public class CompPlantsView extends View{
 	private Text plantSummaryA;
 	private Text plantSummaryB;
 	private Scene scene;
+	private Controller controller;
 	
-	public CompPlantsView(Stage stage) {
+	public CompPlantsView(Stage stage, Controller c) {
+		this.controller = c;
 		GridPane base = new GridPane();
 		base.setHgap(10);
 		base.setVgap(10);

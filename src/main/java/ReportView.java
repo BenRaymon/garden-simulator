@@ -11,8 +11,10 @@ public class ReportView extends View{
 	private Text title;
 	private Text summary; 
 	private Scene scene;
+	private Controller controller;
 	
-	public ReportView(Stage stage) {
+	public ReportView(Stage stage, Controller c) {
+		this.controller = c;
 		GridPane base = new GridPane();
 		base.setHgap(10);
 		base.setVgap(10);
