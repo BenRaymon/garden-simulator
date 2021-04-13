@@ -16,8 +16,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class Controller extends Application{
-	BackgroundLoaderController backgroundLoader;
-	
 	Model model;
 	View view;
 	Stage stage;
@@ -33,9 +31,6 @@ public class Controller extends Application{
 	@Override
 	public void start(Stage s) throws Exception {
 		this.stage = s;
-		
-		// Initialize the background loader controller with the image and plant maps to be populated from disk
-		backgroundLoader = new BackgroundLoaderController(View.getImages(), Model.getPlants());
 		
 		// Create the views
 		splashView = new SplashView(stage, this);
@@ -56,26 +51,11 @@ public class Controller extends Application{
 		
 		//set the first scene to start
 		//stage.setScene(startView.getScene());
-		stage.setScene(splashView.getScene());
+		stage.setScene(startView.getScene());
 		
-		// Load assets in the background in SplashModel via BackgroundLoader
-		backgroundLoader.loadData();
-		backgroundLoader.loadImages();
-		
-		// Wait for loading to complete
-		// Will probably try to make some kind of loading bar for beta/full release
-		while(!backgroundLoader.isCompleted());
-		
-		//model = new SplashModel();
-		//((SplashModel) model).loadAssets();
-		//splashView.loadImages();
-		
-		
-		//LOAD PLANT INFO
-		model = new StartModel();
-//		((StartModel) model).loadAllPlants();
-//		startView.loadImages();
-		
+		// SplashModel loads the data and images in concurrently whilst showing a splash screen
+		// It then goes to the start screen when it is finished
+		model = new SplashModel(this);
 	}
 	
 	public static void main(String[] args) {
@@ -225,6 +205,11 @@ public class Controller extends Application{
 			drag.setDropCompleted(true);
 			drag.consume();
 		});
+	}
+	
+	public void loadStartScreen() {
+		stage.setScene(startView.getScene());
+		model = new StartModel();
 	}
 	
 	public void setModel(Model model) {

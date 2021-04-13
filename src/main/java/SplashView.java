@@ -38,58 +38,6 @@ public class SplashView extends View {
         stage.setScene(scene);
         stage.show();
 	}
-	
-	public boolean loadImages() {
-		System.out.println("PLEASE ONLY SHOW ONCE");
-		//load data file and create a list of lines
-		File plantData = Paths.get("src/main/resources/result.csv").toFile().getAbsoluteFile();
-		BufferedReader br;
-		int numLines = 0;
-		
-		try {
-			br = new BufferedReader(new FileReader(plantData));
-		    String line;
-		    while ((line = br.readLine()) != null) {
-		        addImage(line);
-		        numLines++;
-		    }
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return true;
-		
-	}
-	
-	public File getFile(String fileName) {
-		return Paths.get("src/main/resources/" + fileName).toFile().getAbsoluteFile();
-	}
-	
-	public void addImage(String line) {
-		if(line.contains("﻿"))
-			return;
-		String words[] = line.split(",");
-		String loc = words[17];
-		try {
-			BufferedImage image = ImageIO.read(getFile(loc));
-			//COPIED THIS ONLINE
-			//https://blog.idrsolutions.com/2012/11/convert-bufferedimage-to-javafx-image/
-			WritableImage wr = null;
-	        if (image != null) {
-	            wr = new WritableImage(image.getWidth(), image.getHeight());
-	            PixelWriter pw = wr.getPixelWriter();
-	            for (int x = 0; x < image.getWidth(); x++) {
-	                for (int y = 0; y < image.getHeight(); y++) {
-	                    pw.setArgb(x, y, image.getRGB(x, y));
-	                }
-	            }
-	        }
-			getImages().put(words[0], wr);
-		} catch (IOException e) {
-			System.out.println("Failed to add image");
-			e.printStackTrace();
-		}
-	}
 
 	@Override
 	public Scene getScene() {
