@@ -33,6 +33,7 @@ public class GardenEditorView extends View{
 	private Scene scene;
 	private Button toShoppingList;
 	private GraphicsContext gc;
+	private GridPane right;
 	private int imageInc = 0;
 	
 	public GardenEditorView(Stage stage, Controller c) {
@@ -48,6 +49,9 @@ public class GardenEditorView extends View{
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(1);
 		base.setCenter(drawArea);
+		
+		createRight();
+		createRightText();
 		
 		createTop();
 		setPlantImages();
@@ -77,6 +81,16 @@ public class GardenEditorView extends View{
 		
 	}
 	
+	public void createRightText() {
+		Text t1 = new Text("Number of Plants");
+		right.add(t1, 0, 0);
+		Text t2 = new Text("# of Plants");
+		right.add(t2, 0, 1);
+		Text t3 = new Text("Number of Lep");
+		right.add(t3, 0, 5);
+		Text t4 = new Text("# of Leps");
+		right.add(t4, 0, 6);
+	}
 	
 	//Supposed to draw images in the top grid pane
 	public void setPlantImages(){
@@ -92,6 +106,18 @@ public class GardenEditorView extends View{
 	        imageInc++;
 		});
 		base.setTop(top);
+		
+	}
+	
+	public void createRight() {
+		right = new GridPane();
+		right.setAlignment(Pos.CENTER_RIGHT);
+		right.setStyle("-fx-background-color: yellow");
+		right.setGridLinesVisible(true);
+		right.setHgap(0);
+		right.setVgap(0);
+		base.setRight(right);
+		Text t = new Text("Test");
 		
 	}
 	
