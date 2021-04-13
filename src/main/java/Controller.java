@@ -53,10 +53,16 @@ public class Controller extends Application{
 		//stage.setScene(startView.getScene());
 		stage.setScene(splashView.getScene());
 		
+		// Load assets in the background in SplashModel via BackgroundLoader
+		model = new SplashModel();
+		((SplashModel) model).loadAssets();
+		//splashView.loadImages();
+		
+		
 		//LOAD PLANT INFO
-		model = new StartModel();
-		((StartModel) model).loadAllPlants();
-		startView.loadImages();
+//		model = new StartModel();
+//		((StartModel) model).loadAllPlants();
+//		startView.loadImages();
 		
 	}
 	
