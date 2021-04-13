@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Controller extends Application{
@@ -123,7 +124,9 @@ public class Controller extends Application{
 			double sunlight = plotDesignView.getSlider("Sun").getValue();
 			double soiltype = plotDesignView.getSlider("Soil").getValue();
 			double moisture = plotDesignView.getSlider("Moisture").getValue();
-			Options o = new Options(sunlight, soiltype, moisture);
+			System.out.println("SOIL TYPE");
+			System.out.println(soiltype);
+			Options o = new Options(soiltype, sunlight, moisture);
 			((PlotDesignModel)model).newPlot(o);
 		});
 	}
@@ -171,8 +174,22 @@ public class Controller extends Application{
 			PlotDesignModel plm = (PlotDesignModel) model;
 			MouseEvent me = (MouseEvent)event;
         	//Close the path
-			
 			plotDesignView.getGC().closePath();
+			int[]soils = plm.getPlots().get(plm.getNumPlots()-1).getOptions().getSoilTypes();
+			System.out.println("PRINTING HERE");
+			for (int element: soils) {
+				System.out.println(element);
+			}
+			if (soils[0] == 1) {
+				plotDesignView.getGC().setFill(Color.CHOCOLATE);
+			}
+			if (soils[1] == 1) {
+				plotDesignView.getGC().setFill(Color.SADDLEBROWN);
+			}
+			if (soils[2] == 1) {
+				plotDesignView.getGC().setFill(Color.TAN);
+			}
+				
         	plotDesignView.getGC().fill();
         	plotDesignView.getGC().beginPath();
         	

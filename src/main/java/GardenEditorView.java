@@ -82,14 +82,18 @@ public class GardenEditorView extends View{
 	}
 	
 	public void createRightText() {
+		Text t0 = new Text("Remaining Budget");
+		Text t00 = new Text("$#");
+		right.add(t0, 0, 0);
+		right.add(t00, 0, 1);
 		Text t1 = new Text("Number of Plants");
-		right.add(t1, 0, 0);
+		right.add(t1, 0, 2);
 		Text t2 = new Text("# of Plants");
-		right.add(t2, 0, 1);
+		right.add(t2, 0, 3);
 		Text t3 = new Text("Number of Lep");
-		right.add(t3, 0, 5);
+		right.add(t3, 0, 4);
 		Text t4 = new Text("# of Leps");
-		right.add(t4, 0, 6);
+		right.add(t4, 0, 5);
 	}
 	
 	//Supposed to draw images in the top grid pane
@@ -112,7 +116,7 @@ public class GardenEditorView extends View{
 	public void createRight() {
 		right = new GridPane();
 		right.setAlignment(Pos.CENTER_RIGHT);
-		right.setStyle("-fx-background-color: yellow");
+		right.setStyle("-fx-background-color: darkseagreen");
 		right.setGridLinesVisible(true);
 		right.setHgap(0);
 		right.setVgap(0);
@@ -125,7 +129,7 @@ public class GardenEditorView extends View{
 	public void createTop() {
 	    top = new GridPane();
 		top.setAlignment(Pos.TOP_CENTER);
-		top.setStyle("-fx-backgorund-color: blue");
+		top.setStyle("-fx-backgorund-color: darkseagreen");
 		top.setGridLinesVisible(true);
 		top.setHgap(10);
 		top.setVgap(10);
@@ -136,7 +140,7 @@ public class GardenEditorView extends View{
 	public GridPane createLeft() {
 		GridPane left_grid = new GridPane();
 		left_grid.setAlignment(Pos.CENTER_LEFT);
-		left_grid.setStyle("-fx-background-color: pink");
+		left_grid.setStyle("-fx-background-color: darkseagreen");
 		left_grid.setGridLinesVisible(true);
 		left_grid.setHgap(10);
 		left_grid.setVgap(10);
@@ -147,7 +151,7 @@ public class GardenEditorView extends View{
 	public GridPane createBottom() {
 		GridPane bottom_grid = new GridPane();
 		bottom_grid.setAlignment(Pos.CENTER_LEFT);
-		bottom_grid.setStyle("-fx-background-color: aqua");
+		bottom_grid.setStyle("-fx-background-color: darkgrey");
 		bottom_grid.setGridLinesVisible(true);
 		bottom_grid.setHgap(10);
 		bottom_grid.setVgap(10);

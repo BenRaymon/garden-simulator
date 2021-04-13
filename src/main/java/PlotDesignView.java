@@ -43,7 +43,7 @@ public class PlotDesignView extends View{
 		//FIXME Draw on Canvas 
 		Canvas drawArea = new Canvas(600,800);
 		gc = drawArea.getGraphicsContext2D();
-		gc.setFill(Color.GREEN);
+		//gc.setFill(Color.GREEN);
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(1);
 		base.setCenter(drawArea);
@@ -95,7 +95,7 @@ public class PlotDesignView extends View{
 	public GridPane createBottom() {
 		GridPane bottom = new GridPane();
 		bottom.setAlignment(Pos.BOTTOM_CENTER);
-		bottom.setStyle("-fx-background-color: aqua");
+		bottom.setStyle("-fx-background-color: darkgrey");
 		bottom.setGridLinesVisible(true);
 		bottom.setHgap(10);
 		bottom.setVgap(10);
@@ -106,7 +106,7 @@ public class PlotDesignView extends View{
 	public GridPane createLeftGrid(){
 		GridPane left_grid = new GridPane();
 		left_grid.setAlignment(Pos.CENTER);
-		left_grid.setStyle("-fx-background-color: pink");
+		left_grid.setStyle("-fx-background-color: darkseagreen");
 		//left_grid.setGridLinesVisible(true);
 		left_grid.setMinWidth(200);
 		left_grid.setHgap(10);
