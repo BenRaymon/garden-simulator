@@ -44,7 +44,43 @@ public class StartModel extends Model{
 		
 		
 		//create an options for the plant
-		Options op = new Options(new int[3],new int[3],new int[3]);
+		int[] sl = new int[] {0,0,0};
+		int[] st = new int[] {0,0,0};
+		int[] m = new int[] {0,0,0};
+		for (int i = 12; i < words.length; i++) {
+			words[i] = words[i].replace("\"", "");
+			switch(words[i].trim()) {
+				case "Shade":
+					sl[0] = 1;
+					break;
+				case "Partial Sun":
+					sl[1] = 1;
+					break;
+				case "Full Sun":
+					sl[2] = 1;
+					break;
+				case "Dry":
+					m[0] = 1;
+					break;
+				case "Moist":
+					m[1] = 1;
+					break;
+				case "Wet":
+					m[2] = 1;
+					break;
+				case "Clay":
+					st[0] = 1;
+					break;
+				case "Loamy":
+					st[1] = 1;
+					break;
+				case "Sandy":
+					st[2] = 1;
+					break;
+			}
+		}
+		
+		Options op = new Options(st,sl,m);
 		//create plant instance
 		Plant addPlant = new Plant(words[0], words[1], words[2], words[3], words[4], Double.parseDouble(words[5]), Double.parseDouble(words[6]), 
 							Integer.parseInt(words[7]), Integer.parseInt(words[8]),op, Double.parseDouble(words[9]), Integer.parseInt(words[10]), 
