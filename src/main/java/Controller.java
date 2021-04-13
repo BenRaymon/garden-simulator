@@ -19,7 +19,6 @@ public class Controller extends Application{
 	Model model;
 	View view;
 	Stage stage;
-	ArrayList<View> pageViews = new ArrayList<View>();
 	SplashView splashView;
 	StartView startView;
 	PlotDesignView plotDesignView;
@@ -34,20 +33,6 @@ public class Controller extends Application{
 		
 		// Create the views
 		splashView = new SplashView(stage, this);
-		startView = new StartView(stage, this);
-		plotDesignView = new PlotDesignView(stage, this);
-		gardenEditorView = new GardenEditorView(stage, this);
-		compPlantsView = new CompPlantsView(stage, this);
-		shopView = new ShoppingListView(stage, this);
-		reportView = new ReportView(stage, this);
-		
-		// Add views to the ArrayList of views
-		pageViews.add(startView);
-		pageViews.add(plotDesignView);
-		pageViews.add(gardenEditorView);
-		pageViews.add(compPlantsView);
-		pageViews.add(shopView);
-		pageViews.add(reportView);
 		
 		//set the first scene to start
 		//stage.setScene(startView.getScene());
@@ -64,11 +49,26 @@ public class Controller extends Application{
 		
 	}
 	
+	//Start the main program
+	public void loadStartScreen() {
+		//Create all other views after the screen is loaded
+		startView = new StartView(stage, this);
+		plotDesignView = new PlotDesignView(stage, this);
+		gardenEditorView = new GardenEditorView(stage, this);
+		compPlantsView = new CompPlantsView(stage, this);
+		shopView = new ShoppingListView(stage, this);
+		reportView = new ReportView(stage, this);
+		
+		//set the scene and model to Start
+		stage.setScene(startView.getScene());
+		model = new StartModel();
+	}
+	
 	//Button functionality for toGarden
 	public EventHandler getToGardenOnClickHandler() {
 		return (event -> {
-			pageViews.set(2,new GardenEditorView(stage, this));
-			stage.setScene(pageViews.get(2).getScene());
+			//pageViews.set(2,new GardenEditorView(stage, this));
+			stage.setScene(gardenEditorView.getScene());
 			model = new PlotDesignModel();
 		});
 	}
@@ -85,8 +85,8 @@ public class Controller extends Application{
 	public EventHandler getToShoppingListOnClickHandler() {
 		return (event -> {
 			System.out.println("ShoppingList button handler");
-			pageViews.set(4,new ShoppingListView(stage, this));
-			stage.setScene(pageViews.get(4).getScene());
+			//pageViews.set(4,new ShoppingListView(stage, this));
+			stage.setScene(shopView.getScene());
 			model = new ShoppingListModel();
 		});
 	}
@@ -94,11 +94,10 @@ public class Controller extends Application{
 	//Hanlder for the DrawPlot button in PlotDesignnView
 	public EventHandler getDrawPlotHandler() {
 		return (event -> {
-			PlotDesignView plv = (PlotDesignView)pageViews.get(1);
 			//get Options values and create a new plot with these options
-			double sunlight = plv.getSlider("Sun").getValue();
-			double soiltype = plv.getSlider("Soil").getValue();
-			double moisture = plv.getSlider("Moisture").getValue();
+			double sunlight = plotDesignView.getSlider("Sun").getValue();
+			double soiltype = plotDesignView.getSlider("Soil").getValue();
+			double moisture = plotDesignView.getSlider("Moisture").getValue();
 			Options o = new Options(sunlight, soiltype, moisture);
 			((PlotDesignModel)model).newPlot(o);
 		});
@@ -108,13 +107,11 @@ public class Controller extends Application{
 	public EventHandler getDrawPlotDragDetected() {
 		return (event->{
         	System.out.println("Mouse pressed");
-        	
-			PlotDesignView plv = ((PlotDesignView)pageViews.get(1));
 			MouseEvent me = (MouseEvent)event;
         	//start drawing a plot
-        	plv.getGC().beginPath();
-        	plv.getGC().lineTo(me.getX() - 195, me.getY());
-        	plv.getGC().stroke();
+			plotDesignView.getGC().beginPath();
+			plotDesignView.getGC().lineTo(me.getX() - 195, me.getY());
+			plotDesignView.getGC().stroke();
         	//get index of the plot we are adding right now
         	int index = ((PlotDesignModel)model).getNumPlots() - 1; 
         	//create a point for the plot
@@ -128,11 +125,10 @@ public class Controller extends Application{
 	public EventHandler getDrawPlotDragged() {
 		return (event->{
 			System.out.println("Mouse Dragged");
-			PlotDesignView plv = ((PlotDesignView)pageViews.get(1));
 			MouseEvent me = (MouseEvent)event;
         	//Draw the line as the mouse is dragged
-        	plv.getGC().lineTo(me.getX() - 195, me.getY());
-        	plv.getGC().stroke();	
+			plotDesignView.getGC().lineTo(me.getX() - 195, me.getY());
+			plotDesignView.getGC().stroke();	
         	
         	//get index of the plot we are adding right now
         	int index = ((PlotDesignModel)model).getNumPlots() - 1; 
@@ -147,15 +143,13 @@ public class Controller extends Application{
 	public EventHandler getOnDrawPlotDone() {
 		return (event->{
 			System.out.println("Mouse Released");
-			PlotDesignView plv = ((PlotDesignView)pageViews.get(1));
 			PlotDesignModel plm = (PlotDesignModel) model;
 			MouseEvent me = (MouseEvent)event;
         	//Close the path
 			
-        	plv.getGC().closePath();
-        	plv.getGC().fill();
-        	plv.getGC().beginPath();
-        	
+			plotDesignView.getGC().closePath();
+        	plotDesignView.getGC().fill();
+        	plotDesignView.getGC().beginPath();
         	
         	//get index of the plot we are adding right now
         	int index = plm.getNumPlots() - 1; 
@@ -177,7 +171,7 @@ public class Controller extends Application{
 			content.putImage(iv.getImage());
 			db.setContent(content);
 			
-			if (((GardenEditorView)pageViews.get(2)).getBase().getChildren().contains(event.getSource())) {
+			if (gardenEditorView.getBase().getChildren().contains(event.getSource())) {
 				iv.setImage(null);
 			}
 			event.consume();
@@ -199,17 +193,12 @@ public class Controller extends Application{
 			System.out.println("On drag dropped");
 			DragEvent drag = (DragEvent) event;
 			Dragboard db = drag.getDragboard();
-			((GardenEditorView)pageViews.get(2)).createNewImageInBase(drag, ((Image)db.getContent(DataFormat.IMAGE)));
+			gardenEditorView.createNewImageInBase(drag, ((Image)db.getContent(DataFormat.IMAGE)));
 //			model.setX(event.getSceneX());
 //			model.setY(event.getSceneY());
 			drag.setDropCompleted(true);
 			drag.consume();
 		});
-	}
-	
-	public void loadStartScreen() {
-		stage.setScene(startView.getScene());
-		model = new StartModel();
 	}
 	
 	public void setModel(Model model) {
