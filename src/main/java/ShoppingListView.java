@@ -35,15 +35,6 @@ public class ShoppingListView extends View{
 		
 		addPlaceHolderText();
 		
-		//create a temporary vbox for the name and button
-//		pageTitle = new Text("Shopping List");
-//		base.getChildren().add(pageTitle);
-//		VBox leftSide = new VBox(5);
-//		leftSide.setStyle("-fx-border-color: blue");
-//		leftSide.getChildren().add(pageTitle);
-//		leftSide.setAlignment(Pos.TOP_CENTER);
-		//base.add(temp, 0, 0);
-		
 		//create and set scene with base
 		scene = new Scene(base, 800, 800);
         stage.setScene(scene);
@@ -53,7 +44,7 @@ public class ShoppingListView extends View{
 	public VBox createLeftVBox(){
 		VBox left_vbox = new VBox(3);
 		left_vbox.setAlignment(Pos.TOP_CENTER);
-		left_vbox.setStyle("-fx-background-color: pink");
+		left_vbox.setStyle("-fx-background-color: #42f58d");
 		//left_grid.setGridLinesVisible(true);
 		left_vbox.setMinWidth(400);
 		base.setLeft(left_vbox);
@@ -63,7 +54,7 @@ public class ShoppingListView extends View{
 	public VBox createRightVBox(){
 		VBox right_vbox = new VBox(3);
 		right_vbox.setAlignment(Pos.TOP_CENTER);
-		right_vbox.setStyle("-fx-background-color: blue");
+		right_vbox.setStyle("-fx-background-color: #42adf5");
 		//left_grid.setGridLinesVisible(true);
 		right_vbox.setMinWidth(400);
 		base.setRight(right_vbox);
