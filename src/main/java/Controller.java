@@ -60,6 +60,11 @@ public class Controller extends Application{
 		
 		// Load assets in the background in SplashModel via BackgroundLoader
 		backgroundLoader.loadData();
+		backgroundLoader.loadImages();
+		
+		// Wait for loading to complete
+		// Will probably try to make some kind of loading bar for beta/full release
+		while(!backgroundLoader.isCompleted());
 		
 		//model = new SplashModel();
 		//((SplashModel) model).loadAssets();
