@@ -51,6 +51,12 @@ public class Controller extends Application{
 	
 	//Start the main program
 	public void loadStartScreen() {
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//Create all other views after the screen is loaded
 		startView = new StartView(stage, this);
 		plotDesignView = new PlotDesignView(stage, this);
