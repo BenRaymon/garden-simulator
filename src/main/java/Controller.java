@@ -18,10 +18,12 @@ import javafx.stage.Stage;
 public class Controller extends Application{
 	Model model;
 	View view;
+	Stage stage;
 	ArrayList<View> pageViews = new ArrayList<View>();
 	
 	@Override
-	public void start(Stage stage) throws Exception {
+	public void start(Stage s) throws Exception {
+		this.stage = s;
 		// TODO Auto-generated method stub
 		
 		//create a start and plot design page
@@ -33,7 +35,7 @@ public class Controller extends Application{
 		pageViews.add(gardenEditorView);
 		CompPlantsView compPlantsView = new CompPlantsView(stage);
 		pageViews.add(compPlantsView);
-		ShoppingListView shopView = new ShoppingListView(stage);
+		ShoppingListView shopView = new ShoppingListView(stage, this);
 		pageViews.add(shopView);
 		ReportView reportView = new ReportView(stage);
 		pageViews.add(reportView);
@@ -41,24 +43,6 @@ public class Controller extends Application{
 		//set the first scene to start
 		stage.setScene(startView.getScene());
 		
-		//TEMPORARY TO SWITCH FROM PAGE TO PAGE IN PRE-ALPHA
-		//set page switch buttons on each page
-		for(int i = 0; i < pageViews.size(); i++) {
-			pageViews.get(i).next = pageViews.get((i+1) % (pageViews.size()));
-			
-			if( i > 0) 
-				pageViews.get(i).back = pageViews.get((i-1) % pageViews.size());
-			
-			final int x = i; 
-			pageViews.get(i).nextPage.setOnMouseClicked(event ->{
-				stage.setScene(pageViews.get(x).next.getScene());
-			});
-			
-			pageViews.get(i).backPage.setOnMouseClicked(event ->{
-				stage.setScene(pageViews.get(x).back.getScene());
-			});
-		}
-		// END TEMP CODE
 		//LOAD PLANT INFO
 		model = new StartModel();
 		((StartModel) model).loadAllPlants();
@@ -76,12 +60,22 @@ public class Controller extends Application{
 			stage.setScene(plotDesignView.getScene());
 			model = new PlotDesignModel();
 		});
+		
 	}
 	
 	public static void main(String[] args) {
 		System.out.println("in main 1");
 		launch(args);
 		
+	}
+	
+	public EventHandler getToShoppingListOnClickHandler() {
+		return (event -> {
+			System.out.println("ShoppingList button handler");
+			pageViews.set(4,new ShoppingListView(stage, this));
+			stage.setScene(pageViews.get(4).getScene());
+			model = new ShoppingListModel();
+		});
 	}
 	
 	//Hanlder for the DrawPlot button in PlotDesignnView

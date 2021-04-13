@@ -28,6 +28,7 @@ public class GardenEditorView extends View{
 	private GridPane top;
 	private BorderPane base;
 	private Scene scene;
+	private Button toShoppingList;
 	private int imageInc = 0;
 	
 	public GardenEditorView(Stage stage, Controller c) {
@@ -107,8 +108,11 @@ public class GardenEditorView extends View{
 	public void addPageButtons(GridPane bottom) {
 		nextPage = new Button("Next Page");
 		backPage = new Button("Back Page");
+		toShoppingList = new Button("Shopping List");
+		toShoppingList.setOnMouseClicked(controller.getToShoppingListOnClickHandler());
 		bottom.add(nextPage, 1, 0);
 		bottom.add(backPage, 0, 0);
+		bottom.add(toShoppingList, 2, 0);
 		
 	}
 	
@@ -116,6 +120,10 @@ public class GardenEditorView extends View{
 		Text t = new Text("Plant Info Here");
 		leftPane.add(t, 0, 0);
 		
+	}
+	
+	public Button getToShoppingListButton() {
+		return this.toShoppingList;
 	}
 	
 	public GridPane getTop() {

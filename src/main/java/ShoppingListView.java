@@ -17,8 +17,12 @@ public class ShoppingListView extends View{
 	private Text plantCount;
 	private ListView plants;
 	private Scene scene;
+	private Controller controller;
 	
-	public ShoppingListView(Stage stage) {
+	public ShoppingListView(Stage stage, Controller c) {
+		System.out.println("In shopping list view");
+		controller = c;
+		
 		GridPane base = new GridPane();
 		base.setHgap(10);
 		base.setVgap(10);
