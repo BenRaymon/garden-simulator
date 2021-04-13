@@ -97,6 +97,20 @@ public class Controller extends Application{
 		});
 	}
 	
+	public EventHandler getToReportOnClickHandler() {
+		return (event -> {System.out.println("Report button handler");
+		stage.setScene(reportView.getScene());
+		model = new ReportModel();
+		});
+	}
+	
+	public EventHandler getToCompareOnClickHandler() {
+		return (event -> {System.out.println("Compare button handler");
+		stage.setScene(compPlantsView.getScene());
+		model = new CompPlantsModel();
+			});
+	}
+	
 	//Hanlder for the DrawPlot button in PlotDesignnView
 	public EventHandler getDrawPlotHandler() {
 		return (event -> {

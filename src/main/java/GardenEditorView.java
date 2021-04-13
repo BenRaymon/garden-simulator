@@ -110,6 +110,14 @@ public class GardenEditorView extends View{
 		toShoppingList.setOnMouseClicked(controller.getToShoppingListOnClickHandler());
 		bottom.add(toShoppingList, 2, 0);
 		
+		Button toReport = new Button("Report");
+		toReport.setOnMouseClicked(controller.getToReportOnClickHandler());
+		bottom.add(toReport, 3, 0);
+		
+		Button toComp = new Button("Compare");
+		toComp.setOnMouseClicked(controller.getToCompareOnClickHandler());
+		bottom.add(toComp, 4, 0);
+		
 	}
 	
 	public void setPlantInfo(GridPane leftPane) {
