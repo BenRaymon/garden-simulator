@@ -19,6 +19,7 @@ public class CompPlantsView extends View{
 	private Scene scene;
 	private Controller controller;
 	private TextField b;
+	private Button toGardenEditor;
 	
 	public CompPlantsView(Stage stage, Controller c) {
 		this.controller = c;
@@ -26,6 +27,10 @@ public class CompPlantsView extends View{
 		base.setHgap(10);
 		base.setVgap(10);
 		base.setAlignment(Pos.CENTER);
+		
+		toGardenEditor = new Button("Garden Editor");
+		toGardenEditor.setOnMouseClicked(controller.getToGardenOnClickHandler());
+		base.add(toGardenEditor, 0, 10);
 		
 		//create a temporary vbox for the name and button
 		pageTitle = new Text("Compare Plants");
