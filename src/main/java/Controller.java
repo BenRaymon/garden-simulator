@@ -15,6 +15,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+
+
 
 public class Controller extends Application{
 	Model model;
@@ -27,10 +31,14 @@ public class Controller extends Application{
 	CompPlantsView compPlantsView;
 	ShoppingListView shopView;
 	ReportView reportView;
+	CompPlantsModel compPlantsModel;
 	
 	@Override
 	public void start(Stage s) throws Exception {
 		this.stage = s;
+		
+		//Creates an instance of compPlantsModel
+		compPlantsModel = new CompPlantsModel();
 		
 		// Create the views
 		splashView = new SplashView(stage, this);
@@ -241,6 +249,48 @@ public class Controller extends Application{
 			drag.setDropCompleted(true);
 			drag.consume();
 		});
+	}
+	
+	//Searches for plant from all loaded plants, and displays info on button click
+	public EventHandler RightPlantButtonClickedHandler() {
+		return (event ->{
+			System.out.println("ComparePlantsLeftButton Clicked.");
+			//TextBox temp = CompPlantsView.getTextBox();
+			//String plantInfo = CompPlantsModel.getInfo(temp);
+			
+			//System.out.println("Before TextField declaration");
+			TextField temp = compPlantsView.getTextBox();
+			//System.out.println("Before plantInfo declaration");
+			
+			String plantInfo = compPlantsModel.getInfo(temp.getText());
+			//System.out.println("Before tempText declaration");
+			Text tempText = compPlantsView.getRightBody();
+			//System.out.println("Before setText");
+			tempText.setText(plantInfo);
+			
+		});
+		
+	}
+	
+	//Searches for plant from all loaded plants, and displays info on button click
+	public EventHandler LeftPlantButtonClickedHandler() {
+		return (event ->{
+			System.out.println("ComparePlantsLeftButton Clicked.");
+			//TextBox temp = CompPlantsView.getTextBox();
+			//String plantInfo = CompPlantsModel.getInfo(temp);
+			
+			//System.out.println("Before TextField declaration");
+			TextField temp = compPlantsView.getTextBox();
+			//System.out.println("Before plantInfo declaration");
+			
+			String plantInfo = compPlantsModel.getInfo(temp.getText());
+			//System.out.println("Before tempText declaration");
+			Text tempText = compPlantsView.getLeftBody();
+			//System.out.println("Before setText");
+			tempText.setText(plantInfo);
+			
+		});
+		
 	}
 	
 	public void setModel(Model model) {
