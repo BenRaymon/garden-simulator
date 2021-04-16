@@ -74,17 +74,6 @@ public class Controller extends Application{
 		stage.setScene(startView.getScene());
 	}
 	
-	//Button functionality for toGarden
-	public EventHandler getToGardenOnClickHandler() {
-		return (event -> {
-			stage.setScene(gardenEditorView.getScene());
-			System.out.println(garden.getPlots());
-			for (Plot p : garden.getPlots()) {
-				gardenEditorView.drawPlot(p.getCoordinates());
-			}
-		});
-	}
-	
 	//Button functionality for startView Create New Garden
 	public EventHandler getNewGardenOnClickHandler() {
 		return (event -> {
@@ -190,6 +179,17 @@ public class Controller extends Application{
         });
 	}
 	
+	//Button functionality for toGarden
+	public EventHandler getToGardenOnClickHandler() {
+		return (event -> {
+			stage.setScene(gardenEditorView.getScene());
+			System.out.println(garden.getPlots());
+			for (Plot p : garden.getPlots()) {
+				gardenEditorView.drawPlot(p.getCoordinates());
+			}
+		});
+	}
+		
 	//Handler for image being dragged
 	public EventHandler getOnImageDraggedHandler() {
 		return (event -> {
