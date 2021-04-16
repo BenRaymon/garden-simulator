@@ -32,30 +32,27 @@ public class Controller extends Application{
 	ShoppingListView shopView;
 	ReportView reportView;
 	CompPlantsModel compPlantsModel;
+	Garden garden;
 	
 	@Override
 	public void start(Stage s) throws Exception {
 		this.stage = s;
 		
-		//Creates an instance of compPlantsModel
-		compPlantsModel = new CompPlantsModel();
-		
 		// Create the views
 		splashView = new SplashView(stage, this);
 		
-		//set the first scene to start
-		//stage.setScene(startView.getScene());
+		//set the first scene to splash
 		stage.setScene(splashView.getScene());
 		
-		// SplashModel loads the data and images in concurrently whilst showing a splash screen
+		// BackgroundLoader loads the data and images in concurrently whilst showing a splash screen
 		// It then goes to the start screen when it is finished
-		model = new SplashModel(this);
+		BackgroundLoaderController loadData = new BackgroundLoaderController(View.getImages(), Model.getPlants(), this);
+		garden = new Garden();
 	}
 	
 	public static void main(String[] args) {
 		System.out.println("in main 1");
-		launch(args);
-		
+		launch(args);	
 	}
 	
 	//Start the main program
@@ -76,18 +73,13 @@ public class Controller extends Application{
 		
 		//set the scene and model to Start
 		stage.setScene(startView.getScene());
-		model = new StartModel();
 	}
 	
 	//Button functionality for toGarden
 	public EventHandler getToGardenOnClickHandler() {
 		return (event -> {
-			//pageViews.set(2,new GardenEditorView(stage, this));
 			stage.setScene(gardenEditorView.getScene());
-			Garden garden = new Garden(((PlotDesignModel)model).getPlots());
-			model = new GardenEditorModel(garden);
-			GardenEditorModel gm = (GardenEditorModel)model;
-			for (Plot p : gm.getGarden().getPlots()) {
+			for (Plot p : garden.getPlots()) {
 				gardenEditorView.drawPlot(p.getCoordinates());
 			}
 		});
@@ -97,32 +89,26 @@ public class Controller extends Application{
 	public EventHandler getNewGardenOnClickHandler() {
 		return (event -> {
 			stage.setScene(plotDesignView.getScene());
-			model = new PlotDesignModel();
 		});
 		
 	}
 	
 	public EventHandler getToShoppingListOnClickHandler() {
 		return (event -> {
-			System.out.println("ShoppingList button handler");
-			//pageViews.set(4,new ShoppingListView(stage, this));
 			stage.setScene(shopView.getScene());
-			model = new ShoppingListModel();
 		});
 	}
 	
 	public EventHandler getToReportOnClickHandler() {
-		return (event -> {System.out.println("Report button handler");
-		stage.setScene(reportView.getScene());
-		model = new ReportModel();
+		return (event -> {
+			stage.setScene(reportView.getScene());
 		});
 	}
 	
 	public EventHandler getToCompareOnClickHandler() {
-		return (event -> {System.out.println("Compare button handler");
-		stage.setScene(compPlantsView.getScene());
-		model = new CompPlantsModel();
-			});
+		return (event -> {
+			stage.setScene(compPlantsView.getScene());
+		});
 	}
 	
 	//Hanlder for the DrawPlot button in PlotDesignnView
@@ -132,10 +118,9 @@ public class Controller extends Application{
 			double sunlight = plotDesignView.getSlider("Sun").getValue();
 			double soiltype = plotDesignView.getSlider("Soil").getValue();
 			double moisture = plotDesignView.getSlider("Moisture").getValue();
-			System.out.println("SOIL TYPE");
-			System.out.println(soiltype);
 			Options o = new Options(soiltype, sunlight, moisture);
-			((PlotDesignModel)model).newPlot(o);
+			//create a new plot in the garden
+			PlotDesign.newPlot(o, garden.getPlots());
 		});
 	}
 	
@@ -148,12 +133,15 @@ public class Controller extends Application{
 			plotDesignView.getGC().beginPath();
 			plotDesignView.getGC().lineTo(me.getX() - 195, me.getY());
 			plotDesignView.getGC().stroke();
-        	//get index of the plot we are adding right now
-        	int index = ((PlotDesignModel)model).getNumPlots() - 1; 
+			//add the point to a coordinate list in the view
+			plotDesignView.coords.add(new Point(me.getX() - 195, me.getY()));
+			
+			//get index of the plot we are adding right now
+        	//int index = ((PlotDesign)model).getNumPlots() - 1; 
         	//create a point for the plot
-        	Point p = new Point(me.getX() - 195, me.getY());
+        	//Point p = new Point(me.getX() - 195, me.getY());
         	//add coordinate to plot
-        	((PlotDesignModel)model).addCoordToPlot(index, p);
+        	//((PlotDesign)model).addCoordToPlot(index, p);
         });
 	}
 	
@@ -165,13 +153,8 @@ public class Controller extends Application{
         	//Draw the line as the mouse is dragged
 			plotDesignView.getGC().lineTo(me.getX() - 195, me.getY());
 			plotDesignView.getGC().stroke();	
-        	
-        	//get index of the plot we are adding right now
-        	int index = ((PlotDesignModel)model).getNumPlots() - 1; 
-        	//create a point for the plot
-        	Point p = new Point(me.getX() - 195, me.getY());
-        	//add coordinate to plot
-        	((PlotDesignModel)model).addCoordToPlot(index, p);
+			//add the point to a coordinate list in the view
+			plotDesignView.coords.add(new Point(me.getX() - 195, me.getY()));
         });
 	}
 	
@@ -179,34 +162,30 @@ public class Controller extends Application{
 	public EventHandler getOnDrawPlotDone() {
 		return (event->{
 			System.out.println("Mouse Released");
-			PlotDesignModel plm = (PlotDesignModel) model;
 			MouseEvent me = (MouseEvent)event;
-        	//Close the path
+        	
+			//TODO: Move all of this to the view class
+			//Close the path
 			plotDesignView.getGC().closePath();
-			int[]soils = plm.getPlots().get(plm.getNumPlots()-1).getOptions().getSoilTypes();
-			System.out.println("PRINTING HERE");
-			for (int element: soils) {
-				System.out.println(element);
-			}
-			if (soils[0] == 1) {
-				plotDesignView.getGC().setFill(Color.CHOCOLATE);
-			}
-			if (soils[1] == 1) {
-				plotDesignView.getGC().setFill(Color.SADDLEBROWN);
-			}
-			if (soils[2] == 1) {
-				plotDesignView.getGC().setFill(Color.TAN);
-			}
-				
+			
+			//if (soils[0] == 1) {
+			//	plotDesignView.getGC().setFill(Color.CHOCOLATE);
+			//}
+			//if (soils[1] == 1) {
+			//	plotDesignView.getGC().setFill(Color.SADDLEBROWN);
+			//}
+			//if (soils[2] == 1) {
+			//	plotDesignView.getGC().setFill(Color.TAN);
+			//}
+			
         	plotDesignView.getGC().fill();
         	plotDesignView.getGC().beginPath();
+			//TODO: END
         	
-        	//get index of the plot we are adding right now
-        	int index = plm.getNumPlots() - 1; 
-        	//create a point for the plot
-        	Point p = new Point(me.getX() - 195, me.getY());
-        	//add coordinate to plot
-        	plm.addCoordToPlot(index, p);
+        	//add coords to the plot in the garden
+        	int numPlots = garden.getPlots().size(); 
+        	ArrayList<Point >coords = plotDesignView.coords; //make this getCoords and add getter to view
+        	PlotDesign.addCoordsToPlot(numPlots - 1, garden.getPlots(), coords);
         });
 	}
 	

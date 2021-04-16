@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.beans.property.ObjectProperty;
@@ -30,6 +31,7 @@ public class PlotDesignView extends View{
 	private Button toGarden;
 	private GraphicsContext gc;
 	private Controller controller;
+	ArrayList<Point> coords;
 	
 	public PlotDesignView(Stage stage, Controller c) {
 		

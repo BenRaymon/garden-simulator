@@ -8,12 +8,19 @@ public class BackgroundLoaderController {
 	private boolean dataCompleted;
 	private boolean imagesCompleted;
 	
-	public BackgroundLoaderController(HashMap<String, Image> pi, HashMap<String, Plant> ap) {
+	public BackgroundLoaderController(HashMap<String, Image> pi, HashMap<String, Plant> ap, Controller c) {
 		// Get references to the hashmaps for loading
 		this.plant_images = pi;
 		this.all_plants = ap;
 		this.dataCompleted = false;
 		this.imagesCompleted = false;
+		
+		loadData();
+		loadImages();
+		
+		while(!isCompleted());
+		
+		c.loadStartScreen();
 	}
 	
 	public void loadData() {

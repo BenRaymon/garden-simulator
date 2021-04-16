@@ -11,7 +11,7 @@ public class SplashModel extends Model {
 	public SplashModel(Controller c) {
 		this.controller = c;
 		// Initialize the background loader controller with the image and plant maps to be populated from disk
-		backgroundLoader = new BackgroundLoaderController(View.getImages(), Model.getPlants());
+		//backgroundLoader = new BackgroundLoaderController(View.getImages(), Model.getPlants());
 		
 		// Load assets in the background in SplashModel via BackgroundLoader
 		backgroundLoader.loadData();

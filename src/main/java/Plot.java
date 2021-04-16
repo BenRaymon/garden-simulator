@@ -26,6 +26,10 @@ public class Plot{
 		return coordinates;
 	}
 	
+	public void setCoordinates(ArrayList<Point> points) {
+		this.coordinates = points;
+	}
+	
 	public void addRecommendedPlant(String n, Plant p) {
 		recommendedPlants.put(n, p);
 	}

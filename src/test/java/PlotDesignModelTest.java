@@ -3,7 +3,7 @@ import org.junit.Test;
 
 public class PlotDesignModelTest {
 
-	PlotDesignModel testModel = new PlotDesignModel();
+	PlotDesign testModel = new PlotDesign();
 	
 	@Test
 	public void testNewPlot() {
