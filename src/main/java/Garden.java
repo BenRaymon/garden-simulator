@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Garden{
 	private double spent;
@@ -6,6 +7,7 @@ public class Garden{
 	private ArrayList<Plot> plots;
 	private int lepsSupported;
 	private ArrayList<Plant> plantsInGarden;
+	private static HashMap<String, Plant> allPlants = new HashMap<String, Plant>();
 	
 	public Garden() {
 		spent = 0;
@@ -60,6 +62,13 @@ public class Garden{
 		return plantsInGarden;
 	}
 	
+	public static HashMap<String, Plant> getAllPlants() {
+		return allPlants;
+	}
+	
+	public static Plant getPlant(String name) {
+		return allPlants.get(name);
+	}
 	
 	
 }

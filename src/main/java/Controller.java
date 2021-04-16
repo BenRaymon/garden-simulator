@@ -31,7 +31,6 @@ public class Controller extends Application{
 	CompPlantsView compPlantsView;
 	ShoppingListView shopView;
 	ReportView reportView;
-	CompPlantsModel compPlantsModel;
 	Garden garden;
 	
 	@Override
@@ -241,7 +240,7 @@ public class Controller extends Application{
 			TextField temp = compPlantsView.getTextBox();
 			//System.out.println("Before plantInfo declaration");
 			
-			String plantInfo = compPlantsModel.getInfo(temp.getText());
+			String plantInfo = CompPlants.getInfo(temp.getText());
 			//System.out.println("Before tempText declaration");
 			Text tempText = compPlantsView.getRightBody();
 			//System.out.println("Before setText");
@@ -262,7 +261,7 @@ public class Controller extends Application{
 			TextField temp = compPlantsView.getTextBox();
 			//System.out.println("Before plantInfo declaration");
 			
-			String plantInfo = compPlantsModel.getInfo(temp.getText());
+			String plantInfo = CompPlants.getInfo(temp.getText());
 			//System.out.println("Before tempText declaration");
 			Text tempText = compPlantsView.getLeftBody();
 			//System.out.println("Before setText");

@@ -2,7 +2,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class CompPlantsModelTest extends CompPlantsModel {
+public class CompPlantsModelTest extends CompPlants {
 
 	
 	@Test
