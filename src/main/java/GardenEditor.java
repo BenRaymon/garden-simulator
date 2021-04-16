@@ -1,4 +1,4 @@
-public class GardenEditorModel extends Model {
+public class GardenEditor {
 	
 	Plant currentlySelectedPlant;
 	
@@ -8,13 +8,10 @@ public class GardenEditorModel extends Model {
 	
 	Garden garden;
 	
-	public GardenEditorModel(Garden g) {
+	public GardenEditor(Garden g) {
 		garden = g;
 	}
 	
-	public Garden getGarden() {
-		return garden;
-	}
 	
 	public Plant selectPlant() {
 		return null;
