@@ -21,7 +21,6 @@ import javafx.scene.text.Text;
 
 
 public class Controller extends Application{
-	Model model;
 	View view;
 	Stage stage;
 	SplashView splashView;
@@ -271,10 +270,6 @@ public class Controller extends Application{
 			
 		});
 		
-	}
-	
-	public void setModel(Model model) {
-		this.model = model;
 	}
 	
 	public boolean drawPlot() {
