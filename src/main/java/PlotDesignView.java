@@ -31,7 +31,7 @@ public class PlotDesignView extends View{
 	private Button toGarden;
 	private GraphicsContext gc;
 	private Controller controller;
-	ArrayList<Point> coords;
+	ArrayList<Point> coords = new ArrayList<Point>();
 	
 	public PlotDesignView(Stage stage, Controller c) {
 		

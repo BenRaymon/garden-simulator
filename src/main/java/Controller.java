@@ -45,7 +45,7 @@ public class Controller extends Application{
 		
 		// BackgroundLoader loads the data and images in concurrently whilst showing a splash screen
 		// It then goes to the start screen when it is finished
-		BackgroundLoaderController loadData = new BackgroundLoaderController(View.getImages(), Model.getPlants(), this);
+		BackgroundLoaderController loadData = new BackgroundLoaderController(View.getImages(), Garden.getAllPlants(), this);
 		garden = new Garden();
 	}
 	
@@ -78,6 +78,7 @@ public class Controller extends Application{
 	public EventHandler getToGardenOnClickHandler() {
 		return (event -> {
 			stage.setScene(gardenEditorView.getScene());
+			System.out.println(garden.getPlots());
 			for (Plot p : garden.getPlots()) {
 				gardenEditorView.drawPlot(p.getCoordinates());
 			}
@@ -182,9 +183,10 @@ public class Controller extends Application{
 			//TODO: END
         	
         	//add coords to the plot in the garden
-        	int numPlots = garden.getPlots().size(); 
+        	int numPlots = garden.getNumPlots(); 
         	ArrayList<Point >coords = plotDesignView.coords; //make this getCoords and add getter to view
         	PlotDesign.addCoordsToPlot(numPlots - 1, garden.getPlots(), coords);
+        	System.out.println(garden.getPlots());
         });
 	}
 	

@@ -18,6 +18,11 @@ public class Garden{
 	}
 	
 	
+	public int getNumPlots() {
+		return plots.size();
+	}
+	
+	
 	public double getSpent() {
 		return spent;
 	}
