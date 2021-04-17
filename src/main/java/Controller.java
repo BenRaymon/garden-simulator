@@ -118,12 +118,8 @@ public class Controller extends Application{
 		return (event->{
         	System.out.println("Mouse pressed");
 			MouseEvent me = (MouseEvent)event;
-        	//start drawing a plot
-			plotDesignView.getGC().beginPath();
-			plotDesignView.getGC().lineTo(me.getX() - 195, me.getY());
-			plotDesignView.getGC().stroke();
-			//add the point to a coordinate list in the view
-			plotDesignView.coords.add(new Point(me.getX() - 195, me.getY()));
+			plotDesignView.drawPlotDragDetected(me);
+			
         });
 	}
 	

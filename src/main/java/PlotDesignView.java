@@ -11,6 +11,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -207,5 +208,14 @@ public class PlotDesignView extends View {
 
 	public double getMoistureSlider() {
 		return getSlider("Moisture").getValue();
+	}
+	
+	public void drawPlotDragDetected(MouseEvent me) {
+		//start drawing a plot
+		getGC().beginPath();
+		getGC().lineTo(me.getX() - 195, me.getY());
+		getGC().stroke();
+		//add the point to a coordinate list in the view
+		coords.add(new Point(me.getX() - 195, me.getY()));
 	}
 }
