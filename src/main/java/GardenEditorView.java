@@ -10,6 +10,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.DataFormat;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -221,6 +223,11 @@ public class GardenEditorView extends View{
 		//imc.setHandlerForClick(iv);
 		imageViewsForPlantsInGarden.add(iv);
     	base.getChildren().add(iv);
+	}
+	
+	//Event handler methods
+	public void creatNewImageInBase_withParams(DragEvent drag,Dragboard db) {
+		createNewImageInBase(drag, ((Image)db.getContent(DataFormat.IMAGE)));
 	}
 	
 	

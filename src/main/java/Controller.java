@@ -194,7 +194,7 @@ public class Controller extends Application{
 			System.out.println("On drag dropped");
 			DragEvent drag = (DragEvent) event;
 			Dragboard db = drag.getDragboard();
-			gardenEditorView.createNewImageInBase(drag, ((Image)db.getContent(DataFormat.IMAGE)));
+			gardenEditorView.creatNewImageInBase_withParams(drag,db);
 			drag.setDropCompleted(true);
 			drag.consume();
 		});
