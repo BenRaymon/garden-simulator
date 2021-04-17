@@ -98,13 +98,13 @@ public class Controller extends Application{
 		});
 	}
 	
-	//Hanlder for the DrawPlot button in PlotDesignnView
+	//Handler for the DrawPlot button in PlotDesignnView
 	public EventHandler getDrawPlotHandler() {
 		return (event -> {
 			//get Options values and create a new plot with these options
-			double sunlight = plotDesignView.getSlider("Sun").getValue();
-			double soiltype = plotDesignView.getSlider("Soil").getValue();
-			double moisture = plotDesignView.getSlider("Moisture").getValue();
+			double sunlight = plotDesignView.getSunlightSlider();
+			double soiltype = plotDesignView.getSoilSlider();
+			double moisture = plotDesignView.getMoistureSlider();
 			Options o = new Options(soiltype, sunlight, moisture);
 			//create a new plot in the garden
 			garden.newPlot(o);
