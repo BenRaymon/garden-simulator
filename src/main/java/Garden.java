@@ -63,6 +63,18 @@ public class Garden{
 		return lepsSupported;
 	}
 	
+	public boolean addCoordsToPlot(ArrayList<Point> points) {
+		plots.get(plots.size() - 1).setCoordinates(points);
+		if (plots.get(plots.size() - 1) != null)
+			return true;
+		else
+			return false;
+	}
+	
+	public void newPlot(Options o) {
+		plots.add(new Plot(o));
+	}
+	
 	public ArrayList<Plant> getPlantsInGarden() {
 		return plantsInGarden;
 	}

@@ -10,7 +10,7 @@ public class Plot{
 		this.recommendedPlants = new HashMap<String, Plant>();
 		this.plantsInPlot = new HashMap<String, Plant>();
 		this.options = o;
-		this.coordinates = new ArrayList<Point>();
+		this.coordinates = null;
 	}
 	
 	

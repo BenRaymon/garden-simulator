@@ -108,7 +108,9 @@ public class Controller extends Application{
 			double moisture = plotDesignView.getSlider("Moisture").getValue();
 			Options o = new Options(soiltype, sunlight, moisture);
 			//create a new plot in the garden
-			PlotDesign.newPlot(o, garden.getPlots());
+			garden.newPlot(o);
+			// FIXME LATER MICHAEL :)
+			plotDesignView.coords = new ArrayList<Point>();
 		});
 	}
 	
@@ -173,8 +175,10 @@ public class Controller extends Application{
         	//add coords to the plot in the garden
         	int numPlots = garden.getNumPlots(); 
         	ArrayList<Point >coords = plotDesignView.coords; //make this getCoords and add getter to view
-        	PlotDesign.addCoordsToPlot(numPlots - 1, garden.getPlots(), coords);
+        	garden.addCoordsToPlot(coords);
+        	//PlotDesign.addCoordsToPlot(numPlots - 1, garden.getPlots(), coords);
         	System.out.println(garden.getPlots());
+
         });
 	}
 	
