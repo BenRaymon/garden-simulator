@@ -128,11 +128,7 @@ public class Controller extends Application{
 		return (event->{
 			System.out.println("Mouse Dragged");
 			MouseEvent me = (MouseEvent)event;
-        	//Draw the line as the mouse is dragged
-			plotDesignView.getGC().lineTo(me.getX() - 195, me.getY());
-			plotDesignView.getGC().stroke();	
-			//add the point to a coordinate list in the view
-			plotDesignView.coords.add(new Point(me.getX() - 195, me.getY()));
+			plotDesignView.drawPlotDragged(me);
         });
 	}
 	

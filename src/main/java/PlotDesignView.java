@@ -218,4 +218,12 @@ public class PlotDesignView extends View {
 		//add the point to a coordinate list in the view
 		coords.add(new Point(me.getX() - 195, me.getY()));
 	}
+	
+	public void drawPlotDragged(MouseEvent me) {
+		//Draw the line as the mouse is dragged
+		getGC().lineTo(me.getX() - 195, me.getY());
+		getGC().stroke();	
+		//add the point to a coordinate list in the view
+		coords.add(new Point(me.getX() - 195, me.getY()));
+	}
 }
