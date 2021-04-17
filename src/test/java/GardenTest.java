@@ -1,3 +1,4 @@
+import java.util.*;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -8,6 +9,11 @@ public class GardenTest {
 	
 	Garden testGarden = new Garden();
 
+	@Test
+	public void testgetNumPlots() {
+		assertTrue(testGarden.getNumPlots() > -1 );
+	}
+	
 	@Test
 	public void testGetSpent() {
 		assertEquals(testGarden.getSpent(), 0, 0);
@@ -31,21 +37,6 @@ public class GardenTest {
 	}
 	
 	@Test
-	public void testGetLepsSupported() {
-		assertEquals(testGarden.getLepsSupported(), 0);
-	}
-	
-	@Test
-	public void testGetPlots() {
-		assertEquals(testGarden.getPlots().getClass(), ArrayList.class);
-	}
-	
-	@Test
-	public void testGetPlantsInGarden() {
-		assertEquals(testGarden.getPlantsInGarden().getClass(), ArrayList.class);
-	}
-	
-	@Test
 	public void testAddPlot() {
 		testGarden.addPlot(new Plot(new Options(1, 1, 1)));
 		assertEquals(testGarden.getPlots().size(), 1);
@@ -56,7 +47,6 @@ public class GardenTest {
 		testGarden.loadPlants();
 		fail("Not yet implemented");
 	}
-	
 	
 	@Test
 	public void testLoadPlots() {
@@ -71,6 +61,45 @@ public class GardenTest {
 		assertEquals(testGarden.getSpent(), 15.0, 0);
 	}
 	
+	@Test
+	public void testGetPlots() {
+		assertEquals(testGarden.getPlots().getClass(), ArrayList.class);
+	}
 	
+	@Test
+	public void testGetLepsSupported() {
+		assertEquals(testGarden.getLepsSupported(), 0);
+	}
+	
+	@Test
+	public void testaddCoordsToPlot() {
+		Point testPoint1 = new Point();
+		Point testPoint2 = new Point(5.0, 5.0);
+		ArrayList<Point> testPoints = new ArrayList<Point>();
+		testPoints.add(testPoint1);
+		testPoints.add(testPoint2);
+		assertTrue(testGarden.addCoordsToPlot(testPoints));
+	}
+	
+	@Test
+	public void testnewPlot() {
+		// TODO: implement test
+		fail("do this later cause it's a void method and I don't have time");
+	}
+	
+	@Test
+	public void testGetPlantsInGarden() {
+		assertEquals(testGarden.getPlantsInGarden().getClass(), ArrayList.class);
+	}
 
+	@Test
+	public void testgetAllPlants() {
+		assertEquals(testGarden.getAllPlants().getClass(), HashMap.class);
+	}
+	
+	@Test
+	public void testgetPlant() {
+		// TODO: properly test for a plant that actually exists
+		assertEquals(testGarden.getPlant("test").getClass(), Plant.class);
+	}
 }
