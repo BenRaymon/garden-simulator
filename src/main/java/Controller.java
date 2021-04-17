@@ -109,7 +109,7 @@ public class Controller extends Application{
 			//create a new plot in the garden
 			garden.newPlot(o);
 			// FIXME LATER MICHAEL :)
-			plotDesignView.coords = new ArrayList<Point>();
+			plotDesignView.setCoords(new ArrayList<Point>());
 		});
 	}
 	
@@ -171,7 +171,7 @@ public class Controller extends Application{
 			ClipboardContent content = new ClipboardContent();
 			content.putImage(iv.getImage());
 			db.setContent(content);
-			
+			//Possibly refactor this if statement
 			if (gardenEditorView.getBase().getChildren().contains(event.getSource())) {
 				iv.setImage(null);
 			}

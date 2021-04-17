@@ -32,7 +32,7 @@ public class PlotDesignView extends View {
 	private Button toGarden;
 	private GraphicsContext gc;
 	private Controller controller;
-	ArrayList<Point> coords = new ArrayList<Point>();
+	private ArrayList<Point> coords = new ArrayList<Point>();
 
 	public PlotDesignView(Stage stage, Controller c) {
 
@@ -181,8 +181,12 @@ public class PlotDesignView extends View {
 
 	}
 
-	public void drawCoords() {
-
+	public ArrayList<Point> drawCoords() {
+		return coords;
+	}
+	
+	public void setCoords(ArrayList<Point> tempArr) {
+		coords = tempArr;
 	}
 
 	public void updateSunlightSlider() {
@@ -209,6 +213,7 @@ public class PlotDesignView extends View {
 	public double getMoistureSlider() {
 		return getSlider("Moisture").getValue();
 	}
+	
 	
 	public void drawPlotDragDetected(MouseEvent me) {
 		//start drawing a plot
