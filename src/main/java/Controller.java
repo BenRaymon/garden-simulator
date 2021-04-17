@@ -138,18 +138,11 @@ public class Controller extends Application{
 			System.out.println("Mouse Released");
 			MouseEvent me = (MouseEvent)event;
         	
-			//TODO: Move all of this to the view class
-			//Close the path
-			plotDesignView.getGC().closePath();
-			//TODO: add code to set the color of the plot. make it a function in view
-			//fillPlot(options O) <-- fill in view based on the options
-        	plotDesignView.getGC().fill();
-        	plotDesignView.getGC().beginPath();
-			//TODO: END
+			plotDesignView.onDrawPlotDone_fillPlot(me);
         	
         	//add coords to the plot in the garden
         	int numPlots = garden.getNumPlots(); 
-        	ArrayList<Point >coords = plotDesignView.coords; //make this getCoords and add getter to view
+        	ArrayList<Point >coords = plotDesignView.getCoords();
         	garden.addCoordsToPlot(coords);
         	//PlotDesign.addCoordsToPlot(numPlots - 1, garden.getPlots(), coords);
         	System.out.println(garden.getPlots());

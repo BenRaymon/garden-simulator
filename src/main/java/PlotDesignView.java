@@ -226,4 +226,19 @@ public class PlotDesignView extends View {
 		//add the point to a coordinate list in the view
 		coords.add(new Point(me.getX() - 195, me.getY()));
 	}
+	public void onDrawPlotDone_fillPlot(MouseEvent me) {
+		//TODO: Move all of this to the view class
+		//Close the path
+		getGC().closePath();
+		//TODO: add code to set the color of the plot. make it a function in view
+		//fillPlot(options O) <-- fill in view based on the options
+    	getGC().fill();
+    	getGC().beginPath();
+		//TODO: END
+		
+	}
+	
+	public ArrayList<Point> getCoords(){
+		return coords;
+	}
 }
