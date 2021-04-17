@@ -138,7 +138,7 @@ public class Controller extends Application{
 			System.out.println("Mouse Released");
 			MouseEvent me = (MouseEvent)event;
         	
-			plotDesignView.onDrawPlotDone_fillPlot(me);
+			plotDesignView.fillPlot(me);
         	
         	//add coords to the plot in the garden
         	int numPlots = garden.getNumPlots(); 

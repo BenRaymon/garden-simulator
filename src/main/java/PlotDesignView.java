@@ -231,7 +231,7 @@ public class PlotDesignView extends View {
 		//add the point to a coordinate list in the view
 		coords.add(new Point(me.getX() - 195, me.getY()));
 	}
-	public void onDrawPlotDone_fillPlot(MouseEvent me) {
+	public void fillPlot(MouseEvent me) {
 		//TODO: Move all of this to the view class
 		//Close the path
 		getGC().closePath();
