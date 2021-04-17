@@ -75,23 +75,6 @@ public class PlotDesignView extends View {
 		scene.setOnMouseReleased(controller.getOnDrawPlotDone());
 		stage.setScene(scene);
 		stage.show();
-
-		// scene.setOnMousePressed(event->{
-		// System.out.println("Mouse pressed");
-		// gc.beginPath();
-		// gc.lineTo(event.getX() - left_grid.getWidth() - 15, event.getY());
-		// gc.stroke();
-		// });
-
-		// scene.setOnMouseDragged(event->{
-		// System.out.println("Mouse Dragged");
-		// gc.lineTo(event.getX() - left_grid.getWidth() - 15, event.getY());
-		// gc.stroke();
-		// });
-	}
-
-	public Button getToGarden() {
-		return toGarden;
 	}
 
 	public GridPane createBottom() {
@@ -155,92 +138,46 @@ public class PlotDesignView extends View {
 	public Scene getScene() {
 		return scene;
 	}
-
-	public GraphicsContext getGC() {
-		return gc;
-	}
-
-	public Button getDrawPlot() {
-		return drawPlot;
-	}
-
-	public Slider getSlider(String name) {
-		if (name.equals("Sun")) {
-			return sunlight;
-		} else if (name.equals("Soil")) {
-			return soilType;
-		} else if (name.equals("Moisture")) {
-			return moisture;
-		} else {
-			return null;
-		}
-
-	}
-
-	public void fillPlot(Color color) {
-
-	}
-
-	public ArrayList<Point> drawCoords() {
-		return coords;
-	}
 	
-	public void setCoords(ArrayList<Point> tempArr) {
-		coords = tempArr;
-	}
-
-	public void updateSunlightSlider() {
-
-	}
-
-	public void updateMoistureSlider() {
-
-	}
-
-	public void updateSoilSlider() {
-
-	}
-
 	// For eventListener events.
 	public double getSunlightSlider() {
-		return getSlider("Sun").getValue();
+		return sunlight.getValue();
 	}
 
 	public double getSoilSlider() {
-		return getSlider("Soil").getValue();
+		return soilType.getValue();
 	}
 
 	public double getMoistureSlider() {
-		return getSlider("Moisture").getValue();
+		return moisture.getValue();
 	}
 	
 	
-	public void drawPlotDragDetected(MouseEvent me) {
+	public void startDrawingPlot(MouseEvent me) {
 		//start drawing a plot
-		getGC().beginPath();
-		getGC().lineTo(me.getX() - 195, me.getY());
-		getGC().stroke();
-		//add the point to a coordinate list in the view
+		gc.beginPath();
+		gc.lineTo(me.getX() - 195, me.getY());
+		gc.stroke();
+		//add the point to a coordinate list
 		coords.add(new Point(me.getX() - 195, me.getY()));
 	}
 	
-	public void drawPlotDragged(MouseEvent me) {
+	public void drawPlot(MouseEvent me) {
 		//Draw the line as the mouse is dragged
-		getGC().lineTo(me.getX() - 195, me.getY());
-		getGC().stroke();	
-		//add the point to a coordinate list in the view
+		gc.lineTo(me.getX() - 195, me.getY());
+		gc.stroke();	
+		//add the point to a coordinate list
 		coords.add(new Point(me.getX() - 195, me.getY()));
 	}
 	public void fillPlot(MouseEvent me) {
-		//TODO: Move all of this to the view class
 		//Close the path
-		getGC().closePath();
+		gc.closePath();
 		//TODO: add code to set the color of the plot. make it a function in view
 		//fillPlot(options O) <-- fill in view based on the options
-    	getGC().fill();
-    	getGC().beginPath();
-		//TODO: END
-		
+    	gc.fill();
+    	gc.beginPath();
+    	//reset the array list to draw the next plot
+		coords = new ArrayList<Point>();
 	}
 	
 	public ArrayList<Point> getCoords(){

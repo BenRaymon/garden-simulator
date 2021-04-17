@@ -108,8 +108,6 @@ public class Controller extends Application{
 			Options o = new Options(soiltype, sunlight, moisture);
 			//create a new plot in the garden
 			garden.newPlot(o);
-			// FIXME LATER MICHAEL :)
-			plotDesignView.setCoords(new ArrayList<Point>());
 		});
 	}
 	
@@ -118,7 +116,7 @@ public class Controller extends Application{
 		return (event->{
         	System.out.println("Mouse pressed");
 			MouseEvent me = (MouseEvent)event;
-			plotDesignView.drawPlotDragDetected(me);
+			plotDesignView.startDrawingPlot(me);
 			
         });
 	}
@@ -128,7 +126,7 @@ public class Controller extends Application{
 		return (event->{
 			System.out.println("Mouse Dragged");
 			MouseEvent me = (MouseEvent)event;
-			plotDesignView.drawPlotDragged(me);
+			plotDesignView.drawPlot(me);
         });
 	}
 	
@@ -138,14 +136,12 @@ public class Controller extends Application{
 			System.out.println("Mouse Released");
 			MouseEvent me = (MouseEvent)event;
         	
-			plotDesignView.fillPlot(me);
-        	
         	//add coords to the plot in the garden
         	int numPlots = garden.getNumPlots(); 
-        	ArrayList<Point >coords = plotDesignView.getCoords();
-        	garden.addCoordsToPlot(coords);
-        	//PlotDesign.addCoordsToPlot(numPlots - 1, garden.getPlots(), coords);
-        	System.out.println(garden.getPlots());
+        	garden.addCoordsToPlot(plotDesignView.getCoords());
+
+        	//fill the plot
+        	plotDesignView.fillPlot(me);
 
         });
 	}
