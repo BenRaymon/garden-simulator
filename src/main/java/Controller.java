@@ -108,6 +108,8 @@ public class Controller extends Application{
 			Options o = new Options(soiltype, sunlight, moisture);
 			//create a new plot in the garden
 			garden.newPlot(o);
+			//allow drawing
+			plotDesignView.allowDrawing();
 		});
 	}
 	
@@ -137,11 +139,14 @@ public class Controller extends Application{
 			MouseEvent me = (MouseEvent)event;
         	
         	//add coords to the plot in the garden
-        	int numPlots = garden.getNumPlots(); 
-        	garden.addCoordsToPlot(plotDesignView.getCoords());
+			if(plotDesignView.getCanDraw()) {
+	        	int numPlots = garden.getNumPlots(); 
+	        	garden.addCoordsToPlot(plotDesignView.getCoords());
+	        	//fill the plot
+	        	plotDesignView.fillPlot(me);
+			}
 
-        	//fill the plot
-        	plotDesignView.fillPlot(me);
+        
 
         });
 	}

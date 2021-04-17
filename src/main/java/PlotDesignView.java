@@ -32,13 +32,16 @@ public class PlotDesignView extends View {
 	private Button toGarden;
 	private GraphicsContext gc;
 	private Controller controller;
-	private ArrayList<Point> coords = new ArrayList<Point>();
+	private ArrayList<Point> coords;
+	private boolean canDraw;
 
 	public PlotDesignView(Stage stage, Controller c) {
 
 		controller = c;
 		base = new BorderPane();
-
+		coords = new ArrayList<Point>();
+		canDraw = false;
+		
 		// create last and next page buttons
 		GridPane bottom = createBottom();
 
@@ -154,20 +157,24 @@ public class PlotDesignView extends View {
 	
 	
 	public void startDrawingPlot(MouseEvent me) {
-		//start drawing a plot
-		gc.beginPath();
-		gc.lineTo(me.getX() - 195, me.getY());
-		gc.stroke();
-		//add the point to a coordinate list
-		coords.add(new Point(me.getX() - 195, me.getY()));
+		if(canDraw) {
+			//start drawing a plot
+			gc.beginPath();
+			gc.lineTo(me.getX() - 195, me.getY());
+			gc.stroke();
+			//add the point to a coordinate list
+			coords.add(new Point(me.getX() - 195, me.getY()));
+		}
 	}
 	
 	public void drawPlot(MouseEvent me) {
-		//Draw the line as the mouse is dragged
-		gc.lineTo(me.getX() - 195, me.getY());
-		gc.stroke();	
-		//add the point to a coordinate list
-		coords.add(new Point(me.getX() - 195, me.getY()));
+		if(canDraw) {
+			//Draw the line as the mouse is dragged
+			gc.lineTo(me.getX() - 195, me.getY());
+			gc.stroke();	
+			//add the point to a coordinate list
+			coords.add(new Point(me.getX() - 195, me.getY()));
+		}
 	}
 	public void fillPlot(MouseEvent me) {
 		//Close the path
@@ -178,9 +185,24 @@ public class PlotDesignView extends View {
     	gc.beginPath();
     	//reset the array list to draw the next plot
 		coords = new ArrayList<Point>();
+		//prevent user from drawing another plot before hitting button again
+		preventDrawing();
+		
 	}
 	
 	public ArrayList<Point> getCoords(){
 		return coords;
+	}
+	
+	public void allowDrawing() {
+		canDraw = true;
+	}
+	
+	public void preventDrawing() {
+		canDraw = false;
+	}
+	
+	public boolean getCanDraw() {
+		return canDraw;
 	}
 }
