@@ -78,7 +78,6 @@ public class Controller extends Application{
 		return (event -> {
 			stage.setScene(plotDesignView.getScene());
 		});
-		
 	}
 	
 	public EventHandler getToShoppingListOnClickHandler() {
@@ -125,13 +124,6 @@ public class Controller extends Application{
 			plotDesignView.getGC().stroke();
 			//add the point to a coordinate list in the view
 			plotDesignView.coords.add(new Point(me.getX() - 195, me.getY()));
-			
-			//get index of the plot we are adding right now
-        	//int index = ((PlotDesign)model).getNumPlots() - 1; 
-        	//create a point for the plot
-        	//Point p = new Point(me.getX() - 195, me.getY());
-        	//add coordinate to plot
-        	//((PlotDesign)model).addCoordToPlot(index, p);
         });
 	}
 	
@@ -157,17 +149,8 @@ public class Controller extends Application{
 			//TODO: Move all of this to the view class
 			//Close the path
 			plotDesignView.getGC().closePath();
-			
-			//if (soils[0] == 1) {
-			//	plotDesignView.getGC().setFill(Color.CHOCOLATE);
-			//}
-			//if (soils[1] == 1) {
-			//	plotDesignView.getGC().setFill(Color.SADDLEBROWN);
-			//}
-			//if (soils[2] == 1) {
-			//	plotDesignView.getGC().setFill(Color.TAN);
-			//}
-			
+			//TODO: add code to set the color of the plot. make it a function in view
+			//fillPlot(options O) <-- fill in view based on the options
         	plotDesignView.getGC().fill();
         	plotDesignView.getGC().beginPath();
 			//TODO: END
@@ -227,8 +210,6 @@ public class Controller extends Application{
 			DragEvent drag = (DragEvent) event;
 			Dragboard db = drag.getDragboard();
 			gardenEditorView.createNewImageInBase(drag, ((Image)db.getContent(DataFormat.IMAGE)));
-//			model.setX(event.getSceneX());
-//			model.setY(event.getSceneY());
 			drag.setDropCompleted(true);
 			drag.consume();
 		});
@@ -237,20 +218,10 @@ public class Controller extends Application{
 	//Searches for plant from all loaded plants, and displays info on button click
 	public EventHandler RightPlantButtonClickedHandler() {
 		return (event ->{
-			System.out.println("ComparePlantsLeftButton Clicked.");
-			//TextBox temp = CompPlantsView.getTextBox();
-			//String plantInfo = CompPlantsModel.getInfo(temp);
-			
-			//System.out.println("Before TextField declaration");
 			TextField temp = compPlantsView.getTextBox();
-			//System.out.println("Before plantInfo declaration");
-			
 			String plantInfo = CompPlants.getInfo(temp.getText());
-			//System.out.println("Before tempText declaration");
 			Text tempText = compPlantsView.getRightBody();
-			//System.out.println("Before setText");
 			tempText.setText(plantInfo);
-			
 		});
 		
 	}
@@ -258,30 +229,12 @@ public class Controller extends Application{
 	//Searches for plant from all loaded plants, and displays info on button click
 	public EventHandler LeftPlantButtonClickedHandler() {
 		return (event ->{
-			System.out.println("ComparePlantsLeftButton Clicked.");
-			//TextBox temp = CompPlantsView.getTextBox();
-			//String plantInfo = CompPlantsModel.getInfo(temp);
-			
-			//System.out.println("Before TextField declaration");
 			TextField temp = compPlantsView.getTextBox();
-			//System.out.println("Before plantInfo declaration");
-			
 			String plantInfo = CompPlants.getInfo(temp.getText());
-			//System.out.println("Before tempText declaration");
 			Text tempText = compPlantsView.getLeftBody();
-			//System.out.println("Before setText");
 			tempText.setText(plantInfo);
-			
 		});
 		
-	}
-	
-	public boolean drawPlot() {
-		return true;
-	}
-	
-	public boolean dragPlant() {
-		return true;
 	}
 
 
