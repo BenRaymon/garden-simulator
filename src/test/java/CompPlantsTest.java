@@ -9,15 +9,17 @@ public class CompPlantsTest {
 	
 	Plant testPlant1 = new Plant();
 	Plant testPlant2 = new Plant();
-	CompPlants testComp = new CompPlants();
 	
 	@Test
 	public void testgetInfo() {
-		assertEquals(testComp.getInfo("testPlant"), String.class);
+		//add plant tot list first
+		Garden.getAllPlants().put("testPlant", testPlant1);
+		Garden.getAllPlants().put("testPlant2", testPlant2);
+		assertEquals(CompPlants.getInfo("testPlant"), String.class);
 	}
 	
 	@Test
 	public void testmoreLeps() {
-		assertEquals(testComp.moreLeps(testPlant2, testPlant1), String.class);
+		assertEquals(CompPlants.moreLeps(testPlant2, testPlant1), String.class);
 	}
 }
