@@ -34,7 +34,9 @@ public class PlotDesignView extends View {
 	private Controller controller;
 	private ArrayList<Point> coords;
 	private boolean canDraw;
-
+	private final double LEFTBAR = 200;
+	private final double SPACING = 10;
+	
 	public PlotDesignView(Stage stage, Controller c) {
 
 		controller = c;
@@ -47,7 +49,7 @@ public class PlotDesignView extends View {
 
 		// create Canvas
 		// FIXME Draw on Canvas
-		Canvas drawArea = new Canvas(600, 800);
+		Canvas drawArea = new Canvas(WINDOW_WIDTH - LEFTBAR, WINDOW_HEIGHT);
 		gc = drawArea.getGraphicsContext2D();
 		// gc.setFill(Color.GREEN);
 		gc.setStroke(Color.BLACK);
@@ -71,7 +73,7 @@ public class PlotDesignView extends View {
 		left_grid.add(drawPlot, 0, 30);
 
 		// create and set scene with base
-		scene = new Scene(base, 800, 800);
+		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.setOnDragDetected(controller.getDrawPlotDragDetected());
 		scene.setOnMouseDragged(controller.getDrawPlotDragged());
 		scene.setOnMouseDragReleased(controller.getOnDrawPlotDone());
@@ -85,8 +87,8 @@ public class PlotDesignView extends View {
 		bottom.setAlignment(Pos.BOTTOM_CENTER);
 		bottom.setStyle("-fx-background-color: darkgrey");
 		bottom.setGridLinesVisible(true);
-		bottom.setHgap(10);
-		bottom.setVgap(10);
+		bottom.setHgap(SPACING);
+		bottom.setVgap(SPACING);
 		base.setBottom(bottom);
 		return bottom;
 	}
@@ -96,9 +98,9 @@ public class PlotDesignView extends View {
 		left_grid.setAlignment(Pos.CENTER);
 		left_grid.setStyle("-fx-background-color: darkseagreen");
 		// left_grid.setGridLinesVisible(true);
-		left_grid.setMinWidth(200);
-		left_grid.setHgap(10);
-		left_grid.setVgap(10);
+		left_grid.setMinWidth(LEFTBAR);
+		left_grid.setHgap(SPACING);
+		left_grid.setVgap(SPACING);
 		base.setLeft(left_grid);
 		return left_grid;
 	}

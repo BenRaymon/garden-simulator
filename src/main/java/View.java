@@ -9,6 +9,10 @@ import javafx.scene.text.Text;
 public abstract class View {
 
 	private static HashMap<String, Image> plantImages = new HashMap<String, Image>();
+	protected final double WINDOW_WIDTH = 1200;
+	protected final double WINDOW_HEIGHT = 950;
+	
+	
 	
 	//TEMPORARY FOR CHANGING PAGES IN PRE-ALPHA
 	Text pageTitle;

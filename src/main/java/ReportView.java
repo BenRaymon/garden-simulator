@@ -39,7 +39,7 @@ public class ReportView extends View{
 		//base.add(temp, 0, 1);
 		
 		//create and set scene with base
-		scene = new Scene(base, 800, 800);
+		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(scene);
         stage.show();
 	}

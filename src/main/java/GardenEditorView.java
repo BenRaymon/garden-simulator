@@ -38,6 +38,10 @@ public class GardenEditorView extends View{
 	private GridPane right;
 	private int imageInc = 0;
 	
+	private final double LEFTBAR = 150;
+	private final double RIGHTBAR = 150;
+	private final double SPACING = 10;
+	
 	public GardenEditorView(Stage stage, Controller c) {
 		imageViewsForPlantsInGarden = new ArrayList<ImageView>();
 		controller = c;
@@ -45,7 +49,7 @@ public class GardenEditorView extends View{
 		base.setOnDragOver(controller.getOnDragOverHandler());
 		base.setOnDragDropped(controller.getOnDragDroppedHandler());
 		
-		Canvas drawArea = new Canvas(600,650);
+		Canvas drawArea = new Canvas(WINDOW_WIDTH - LEFTBAR - RIGHTBAR, WINDOW_HEIGHT - 150);
 		gc = drawArea.getGraphicsContext2D();
 		gc.setFill(Color.GREEN);
 		gc.setStroke(Color.BLACK);
@@ -65,7 +69,7 @@ public class GardenEditorView extends View{
 		addPageButtons(bottom_pane);
 	
 		//create and set scene with base
-		scene = new Scene(base, 800, 800);
+		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(scene);
         stage.show();
 	}
@@ -127,7 +131,8 @@ public class GardenEditorView extends View{
 	
 	public void createRight() {
 		right = new GridPane();
-		right.setAlignment(Pos.CENTER_RIGHT);
+		right.setMinWidth(RIGHTBAR);
+		right.setAlignment(Pos.CENTER);
 		right.setStyle("-fx-background-color: darkseagreen");
 		right.setGridLinesVisible(true);
 		right.setHgap(0);
@@ -143,15 +148,16 @@ public class GardenEditorView extends View{
 		top.setAlignment(Pos.TOP_CENTER);
 		top.setStyle("-fx-backgorund-color: darkseagreen");
 		top.setGridLinesVisible(true);
-		top.setHgap(10);
-		top.setVgap(10);
+		top.setHgap(SPACING);
+		top.setVgap(SPACING);
 		base.setTop(top);
 	}
 	
 	
 	public GridPane createLeft() {
 		GridPane left_grid = new GridPane();
-		left_grid.setAlignment(Pos.CENTER_LEFT);
+		left_grid.setAlignment(Pos.CENTER);
+		left_grid.setMinWidth(LEFTBAR);
 		left_grid.setStyle("-fx-background-color: darkseagreen");
 		left_grid.setGridLinesVisible(true);
 		left_grid.setHgap(10);

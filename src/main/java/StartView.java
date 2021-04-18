@@ -31,6 +31,10 @@ public class StartView extends View{
 	private Scene scene;
 	private GridPane base;
 	private Controller controller;
+	private final double SPACING = 10;
+	private final double BUTTON_H = 50;
+	private final double BUTTON_W = 150;
+	
 	
 	GridPane tempImages = new GridPane();
 	int tempNum = 0;
@@ -38,8 +42,8 @@ public class StartView extends View{
 	public StartView(Stage stage, Controller c) {
 		controller = c;
 		base = new GridPane();
-		base.setHgap(10);
-		base.setVgap(10);
+		base.setHgap(SPACING);
+		base.setVgap(SPACING);
 		base.setAlignment(Pos.CENTER);
 		
 		
@@ -47,12 +51,12 @@ public class StartView extends View{
 		HBox buttons = new HBox();
 		buttons.setSpacing(100);
 		newGarden = new Button("Create New Garden");
-		newGarden.setMinHeight(50);
-		newGarden.setMinWidth(150);
+		newGarden.setMinHeight(BUTTON_H);
+		newGarden.setMinWidth(BUTTON_W);
 		newGarden.setOnMouseClicked(controller.getNewGardenOnClickHandler());
 		loadGarden = new Button("Load Garden");
-		loadGarden.setMinHeight(50);
-		loadGarden.setMinWidth(150);
+		loadGarden.setMinHeight(BUTTON_H);
+		loadGarden.setMinWidth(BUTTON_W);
 		buttons.getChildren().add(newGarden);
 		buttons.getChildren().add(loadGarden);
 		base.add(buttons, 0, 0);
@@ -63,12 +67,12 @@ public class StartView extends View{
 		temp.getChildren().add(pageTitle);
 		temp.setAlignment(Pos.CENTER);
 		base.add(temp, 0, 1);
-		tempImages.setVgap(10);
-		tempImages.setHgap(10);
+		tempImages.setVgap(SPACING);
+		tempImages.setHgap(SPACING);
 		base.add(tempImages, 0, 3);
 		
 		//create and set scene with base
-		scene = new Scene(base, 800, 800);
+		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(scene);
         stage.show();
 	}

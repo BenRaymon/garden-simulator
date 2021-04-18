@@ -34,7 +34,7 @@ public class SplashView extends View {
 		loading.setY(400);
 		background.getChildren().add(loading);
 		
-		scene = new Scene(background, 800, 800);
+		scene = new Scene(background, WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(scene);
         stage.show();
 	}
