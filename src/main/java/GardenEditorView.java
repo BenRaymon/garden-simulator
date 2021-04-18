@@ -83,6 +83,16 @@ public class GardenEditorView extends View{
 		
 	}
 	
+	public void setFillColor(Options o) {
+		int[] soil = o.getSoilTypes();
+		if(soil[0] == 1) 
+			gc.setFill(Color.GREY);
+		else if (soil[1] == 1) 
+			gc.setFill(Color.SADDLEBROWN);
+		else if (soil[2] == 1) 
+			gc.setFill(Color.SANDYBROWN);
+	}
+	
 	public void createRightText() {
 		Text t0 = new Text("Remaining Budget");
 		Text t00 = new Text("$#");

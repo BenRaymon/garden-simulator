@@ -156,6 +156,7 @@ public class Controller extends Application{
 			stage.setScene(gardenEditorView.getScene());
 			System.out.println(garden.getPlots());
 			for (Plot p : garden.getPlots()) {
+				gardenEditorView.setFillColor(p.getOptions());
 				gardenEditorView.drawPlot(p.getCoordinates());
 			}
 		});
