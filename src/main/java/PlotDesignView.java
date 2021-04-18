@@ -187,7 +187,16 @@ public class PlotDesignView extends View {
 		coords = new ArrayList<Point>();
 		//prevent user from drawing another plot before hitting button again
 		preventDrawing();
-		
+	}
+	
+	public void setFillColor(Options o) {
+		int[] soil = o.getSoilTypes();
+		if(soil[0] == 1) 
+			gc.setFill(Color.GREY);
+		else if (soil[1] == 1) 
+			gc.setFill(Color.SADDLEBROWN);
+		else if (soil[2] == 1) 
+			gc.setFill(Color.SANDYBROWN);
 	}
 	
 	public ArrayList<Point> getCoords(){

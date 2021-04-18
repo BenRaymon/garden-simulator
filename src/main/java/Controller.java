@@ -140,14 +140,13 @@ public class Controller extends Application{
         	
         	//add coords to the plot in the garden
 			if(plotDesignView.getCanDraw()) {
-	        	int numPlots = garden.getNumPlots(); 
 	        	garden.addCoordsToPlot(plotDesignView.getCoords());
+	        	//set fill color based on soil type
+	        	int plotIndex = garden.getNumPlots() - 1;
+	        	plotDesignView.setFillColor(garden.getPlotOptions(plotIndex));
 	        	//fill the plot
 	        	plotDesignView.fillPlot(me);
 			}
-
-        
-
         });
 	}
 	
