@@ -33,6 +33,7 @@ public class PlotDesignView extends View {
 	private GraphicsContext gc;
 	private Controller controller;
 	private ArrayList<Point> coords;
+	private GridPane left_grid, bottom;
 	private boolean canDraw;
 	private final double LEFTBAR = 200;
 	private final double SPACING = 10;
@@ -45,33 +46,29 @@ public class PlotDesignView extends View {
 		canDraw = false;
 		
 		// create last and next page buttons
-		GridPane bottom = createBottom();
+		createBottom();
 
 		// create Canvas
-		// FIXME Draw on Canvas
 		Canvas drawArea = new Canvas(WINDOW_WIDTH - LEFTBAR, WINDOW_HEIGHT);
 		gc = drawArea.getGraphicsContext2D();
-		// gc.setFill(Color.GREEN);
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(1);
 		base.setCenter(drawArea);
 
-		toGarden = new Button("To Garden");
-		toGarden.setOnMouseClicked(controller.getToGardenOnClickHandler());
-
-		// Create Sliders
-		GridPane left_grid = createLeftGrid();
-		createSunSlider(left_grid);
-		createMoistureSlider(left_grid);
-		createSoilSlider(left_grid);
-
-		left_grid.add(toGarden, 0, 45);
+		// Create left side bar with sliders and buttons
+		createLeftGrid();
+		createSunSlider();
+		createMoistureSlider();
+		createSoilSlider();
 
 		// add the drawplot button
 		drawPlot = new Button("Draw Plot");
 		drawPlot.setOnMouseClicked(controller.getDrawPlotHandler());
 		left_grid.add(drawPlot, 0, 30);
-
+		toGarden = new Button("To Garden");
+		toGarden.setOnMouseClicked(controller.getToGardenOnClickHandler());
+		left_grid.add(toGarden, 0, 45);
+		
 		// create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.setOnDragDetected(controller.getDrawPlotDragDetected());
@@ -82,19 +79,18 @@ public class PlotDesignView extends View {
 		stage.show();
 	}
 
-	public GridPane createBottom() {
-		GridPane bottom = new GridPane();
+	public void createBottom() {
+		bottom = new GridPane();
 		bottom.setAlignment(Pos.BOTTOM_CENTER);
 		bottom.setStyle("-fx-background-color: darkgrey");
 		bottom.setGridLinesVisible(true);
 		bottom.setHgap(SPACING);
 		bottom.setVgap(SPACING);
 		base.setBottom(bottom);
-		return bottom;
 	}
 
-	public GridPane createLeftGrid() {
-		GridPane left_grid = new GridPane();
+	public void createLeftGrid() {
+		left_grid = new GridPane();
 		left_grid.setAlignment(Pos.CENTER);
 		left_grid.setStyle("-fx-background-color: darkseagreen");
 		// left_grid.setGridLinesVisible(true);
@@ -102,7 +98,6 @@ public class PlotDesignView extends View {
 		left_grid.setHgap(SPACING);
 		left_grid.setVgap(SPACING);
 		base.setLeft(left_grid);
-		return left_grid;
 	}
 
 	public Slider sliderStandards(Slider slider) {
@@ -114,30 +109,29 @@ public class PlotDesignView extends View {
 
 	}
 
-	public void createSunSlider(GridPane left_pane) {
-		// Also putting this in a V-box because that's what Ben did
+	public void createSunSlider() {
 		sunlight = new Slider(1, 3, 0);
 		Text t = new Text("Sunlight Level");
 		sliderStandards(sunlight);
-		left_pane.add(t, 0, 0);
-		left_pane.add(sunlight, 0, 1);
+		left_grid.add(t, 0, 0);
+		left_grid.add(sunlight, 0, 1);
 
 	}
 
-	public void createMoistureSlider(GridPane left_pane) {
+	public void createMoistureSlider() {
 		moisture = new Slider(1, 3, 0);
 		sliderStandards(moisture);
 		Text t = new Text("Moisture Level");
-		left_pane.add(t, 0, 9);
-		left_pane.add(moisture, 0, 10);
+		left_grid.add(t, 0, 9);
+		left_grid.add(moisture, 0, 10);
 	}
 
-	public void createSoilSlider(GridPane left_pane) {
+	public void createSoilSlider() {
 		soilType = new Slider(1, 3, 0);
 		sliderStandards(soilType);
 		Text t = new Text("Soil Type");
-		left_pane.add(t, 0, 19);
-		left_pane.add(soilType, 0, 20);
+		left_grid.add(t, 0, 19);
+		left_grid.add(soilType, 0, 20);
 	}
 
 	public Scene getScene() {
@@ -181,8 +175,6 @@ public class PlotDesignView extends View {
 	public void fillPlot(MouseEvent me) {
 		//Close the path
 		gc.closePath();
-		//TODO: add code to set the color of the plot. make it a function in view
-		//fillPlot(options O) <-- fill in view based on the options
     	gc.fill();
     	gc.beginPath();
     	//reset the array list to draw the next plot

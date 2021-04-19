@@ -18,7 +18,7 @@ public class CompPlantsView extends View{
 	private Text plantSummaryB;
 	private Scene scene;
 	private Controller controller;
-	private TextField b;
+	private TextField plantNameInput;
 	private Button toGardenEditor;
 	
 	public CompPlantsView(Stage stage, Controller c) {
@@ -28,16 +28,11 @@ public class CompPlantsView extends View{
 		base.setVgap(10);
 		base.setAlignment(Pos.CENTER);
 		
+		//button to go back to the garden editor
 		toGardenEditor = new Button("Garden Editor");
 		toGardenEditor.setOnMouseClicked(controller.getToGardenOnClickHandler());
 		base.add(toGardenEditor, 0, 10);
 		
-		//create a temporary vbox for the name and button
-		pageTitle = new Text("Compare Plants");
-		VBox temp = new VBox(5);
-		temp.getChildren().add(pageTitle);
-		temp.setAlignment(Pos.CENTER);
-		base.add(temp, 0, 3);
 		
 		//Setting plant Summary Values
 		plantSummaryA = new Text("Plant summary A");
@@ -46,23 +41,10 @@ public class CompPlantsView extends View{
 		Button leftPlantButton = new Button("Left Plant");
 		Button rightPlantButton = new Button("Right Plant");
 		
-		b = new TextField();
-		/*
-		rightPlantButton.setOnMouseClicked(event ->{
-			String tempVal = b.getText();
-			plantSummaryB.setText(tempVal);
-			//CompPlantsModel.get
-			//
-			
-			
-		});
-		*/
+		plantNameInput = new TextField();
 		
 		rightPlantButton.setOnMouseClicked(c.RightPlantButtonClickedHandler());
 		leftPlantButton.setOnMouseClicked(c.LeftPlantButtonClickedHandler());
-		
-		
-		
 		
 		GridPane center = new GridPane();
 		
@@ -70,11 +52,8 @@ public class CompPlantsView extends View{
 		base.add(plantSummaryB,1,0,1,1);
 		base.add(leftPlantButton, 0, 1,1,1);
 		base.add(rightPlantButton, 1, 1,1,1);
-		base.add(b, 0, 2, 1, 1);
-		
-		
-		
-		
+		base.add(plantNameInput, 0, 2, 1, 1);
+
 		//create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(scene);
@@ -86,8 +65,7 @@ public class CompPlantsView extends View{
 	}
 	
 	public TextField getTextBox() {
-		
-		return b;
+		return plantNameInput;
 	}
 	
 	public void setRightTextBox(String s) {

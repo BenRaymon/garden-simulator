@@ -30,12 +30,11 @@ public class GardenEditorView extends View{
 	private Text lepCount;
 	private Text plantCount;
 	private Text budget;
-	private GridPane top;
+	private GridPane top, bottom, right, left;
 	private BorderPane base;
 	private Scene scene;
 	private Button toShoppingList;
 	private GraphicsContext gc;
-	private GridPane right;
 	private int imageInc = 0;
 	
 	private final double LEFTBAR = 150;
@@ -58,15 +57,12 @@ public class GardenEditorView extends View{
 		
 		createRight();
 		createRightText();
-		
 		createTop();
 		setPlantImages();
-		
-		GridPane left_pane = createLeft();
-		setPlantInfo(left_pane);
-		
-		GridPane bottom_pane = createBottom();
-		addPageButtons(bottom_pane);
+		createLeft();
+		setPlantInfo();
+		createBottom();
+		addPageButtons();
 	
 		//create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -131,53 +127,42 @@ public class GardenEditorView extends View{
 	
 	public void createRight() {
 		right = new GridPane();
+		createPane(right, "darkseagreen");
 		right.setMinWidth(RIGHTBAR);
-		right.setAlignment(Pos.CENTER);
-		right.setStyle("-fx-background-color: darkseagreen");
-		right.setGridLinesVisible(true);
-		right.setHgap(0);
-		right.setVgap(0);
 		base.setRight(right);
-		Text t = new Text("Test");
-		
 	}
 	
+	public void createLeft() {
+		left  = new GridPane();
+		createPane(left, "darkseagreen");
+		left.setMinWidth(LEFTBAR);
+		base.setLeft(left);
+	}
 	
 	public void createTop() {
 	    top = new GridPane();
-		top.setAlignment(Pos.TOP_CENTER);
-		top.setStyle("-fx-backgorund-color: darkseagreen");
-		top.setGridLinesVisible(true);
-		top.setHgap(SPACING);
-		top.setVgap(SPACING);
+		createPane(top, "white");
 		base.setTop(top);
 	}
 	
-	
-	public GridPane createLeft() {
-		GridPane left_grid = new GridPane();
-		left_grid.setAlignment(Pos.CENTER);
-		left_grid.setMinWidth(LEFTBAR);
-		left_grid.setStyle("-fx-background-color: darkseagreen");
-		left_grid.setGridLinesVisible(true);
-		left_grid.setHgap(10);
-		left_grid.setVgap(10);
-		base.setLeft(left_grid);
-		return left_grid;	
+	public void createBottom() {
+		bottom = new GridPane();
+		createPane(bottom, "darkgrey");
+		base.setBottom(bottom);
 	}
 	
-	public GridPane createBottom() {
-		GridPane bottom_grid = new GridPane();
-		bottom_grid.setAlignment(Pos.CENTER_LEFT);
-		bottom_grid.setStyle("-fx-background-color: darkgrey");
-		bottom_grid.setGridLinesVisible(true);
-		bottom_grid.setHgap(10);
-		bottom_grid.setVgap(10);
-		base.setBottom(bottom_grid);
-		return bottom_grid;	
+	public void createPane(GridPane pane, String color) {
+		pane.setAlignment(Pos.CENTER);
+		pane.setStyle("-fx-background-color: " + color);
+		pane.setGridLinesVisible(true);
+		pane.setHgap(SPACING);
+		pane.setVgap(SPACING);
 	}
 	
-	public void addPageButtons(GridPane bottom) {
+	
+	
+	
+	public void addPageButtons() {
 		toShoppingList = new Button("Shopping List");
 		toShoppingList.setOnMouseClicked(controller.getToShoppingListOnClickHandler());
 		bottom.add(toShoppingList, 2, 0);
@@ -189,13 +174,11 @@ public class GardenEditorView extends View{
 		Button toComp = new Button("Compare");
 		toComp.setOnMouseClicked(controller.getToCompareOnClickHandler());
 		bottom.add(toComp, 4, 0);
-		
 	}
 	
-	public void setPlantInfo(GridPane leftPane) {
+	public void setPlantInfo() {
 		Text t = new Text("Plant Info Here");
-		leftPane.add(t, 0, 0);
-		
+		left.add(t, 0, 0);
 	}
 	
 	public Button getToShoppingListButton() {
