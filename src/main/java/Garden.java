@@ -22,6 +22,13 @@ public class Garden{
 		return plots.size();
 	}
 	
+	public Plot getPlot(int plotIndex) {
+		return plots.get(plotIndex);
+	}
+	
+	public Options getPlotOptions(int plotIndex) {
+		return plots.get(plotIndex).getOptions();
+	}
 	
 	public double getSpent() {
 		return spent;

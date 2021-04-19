@@ -98,18 +98,18 @@ public class Controller extends Application{
 		});
 	}
 	
-	//Hanlder for the DrawPlot button in PlotDesignnView
+	//Handler for the DrawPlot button in PlotDesignnView
 	public EventHandler getDrawPlotHandler() {
 		return (event -> {
 			//get Options values and create a new plot with these options
-			double sunlight = plotDesignView.getSlider("Sun").getValue();
-			double soiltype = plotDesignView.getSlider("Soil").getValue();
-			double moisture = plotDesignView.getSlider("Moisture").getValue();
+			double sunlight = plotDesignView.getSunlightSlider();
+			double soiltype = plotDesignView.getSoilSlider();
+			double moisture = plotDesignView.getMoistureSlider();
 			Options o = new Options(soiltype, sunlight, moisture);
 			//create a new plot in the garden
 			garden.newPlot(o);
-			// FIXME LATER MICHAEL :)
-			plotDesignView.coords = new ArrayList<Point>();
+			//allow drawing
+			plotDesignView.allowDrawing();
 		});
 	}
 	
@@ -118,12 +118,8 @@ public class Controller extends Application{
 		return (event->{
         	System.out.println("Mouse pressed");
 			MouseEvent me = (MouseEvent)event;
-        	//start drawing a plot
-			plotDesignView.getGC().beginPath();
-			plotDesignView.getGC().lineTo(me.getX() - 195, me.getY());
-			plotDesignView.getGC().stroke();
-			//add the point to a coordinate list in the view
-			plotDesignView.coords.add(new Point(me.getX() - 195, me.getY()));
+			plotDesignView.startDrawingPlot(me);
+			
         });
 	}
 	
@@ -132,11 +128,7 @@ public class Controller extends Application{
 		return (event->{
 			System.out.println("Mouse Dragged");
 			MouseEvent me = (MouseEvent)event;
-        	//Draw the line as the mouse is dragged
-			plotDesignView.getGC().lineTo(me.getX() - 195, me.getY());
-			plotDesignView.getGC().stroke();	
-			//add the point to a coordinate list in the view
-			plotDesignView.coords.add(new Point(me.getX() - 195, me.getY()));
+			plotDesignView.drawPlot(me);
         });
 	}
 	
@@ -146,22 +138,15 @@ public class Controller extends Application{
 			System.out.println("Mouse Released");
 			MouseEvent me = (MouseEvent)event;
         	
-			//TODO: Move all of this to the view class
-			//Close the path
-			plotDesignView.getGC().closePath();
-			//TODO: add code to set the color of the plot. make it a function in view
-			//fillPlot(options O) <-- fill in view based on the options
-        	plotDesignView.getGC().fill();
-        	plotDesignView.getGC().beginPath();
-			//TODO: END
-        	
         	//add coords to the plot in the garden
-        	int numPlots = garden.getNumPlots(); 
-        	ArrayList<Point >coords = plotDesignView.coords; //make this getCoords and add getter to view
-        	garden.addCoordsToPlot(coords);
-        	//PlotDesign.addCoordsToPlot(numPlots - 1, garden.getPlots(), coords);
-        	System.out.println(garden.getPlots());
-
+			if(plotDesignView.getCanDraw()) {
+	        	garden.addCoordsToPlot(plotDesignView.getCoords());
+	        	//set fill color based on soil type
+	        	int plotIndex = garden.getNumPlots() - 1;
+	        	plotDesignView.setFillColor(garden.getPlotOptions(plotIndex));
+	        	//fill the plot
+	        	plotDesignView.fillPlot(me);
+			}
         });
 	}
 	
@@ -171,6 +156,7 @@ public class Controller extends Application{
 			stage.setScene(gardenEditorView.getScene());
 			System.out.println(garden.getPlots());
 			for (Plot p : garden.getPlots()) {
+				gardenEditorView.setFillColor(p.getOptions());
 				gardenEditorView.drawPlot(p.getCoordinates());
 			}
 		});
@@ -186,7 +172,7 @@ public class Controller extends Application{
 			ClipboardContent content = new ClipboardContent();
 			content.putImage(iv.getImage());
 			db.setContent(content);
-			
+			//Possibly refactor this if statement
 			if (gardenEditorView.getBase().getChildren().contains(event.getSource())) {
 				iv.setImage(null);
 			}
@@ -209,7 +195,7 @@ public class Controller extends Application{
 			System.out.println("On drag dropped");
 			DragEvent drag = (DragEvent) event;
 			Dragboard db = drag.getDragboard();
-			gardenEditorView.createNewImageInBase(drag, ((Image)db.getContent(DataFormat.IMAGE)));
+			gardenEditorView.creatNewImageInBase_withParams(drag,db);
 			drag.setDropCompleted(true);
 			drag.consume();
 		});
