@@ -17,6 +17,30 @@ public class Garden{
 		plots = new ArrayList<Plot>();
 	}
 	
+	public boolean isValidPlacement(double x, double y) {
+		
+		boolean inAPlot = false;
+		for (Plot p : plots) {
+			boolean result = inBounds(p.getCoordinates(), x-200, y+50);
+			if(result)
+				inAPlot = true;
+		}
+		return inAPlot;
+	}
+	
+	public boolean inBounds(ArrayList<Point> points, double x, double y) {
+		boolean bounds = false;
+		int i, j;
+		for (i = 0, j = points.size() - 1; i < points.size(); j = i++) {
+			if ((points.get(i).getY() > y) != (points.get(j).getY() > y) &&
+					(x < (points.get(j).getX() - points.get(i).getX()) *(y - points.get(i).getY()) / 
+            		(points.get(j).getY()-points.get(i).getY()) + points.get(i).getX())) {
+				bounds = !bounds;
+         	}
+		}
+		
+		return bounds;
+	}
 	
 	public int getNumPlots() {
 		return plots.size();

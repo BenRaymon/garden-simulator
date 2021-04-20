@@ -131,6 +131,7 @@ public class Controller extends Application{
 			System.out.println("Mouse Dragged");
 			MouseEvent me = (MouseEvent)event;
 			plotDesignView.drawPlot(me);
+			System.out.println("X" + (me.getX() - 195) + "Y " + me.getY());
         });
 	}
 	
@@ -171,19 +172,20 @@ public class Controller extends Application{
 			//ImageView iv = (ImageView)event.getSource();
 			Circle circ = (Circle)event.getSource();
 			Dragboard db = circ.startDragAndDrop(TransferMode.ANY);
-			
+			//put the image of the selected plant circle into the clipboard
 			ClipboardContent content = new ClipboardContent();
 			Image plantImage = ((ImagePattern)circ.getFill()).getImage();
 			content.putImage(plantImage);
 			db.setContent(content);
-			//Possibly refactor this if statement
+			//clear the circle if it already exits (if moving a current plant)
 			if (gardenEditorView.hasChild((MouseEvent)event)) {
 				circ.setFill(null);
 			}
-			//model
+			//set selected plant image in the view 
+			gardenEditorView.setSelectedPlantImage(plantImage);
+			//set selected plant for the GardenEditor utility
 			String plant = gardenEditorView.getPlantName(plantImage);
 			GardenEditor.setSelectedPlant(plant);
-			
 			event.consume();
 		});
 	}
@@ -203,13 +205,22 @@ public class Controller extends Application{
 			System.out.println("On drag dropped");
 			DragEvent drag = (DragEvent) event;
 			Dragboard db = drag.getDragboard();
+			
+			//check for valid placement
+			System.out.println("" + drag.getX()+ " " + drag.getY());
+			boolean test = garden.isValidPlacement(drag.getX(), drag.getY());
+			System.out.println(test);
+			
 			//get spread radius of the currently selected plant
 			double radius = GardenEditor.getSelectedPlant().getSpreadRadiusLower();
 			//if radius is unknown use the lower size bound
 			if(radius == 0) {
 				radius =  GardenEditor.getSelectedPlant().getSizeLower();
 			}
+			//place the plant in the garden in the view
 			gardenEditorView.createNewImageInBase(drag,db, radius);
+			
+			
 			drag.setDropCompleted(true);
 			drag.consume();
 		});

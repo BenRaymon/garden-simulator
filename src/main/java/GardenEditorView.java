@@ -221,7 +221,7 @@ public class GardenEditorView extends View{
 	
 	public void createNewImageInBase(DragEvent event, Dragboard db, double radius) {
 		System.out.println("Creating new gardeneditorview image");
-		Image i = (Image)db.getContent(DataFormat.IMAGE);
+		//Image i = (Image)db.getContent(DataFormat.IMAGE);
 		//ImageView iv = new ImageView();
     	//iv.setImage(i);
     	//iv.setPreserveRatio(true);
@@ -232,7 +232,7 @@ public class GardenEditorView extends View{
 		// right here problem
 		//imc.setHandlerForClick(iv);
 		Circle circ = new Circle(event.getX(), event.getY(), radius*SCALE);
-        circ.setFill(new ImagePattern(i));
+        circ.setFill(new ImagePattern(selectedPlant));
         circ.setOnDragDetected(controller.getOnImageDraggedHandler());
 		//imageViewsForPlantsInGarden.add(iv);
     	base.getChildren().add(circ);
@@ -244,6 +244,10 @@ public class GardenEditorView extends View{
 	
 	public String getPlantName(Image im) {
 		return recommendedPlantImages.get(im);
+	}
+	
+	public void setSelectedPlantImage(Image im) {
+		selectedPlant = im; 
 	}
 	
 }

@@ -29,7 +29,8 @@ public class GardenEditor {
 		return 0;
 	}
 	
-	public int isValidPlacement(Point point) {
+	public static int isValidPlacement(double x, double y) {
+		
 		return 0;
 	}
 	

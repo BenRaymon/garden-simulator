@@ -166,10 +166,10 @@ public class PlotDesignView extends View {
 	public void drawPlot(MouseEvent me) {
 		if(canDraw) {
 			//Draw the line as the mouse is dragged
-			gc.lineTo(me.getX() - 195, me.getY());
+			gc.lineTo(me.getX() - LEFTBAR - 5, me.getY());
 			gc.stroke();	
 			//add the point to a coordinate list
-			coords.add(new Point(me.getX() - 195, me.getY()));
+			coords.add(new Point(me.getX() - LEFTBAR - 5, me.getY()));
 		}
 	}
 	public void fillPlot(MouseEvent me) {
