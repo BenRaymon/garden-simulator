@@ -53,6 +53,7 @@ public class Controller extends Application{
 		launch(args);	
 	}
 	
+	
 	//Start the main program
 	public void loadStartScreen() {
 		try {
@@ -98,6 +99,13 @@ public class Controller extends Application{
 		});
 	}
 	
+	
+	public EventHandler scaleUpCanvas() {
+		return (event->{
+			plotDesignView.scaleUp();
+		});
+	}
+	
 	//Handler for the DrawPlot button in PlotDesignnView
 	public EventHandler getDrawPlotHandler() {
 		return (event -> {
@@ -112,6 +120,7 @@ public class Controller extends Application{
 			plotDesignView.allowDrawing();
 		});
 	}
+	
 	
 	//Handler for detecting start of drag for drawing plot
 	public EventHandler getDrawPlotDragDetected() {

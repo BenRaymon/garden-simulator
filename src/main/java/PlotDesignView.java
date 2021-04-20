@@ -33,10 +33,14 @@ public class PlotDesignView extends View {
 	private GraphicsContext gc;
 	private Controller controller;
 	private ArrayList<Point> coords;
-	private GridPane left_grid, bottom;
+	private GridPane left_grid, bottom, right;
+	private Canvas drawArea;
 	private boolean canDraw;
 	private final double LEFTBAR = 200;
 	private final double SPACING = 10;
+	private final double BOTTOM_HEIGHT = 100;
+	private double canvasWidth = WINDOW_WIDTH - LEFTBAR;
+	private double canvasHeight = WINDOW_HEIGHT;
 	
 	public PlotDesignView(Stage stage, Controller c) {
 
@@ -45,22 +49,40 @@ public class PlotDesignView extends View {
 		coords = new ArrayList<Point>();
 		canDraw = false;
 		
-		// create last and next page buttons
-		createBottom();
+		
+		
+		
 
 		// create Canvas
-		Canvas drawArea = new Canvas(WINDOW_WIDTH - LEFTBAR, WINDOW_HEIGHT);
+		drawArea = new Canvas(WINDOW_WIDTH - 2 * LEFTBAR, WINDOW_HEIGHT - BOTTOM_HEIGHT);
 		gc = drawArea.getGraphicsContext2D();
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(1);
-		base.setCenter(drawArea);
+		
+		VBox box = new VBox();
+		box.getChildren().add(drawArea);
+		
+		String cssLayout = "-fx-border-color: red;\n" +
+                "-fx-border-insets: 5;\n" +
+                "-fx-border-width: 3;\n" +
+                "-fx-border-style: dashed;\n";
+		
+		box.setStyle(cssLayout);
+		
+		base.setCenter(box);
 
 		// Create left side bar with sliders and buttons
 		createLeftGrid();
 		createSunSlider();
 		createMoistureSlider();
 		createSoilSlider();
+		createScaleButtons();
 
+		// create last and next page buttons
+		createBottom();
+		createRightGrid();
+		
+		
 		// add the drawplot button
 		drawPlot = new Button("Draw Plot");
 		drawPlot.setOnMouseClicked(controller.getDrawPlotHandler());
@@ -78,20 +100,47 @@ public class PlotDesignView extends View {
 		stage.setScene(scene);
 		stage.show();
 	}
+	
+	public void createRightGrid() {
+		right = new GridPane();
+		right.setAlignment(Pos.TOP_CENTER);
+		right.setStyle("-fx-background-color: darkseagreen");
+		// left_grid.setGridLinesVisible(true);
+		right.setMinWidth(LEFTBAR);
+		right.setHgap(SPACING);
+		right.setVgap(SPACING);
+		Text t = new Text("Hold");
+		right.add(t, 0, 0);
+		base.setRight(right);
+	}
+		
+	
+	public void createScaleButtons() {
+		Button scaleUp = new Button("+");
+		Button scaleDown = new Button("-");
+		left_grid.add(scaleUp, 0, 50);
+		left_grid.add(scaleDown, 1, 50);
+		scaleUp.setOnMouseClicked(controller.scaleUpCanvas());
+		
+	}
 
 	public void createBottom() {
 		bottom = new GridPane();
-		bottom.setAlignment(Pos.BOTTOM_CENTER);
+		bottom.setAlignment(Pos.TOP_CENTER);
 		bottom.setStyle("-fx-background-color: darkgrey");
 		bottom.setGridLinesVisible(true);
 		bottom.setHgap(SPACING);
 		bottom.setVgap(SPACING);
+		bottom.setMinHeight(BOTTOM_HEIGHT);
 		base.setBottom(bottom);
+		Text t = new Text("Testing");
+		bottom.add(t, 0, 0);
+		
 	}
 
 	public void createLeftGrid() {
 		left_grid = new GridPane();
-		left_grid.setAlignment(Pos.CENTER);
+		left_grid.setAlignment(Pos.TOP_CENTER);
 		left_grid.setStyle("-fx-background-color: darkseagreen");
 		// left_grid.setGridLinesVisible(true);
 		left_grid.setMinWidth(LEFTBAR);
@@ -195,6 +244,14 @@ public class PlotDesignView extends View {
 	
 	public ArrayList<Point> getCoords(){
 		return coords;
+	}
+	
+	public void scaleUp() {
+		canvasHeight += 100;
+		canvasWidth += 100;
+		drawArea.setHeight(canvasHeight);
+		drawArea.setWidth(canvasWidth);
+		
 	}
 	
 	public void allowDrawing() {
