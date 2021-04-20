@@ -31,7 +31,7 @@ public class Controller extends Application{
 	ShoppingListView shopView;
 	ReportView reportView;
 	Garden garden;
-	SaveGardenData gardenSaver = new SaveGardenData();
+	SaveLoadGarden gardenSaver = new SaveLoadGarden();
 	
 	@Override
 	public void start(Stage s) throws Exception {
