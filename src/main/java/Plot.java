@@ -1,6 +1,7 @@
 import java.util.*;
+import java.io.Serializable;
 
-public class Plot{
+public class Plot implements Serializable {
 	private HashMap <String, Plant> recommendedPlants;
 	private HashMap <String, Plant> plantsInPlot;
 	private Options options;

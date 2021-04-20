@@ -95,5 +95,4 @@ public class Garden implements Serializable{
 		return allPlants.get(name);
 	}
 	
-	
 }

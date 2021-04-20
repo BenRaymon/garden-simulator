@@ -1,6 +1,7 @@
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Options{
+public class Options implements Serializable {
 	
 	private int[] soilTypes;
 	private int[] sunLevels;
