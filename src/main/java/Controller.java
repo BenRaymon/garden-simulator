@@ -173,12 +173,17 @@ public class Controller extends Application{
 			Dragboard db = circ.startDragAndDrop(TransferMode.ANY);
 			
 			ClipboardContent content = new ClipboardContent();
-			content.putImage(((ImagePattern)circ.getFill()).getImage());
+			Image plantImage = ((ImagePattern)circ.getFill()).getImage();
+			content.putImage(plantImage);
 			db.setContent(content);
 			//Possibly refactor this if statement
-			if (gardenEditorView.getBase().getChildren().contains(event.getSource())) {
+			if (gardenEditorView.hasChild((MouseEvent)event)) {
 				circ.setFill(null);
 			}
+			//model
+			String plant = gardenEditorView.getPlantName(plantImage);
+			GardenEditor.setSelectedPlant(plant);
+			
 			event.consume();
 		});
 	}
@@ -198,7 +203,13 @@ public class Controller extends Application{
 			System.out.println("On drag dropped");
 			DragEvent drag = (DragEvent) event;
 			Dragboard db = drag.getDragboard();
-			gardenEditorView.creatNewImageInBase_withParams(drag,db);
+			//get spread radius of the currently selected plant
+			double radius = GardenEditor.getSelectedPlant().getSpreadRadiusLower();
+			//if radius is unknown use the lower size bound
+			if(radius == 0) {
+				radius =  GardenEditor.getSelectedPlant().getSizeLower();
+			}
+			gardenEditorView.createNewImageInBase(drag,db, radius);
 			drag.setDropCompleted(true);
 			drag.consume();
 		});

@@ -1,12 +1,20 @@
 public class GardenEditor {
 	
-	Plant currentlySelectedPlant;
+	private static Plant currentlySelectedPlant;
 	
 	Plot currentPlot;
 	
 	String sortBy;
 	
 	Garden garden;
+	
+	public static void setSelectedPlant(String plantName) {
+		currentlySelectedPlant = Garden.getPlant(plantName);
+	}
+	
+	public static Plant getSelectedPlant() {
+		return currentlySelectedPlant;
+	}
 	
 	public GardenEditor(Garden g) {
 		garden = g;
