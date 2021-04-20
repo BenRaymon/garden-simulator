@@ -55,6 +55,10 @@ public class Plot{
 		plantsInPlot.remove(pos);
 	}
 	
+	public Plant getPlant(Point pos) {
+		return plantsInPlot.get(pos);
+	}
+	
 	public HashMap<Point, Plant> getPlantsInPlot() {
 		return plantsInPlot;
 	}

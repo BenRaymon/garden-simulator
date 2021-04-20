@@ -8,8 +8,14 @@ public class GardenEditor {
 	
 	Garden garden;
 	
-	public static void setSelectedPlant(String plantName) {
+	public static void setSelectedPlant(String plantName, Point pos) {
+		Plant p = Garden.getPlant(plantName);
+		p.setPosition(pos);
 		currentlySelectedPlant = Garden.getPlant(plantName);
+	}
+	
+	public static void setSelectedPlant(Plant p) {
+		currentlySelectedPlant = p;
 	}
 	
 	public static Plant getSelectedPlant() {

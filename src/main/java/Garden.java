@@ -51,6 +51,10 @@ public class Garden{
 		return bounds;
 	}
 	
+	public Plant getPlant(int plotNum, Point pos) {
+		return plots.get(plotNum).getPlant(pos);
+	}
+	
 	public int getNumPlots() {
 		return plots.size();
 	}
@@ -123,7 +127,7 @@ public class Garden{
 		plots.get(index).removePlant(point);
 	}
 	
-	public boolean isPlantInPlot(int index, Point point, Plant p) {
+	public boolean isPlantInPlot(int index, Plant p) {
 		try {
 			return plots.get(index).getPlantsInPlot().containsValue(p);
 		} catch (Exception e) {
@@ -143,6 +147,7 @@ public class Garden{
 	public static Plant getPlant(String name) {
 		return allPlants.get(name);
 	}
+	
 	
 	
 }

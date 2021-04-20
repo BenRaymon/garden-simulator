@@ -183,10 +183,19 @@ public class Controller extends Application{
 			}
 			//set selected plant image in the view 
 			gardenEditorView.setSelectedPlantImage(plantImage);
-			//set selected plant for the GardenEditor utility
-			String plant = gardenEditorView.getPlantName(plantImage);
-			GardenEditor.setSelectedPlant(plant);
-			GardenEditor.getSelectedPlant().setPosition(new Point(circ.getCenterX(), circ.getCenterY()));
+			
+			
+			//is the plant in the plot
+			Point pos = new Point(circ.getCenterX(), circ.getCenterY());
+			int plotNum = garden.inPlot(pos);
+			if(plotNum != -1) {
+				//if the plant is in the plot make selected plant that plant
+				GardenEditor.setSelectedPlant(garden.getPlant(plotNum, pos));
+			} else {
+				//set selected plant for the GardenEditor utility
+				String plant = gardenEditorView.getPlantName(plantImage);
+				GardenEditor.setSelectedPlant(plant, pos);
+			}
 			event.consume();
 		});
 	}
@@ -225,19 +234,22 @@ public class Controller extends Application{
 			//place the plant in the garden in the view
 			gardenEditorView.createNewImageInBase(drag,db, radius);
 			
-			//add plant to the model
-			//selected plant is just info from the static all plants list
-			//need to clone and set the position to make it a real plant in the plot
-			Plant newPlant = selected.clone();
-			selected.setPosition(new Point(0,0)); //reset the plant in the allPlants list to be 0,0
-			//newPlant.setPosition(pos);
-			//remove the plant from the plot if applicable 
-			if(garden.isPlantInPlot(plotNum, pos, newPlant)) {
-				System.out.println("TEST");
-				garden.removePlantFromPlot(plotNum, pos);
+			//Check if the selected plant was from the recommended bar or if it was in a plot
+			if(garden.isPlantInPlot(plotNum, selected)) {
+				//plants in plot are removed and added back
+				garden.removePlantFromPlot(plotNum, selected.getPosition());
+				//add plant to plot ultimately also updates the position of selected to the new pos
+				garden.addPlantToPlot(plotNum, pos, selected);
+				
+			} else {
+				//plants from the recommended bar are cloned 
+				//selected plant is the plant in the static allPlants hashmap
+				Plant newPlant = selected.clone(); 
+				selected.setPosition(new Point(0,0)); //reset the position of the plant in the allPlants list to be 0,0
+				garden.addPlantToPlot(plotNum, pos, newPlant);
 			}
 			
-			garden.addPlantToPlot(plotNum, pos, newPlant);
+			
 			
 			
 			
