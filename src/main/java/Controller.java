@@ -31,6 +31,7 @@ public class Controller extends Application{
 	ShoppingListView shopView;
 	ReportView reportView;
 	Garden garden;
+	SaveGardenData gardenSaver = new SaveGardenData();
 	
 	@Override
 	public void start(Stage s) throws Exception {
@@ -223,8 +224,18 @@ public class Controller extends Application{
 		
 	}
 
-
-
+	public EventHandler SaveButtonClickedHandler() {
+		return (event -> {
+			System.out.println("Save Button clicked");
+			
+			try {
+				gardenSaver.saveGarden(garden);
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+	}
 	
 	
 }
