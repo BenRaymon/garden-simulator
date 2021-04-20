@@ -16,6 +16,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -113,12 +115,18 @@ public class GardenEditorView extends View{
 		System.out.println(getImages().size());
 		recommendedPlantImages = getImages();
 		recommendedPlantImages.forEach((key,value) -> {
-			ImageView temp = new ImageView((Image)value);
-	        temp.setPreserveRatio(true);
-	        temp.setFitHeight(100);
-	        temp.setFitWidth(100);
-	        temp.setOnDragDetected(controller.getOnImageDraggedHandler());
-	        top.add(temp, imageInc, 0);
+			//ImageView temp = new ImageView((Image)value);
+	        //temp.setPreserveRatio(true);
+	        //temp.setFitHeight(100);
+	        //temp.setFitWidth(100);
+	        //temp.setOnDragDetected(controller.getOnImageDraggedHandler());
+	        //top.add(temp, imageInc, 0);
+	        
+	        Circle circ = new Circle(50);
+	        circ.setFill(new ImagePattern((Image)value));
+	        circ.setStroke(Color.BLACK);
+	        circ.setOnDragDetected(controller.getOnImageDraggedHandler());
+	        top.add(circ, imageInc, 0);
 	        imageInc++;
 		});
 		base.setTop(top);

@@ -1,4 +1,5 @@
 import java.awt.image.BufferedImage;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -11,6 +12,7 @@ import javax.imageio.ImageIO;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
+
 
 public class BackgroundImageLoader extends Thread {
 	private Thread thread;
@@ -74,6 +76,7 @@ public class BackgroundImageLoader extends Thread {
 	            }
 	        }
 			plant_images.put(words[0], wr);
+			
 		} catch (IOException e) {
 			System.out.println("Failed to add image");
 			e.printStackTrace();

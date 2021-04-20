@@ -14,6 +14,8 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -166,15 +168,16 @@ public class Controller extends Application{
 	public EventHandler getOnImageDraggedHandler() {
 		return (event -> {
 			System.out.println("On dragged (drag detected handler)");
-			ImageView iv = (ImageView)event.getSource();
-			Dragboard db = iv.startDragAndDrop(TransferMode.ANY);
+			//ImageView iv = (ImageView)event.getSource();
+			Circle circ = (Circle)event.getSource();
+			Dragboard db = circ.startDragAndDrop(TransferMode.ANY);
 			
 			ClipboardContent content = new ClipboardContent();
-			content.putImage(iv.getImage());
+			content.putImage(((ImagePattern)circ.getFill()).getImage());
 			db.setContent(content);
 			//Possibly refactor this if statement
 			if (gardenEditorView.getBase().getChildren().contains(event.getSource())) {
-				iv.setImage(null);
+				circ.setFill(null);
 			}
 			event.consume();
 		});
