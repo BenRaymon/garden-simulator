@@ -169,7 +169,7 @@ public class Controller extends Application{
 	public EventHandler getOnImageDraggedHandler() {
 		return (event -> {
 			System.out.println("On dragged (drag detected handler)");
-			//ImageView iv = (ImageView)event.getSource();
+			
 			Circle circ = (Circle)event.getSource();
 			Dragboard db = circ.startDragAndDrop(TransferMode.ANY);
 			//put the image of the selected plant circle into the clipboard
@@ -186,10 +186,17 @@ public class Controller extends Application{
 			//set selected plant for the GardenEditor utility
 			String plant = gardenEditorView.getPlantName(plantImage);
 			GardenEditor.setSelectedPlant(plant);
+			//remove the plant from the plot if applicable 
+			Point pos = new Point(circ.getCenterX(), circ.getCenterY());
+			int plotNum = garden.inPlot(pos);
+			if(garden.isPlantInPlot(plotNum, pos, GardenEditor.getSelectedPlant())) {
+				garden.removePlantFromPlot(plotNum, pos);
+			}
+			
 			event.consume();
 		});
 	}
-	
+
 	//Handler for dragOver
 	public EventHandler getOnDragOverHandler() {
 		return (event -> {
@@ -206,21 +213,31 @@ public class Controller extends Application{
 			DragEvent drag = (DragEvent) event;
 			Dragboard db = drag.getDragboard();
 			
-			//check for valid placement
-			System.out.println("" + drag.getX()+ " " + drag.getY());
-			boolean test = garden.isValidPlacement(drag.getX(), drag.getY());
-			System.out.println(test);
+			//check for valid placement (right now only checks if in a plot)
+			Point pos = new Point(drag.getX(), drag.getY());
+			int validPlot = garden.inPlot(pos);
+			if(validPlot == -1) {
+				return;
+			} 
+			
+			Plant selected = GardenEditor.getSelectedPlant();
 			
 			//get spread radius of the currently selected plant
-			double radius = GardenEditor.getSelectedPlant().getSpreadRadiusLower();
+			double radius = selected.getSpreadRadiusLower();
 			//if radius is unknown use the lower size bound
 			if(radius == 0) {
-				radius =  GardenEditor.getSelectedPlant().getSizeLower();
+				radius =  selected.getSizeLower();
 			}
 			//place the plant in the garden in the view
 			gardenEditorView.createNewImageInBase(drag,db, radius);
 			
+			//add plant to the model
+			Plant p = selected.clone();
+			p.setPosition(pos);
+			System.out.println(pos.getX() + "  " + pos.getY());
+			garden.addPlantToPlot(validPlot, pos, p);
 			
+			System.out.println(garden.getPlots().get(validPlot).getPlantsInPlot().size());
 			drag.setDropCompleted(true);
 			drag.consume();
 		});

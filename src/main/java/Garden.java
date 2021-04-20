@@ -17,17 +17,27 @@ public class Garden{
 		plots = new ArrayList<Plot>();
 	}
 	
-	public boolean isValidPlacement(double x, double y) {
-		
+	//check for valid placement
+	
+	//returns the plotNum that the position falls in (-1 if out of bounds of all plots)
+	public int inPlot(Point pos) {
 		boolean inAPlot = false;
-		for (Plot p : plots) {
-			boolean result = inBounds(p.getCoordinates(), x-200, y+50);
-			if(result)
+		int plotNum = 0;
+		for (int i = 0; i < plots.size(); i++) {
+			boolean result = inBounds(plots.get(i).getCoordinates(), pos.getX()-200, pos.getY()+50);
+			if(result) {
 				inAPlot = true;
+				plotNum = i;
+			}
 		}
-		return inAPlot;
+		
+		if(inAPlot)
+			return plotNum;
+		else
+			return -1;
 	}
 	
+	//check if a coordinate falls within the bounds of a list of points
 	public boolean inBounds(ArrayList<Point> points, double x, double y) {
 		boolean bounds = false;
 		int i, j;
@@ -38,7 +48,6 @@ public class Garden{
 				bounds = !bounds;
          	}
 		}
-		
 		return bounds;
 	}
 	
@@ -104,6 +113,23 @@ public class Garden{
 	
 	public void newPlot(Options o) {
 		plots.add(new Plot(o));
+	}
+	
+	public  void addPlantToPlot(int index, Point point, Plant p) {
+		plots.get(index).addPlant(point, p);
+	}
+	
+	public  void removePlantFromPlot(int index, Point point) {
+		plots.get(index).removePlant(point);
+	}
+	
+	public boolean isPlantInPlot(int index, Point point, Plant p) {
+		try {
+			return plots.get(index).getPlantsInPlot().get(point) != null;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	public ArrayList<Plant> getPlantsInGarden() {

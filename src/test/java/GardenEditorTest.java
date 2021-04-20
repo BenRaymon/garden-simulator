@@ -22,7 +22,7 @@ public class GardenEditorTest {
 	@Test
 	public void testisValidPlacement() {
 		Point testPoint = new Point();
-		assertEquals(testGardenEditor.isValidPlacement(testPoint), 0);
+		assertEquals(testGardenEditor.inPlot(testPoint), 0);
 	}
 	
 	@Test

@@ -42,6 +42,25 @@ public class Plant{
 	public Plant() {
 		
 	}
+	
+	public Plant clone() {
+		Plant p = new Plant();
+		p.commonName = commonName;
+		p.scientificName = scientificName;
+		p.genera = genera;
+		p.family = family;
+		p.color = color;
+		p.sizeLower = sizeLower;
+		p.sizeUpper = sizeUpper;
+		p.spreadRadiusLower = spreadRadiusLower;
+		p.spreadRadiusUpper = spreadRadiusUpper;
+		p.options = options;
+		p.lepsSupported = lepsSupported;
+		p.cost = cost;
+		p.type=type;
+		p.position = null;
+		return p;
+	}
 
 	public String toString() {
 		
