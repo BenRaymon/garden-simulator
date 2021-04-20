@@ -131,7 +131,7 @@ public class Controller extends Application{
 			System.out.println("Mouse Dragged");
 			MouseEvent me = (MouseEvent)event;
 			plotDesignView.drawPlot(me);
-			System.out.println("X" + (me.getX() - 195) + "Y " + me.getY());
+			System.out.println("X" + (me.getX() - 195) + " Y" + me.getY());
         });
 	}
 	
@@ -186,13 +186,7 @@ public class Controller extends Application{
 			//set selected plant for the GardenEditor utility
 			String plant = gardenEditorView.getPlantName(plantImage);
 			GardenEditor.setSelectedPlant(plant);
-			//remove the plant from the plot if applicable 
-			Point pos = new Point(circ.getCenterX(), circ.getCenterY());
-			int plotNum = garden.inPlot(pos);
-			if(garden.isPlantInPlot(plotNum, pos, GardenEditor.getSelectedPlant())) {
-				garden.removePlantFromPlot(plotNum, pos);
-			}
-			
+			GardenEditor.getSelectedPlant().setPosition(new Point(circ.getCenterX(), circ.getCenterY()));
 			event.consume();
 		});
 	}
@@ -215,8 +209,8 @@ public class Controller extends Application{
 			
 			//check for valid placement (right now only checks if in a plot)
 			Point pos = new Point(drag.getX(), drag.getY());
-			int validPlot = garden.inPlot(pos);
-			if(validPlot == -1) {
+			int plotNum = garden.inPlot(pos);
+			if(plotNum == -1) {
 				return;
 			} 
 			
@@ -232,12 +226,22 @@ public class Controller extends Application{
 			gardenEditorView.createNewImageInBase(drag,db, radius);
 			
 			//add plant to the model
-			Plant p = selected.clone();
-			p.setPosition(pos);
-			System.out.println(pos.getX() + "  " + pos.getY());
-			garden.addPlantToPlot(validPlot, pos, p);
+			//selected plant is just info from the static all plants list
+			//need to clone and set the position to make it a real plant in the plot
+			Plant newPlant = selected.clone();
+			selected.setPosition(new Point(0,0)); //reset the plant in the allPlants list to be 0,0
+			//newPlant.setPosition(pos);
+			//remove the plant from the plot if applicable 
+			if(garden.isPlantInPlot(plotNum, pos, newPlant)) {
+				System.out.println("TEST");
+				garden.removePlantFromPlot(plotNum, pos);
+			}
 			
-			System.out.println(garden.getPlots().get(validPlot).getPlantsInPlot().size());
+			garden.addPlantToPlot(plotNum, pos, newPlant);
+			
+			
+			
+			System.out.println(garden.getPlots().get(plotNum).getPlantsInPlot().size());
 			drag.setDropCompleted(true);
 			drag.consume();
 		});

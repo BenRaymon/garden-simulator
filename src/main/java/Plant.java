@@ -58,7 +58,7 @@ public class Plant{
 		p.lepsSupported = lepsSupported;
 		p.cost = cost;
 		p.type=type;
-		p.position = null;
+		p.position = position;
 		return p;
 	}
 
@@ -234,6 +234,17 @@ public class Plant{
 		this.type = type;
 	}
 	
+	@Override
+	//two plants are considered equal (as of right now) if they're locations are the same
+
+	public boolean equals(Object o) {
+		if (o instanceof Plant) {
+			Plant p = (Plant)o;
+			System.out.println("in equals");
+			System.out.println(p.getPosition() + " - " + this.position);
+			return p.getPosition().equals(this.position);
+		} else return false;
+	}
 	
 	
 }

@@ -45,6 +45,7 @@ public class Plot{
 	}
 	
 	public void addPlant(Point pos, Plant p) {
+		p.setPosition(pos);
 		plantsInPlot.put(pos, p);
 	}
 	

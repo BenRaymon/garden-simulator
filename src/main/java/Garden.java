@@ -125,7 +125,7 @@ public class Garden{
 	
 	public boolean isPlantInPlot(int index, Point point, Plant p) {
 		try {
-			return plots.get(index).getPlantsInPlot().get(point) != null;
+			return plots.get(index).getPlantsInPlot().containsValue(p);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
