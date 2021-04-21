@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.io.Serializable;
 
-public class Garden{
+public class Garden implements Serializable{
 	private double spent;
 	private double budget;
 	private ArrayList<Plot> plots;
@@ -147,7 +148,4 @@ public class Garden{
 	public static Plant getPlant(String name) {
 		return allPlants.get(name);
 	}
-	
-	
-	
 }

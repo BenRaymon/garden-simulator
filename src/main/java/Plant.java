@@ -1,6 +1,7 @@
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Plant{
+public class Plant implements Serializable {
 	
 	
 	private Point position;
