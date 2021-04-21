@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.scene.control.ListView;
 
 
 
@@ -224,6 +225,23 @@ public class Controller extends Application{
 			tempText.setText(plantInfo);
 		});
 		
+	}
+	
+	//Event handler for listView
+	public EventHandler listClickedHandler() {
+		return(event ->{
+			System.out.println("In listClickedHandler");
+			ListView<String> tempList = compPlantsView.getListView();
+			String currentItem = tempList.getSelectionModel().getSelectedItem();
+			
+			if(currentItem == "Lep Compare") {
+				System.out.println("Switching to Lep Compare");
+				compPlantsView.setLepCompareView();
+				
+			}
+			//System.out.println("Selected item is: " + highlighted);
+			
+		});
 	}
 
 

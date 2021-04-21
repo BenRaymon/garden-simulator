@@ -14,6 +14,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 
 
 public class CompPlantsView extends View{
@@ -29,6 +33,17 @@ public class CompPlantsView extends View{
 	//private TableView table;
 	private ListView<String> list;
 	private ObservableList<String> items;
+	//For bar graph ----------
+	//** x and y axis for the bar graph. Can be whatever axis the bar graph needs. 
+	private CategoryAxis xAxis;
+    private NumberAxis yAxis;
+    //*** Can be used to represent whatever information needs to be seen on bar graph
+    private int dataZone1;
+    private int dataZone2;
+    //** Holds the physical Data
+    XYChart.Series series1;
+    XYChart.Series series2;
+    // --------------------------
 	
 	public CompPlantsView(Stage stage, Controller c) {
 		this.controller = c;
@@ -37,17 +52,19 @@ public class CompPlantsView extends View{
 		base.setVgap(10);
 		base.setAlignment(Pos.CENTER);
 		
+		
 		//button to go back to the garden editor
 		toGardenEditor = new Button("Garden Editor");
 		toGardenEditor.setOnMouseClicked(controller.getToGardenOnClickHandler());
 		base.add(toGardenEditor, 0, 10);
 		
 		//Creating table
-		items =FXCollections.observableArrayList ("General Info","Lep Compare","Radius Compare","Size Compre", "Color Compare");
+		items =FXCollections.observableArrayList ("General Info","Lep Compare","Radius Compare","Size Compare", "Color Compare");
 		list = new ListView<String>();
 		//list.setOn
 		list.setItems(items);
 		list.setPrefHeight(70);
+		list.setOnMouseClicked(controller.listClickedHandler());
 		
 		 //TableColumn plantACol = new TableColumn("Plant A");
 	     //TableColumn plantInfoCol = new TableColumn("Plant Info");
@@ -104,4 +121,30 @@ public class CompPlantsView extends View{
 	public ObservableList<String> getObservableList() {
 		return items;
 	}
+	
+	public ListView<String> getListView(){
+		return list;
+	}
+	
+	public void setInfoView() {
+		
+	}
+	public void setLepCompareView() {
+		xAxis = new CategoryAxis();
+	    yAxis = new NumberAxis();
+	    xAxis.setLabel("Plant names");       
+        yAxis.setLabel("# of Leps");
+        
+        series1 = new XYChart.Series();
+        series2 = new XYChart.Series();
+		
+		
+	}
+	public void setRadiusCompareView() {
+		
+	}
+	public void setSizeCompareView() {
+		
+	}
+	
 }
