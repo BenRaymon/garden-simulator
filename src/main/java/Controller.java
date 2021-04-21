@@ -205,11 +205,18 @@ public class Controller extends Application{
 	//Searches for plant from all loaded plants, and displays info on button click
 	public EventHandler RightPlantButtonClickedHandler() {
 		return (event ->{
+			
+			//compPlantsView.setBLeps(compPlants.getLeps());
+			
 			TextField temp = compPlantsView.getTextBox();
 			String plantInfo = "Plant A\n";		
 			plantInfo = plantInfo + CompPlants.getInfo(temp.getText());
 			Text tempText = compPlantsView.getRightBody();
 			tempText.setText(plantInfo);
+			
+			//Setting plant A variables in compPlantView to plantInfo
+			
+			compPlantsView.setALeps(CompPlants.getLepInfo(temp.getText()));
 		});
 		
 	}
@@ -223,6 +230,10 @@ public class Controller extends Application{
 			//String plantInfo = CompPlants.getInfo(temp.getText());
 			Text tempText = compPlantsView.getLeftBody();
 			tempText.setText(plantInfo);
+
+			//Setting plant B variables in compPlantView to plantInfo
+			
+			compPlantsView.setBLeps(CompPlants.getLepInfo(temp.getText()));
 		});
 		
 	}

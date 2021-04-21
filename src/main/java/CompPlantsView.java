@@ -26,6 +26,12 @@ public class CompPlantsView extends View{
 	private Image plantImageB;
 	private Text plantSummaryA;
 	private Text plantSummaryB;
+	
+	private int plantALeps;
+	private int plantBLeps;
+	
+	
+	
 	private Scene scene;
 	private Controller controller;
 	private TextField plantNameInput;
@@ -33,6 +39,7 @@ public class CompPlantsView extends View{
 	//private TableView table;
 	private ListView<String> list;
 	private ObservableList<String> items;
+	GridPane base;
 	//For bar graph ----------
 	//** x and y axis for the bar graph. Can be whatever axis the bar graph needs. 
 	private CategoryAxis xAxis;
@@ -41,13 +48,18 @@ public class CompPlantsView extends View{
     private int dataZone1;
     private int dataZone2;
     //** Holds the physical Data
-    XYChart.Series series1;
-    XYChart.Series series2;
+    private XYChart.Series series1;
+    private XYChart.Series series2;
+    
+    //Actual barChart
+    private BarChart<String,Number> bc;
+    
+    
     // --------------------------
 	
 	public CompPlantsView(Stage stage, Controller c) {
 		this.controller = c;
-		GridPane base = new GridPane();
+		base = new GridPane();
 		base.setHgap(10);
 		base.setVgap(10);
 		base.setAlignment(Pos.CENTER);
@@ -92,6 +104,7 @@ public class CompPlantsView extends View{
 		base.add(rightPlantButton, 1, 1,1,1);
 		base.add(plantNameInput, 0, 2, 1, 1);
 		base.add(list,0,3,1,1);
+		//base.add(bc,0,4,1,1);
 
 		//create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -136,8 +149,13 @@ public class CompPlantsView extends View{
         yAxis.setLabel("# of Leps");
         
         series1 = new XYChart.Series();
-        series2 = new XYChart.Series();
-		
+        //series2 = new XYChart.Series();
+        series1.getData().add(new XYChart.Data(plantSummaryA.getText(),plantALeps));
+		series1.getData().add(new XYChart.Data(plantSummaryB.getText(),plantBLeps));
+		 bc = new BarChart<String,Number>(xAxis,yAxis);
+		 bc.setTitle("Leps Supported");
+		 bc.getData().addAll(series1);
+		 base.add(bc,0,4,1,1);
 		
 	}
 	public void setRadiusCompareView() {
@@ -147,4 +165,10 @@ public class CompPlantsView extends View{
 		
 	}
 	
+	public void setALeps(int l) {
+		plantALeps = l;
+	}
+	public void setBLeps(int l) {
+		plantBLeps = l;
+	}
 }

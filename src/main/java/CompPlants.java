@@ -16,6 +16,11 @@ public class CompPlants {
 		//return p.toString();
 	}
 	
+	public static int getLepInfo(String s) {
+		Plant p = Garden.getPlant(s);
+		return p.getLepsSupported();
+	}
+	
 	public static String moreLeps(Plant A, Plant B) {
 		if (A.getLepsSupported() > B.getLepsSupported())
 			return A.getScientificName();
