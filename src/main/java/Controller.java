@@ -205,7 +205,8 @@ public class Controller extends Application{
 	public EventHandler RightPlantButtonClickedHandler() {
 		return (event ->{
 			TextField temp = compPlantsView.getTextBox();
-			String plantInfo = CompPlants.getInfo(temp.getText());
+			String plantInfo = "Plant A\n";		
+			plantInfo = plantInfo + CompPlants.getInfo(temp.getText());
 			Text tempText = compPlantsView.getRightBody();
 			tempText.setText(plantInfo);
 		});
@@ -216,7 +217,9 @@ public class Controller extends Application{
 	public EventHandler LeftPlantButtonClickedHandler() {
 		return (event ->{
 			TextField temp = compPlantsView.getTextBox();
-			String plantInfo = CompPlants.getInfo(temp.getText());
+			String plantInfo = "Plant B\n";		
+			plantInfo = plantInfo + CompPlants.getInfo(temp.getText());
+			//String plantInfo = CompPlants.getInfo(temp.getText());
 			Text tempText = compPlantsView.getLeftBody();
 			tempText.setText(plantInfo);
 		});

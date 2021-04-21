@@ -4,7 +4,16 @@ public class CompPlants {
 	
 	public static String getInfo(String s) {
 		Plant p = Garden.getPlant(s);
-		return p.toString();
+		String temp = p.getCommonName() + "\n";
+		temp = temp + p.getScientificName() + "\n";
+		temp = temp + p.getFamily() + "\n";
+		temp = temp + p.getColor() + "\n";
+		temp = temp + p.getSizeLower() + "\n";
+		temp = temp + p.getSizeUpper() + "\n";
+		temp = temp + p.getSpreadRadiusLower() + "\n";
+		temp = temp + p.getSpreadRadiusUpper() + "\n";
+		return temp;
+		//return p.toString();
 	}
 	
 	public static String moreLeps(Plant A, Plant B) {
