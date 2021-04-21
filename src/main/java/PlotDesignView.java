@@ -39,7 +39,7 @@ public class PlotDesignView extends View {
 	private final double LEFTBAR = 200;
 	private final double SPACING = 10;
 	private final double BOTTOM_HEIGHT = 100;
-	private double canvasWidth = WINDOW_WIDTH - LEFTBAR;
+	private double canvasWidth = WINDOW_WIDTH;
 	private double canvasHeight = WINDOW_HEIGHT;
 	
 	public PlotDesignView(Stage stage, Controller c) {
