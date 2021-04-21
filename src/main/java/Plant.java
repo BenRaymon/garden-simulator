@@ -1,6 +1,7 @@
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Plant{
+public class Plant implements Serializable {
 	
 	
 	private Point position;
@@ -41,6 +42,25 @@ public class Plant{
 	
 	public Plant() {
 		
+	}
+	
+	public Plant clone() {
+		Plant p = new Plant();
+		p.commonName = commonName;
+		p.scientificName = scientificName;
+		p.genera = genera;
+		p.family = family;
+		p.color = color;
+		p.sizeLower = sizeLower;
+		p.sizeUpper = sizeUpper;
+		p.spreadRadiusLower = spreadRadiusLower;
+		p.spreadRadiusUpper = spreadRadiusUpper;
+		p.options = options;
+		p.lepsSupported = lepsSupported;
+		p.cost = cost;
+		p.type=type;
+		p.position = position;
+		return p;
 	}
 
 	public String toString() {
@@ -215,6 +235,22 @@ public class Plant{
 		this.type = type;
 	}
 	
+	@Override
+	//two plants are considered equal (as of right now) if they're locations are the same
+
+	public boolean equals(Object o) {
+		if (o instanceof Plant) {
+			Plant p = (Plant)o;
+			System.out.println("in equals");
+			System.out.println(p.getPosition() + " - " + this.position);
+			return p.getPosition().equals(this.position);
+		} else return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return (int)(this.getPosition().getX());
+	}
 	
 	
 }

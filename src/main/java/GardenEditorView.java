@@ -11,11 +11,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -23,7 +26,7 @@ public class GardenEditorView extends View{
 
 	private Controller controller;
 	private ArrayList<ImageView> imageViewsForPlantsInGarden;
-	private HashMap<String, Image> recommendedPlantImages;
+	private HashMap<Image, String> recommendedPlantImages;
 	private ListView recommendedPlants;
 	private Image selectedPlant;
 	private Text selectedPlantInfo;
@@ -34,12 +37,14 @@ public class GardenEditorView extends View{
 	private BorderPane base;
 	private Scene scene;
 	private Button toShoppingList;
+	private Button saveGarden; // save the garden to a .dat file
 	private GraphicsContext gc;
 	private int imageInc = 0;
 	
 	private final double LEFTBAR = 150;
 	private final double RIGHTBAR = 150;
 	private final double SPACING = 10;
+	private final double SCALE = 10;
 	
 	public GardenEditorView(Stage stage, Controller c) {
 		imageViewsForPlantsInGarden = new ArrayList<ImageView>();
@@ -111,14 +116,20 @@ public class GardenEditorView extends View{
 	//Supposed to draw images in the top grid pane
 	public void setPlantImages(){
 		System.out.println(getImages().size());
-		recommendedPlantImages = getImages();
-		recommendedPlantImages.forEach((key,value) -> {
-			ImageView temp = new ImageView((Image)value);
-	        temp.setPreserveRatio(true);
-	        temp.setFitHeight(100);
-	        temp.setFitWidth(100);
-	        temp.setOnDragDetected(controller.getOnImageDraggedHandler());
-	        top.add(temp, imageInc, 0);
+		recommendedPlantImages = new HashMap<Image, String>();
+		getImages().forEach((key,value) -> {
+			//ImageView temp = new ImageView((Image)value);
+	        //temp.setPreserveRatio(true);
+	        //temp.setFitHeight(100);
+	        //temp.setFitWidth(100);
+	        //temp.setOnDragDetected(controller.getOnImageDraggedHandler());
+	        //top.add(temp, imageInc, 0);
+	        recommendedPlantImages.put(value, key);
+			
+	        Circle circ = new Circle(50);
+	        circ.setFill(new ImagePattern((Image)value));
+	        circ.setOnDragDetected(controller.getOnImageDraggedHandler());
+	        top.add(circ, imageInc, 0);
 	        imageInc++;
 		});
 		base.setTop(top);
@@ -167,13 +178,17 @@ public class GardenEditorView extends View{
 		toShoppingList.setOnMouseClicked(controller.getToShoppingListOnClickHandler());
 		bottom.add(toShoppingList, 2, 0);
 		
+		saveGarden = new Button("Save");
+		saveGarden.setOnMouseClicked(controller.SaveButtonClickedHandler());
+		bottom.add(saveGarden, 3, 0);
+		
 		Button toReport = new Button("Report");
 		toReport.setOnMouseClicked(controller.getToReportOnClickHandler());
-		bottom.add(toReport, 3, 0);
+		bottom.add(toReport, 4, 0);
 		
 		Button toComp = new Button("Compare");
 		toComp.setOnMouseClicked(controller.getToCompareOnClickHandler());
-		bottom.add(toComp, 4, 0);
+		bottom.add(toComp, 5, 0);
 	}
 	
 	public void setPlantInfo() {
@@ -209,25 +224,35 @@ public class GardenEditorView extends View{
 		
 	}
 	
-	public void createNewImageInBase(DragEvent event, Image i) {
+	public void createNewImageInBase(DragEvent event, Dragboard db, double radius) {
 		System.out.println("Creating new gardeneditorview image");
-		ImageView iv = new ImageView();
-    	iv.setImage(i);
-    	iv.setPreserveRatio(true);
-    	iv.setFitHeight(100);
-    	iv.setX(event.getX());
-		iv.setY(event.getY());
-		iv.setOnDragDetected(controller.getOnImageDraggedHandler());
+		//Image i = (Image)db.getContent(DataFormat.IMAGE);
+		//ImageView iv = new ImageView();
+    	//iv.setImage(i);
+    	//iv.setPreserveRatio(true);
+    	//iv.setFitHeight(100);
+    	//iv.setX(event.getX());
+		//iv.setY(event.getY());
+		//iv.setOnDragDetected(controller.getOnImageDraggedHandler());
 		// right here problem
 		//imc.setHandlerForClick(iv);
-		imageViewsForPlantsInGarden.add(iv);
-    	base.getChildren().add(iv);
+		Circle circ = new Circle(event.getX(), event.getY(), radius*SCALE);
+        circ.setFill(new ImagePattern(selectedPlant));
+        circ.setOnDragDetected(controller.getOnImageDraggedHandler());
+		//imageViewsForPlantsInGarden.add(iv);
+    	base.getChildren().add(circ);
 	}
 	
-	//Event handler methods
-	public void creatNewImageInBase_withParams(DragEvent drag,Dragboard db) {
-		createNewImageInBase(drag, ((Image)db.getContent(DataFormat.IMAGE)));
+	public boolean hasChild(MouseEvent event) {
+		return base.getChildren().contains(event.getSource());
 	}
 	
+	public String getPlantName(Image im) {
+		return recommendedPlantImages.get(im);
+	}
+	
+	public void setSelectedPlantImage(Image im) {
+		selectedPlant = im; 
+	}
 	
 }

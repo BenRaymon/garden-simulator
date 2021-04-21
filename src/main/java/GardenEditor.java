@@ -1,12 +1,28 @@
 public class GardenEditor {
 	
-	Plant currentlySelectedPlant;
+	private static Plant currentlySelectedPlant;
 	
 	Plot currentPlot;
 	
 	String sortBy;
 	
 	Garden garden;
+	
+	public static void setSelectedPlant(String plantName, Point pos) {
+		Plant p = Garden.getPlant(plantName);
+		p.setPosition(pos);
+		currentlySelectedPlant = Garden.getPlant(plantName);
+	}
+	
+	public static void setSelectedPlant(Plant p) {
+		currentlySelectedPlant = p;
+	}
+	
+	public static Plant getSelectedPlant() {
+		return currentlySelectedPlant;
+	}
+	
+	
 	
 	public GardenEditor(Garden g) {
 		garden = g;
@@ -21,7 +37,8 @@ public class GardenEditor {
 		return 0;
 	}
 	
-	public int isValidPlacement(Point point) {
+	public static int isValidPlacement(double x, double y) {
+		
 		return 0;
 	}
 	

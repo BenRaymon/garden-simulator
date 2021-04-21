@@ -1,16 +1,21 @@
-import java.awt.image.BufferedImage;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
+import com.sun.tools.javac.Main;
+
 import javafx.scene.image.Image;
+
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
+
 
 public class BackgroundImageLoader extends Thread {
 	private Thread thread;
@@ -50,8 +55,8 @@ public class BackgroundImageLoader extends Thread {
 		}
 	}
 	
-	public File getFile(String fileName) {
-		return Paths.get("src/main/resources/" + fileName).toFile().getAbsoluteFile();
+	public InputStream getFile(String fileName) {
+		return BackgroundImageLoader.class.getResourceAsStream(fileName);
 	}
 	
 	public void addImage(String line) {
@@ -60,21 +65,10 @@ public class BackgroundImageLoader extends Thread {
 		String words[] = line.split(",");
 		String loc = words[17];
 		try {
-			BufferedImage image = ImageIO.read(getFile(loc));
-			//COPIED THIS ONLINE
-			//https://blog.idrsolutions.com/2012/11/convert-bufferedimage-to-javafx-image/
-			WritableImage wr = null;
-	        if (image != null) {
-	            wr = new WritableImage(image.getWidth(), image.getHeight());
-	            PixelWriter pw = wr.getPixelWriter();
-	            for (int x = 0; x < image.getWidth(); x++) {
-	                for (int y = 0; y < image.getHeight(); y++) {
-	                    pw.setArgb(x, y, image.getRGB(x, y));
-	                }
-	            }
-	        }
-			plant_images.put(words[0], wr);
-		} catch (IOException e) {
+			Image image = new Image(getFile(loc), 150, 150, true, false);
+			plant_images.put(words[0], image);
+			
+		} catch (Exception e) {
 			System.out.println("Failed to add image");
 			e.printStackTrace();
 		}

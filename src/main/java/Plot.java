@@ -1,14 +1,15 @@
 import java.util.*;
+import java.io.Serializable;
 
-public class Plot{
+public class Plot implements Serializable {
 	private HashMap <String, Plant> recommendedPlants;
-	private HashMap <String, Plant> plantsInPlot;
+	private HashMap <Point, Plant> plantsInPlot;
 	private Options options;
 	private ArrayList<Point> coordinates;
 	
 	public Plot(Options o) {
 		this.recommendedPlants = new HashMap<String, Plant>();
-		this.plantsInPlot = new HashMap<String, Plant>();
+		this.plantsInPlot = new HashMap<Point, Plant>();
 		this.options = o;
 		this.coordinates = null;
 	}
@@ -44,17 +45,22 @@ public class Plot{
 		return recommendedPlants;
 	}
 	
-	public void addPlantToPlot(String n, Plant p) {
-		plantsInPlot.put(n, p);
+	public void addPlant(Point pos, Plant p) {
+		p.setPosition(pos);
+		plantsInPlot.put(pos, p);
 	}
 	
-	public void removePlantFromPlot(String n) {
+	public void removePlant(Point pos) {
 		// remove does return the object, may change this function
 		// to return it later
-		plantsInPlot.remove(n);
+		plantsInPlot.remove(pos);
 	}
 	
-	public HashMap<String, Plant> getPlantsInPlot() {
+	public Plant getPlant(Point pos) {
+		return plantsInPlot.get(pos);
+	}
+	
+	public HashMap<Point, Plant> getPlantsInPlot() {
 		return plantsInPlot;
 	}
 

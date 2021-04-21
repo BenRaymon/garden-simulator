@@ -14,6 +14,8 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -31,6 +33,7 @@ public class Controller extends Application{
 	ShoppingListView shopView;
 	ReportView reportView;
 	Garden garden;
+	SaveLoadGarden gardenSaver = new SaveLoadGarden();
 	
 	@Override
 	public void start(Stage s) throws Exception {
@@ -138,6 +141,7 @@ public class Controller extends Application{
 			System.out.println("Mouse Dragged");
 			MouseEvent me = (MouseEvent)event;
 			plotDesignView.drawPlot(me);
+			System.out.println("X" + (me.getX() - 195) + " Y" + me.getY());
         });
 	}
 	
@@ -175,20 +179,37 @@ public class Controller extends Application{
 	public EventHandler getOnImageDraggedHandler() {
 		return (event -> {
 			System.out.println("On dragged (drag detected handler)");
-			ImageView iv = (ImageView)event.getSource();
-			Dragboard db = iv.startDragAndDrop(TransferMode.ANY);
 			
+			Circle circ = (Circle)event.getSource();
+			Dragboard db = circ.startDragAndDrop(TransferMode.ANY);
+			//put the image of the selected plant circle into the clipboard
 			ClipboardContent content = new ClipboardContent();
-			content.putImage(iv.getImage());
+			Image plantImage = ((ImagePattern)circ.getFill()).getImage();
+			content.putImage(plantImage);
 			db.setContent(content);
-			//Possibly refactor this if statement
-			if (gardenEditorView.getBase().getChildren().contains(event.getSource())) {
-				iv.setImage(null);
+			//clear the circle if it already exits (if moving a current plant)
+			if (gardenEditorView.hasChild((MouseEvent)event)) {
+				circ.setFill(null);
+			}
+			//set selected plant image in the view 
+			gardenEditorView.setSelectedPlantImage(plantImage);
+			
+			
+			//is the plant in the plot
+			Point pos = new Point(circ.getCenterX(), circ.getCenterY());
+			int plotNum = garden.inPlot(pos);
+			if(plotNum != -1) {
+				//if the plant is in the plot make selected plant that plant
+				GardenEditor.setSelectedPlant(garden.getPlant(plotNum, pos));
+			} else {
+				//set selected plant for the GardenEditor utility
+				String plant = gardenEditorView.getPlantName(plantImage);
+				GardenEditor.setSelectedPlant(plant, pos);
 			}
 			event.consume();
 		});
 	}
-	
+
 	//Handler for dragOver
 	public EventHandler getOnDragOverHandler() {
 		return (event -> {
@@ -204,7 +225,45 @@ public class Controller extends Application{
 			System.out.println("On drag dropped");
 			DragEvent drag = (DragEvent) event;
 			Dragboard db = drag.getDragboard();
-			gardenEditorView.creatNewImageInBase_withParams(drag,db);
+			
+			//check for valid placement (right now only checks if in a plot)
+			Point pos = new Point(drag.getX(), drag.getY());
+			int plotNum = garden.inPlot(pos);
+			if(plotNum == -1) {
+				return;
+			} 
+			
+			Plant selected = GardenEditor.getSelectedPlant();
+			
+			//get spread radius of the currently selected plant
+			double radius = selected.getSpreadRadiusLower();
+			//if radius is unknown use the lower size bound
+			if(radius == 0) {
+				radius =  selected.getSizeLower();
+			}
+			//place the plant in the garden in the view
+			gardenEditorView.createNewImageInBase(drag,db, radius);
+			
+			//Check if the selected plant was from the recommended bar or if it was in a plot
+			if(garden.isPlantInPlot(plotNum, selected)) {
+				//plants in plot are removed and added back
+				garden.removePlantFromPlot(plotNum, selected.getPosition());
+				//add plant to plot ultimately also updates the position of selected to the new pos
+				garden.addPlantToPlot(plotNum, pos, selected);
+				
+			} else {
+				//plants from the recommended bar are cloned 
+				//selected plant is the plant in the static allPlants hashmap
+				Plant newPlant = selected.clone(); 
+				selected.setPosition(new Point(0,0)); //reset the position of the plant in the allPlants list to be 0,0
+				garden.addPlantToPlot(plotNum, pos, newPlant);
+			}
+			
+			
+			
+			
+			
+			System.out.println(garden.getPlots().get(plotNum).getPlantsInPlot().size());
 			drag.setDropCompleted(true);
 			drag.consume();
 		});
@@ -232,8 +291,18 @@ public class Controller extends Application{
 		
 	}
 
-
-
+	public EventHandler SaveButtonClickedHandler() {
+		return (event -> {
+			System.out.println("Save Button clicked");
+			
+			try {
+				gardenSaver.saveGarden(garden);
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+	}
 	
 	
 }
