@@ -273,6 +273,19 @@ public class Controller extends Application{
 				
 				compPlantsView.setRadiusCompare(tempPlantAName, tempPlantBName, tempPlantALowerRadius, tempPlantAUpperRadius, tempPlantBLowerRadius, tempPlantBUpperRadius);
 			}
+			else if(currentItem == "Size Compare") {
+				System.out.println("Switching to Size Compare");
+				String tempPlantAName = compPlantsView.getLeftBody().getText();
+				double tempPlantALowerSize = CompPlants.getLowerSize(tempPlantAName);
+				double tempPlantAUpperSize = CompPlants.getUpperSize(tempPlantAName);
+				
+				String tempPlantBName = compPlantsView.getRightBody().getText();
+				double tempPlantBLowerSize = CompPlants.getLowerSize(tempPlantBName);
+				double tempPlantBUpperSize = CompPlants.getUpperSize(tempPlantBName);
+				
+				compPlantsView.setSizeCompare(tempPlantAName, tempPlantBName, tempPlantALowerSize, tempPlantAUpperSize, tempPlantBLowerSize, tempPlantBUpperSize);
+
+			}
 			//System.out.println("Selected item is: " + highlighted);
 			
 		});
