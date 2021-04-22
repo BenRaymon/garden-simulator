@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -11,12 +13,15 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -41,6 +46,7 @@ public class PlotDesignView extends View {
 	private final double BOTTOM_HEIGHT = 100;
 	private double canvasWidth = WINDOW_WIDTH;
 	private double canvasHeight = WINDOW_HEIGHT;
+	private int scaleIndex = 50;
 	
 	public PlotDesignView(Stage stage, Controller c) {
 
@@ -49,18 +55,25 @@ public class PlotDesignView extends View {
 		coords = new ArrayList<Point>();
 		canDraw = false;
 		
+		//circ.setFill(new ImagePattern((Image)value));
 		
 		
 		
 
 		// create Canvas
+		
+		
+		
+		VBox box = new VBox();
+		System.out.println("Width" + box.getWidth());
+		
 		drawArea = new Canvas(WINDOW_WIDTH - 2 * LEFTBAR, WINDOW_HEIGHT - BOTTOM_HEIGHT);
 		gc = drawArea.getGraphicsContext2D();
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(1);
 		
-		VBox box = new VBox();
 		box.getChildren().add(drawArea);
+		Image image  = new Image("https://static.wikia.nocookie.net/lotr/images/e/ec/Gimli_-_FOTR.png/revision/latest?cb=20121008105956");
 		
 		String cssLayout = "-fx-border-color: red;\n" +
                 "-fx-border-insets: 5;\n" +
@@ -69,7 +82,11 @@ public class PlotDesignView extends View {
 		
 		box.setStyle(cssLayout);
 		
+
+		
 		base.setCenter(box);
+		
+		drawGrid();
 
 		// Create left side bar with sliders and buttons
 		createLeftGrid();
@@ -99,11 +116,48 @@ public class PlotDesignView extends View {
 		scene.setOnMouseReleased(controller.getOnDrawPlotDone());
 		stage.setScene(scene);
 		stage.show();
+	
+		scene.widthProperty().addListener(
+				new ChangeListener<Object>() {
+					public void changed(ObservableValue observable,
+										Object oldValue, Object newValue) {
+						Double width = (Double)newValue;
+						drawArea.setWidth(width);
+						System.out.println("WIDTH CHANGE");
+					}
+				}
+		);
+		
+		scene.heightProperty().addListener(
+				new ChangeListener<Object>() {
+					public void changed(ObservableValue observable,
+										Object oldValue, Object newValue) {
+						Double height = (Double)newValue;
+						drawArea.setHeight(height - BOTTOM_HEIGHT);
+					}
+				});
+	
+	}
+	
+	public void drawGrid() {
+		for (double x = 0; x < WINDOW_WIDTH; x += scaleIndex) {
+			gc.moveTo(x, 0);
+			gc.lineTo(x, WINDOW_HEIGHT);
+			gc.stroke();
+		}
+		
+		for (double y = 0; y < WINDOW_HEIGHT; y += scaleIndex) {
+			gc.moveTo(0,y);
+			gc.lineTo(WINDOW_WIDTH,y);
+			gc.stroke();
+		}
+		gc.closePath();
+		gc.beginPath();
 	}
 	
 	public void createRightGrid() {
 		right = new GridPane();
-		right.setAlignment(Pos.TOP_CENTER);
+		right.setAlignment(Pos.TOP_LEFT);
 		right.setStyle("-fx-background-color: darkseagreen");
 		// left_grid.setGridLinesVisible(true);
 		right.setMinWidth(LEFTBAR);
@@ -121,6 +175,7 @@ public class PlotDesignView extends View {
 		left_grid.add(scaleUp, 0, 50);
 		left_grid.add(scaleDown, 1, 50);
 		scaleUp.setOnMouseClicked(controller.scaleUpCanvas());
+		scaleDown.setOnMouseClicked(controller.scaleDownCanvas());
 		
 	}
 
@@ -247,11 +302,17 @@ public class PlotDesignView extends View {
 	}
 	
 	public void scaleUp() {
-		canvasHeight += 100;
-		canvasWidth += 100;
-		drawArea.setHeight(canvasHeight);
-		drawArea.setWidth(canvasWidth);
-		
+		System.out.println("IN SCALEUP");
+		gc.clearRect(0, 0, drawArea.getWidth(), drawArea.getHeight());
+		scaleIndex -= 10;
+		drawGrid();
+	}
+	
+	public void scaleDown() {
+		System.out.println("IN SCALEDOWN");
+		gc.clearRect(0, 0, drawArea.getWidth(), drawArea.getHeight());
+		scaleIndex += 10;
+		drawGrid();
 	}
 	
 	public void allowDrawing() {

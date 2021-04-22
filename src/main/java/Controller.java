@@ -109,6 +109,12 @@ public class Controller extends Application{
 		});
 	}
 	
+	public EventHandler scaleDownCanvas() {
+		return (event->{
+			plotDesignView.scaleDown();
+		});
+	}
+	
 	//Handler for the DrawPlot button in PlotDesignnView
 	public EventHandler getDrawPlotHandler() {
 		return (event -> {
