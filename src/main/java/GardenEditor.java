@@ -4,13 +4,10 @@ import java.lang.*;
 public class GardenEditor {
 	
 	private static Plant currentlySelectedPlant;
+	private static double cx, cy, scale, left, right, top, bottom;
+	private static double CANVAS_WIDTH, CANVAS_HEIGHT, TOP_HEIGHT;
+	private static double SCALE_BUFFER = 100, BUFFER = 10;
 	
-	Plot currentPlot;
-	
-	String sortBy;
-	
-	Garden garden;
-	static double cx, cy, scale;
 	
 	public static void setSelectedPlant(String plantName, Point pos) {
 		Plant p = Garden.getPlant(plantName);
@@ -26,11 +23,19 @@ public class GardenEditor {
 		return currentlySelectedPlant;
 	}
 	
-	public static void getAllPlotBoundaries(ArrayList<Plot> plots) {
+	public static void transformPlots(ArrayList<Plot> plots, double canvasWidth, double canvasHeight, double top) {
+		CANVAS_HEIGHT = canvasHeight;
+		CANVAS_WIDTH = canvasWidth;
+		TOP_HEIGHT = top;
+		calculatePlotBoundaries(plots);
+		calculateScale();
+		scalePlots(plots);
+		checkBorders(plots);
+	}
+	
+	public static void calculatePlotBoundaries(ArrayList<Plot> plots) {
 		
 		Iterator<Plot> it = plots.iterator();
-		double left=0, right=0, top=0, bottom=0;
-		
 		while(it.hasNext()) {
 			ArrayList<Point> points = it.next().getCoordinates();
 			Iterator<Point> itp = points.iterator();
@@ -53,13 +58,20 @@ public class GardenEditor {
 		
 		cx = left + ((right-left)/2);
 		cy = top + ((bottom-top)/2);
-				
-		scale = 700 / (bottom-top);
-		if ((1200-200-150-100)/(right-left) < scale) {
-			scale = (1200-200-150-100)/(right-left);
+		
+	}
+	
+	public static void calculateScale() {
+		
+		scale = (CANVAS_HEIGHT - SCALE_BUFFER) / (bottom-top);
+		if ((CANVAS_WIDTH-SCALE_BUFFER)/(right-left) < scale) {
+			scale = (CANVAS_WIDTH-SCALE_BUFFER)/(right-left);
 		}
 		
-		it = plots.iterator();
+	}
+	
+	public static void scalePlots(ArrayList<Plot> plots) {
+		Iterator<Plot> it = plots.iterator();
 		while(it.hasNext()) {
 			ArrayList<Point> points = it.next().getCoordinates();
 			Iterator<Point> itp = points.iterator();
@@ -69,7 +81,9 @@ public class GardenEditor {
 				p.setY((p.getY() - cy)*scale + cy);
 			}
 		}
-		
+	}
+	
+	public static void checkBorders(ArrayList<Plot> plots) {
 		right = (right-cx)*scale + cx;
 		left = (left-cx)*scale + cx;
 		top = (top-cy)*scale + cy;
@@ -77,24 +91,31 @@ public class GardenEditor {
 		
 		double xDist=0,yDist=0;
 		
-		if(left < 0) {
-			xDist = left * -1 + 10;
-		}
-		double CANVAS_WIDTH = 1200-150-200; //totalWidth - rightbar - leftbar
-		if(right > CANVAS_WIDTH) {
-			xDist = -1 * (right - CANVAS_WIDTH + 10);
-		}
+		//if(left < 0) {
+		//	xDist = left * -1 + BUFFER;
+		//}
 		
-		if(top < 100) { // < top heighht
-			yDist = (100 - top) + 10;
-		}
-		double CANVAS_HEIGHT = 950 - 100; //height - top bar
-		if(bottom > CANVAS_HEIGHT) {
-			yDist = -1 * (bottom - CANVAS_HEIGHT + 10);
-		}
+		//if(right > CANVAS_WIDTH) {
+		//	xDist = -1 * (right - CANVAS_WIDTH + BUFFER);
+		//}
 		
+		//if(top < TOP_HEIGHT) {
+		//	yDist = (TOP_HEIGHT - top) + BUFFER;
+		//}
 		
-		it = plots.iterator();
+		//if(bottom + TOP_HEIGHT > CANVAS_HEIGHT) {
+		//	System.out.println("TEST");
+		//	yDist = -1 * (bottom - CANVAS_HEIGHT + BUFFER);
+		//}
+		
+		if(cx != CANVAS_WIDTH / 2) 
+			xDist += (CANVAS_WIDTH / 2 - cx);
+		
+		if(cy != CANVAS_HEIGHT / 2) 
+			yDist += (CANVAS_HEIGHT / 2 - cy);
+		
+
+		Iterator<Plot> it = plots.iterator();
 		while(it.hasNext()) {
 			ArrayList<Point> points = it.next().getCoordinates();
 			Iterator<Point> itp = points.iterator();
@@ -104,18 +125,46 @@ public class GardenEditor {
 				p.setY((p.getY() + yDist));
 			}
 		}
-		//xcords[i] = (p.getX() -cx)*GardenEditor.scale +cx - 195;
-		//ycords[i++] = (p.getY() -cy)*GardenEditor.scale+cy - 100;
-		
-		
-		
 	}
 	
+	//check for valid placement
+	
+	//returns the plotNum that the position falls in (-1 if out of bounds of all plots)
+	public static int inPlot(Point pos, ArrayList<Plot> plots) {
+		boolean inAPlot = false;
+		int plotNum = 0;
+		for (int i = 0; i < plots.size(); i++) {
+			boolean result = inBounds(plots.get(i).getCoordinates(), pos.getX()-200, pos.getY()-100);
+			if(result) {
+				inAPlot = true;
+				plotNum = i;
+			}
+		}
+		
+		if(inAPlot)
+			return plotNum;
+		else
+			return -1;
+	}
+	
+	//check if a coordinate falls within the bounds of a list of points
+	public static boolean inBounds(ArrayList<Point> points, double x, double y) {
+		boolean bounds = false;
+		int i, j;
+		for (i = 0, j = points.size() - 1; i < points.size(); j = i++) {
+			if ((points.get(i).getY() > y) != (points.get(j).getY() > y) &&
+					(x < (points.get(j).getX() - points.get(i).getX()) *(y - points.get(i).getY()) / 
+            		(points.get(j).getY()-points.get(i).getY()) + points.get(i).getX())) {
+				bounds = !bounds;
+         	}
+		}
+		return bounds;
+	}
+	
+	/*
 	public static void test(Plot pl) {
 		Point zero = null, one = null, two = null, three = null;
-
 		for( int a = 0; a < 2; a ++) {
-			
 			ArrayList<Point> points = pl.getCoordinates();
 			ArrayList<Point> np = new ArrayList<Point>();
 			Iterator<Point> itp = points.iterator();
@@ -135,16 +184,13 @@ public class GardenEditor {
 				x++;
 			}
 			pl.setCoordinates(np);
-			
 		}
 	}
-	
 	public static void Points(ArrayList<Point> np, Point zero, Point one, Point two, Point three) {
 		// Assume we need to calculate the control
 	    // points between (x1,y1) and (x2,y2).
 	    // Then x0,y0 - the previous vertex,
-	    //      x3,y3 - the next one.
-
+	    //      x3,y3 - the next one
 		double x0 = zero.getX();
 		double x1 = one.getX();
 		double x2 = two.getX();
@@ -186,12 +232,8 @@ public class GardenEditor {
 	    double ctrl2_y = ym2 + (yc2 - ym2) * smooth_value + y2 - ym2;
 	    
 	    curve(np, zero, new Point(ctrl1_x, ctrl1_y), new Point(ctrl2_x, ctrl2_y), three);
-	    
 	}
-	
 	public static void curve(ArrayList<Point> points, Point p1, Point c1, Point c2, Point p2) {
-		
-		
 		int NUM_STEPS = 200;
 		
 		double x1 = p1.getX();
@@ -255,14 +297,8 @@ public class GardenEditor {
 	        points.add(new Point(fx, fy));
 	    }
         points.add(new Point(x4, y4)); //Last step must go exactly to x4, y4
-        
 	}
-	
-	
-	public GardenEditor(Garden g) {
-		garden = g;
-	}
-	
+	*/
 	
 	public Plant selectPlant() {
 		return null;

@@ -41,11 +41,14 @@ public class GardenEditorView extends View{
 	private GraphicsContext gc;
 	private int imageInc = 0;
 	
-	private final double LEFTBAR = 200;
-	private final double RIGHTBAR = 150;
-	private final double TOPBAR = 100;
-	private final double SPACING = 10;
-	private final double SCALE = 10;
+	private double LEFTBAR = 200;
+	private double RIGHTBAR = 150;
+	private double TOPBAR = 100, BOTTOM = 30;
+	private double SPACING = 10;
+	private double SCALE = 10;
+	private double CANVAS_WIDTH = WINDOW_WIDTH - LEFTBAR - RIGHTBAR;
+	private double CANVAS_HEIGHT = WINDOW_HEIGHT - TOPBAR - BOTTOM;
+	
 	
 	public GardenEditorView(Stage stage, Controller c) {
 		imageViewsForPlantsInGarden = new ArrayList<ImageView>();
@@ -54,7 +57,7 @@ public class GardenEditorView extends View{
 		base.setOnDragOver(controller.getOnDragOverHandler());
 		base.setOnDragDropped(controller.getOnDragDroppedHandler());
 		
-		Canvas drawArea = new Canvas(WINDOW_WIDTH - LEFTBAR - RIGHTBAR, WINDOW_HEIGHT - TOPBAR);
+		Canvas drawArea = new Canvas(WINDOW_WIDTH - LEFTBAR - RIGHTBAR, WINDOW_HEIGHT - TOPBAR - BOTTOM);
 		gc = drawArea.getGraphicsContext2D();
 		gc.setFill(Color.GREEN);
 		gc.setStroke(Color.BLACK);
@@ -168,6 +171,7 @@ public class GardenEditorView extends View{
 	public void createBottom() {
 		bottom = new GridPane();
 		createPane(bottom, "darkgrey");
+		bottom.setMinHeight(BOTTOM);
 		base.setBottom(bottom);
 	}
 	
@@ -268,4 +272,13 @@ public class GardenEditorView extends View{
 		return gc;
 	}
 	
+	public double getCanvasHeight() {
+		return CANVAS_HEIGHT;
+	}
+	public double getCanvasWidth() {
+		return CANVAS_WIDTH;
+	}
+	public double getTopHeight() {
+		return TOPBAR;
+	}
 }

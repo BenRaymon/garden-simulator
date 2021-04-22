@@ -167,13 +167,13 @@ public class Controller extends Application{
 		return (event -> {
 			stage.setScene(gardenEditorView.getScene());
 			System.out.println(garden.getPlots());
-			GardenEditor.getAllPlotBoundaries(garden.getPlots());
+			double h = gardenEditorView.getCanvasHeight();
+			double w = gardenEditorView.getCanvasWidth();
+			double t = gardenEditorView.getTopHeight();
+			GardenEditor.transformPlots(garden.getPlots(), w, h, t);
 			for (Plot p : garden.getPlots()) {
 				gardenEditorView.setFillColor(p.getOptions());
 				gardenEditorView.drawPlot(p.getCoordinates());
-				//GardenEditor.test(p);
-				//gardenEditorView.getGC().setFill(Color.WHEAT);
-				//gardenEditorView.drawPlot(p.getCoordinates());
 			}
 		});
 	}
@@ -200,7 +200,7 @@ public class Controller extends Application{
 			
 			//is the plant in the plot
 			Point pos = new Point(circ.getCenterX(), circ.getCenterY());
-			int plotNum = garden.inPlot(pos);
+			int plotNum = GardenEditor.inPlot(pos, garden.getPlots());
 			if(plotNum != -1) {
 				//if the plant is in the plot make selected plant that plant
 				GardenEditor.setSelectedPlant(garden.getPlant(plotNum, pos));
@@ -231,7 +231,7 @@ public class Controller extends Application{
 			
 			//check for valid placement (right now only checks if in a plot)
 			Point pos = new Point(drag.getX(), drag.getY());
-			int plotNum = garden.inPlot(pos);
+			int plotNum = GardenEditor.inPlot(pos, garden.getPlots());
 			if(plotNum == -1) {
 				return;
 			} 
