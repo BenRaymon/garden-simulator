@@ -168,6 +168,7 @@ public class Controller extends Application{
 		return (event -> {
 			stage.setScene(gardenEditorView.getScene());
 			System.out.println(garden.getPlots());
+			GardenEditor.getAllPlotBoundaries(garden.getPlots());
 			for (Plot p : garden.getPlots()) {
 				gardenEditorView.setFillColor(p.getOptions());
 				gardenEditorView.drawPlot(p.getCoordinates());

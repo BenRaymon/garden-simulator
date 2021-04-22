@@ -41,7 +41,7 @@ public class GardenEditorView extends View{
 	private GraphicsContext gc;
 	private int imageInc = 0;
 	
-	private final double LEFTBAR = 150;
+	private final double LEFTBAR = 200;
 	private final double RIGHTBAR = 150;
 	private final double SPACING = 10;
 	private final double SCALE = 10;
@@ -59,6 +59,13 @@ public class GardenEditorView extends View{
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(1);
 		base.setCenter(drawArea);
+		
+		//TEMP
+		drawArea.setOnMouseClicked(event -> {
+			System.out.println(((MouseEvent) event).getSceneX());
+			System.out.println(((MouseEvent) event).getSceneY());
+			
+		});
 		
 		createRight();
 		createRightText();
@@ -81,8 +88,8 @@ public class GardenEditorView extends View{
 		double[] ycords = new double[points.size()];
 		int i = 0;
 		for(Point p : points) {
-			xcords[i] = p.getX();
-			ycords[i++] = p.getY() - 150;
+			xcords[i] = (p.getX() - 195);
+			ycords[i++] = (p.getY() - 100);
 		}
 		gc.fillPolygon(xcords, ycords, i);
 		

@@ -208,7 +208,7 @@ public class PlotDesignView extends View {
 			gc.lineTo(me.getX() - 195, me.getY());
 			gc.stroke();
 			//add the point to a coordinate list
-			coords.add(new Point(me.getX() - 195, me.getY()));
+			coords.add(new Point(me.getX(), me.getY()));
 		}
 	}
 	
@@ -218,7 +218,7 @@ public class PlotDesignView extends View {
 			gc.lineTo(me.getX() - LEFTBAR - 5, me.getY());
 			gc.stroke();	
 			//add the point to a coordinate list
-			coords.add(new Point(me.getX() - LEFTBAR - 5, me.getY()));
+			coords.add(new Point(me.getX(), me.getY()));
 		}
 	}
 	public void fillPlot(MouseEvent me) {
