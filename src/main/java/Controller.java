@@ -141,7 +141,6 @@ public class Controller extends Application{
 			System.out.println("Mouse Dragged");
 			MouseEvent me = (MouseEvent)event;
 			plotDesignView.drawPlot(me);
-			System.out.println("X" + (me.getX() - 195) + " Y" + me.getY());
         });
 	}
 	
@@ -172,6 +171,9 @@ public class Controller extends Application{
 			for (Plot p : garden.getPlots()) {
 				gardenEditorView.setFillColor(p.getOptions());
 				gardenEditorView.drawPlot(p.getCoordinates());
+				//GardenEditor.test(p);
+				//gardenEditorView.getGC().setFill(Color.WHEAT);
+				//gardenEditorView.drawPlot(p.getCoordinates());
 			}
 		});
 	}

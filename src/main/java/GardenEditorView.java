@@ -43,6 +43,7 @@ public class GardenEditorView extends View{
 	
 	private final double LEFTBAR = 200;
 	private final double RIGHTBAR = 150;
+	private final double TOPBAR = 100;
 	private final double SPACING = 10;
 	private final double SCALE = 10;
 	
@@ -53,7 +54,7 @@ public class GardenEditorView extends View{
 		base.setOnDragOver(controller.getOnDragOverHandler());
 		base.setOnDragDropped(controller.getOnDragDroppedHandler());
 		
-		Canvas drawArea = new Canvas(WINDOW_WIDTH - LEFTBAR - RIGHTBAR, WINDOW_HEIGHT - 150);
+		Canvas drawArea = new Canvas(WINDOW_WIDTH - LEFTBAR - RIGHTBAR, WINDOW_HEIGHT - TOPBAR);
 		gc = drawArea.getGraphicsContext2D();
 		gc.setFill(Color.GREEN);
 		gc.setStroke(Color.BLACK);
@@ -88,11 +89,11 @@ public class GardenEditorView extends View{
 		double[] ycords = new double[points.size()];
 		int i = 0;
 		for(Point p : points) {
-			xcords[i] = (p.getX() - 195);
-			ycords[i++] = (p.getY() - 100);
+			xcords[i] = (p.getX());
+			ycords[i++] = (p.getY());
 		}
 		gc.fillPolygon(xcords, ycords, i);
-		
+		//gc.strokePolygon(xcords, ycords, i);
 	}
 	
 	public void setFillColor(Options o) {
@@ -160,6 +161,7 @@ public class GardenEditorView extends View{
 	public void createTop() {
 	    top = new GridPane();
 		createPane(top, "white");
+		top.setMinHeight(TOPBAR);
 		base.setTop(top);
 	}
 	
@@ -260,6 +262,10 @@ public class GardenEditorView extends View{
 	
 	public void setSelectedPlantImage(Image im) {
 		selectedPlant = im; 
+	}
+	
+	public GraphicsContext getGC() {
+		return gc;
 	}
 	
 }
