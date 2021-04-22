@@ -29,6 +29,9 @@ public class CompPlantsView extends View{
 	
 	private int plantALeps;
 	private int plantBLeps;
+	private String plantAName;
+	private String plantBName;
+	
 	
 	
 	
@@ -142,7 +145,10 @@ public class CompPlantsView extends View{
 	public void setInfoView() {
 		
 	}
-	public void setLepCompareView() {
+	public void setLepCompare(String plantAName, String plantBName, int plantALeps, int plantBLeps) {
+		
+		base.getChildren().remove(bc);
+		
 		xAxis = new CategoryAxis();
 	    yAxis = new NumberAxis();
 	    xAxis.setLabel("Plant names");       
@@ -150,25 +156,48 @@ public class CompPlantsView extends View{
         
         series1 = new XYChart.Series();
         //series2 = new XYChart.Series();
-        series1.getData().add(new XYChart.Data(plantSummaryA.getText(),plantALeps));
-		series1.getData().add(new XYChart.Data(plantSummaryB.getText(),plantBLeps));
+        series1.getData().add(new XYChart.Data(plantAName,plantALeps));
+		series1.getData().add(new XYChart.Data(plantBName,plantBLeps));
 		 bc = new BarChart<String,Number>(xAxis,yAxis);
 		 bc.setTitle("Leps Supported");
 		 bc.getData().addAll(series1);
 		 base.add(bc,0,4,1,1);
 		
 	}
-	public void setRadiusCompareView() {
+	public void setRadiusCompare(String plantAName, String plantBName, double plantASpreadLower, double plantASpreadUpper, double plantBSpreadLower, double plantBSpreadUpper){
+		base.getChildren().remove(bc);
+		
+		xAxis = new CategoryAxis();
+	    yAxis = new NumberAxis();
+	    xAxis.setLabel("Plant names");       
+        yAxis.setLabel("Plant Spread (in *put units here*)");
+        
+        series1 = new XYChart.Series();
+        series2 = new XYChart.Series();
+        series1.setName("Spread (Lower Bound)");
+        series2.setName("Spread (Upper Bound)");
+        
+        series1.getData().add(new XYChart.Data(plantAName,plantASpreadLower));
+		series1.getData().add(new XYChart.Data(plantBName,plantBSpreadLower));
+		
+        series2.getData().add(new XYChart.Data(plantAName,plantASpreadUpper));
+        series2.getData().add(new XYChart.Data(plantBName,plantBSpreadUpper));
+
+		 bc = new BarChart<String,Number>(xAxis,yAxis);
+		 bc.setTitle("Plant Spread");
+		 bc.getData().addAll(series1,series2);
+		 base.add(bc,0,4,1,1);
 		
 	}
 	public void setSizeCompareView() {
 		
 	}
 	
-	public void setALeps(int l) {
-		plantALeps = l;
+	
+	public void setAName(String n) {
+		plantAName = n;
 	}
-	public void setBLeps(int l) {
-		plantBLeps = l;
+	public void setBName(String n) {
+		plantBName = n;
 	}
 }

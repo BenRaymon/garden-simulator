@@ -21,6 +21,16 @@ public class CompPlants {
 		return p.getLepsSupported();
 	}
 	
+	public static double getLowerRadius(String s) {
+		Plant p = Garden.getPlant(s);
+		return p.getSpreadRadiusLower();
+	}
+	
+public static double getUpperRadius(String s) {
+	Plant p = Garden.getPlant(s);
+	return p.getSpreadRadiusUpper();
+	}
+	
 	public static String moreLeps(Plant A, Plant B) {
 		if (A.getLepsSupported() > B.getLepsSupported())
 			return A.getScientificName();
