@@ -143,128 +143,122 @@ public class GardenEditor {
 	}
 	
 	
-	private static Point[][] getControlPoints(ArrayList<Point> coords, int N, double alpha) {
-	      if (alpha < 0.0 || alpha > 1.0) {
-	          throw new IllegalArgumentException("alpha must be a value between 0 and 1 inclusive");
-	      }
-
-	      Point[][] ctrl = new Point[N][2];
-
-	      Point[] v = new Point[3];
-
-	      Point[] mid = new Point[2];
-	      mid[0] = new Point();
-	      mid[1] = new Point();
-
-	      Point anchor = new Point();
-	      double[] vdist = new double[2];
-	      double mdist;
-
-	      v[1] = coords.get(N-1);
-	      v[2] = coords.get(0);
-	      mid[1].setX((v[1].getX() + v[2].getX()) / 2.0);
-	      mid[1].setY((v[1].getY() + v[2].getY()) / 2.0);
-	      vdist[1] = v[1].distance(v[2]);
-
-	      for (int i = 0; i < N; i++) {
-	          v[0] = v[1];
-	          v[1] = v[2];
-	          v[2] = coords.get((i + 1) % N);
-
-	          mid[0].setX(mid[1].getX());
-	          mid[0].setY( mid[1].getY());
-	          mid[1].setX((v[1].getX() + v[2].getX()) / 2.0);
-	          mid[1].setY((v[1].getY() + v[2].getY()) / 2.0);
-
-	          vdist[0] = vdist[1];
-	          vdist[1] = v[1].distance(v[2]);
-
-	          double p = vdist[0] / (vdist[0] + vdist[1]);
-	          anchor.setX(mid[0].getX() + p * (mid[1].getX() - mid[0].getX()));
-	          anchor.setY(mid[0].getY() + p * (mid[1].getY() - mid[0].getY()));
-
-	          double xdelta = anchor.getX() - v[1].getX();
-	          double ydelta = anchor.getY() - v[1].getY();
-
-	          ctrl[i][0] = new Point(
-	                  alpha*(v[1].getX() - mid[0].getX() + xdelta) + mid[0].getX() - xdelta,
-	                  alpha*(v[1].getY() - mid[0].getY() + ydelta) + mid[0].getY() - ydelta);
-
-	          ctrl[i][1] = new Point(
-	                  alpha*(v[1].getX() - mid[1].getX() + xdelta) + mid[1].getX() - xdelta,
-	                  alpha*(v[1].getY() - mid[1].getY() + ydelta) + mid[1].getY() - ydelta);
-	      }
-
-	      return ctrl;
+	private static ArrayList<ArrayList<Point>> getControlPoints(ArrayList<Point> coords, int N, double alpha) {
+		if (alpha < 0.0 || alpha > 1.0) {
+			throw new IllegalArgumentException("alpha must be a value between 0 and 1 inclusive");
+		}
+		  
+		ArrayList<ArrayList<Point>> ctrl = new ArrayList<ArrayList<Point>>();
+		
+		Point v1, v2, v3;
+		
+		Point mid1 = new Point();
+		Point mid2 = new Point();
+		  
+		Point anchor = new Point();
+		double vdist1, vdist2;
+		double mdist;
+		
+		v2 = coords.get(N-1);
+		v3 = coords.get(0);
+		mid2.setX((v2.getX() + v3.getX()) / 2.0);
+		mid2.setY((v2.getY() + v3.getY()) / 2.0);
+		vdist2 = v2.distance(v3);
+		
+		for (int i = 0; i < N; i++) {
+			v1 = v2;
+		    v2 = v3;
+		    v3 = coords.get((i + 1) % N);
+		
+		    mid1.setX(mid2.getX());
+		    mid1.setY(mid2.getY());
+		    mid2.setX((v2.getX() + v3.getX()) / 2.0);
+		    mid2.setY((v2.getY() + v3.getY()) / 2.0);
+		
+		    vdist1 = vdist2;
+		    vdist2 = v2.distance(v3);
+		
+		    double p = vdist1 / (vdist1 + vdist2);
+		    anchor.setX(mid1.getX() + p * (mid2.getX() - mid1.getX()));
+		    anchor.setY(mid1.getY() + p * (mid2.getY() - mid1.getY()));
+		
+		    double xdelta = anchor.getX() - v2.getX();
+		    double ydelta = anchor.getY() - v2.getY();
+		
+		    ArrayList<Point> points = new ArrayList<Point>();
+		    points.add(new Point(
+		            alpha*(v2.getX() - mid1.getX() + xdelta) + mid1.getX() - xdelta,
+		            alpha*(v2.getY() - mid1.getY() + ydelta) + mid1.getY() - ydelta));
+		    points.add(new Point(
+		            alpha*(v2.getX() - mid2.getX() + xdelta) + mid2.getX() - xdelta,
+		            alpha*(v2.getY() - mid2.getY() + ydelta) + mid2.getY() - ydelta));
+		    ctrl.add(i, points);
+		      
+		}
+		
+		return ctrl;
 	}
-	
-	private static Point[] cubicBezier(final Point start, final Point end,
-	      final Point ctrl1, final Point ctrl2, final int nv) {
-	            
-	      final Point[] curve = new Point[nv];
-	    
-	      final Point[] buf = new Point[3];
-	      for (int i = 0; i < buf.length; i++) {
-	          buf[i] = new Point();
-	      }
-	    
-	      //curve[0] = new Point(start);
-	      //curve[nv - 1] = new Point(end);
 
-	      for (int i = 1; i < nv-1; i++) {
-	          double t = (double) i / (nv - 1);
-	          double tc = 1.0 - t;
+	private static ArrayList<Point> cubicBezier(final Point start, final Point end,
+		final Point ctrl1, final Point ctrl2, final int nv) {
+		        
+		final ArrayList<Point> curve = new ArrayList<Point>();
+		
+		for (int i = 0; i < nv; i++) {
+		    double t = (double) i / (nv);
+		    double tc = 1.0 - t;
+		
+		    double t0 = tc*tc*tc;
+		    double t1 = 3.0*tc*tc*t;
+		    double t2 = 3.0*tc*t*t;
+		    double t3 = t*t*t;
+		    double tsum = t0 + t1 + t2 + t3;
+		
+		    Point c = new Point();
+		
+		    c.setX(t0*start.getX() + t1*ctrl1.getX() + t2*ctrl2.getX() + t3*end.getX());
+		    c.setX(c.getX()/tsum);
+		    c.setY( t0*start.getY() + t1*ctrl1.getY() + t2*ctrl2.getY() + t3*end.getY());
+		    c.setY(c.getY() / tsum);
+		
+		    curve.add(c);
+		}
+		return curve;
+	}
 
-	          double t0 = tc*tc*tc;
-	          double t1 = 3.0*tc*tc*t;
-	          double t2 = 3.0*tc*t*t;
-	          double t3 = t*t*t;
-	          double tsum = t0 + t1 + t2 + t3;
 
-	          Point c = new Point();
-
-	          c.setX(t0*start.getX() + t1*ctrl1.getX() + t2*ctrl2.getX() + t3*end.getX());
-	          c.setX(c.getX()/tsum);
-	          c.setY( t0*start.getY() + t1*ctrl1.getY() + t2*ctrl2.getY() + t3*end.getY());
-	          c.setY(c.getY() / tsum);
-
-	          curve[i] = c;
-	      }
-	      return curve;
-	  }
-	
-	
 	public static ArrayList<Point> smooth(ArrayList<Point> points, double alpha, int pointsPerSegment) {
 	    
-		  int Nvertices = points.size();
-	      Point[][] controlPoints = getControlPoints(points, Nvertices, alpha);
+		int Nvertices = points.size();
+		ArrayList<ArrayList<Point>> controlPoints = getControlPoints(points, Nvertices, alpha);
+		
+		ArrayList<Point> smoothCoords = new ArrayList<Point>();
+		  
+		for (int i = 0, k = 0; i < Nvertices; i++) {
+		    int next = (i + 1) % Nvertices;  
+		      
+		    ArrayList<Point> segment = cubicBezier(
+		            points.get(i), points.get(next),
+		            controlPoints.get(i).get(1), controlPoints.get(next).get(0),
+		            pointsPerSegment);
+		    
+		    for (int j = 0; j < pointsPerSegment; j++, k++) {
+		    	smoothCoords.add(segment.get(j));
+		    }
+		}
+		  
+		ArrayList<Point> newPoints = new ArrayList<Point>();
+		  
+		for (int i = 0; i < smoothCoords.size(); i++) {
+			if (smoothCoords.get(i) != null) {
+				newPoints.add(smoothCoords.get(i));
+			}
+		}
+		  
+		return newPoints;
 	    
-	      Point[] smoothCoords = new Point[Nvertices * pointsPerSegment];
-	      for (int i = 0, k = 0; i < Nvertices; i++) {
-	          int next = (i + 1) % Nvertices;
-	        
-	          Point[] segment = cubicBezier(
-	                  points.get(i), points.get(next),
-	                  controlPoints[i][1], controlPoints[next][0],
-	                  pointsPerSegment);
-	        
-	          for (int j = 0; j < pointsPerSegment; j++, k++) {
-	              smoothCoords[k] = segment[j];
-	          }
-	      }
 	      
-	      ArrayList<Point> newPoints = new ArrayList<Point>();
-	      
-	      for (int i = 0; i < smoothCoords.length; i++) {
-	    	  if (smoothCoords[i] != null) {
-	    		  newPoints.add(smoothCoords[i]);
-	    	  }
-	      }
-	      
-	      return newPoints;
-	    
-	      
-	  }
+	}
 	
 	
 	public Plant selectPlant() {
