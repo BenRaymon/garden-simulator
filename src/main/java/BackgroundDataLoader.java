@@ -95,10 +95,10 @@ public class BackgroundDataLoader extends Thread {
 		Options op = new Options(st,sl,m);
 		//create plant instance
 		Plant addPlant = new Plant(words[0], words[1], words[2], words[3], words[4], Double.parseDouble(words[5]), Double.parseDouble(words[6]), 
-							Integer.parseInt(words[7]), Integer.parseInt(words[8]),op, Double.parseDouble(words[9]), Integer.parseInt(words[10]), 
+							Double.parseDouble(words[7]), Double.parseDouble(words[8]),op, Double.parseDouble(words[9]), Integer.parseInt(words[10]), 
 							words[11].charAt(0));
 		//add plant to the static hashmap
-		all_plants.put(addPlant.getCommonName(), addPlant);
+		all_plants.put(addPlant.getScientificName(), addPlant);
 		
 		//DEBUG
 		System.out.println(addPlant.toString() + "||" + op.toString());

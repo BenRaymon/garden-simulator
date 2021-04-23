@@ -11,6 +11,8 @@ public class GardenEditor {
 	
 	public static void setSelectedPlant(String plantName, Point pos) {
 		Plant p = Garden.getPlant(plantName);
+		System.out.println(plantName);
+		System.out.println(Garden.getAllPlants().keySet());
 		p.setPosition(pos);
 		currentlySelectedPlant = Garden.getPlant(plantName);
 	}

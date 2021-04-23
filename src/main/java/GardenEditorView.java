@@ -135,13 +135,16 @@ public class GardenEditorView extends View{
 	        //temp.setFitWidth(100);
 	        //temp.setOnDragDetected(controller.getOnImageDraggedHandler());
 	        //top.add(temp, imageInc, 0);
-	        recommendedPlantImages.put(value, key);
-			
-	        Circle circ = new Circle(50);
-	        circ.setFill(new ImagePattern((Image)value));
-	        circ.setOnDragDetected(controller.getOnImageDraggedHandler());
-	        top.add(circ, imageInc, 0);
-	        imageInc++;
+			if(imageInc < 10) {
+				recommendedPlantImages.put(value, key);
+				
+		        Circle circ = new Circle(50);
+		        circ.setFill(new ImagePattern((Image)value));
+		        circ.setOnDragDetected(controller.getOnImageDraggedHandler());
+		        top.add(circ, imageInc, 0);
+		        imageInc++;
+			}
+	        
 		});
 		base.setTop(top);
 		
@@ -165,6 +168,7 @@ public class GardenEditorView extends View{
 	    top = new GridPane();
 		createPane(top, "white");
 		top.setMinHeight(TOPBAR);
+		top.setMaxWidth(600);
 		base.setTop(top);
 	}
 	

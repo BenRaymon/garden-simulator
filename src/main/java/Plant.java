@@ -11,8 +11,8 @@ public class Plant implements Serializable {
 	private String color;
 	private double sizeLower;
 	private double  sizeUpper;
-	private int spreadRadiusLower;
-	private int spreadRadiusUpper;
+	private double spreadRadiusLower;
+	private double spreadRadiusUpper;
 	private Options options;
 	private double cost;
 	private int lepsSupported;
@@ -20,7 +20,7 @@ public class Plant implements Serializable {
 	private String genera;
 	
 	public Plant(String commonName, String scientificName, String genera, String family, String color, double sizeLower, double sizeUpper, 
-			int spreadRadiusLower, int spreadRadiusUpper, Options options, double cost, int lepsSupported, char type) {
+			double spreadRadiusLower, double spreadRadiusUpper, Options options, double cost, int lepsSupported, char type) {
 		this.commonName = commonName;
 		this.scientificName = scientificName;
 		this.genera = genera;
@@ -165,25 +165,25 @@ public class Plant implements Serializable {
 
 
 
-	public int getSpreadRadiusLower() {
+	public double getSpreadRadiusLower() {
 		return spreadRadiusLower;
 	}
 
 
 
-	public void setSpreadRadiusLower(int spreadRadiusLower) {
+	public void setSpreadRadiusLower(double spreadRadiusLower) {
 		this.spreadRadiusLower = spreadRadiusLower;
 	}
 
 
 
-	public int getSpreadRadiusUpper() {
+	public double getSpreadRadiusUpper() {
 		return spreadRadiusUpper;
 	}
 
 
 
-	public void setSpreadRadiusUpper(int spreadRadiusUpper) {
+	public void setSpreadRadiusUpper(double spreadRadiusUpper) {
 		this.spreadRadiusUpper = spreadRadiusUpper;
 	}
 

@@ -37,6 +37,8 @@ public class BackgroundImageLoader extends Thread {
 	
 	// The thread runs this function
 	public void run() {
+		test();
+		/*
 		System.out.println("PLEASE ONLY SHOW ONCE");
 		//load data file and create a list of lines
 		File plantData = Paths.get("src/main/resources/result.csv").toFile().getAbsoluteFile();
@@ -53,10 +55,11 @@ public class BackgroundImageLoader extends Thread {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		*/
 	}
 	
 	public InputStream getFile(String fileName) {
-		return BackgroundImageLoader.class.getResourceAsStream(fileName);
+		return BackgroundImageLoader.class.getResourceAsStream("images/"+fileName);
 	}
 	
 	public void addImage(String line) {
@@ -71,6 +74,19 @@ public class BackgroundImageLoader extends Thread {
 		} catch (Exception e) {
 			System.out.println("Failed to add image");
 			e.printStackTrace();
+		}
+	}
+	
+	public void test() {
+		File dir = Paths.get("src/main/resources/images").toFile().getAbsoluteFile();
+		File[] directoryListing = dir.listFiles();
+		int x = 0;
+		if (directoryListing != null) {
+			for (File child : directoryListing) {
+				Image image = new Image(getFile(child.getName()));
+				String name = child.getName().replace(".jpg", "");
+				plant_images.put(name, image);
+			}
 		}
 	}
 }

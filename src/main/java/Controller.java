@@ -60,7 +60,7 @@ public class Controller extends Application{
 	//Start the main program
 	public void loadStartScreen() {
 		try {
-			Thread.sleep(500);
+			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
