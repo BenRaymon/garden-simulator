@@ -62,15 +62,13 @@ public class GardenEditor {
 	}
 	
 	public static void calculateScale() {
-		
 		scale = (CANVAS_HEIGHT - SCALE_BUFFER) / (bottom-top);
 		if ((CANVAS_WIDTH-SCALE_BUFFER)/(right-left) < scale) {
 			scale = (CANVAS_WIDTH-SCALE_BUFFER)/(right-left);
 		}
-		
 	}
 	
-	public static void scalePlots(ArrayList<Plot> plots) {
+	private static void scalePlots(ArrayList<Plot> plots) {
 		Iterator<Plot> it = plots.iterator();
 		while(it.hasNext()) {
 			ArrayList<Point> points = it.next().getCoordinates();
@@ -83,30 +81,13 @@ public class GardenEditor {
 		}
 	}
 	
-	public static void checkBorders(ArrayList<Plot> plots) {
+	private static void checkBorders(ArrayList<Plot> plots) {
 		right = (right-cx)*scale + cx;
 		left = (left-cx)*scale + cx;
 		top = (top-cy)*scale + cy;
 		bottom = (bottom-cy)*scale + cy;
 		
 		double xDist=0,yDist=0;
-		
-		//if(left < 0) {
-		//	xDist = left * -1 + BUFFER;
-		//}
-		
-		//if(right > CANVAS_WIDTH) {
-		//	xDist = -1 * (right - CANVAS_WIDTH + BUFFER);
-		//}
-		
-		//if(top < TOP_HEIGHT) {
-		//	yDist = (TOP_HEIGHT - top) + BUFFER;
-		//}
-		
-		//if(bottom + TOP_HEIGHT > CANVAS_HEIGHT) {
-		//	System.out.println("TEST");
-		//	yDist = -1 * (bottom - CANVAS_HEIGHT + BUFFER);
-		//}
 		
 		if(cx != CANVAS_WIDTH / 2) 
 			xDist += (CANVAS_WIDTH / 2 - cx);
@@ -127,7 +108,7 @@ public class GardenEditor {
 		}
 	}
 	
-	//check for valid placement
+
 	
 	//returns the plotNum that the position falls in (-1 if out of bounds of all plots)
 	public static int inPlot(Point pos, ArrayList<Plot> plots) {
@@ -147,8 +128,8 @@ public class GardenEditor {
 			return -1;
 	}
 	
-	//check if a coordinate falls within the bounds of a list of points
-	public static boolean inBounds(ArrayList<Point> points, double x, double y) {
+	//check if a Point falls within the bounds of a list of points
+	private static boolean inBounds(ArrayList<Point> points, double x, double y) {
 		boolean bounds = false;
 		int i, j;
 		for (i = 0, j = points.size() - 1; i < points.size(); j = i++) {
@@ -161,144 +142,130 @@ public class GardenEditor {
 		return bounds;
 	}
 	
-	/*
-	public static void test(Plot pl) {
-		Point zero = null, one = null, two = null, three = null;
-		for( int a = 0; a < 2; a ++) {
-			ArrayList<Point> points = pl.getCoordinates();
-			ArrayList<Point> np = new ArrayList<Point>();
-			Iterator<Point> itp = points.iterator();
-			int x = 0;
-			while(itp.hasNext()) {
-				Point p = itp.next();
-				if(x%4 == 0)
-					zero = p;
-				if(x%4 == 1)
-					one = p;
-				if(x%4 == 2)
-					two = p;
-				if(x%4 == 3) {
-					three = p;
-					Points(np, zero, one, two, three);
-				}
-				x++;
-			}
-			pl.setCoordinates(np);
-		}
+	
+	private static Point[][] getControlPoints(ArrayList<Point> coords, int N, double alpha) {
+	      if (alpha < 0.0 || alpha > 1.0) {
+	          throw new IllegalArgumentException("alpha must be a value between 0 and 1 inclusive");
+	      }
+
+	      Point[][] ctrl = new Point[N][2];
+
+	      Point[] v = new Point[3];
+
+	      Point[] mid = new Point[2];
+	      mid[0] = new Point();
+	      mid[1] = new Point();
+
+	      Point anchor = new Point();
+	      double[] vdist = new double[2];
+	      double mdist;
+
+	      v[1] = coords.get(N-1);
+	      v[2] = coords.get(0);
+	      mid[1].setX((v[1].getX() + v[2].getX()) / 2.0);
+	      mid[1].setY((v[1].getY() + v[2].getY()) / 2.0);
+	      vdist[1] = v[1].distance(v[2]);
+
+	      for (int i = 0; i < N; i++) {
+	          v[0] = v[1];
+	          v[1] = v[2];
+	          v[2] = coords.get((i + 1) % N);
+
+	          mid[0].setX(mid[1].getX());
+	          mid[0].setY( mid[1].getY());
+	          mid[1].setX((v[1].getX() + v[2].getX()) / 2.0);
+	          mid[1].setY((v[1].getY() + v[2].getY()) / 2.0);
+
+	          vdist[0] = vdist[1];
+	          vdist[1] = v[1].distance(v[2]);
+
+	          double p = vdist[0] / (vdist[0] + vdist[1]);
+	          anchor.setX(mid[0].getX() + p * (mid[1].getX() - mid[0].getX()));
+	          anchor.setY(mid[0].getY() + p * (mid[1].getY() - mid[0].getY()));
+
+	          double xdelta = anchor.getX() - v[1].getX();
+	          double ydelta = anchor.getY() - v[1].getY();
+
+	          ctrl[i][0] = new Point(
+	                  alpha*(v[1].getX() - mid[0].getX() + xdelta) + mid[0].getX() - xdelta,
+	                  alpha*(v[1].getY() - mid[0].getY() + ydelta) + mid[0].getY() - ydelta);
+
+	          ctrl[i][1] = new Point(
+	                  alpha*(v[1].getX() - mid[1].getX() + xdelta) + mid[1].getX() - xdelta,
+	                  alpha*(v[1].getY() - mid[1].getY() + ydelta) + mid[1].getY() - ydelta);
+	      }
+
+	      return ctrl;
 	}
-	public static void Points(ArrayList<Point> np, Point zero, Point one, Point two, Point three) {
-		// Assume we need to calculate the control
-	    // points between (x1,y1) and (x2,y2).
-	    // Then x0,y0 - the previous vertex,
-	    //      x3,y3 - the next one
-		double x0 = zero.getX();
-		double x1 = one.getX();
-		double x2 = two.getX();
-		double x3 = three.getX();
-
-		double y0 = zero.getY();
-		double y1 = one.getY();
-		double y2 = two.getY();
-		double y3 = three.getY();
-		
-	    double xc1 = (x0 + x1) / 2.0;
-	    double yc1 = (y0 + y1) / 2.0;
-	    double xc2 = (x1 + x2) / 2.0;
-	    double yc2 = (y1 + y2) / 2.0;
-	    double xc3 = (x2 + x3) / 2.0;
-	    double yc3 = (y2 + y3) / 2.0;
-
-	    double len1 = Math.sqrt((x1-x0) * (x1-x0) + (y1-y0) * (y1-y0));
-	    double len2 = Math.sqrt((x2-x1) * (x2-x1) + (y2-y1) * (y2-y1));
-	    double len3 = Math.sqrt((x3-x2) * (x3-x2) + (y3-y2) * (y3-y2));
-
-	    double k1 = len1 / (len1 + len2);
-	    double k2 = len2 / (len2 + len3);
-
-	    double xm1 = xc1 + (xc2 - xc1) * k1;
-	    double ym1 = yc1 + (yc2 - yc1) * k1;
-
-	    double xm2 = xc2 + (xc3 - xc2) * k2;
-	    double ym2 = yc2 + (yc3 - yc2) * k2;
+	
+	private static Point[] cubicBezier(final Point start, final Point end,
+	      final Point ctrl1, final Point ctrl2, final int nv) {
+	            
+	      final Point[] curve = new Point[nv];
 	    
-	    double smooth_value = 1;
-
-	    // Resulting control points. Here smooth_value is mentioned
-	    // above coefficient K whose value should be in range [0...1].
-	    double ctrl1_x = xm1 + (xc2 - xm1) * smooth_value + x1 - xm1;
-	    double ctrl1_y = ym1 + (yc2 - ym1) * smooth_value + y1 - ym1;
-
-	    double ctrl2_x = xm2 + (xc2 - xm2) * smooth_value + x2 - xm2;
-	    double ctrl2_y = ym2 + (yc2 - ym2) * smooth_value + y2 - ym2;
+	      final Point[] buf = new Point[3];
+	      for (int i = 0; i < buf.length; i++) {
+	          buf[i] = new Point();
+	      }
 	    
-	    curve(np, zero, new Point(ctrl1_x, ctrl1_y), new Point(ctrl2_x, ctrl2_y), three);
-	}
-	public static void curve(ArrayList<Point> points, Point p1, Point c1, Point c2, Point p2) {
-		int NUM_STEPS = 200;
-		
-		double x1 = p1.getX();
-		double x2 = c1.getX();
-		double x3 = c2.getX();
-		double x4 = p2.getX();
-		
-		double y1 = p1.getY();
-		double y2 = c1.getY();
-		double y3 = c2.getY();
-		double y4 = p2.getY();
-		
-		double dx1 = x2 - x1;
-	    double dy1 = y2 - y1;
-	    double dx2 = x3 - x2;
-	    double dy2 = y3 - y2;
-	    double dx3 = x4 - x3;
-	    double dy3 = y4 - y3;
+	      //curve[0] = new Point(start);
+	      //curve[nv - 1] = new Point(end);
 
-	    double subdiv_step  = 1.0 / (NUM_STEPS + 1);
-	    double subdiv_step2 = subdiv_step*subdiv_step;
-	    double subdiv_step3 = subdiv_step*subdiv_step*subdiv_step;
+	      for (int i = 1; i < nv-1; i++) {
+	          double t = (double) i / (nv - 1);
+	          double tc = 1.0 - t;
 
-	    double pre1 = 3.0 * subdiv_step;
-	    double pre2 = 3.0 * subdiv_step2;
-	    double pre4 = 6.0 * subdiv_step2;
-	    double pre5 = 6.0 * subdiv_step3;
+	          double t0 = tc*tc*tc;
+	          double t1 = 3.0*tc*tc*t;
+	          double t2 = 3.0*tc*t*t;
+	          double t3 = t*t*t;
+	          double tsum = t0 + t1 + t2 + t3;
 
-	    double tmp1x = x1 - x2 * 2.0 + x3;
-	    double tmp1y = y1 - y2 * 2.0 + y3;
+	          Point c = new Point();
 
-	    double tmp2x = (x2 - x3)*3.0 - x1 + x4;
-	    double tmp2y = (y2 - y3)*3.0 - y1 + y4;
+	          c.setX(t0*start.getX() + t1*ctrl1.getX() + t2*ctrl2.getX() + t3*end.getX());
+	          c.setX(c.getX()/tsum);
+	          c.setY( t0*start.getY() + t1*ctrl1.getY() + t2*ctrl2.getY() + t3*end.getY());
+	          c.setY(c.getY() / tsum);
 
-	    double fx = x1;
-	    double fy = y1;
-
-	    double dfx = (x2 - x1)*pre1 + tmp1x*pre2 + tmp2x*subdiv_step3;
-	    double dfy = (y2 - y1)*pre1 + tmp1y*pre2 + tmp2y*subdiv_step3;
-
-	    double ddfx = tmp1x*pre4 + tmp2x*pre5;
-	    double ddfy = tmp1y*pre4 + tmp2y*pre5;
-
-	    double dddfx = tmp2x*pre5;
-	    double dddfy = tmp2y*pre5;
-
-	    int step = NUM_STEPS;
-
-	    // Suppose, we have some abstract object Polygon which
-	    // has method AddVertex(x, y), similar to LineTo in
-	    // many graphical APIs.
-	    // Note, that the loop has only operation add!
-	    while(step-- > 0)
-	    {
-	        fx   += dfx;
-	        fy   += dfy;
-	        dfx  += ddfx;
-	        dfy  += ddfy;
-	        ddfx += dddfx;
-	        ddfy += dddfy;
-	        points.add(new Point(fx, fy));
-	    }
-        points.add(new Point(x4, y4)); //Last step must go exactly to x4, y4
-	}
-	*/
+	          curve[i] = c;
+	      }
+	      return curve;
+	  }
+	
+	
+	public static ArrayList<Point> smooth(ArrayList<Point> points, double alpha, int pointsPerSegment) {
+	    
+		  int Nvertices = points.size();
+	      Point[][] controlPoints = getControlPoints(points, Nvertices, alpha);
+	    
+	      Point[] smoothCoords = new Point[Nvertices * pointsPerSegment];
+	      for (int i = 0, k = 0; i < Nvertices; i++) {
+	          int next = (i + 1) % Nvertices;
+	        
+	          Point[] segment = cubicBezier(
+	                  points.get(i), points.get(next),
+	                  controlPoints[i][1], controlPoints[next][0],
+	                  pointsPerSegment);
+	        
+	          for (int j = 0; j < pointsPerSegment; j++, k++) {
+	              smoothCoords[k] = segment[j];
+	          }
+	      }
+	      
+	      ArrayList<Point> newPoints = new ArrayList<Point>();
+	      
+	      for (int i = 0; i < smoothCoords.length; i++) {
+	    	  if (smoothCoords[i] != null) {
+	    		  newPoints.add(smoothCoords[i]);
+	    	  }
+	      }
+	      
+	      return newPoints;
+	    
+	      
+	  }
+	
 	
 	public Plant selectPlant() {
 		return null;

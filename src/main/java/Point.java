@@ -15,6 +15,10 @@ public class Point implements Serializable{
 		yCord=y;
 	}
 	
+	public double distance(Point p) {
+		return Math.sqrt((this.xCord-p.getX()) * (this.xCord-p.getX()) + (this.yCord-p.getY()) * (this.yCord-p.getY()));
+	}
+	
 	public double getX() {
 		return xCord;
 	}

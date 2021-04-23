@@ -172,6 +172,7 @@ public class Controller extends Application{
 			double t = gardenEditorView.getTopHeight();
 			GardenEditor.transformPlots(garden.getPlots(), w, h, t);
 			for (Plot p : garden.getPlots()) {
+				p.setCoordinates(GardenEditor.smooth(p.getCoordinates(), 0.3, 20));
 				gardenEditorView.setFillColor(p.getOptions());
 				gardenEditorView.drawPlot(p.getCoordinates());
 			}
