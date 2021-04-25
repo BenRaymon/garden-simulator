@@ -35,7 +35,8 @@ public class PlotDesignView extends View {
 	private TextField budget;
 	private TextField widthInput;
 	private TextField heightInput;
-	private TextField scaleInput;
+	private TextField boxHeightInput;
+	private TextField boxWidthInput;
 	private Scene scene;
 	private BorderPane base;
 	private Button toGarden;
@@ -45,6 +46,7 @@ public class PlotDesignView extends View {
 	private ArrayList<Point> coords;
 	private GridPane left_grid, bottom;
 	private Canvas drawArea;
+	private VBox box;
 	private boolean canDraw;
 	private final double LEFTBAR = 200;
 	private final double SPACING = 10;
@@ -69,10 +71,10 @@ public class PlotDesignView extends View {
 		
 		
 		
-		VBox box = new VBox();
+		box = new VBox();
 		System.out.println("Width" + box.getWidth());
-		
-		drawArea = new Canvas(WINDOW_WIDTH - 2 * LEFTBAR, WINDOW_HEIGHT - BOTTOM_HEIGHT);
+		base.setCenter(box);
+		drawArea = new Canvas(box.getWidth(), box.getHeight());
 		gc = drawArea.getGraphicsContext2D();
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(1);
@@ -89,7 +91,7 @@ public class PlotDesignView extends View {
 		
 
 		
-		base.setCenter(box);
+		
 
 		// Create left side bar with sliders and buttons
 		createLeftGrid();
@@ -126,8 +128,9 @@ public class PlotDesignView extends View {
 					public void changed(ObservableValue observable,
 										Object oldValue, Object newValue) {
 						Double width = (Double)newValue;
-						drawArea.setWidth(width);
-						System.out.println("WIDTH CHANGE");
+						stage.setWidth(width);
+						System.out.println("STAGE WIDTH" + stage.getWidth());
+						drawArea.setWidth(stage.getHeight()-LEFTBAR);
 					}
 				}
 		);
@@ -137,7 +140,8 @@ public class PlotDesignView extends View {
 					public void changed(ObservableValue observable,
 										Object oldValue, Object newValue) {
 						Double height = (Double)newValue;
-						drawArea.setHeight(height - BOTTOM_HEIGHT);
+						stage.setWidth(height);
+						drawArea.setHeight(box.getHeight());
 					}
 				});
 	
@@ -146,22 +150,27 @@ public class PlotDesignView extends View {
 	public void inputDimensions() {
 		Label widthText = new Label("Input width");
 		Label heightText = new Label("Input height");
-		Label scaleText = new Label("size / square");
+		Label boxHeightText = new Label("Input box height");
+		Label boxWidthText = new Label("Input box width");
 		widthInput = new TextField();
 		widthInput.setOnAction(controller.getPlotWidthInput());
 		heightInput = new TextField();
 		heightInput.setOnAction(controller.getPlotHeightInput());
-		scaleInput = new TextField();
-		scaleInput.setOnAction(controller.getPlotScaleInput());
+		boxHeightInput = new TextField();
+		boxHeightInput.setOnAction(controller.getPlotBoxHeightInput());
+		boxWidthInput = new TextField();
+		boxWidthInput.setOnAction(controller.getPlotBoxWidthInput());
 		drawDimensions = new Button("Set Dimensions");
 		drawDimensions.setOnMouseClicked(controller.drawPlotGrid());
 		left_grid.add(widthText, 0, 35);
 		left_grid.add(widthInput, 1, 35);
 		left_grid.add(heightText, 0, 37);
 		left_grid.add(heightInput, 1, 37);
-		left_grid.add(scaleText, 0, 40);
-		left_grid.add(scaleInput, 1, 40);
-		left_grid.add(drawDimensions, 0, 43);
+		left_grid.add(boxHeightText, 0, 40);
+		left_grid.add(boxHeightInput, 1, 40);
+		left_grid.add(boxWidthText, 0, 43);
+		left_grid.add(boxWidthInput, 1, 43);
+		left_grid.add(drawDimensions, 1, 45);
 	}
 	
 	public int getHeightInput() {
@@ -176,10 +185,17 @@ public class PlotDesignView extends View {
 		return width;
 	}
 	
-	public int getScaleInput() {
-		int scale = Integer.parseInt(scaleInput.getText());
-		System.out.print(scale);
-		return scale;
+	public int getBoxHeightInput() {
+		int boxHeight = Integer.parseInt(boxHeightInput.getText());
+		System.out.print(boxHeight);
+		return boxHeight;
+	}
+	
+	public int getBoxWidthInput() {
+		int boxWidth = Integer.parseInt(boxWidthInput.getText());
+		System.out.println(boxWidth);
+		return boxWidth;
+		
 	}
 	
 	public void drawGrid() {
@@ -191,17 +207,23 @@ public class PlotDesignView extends View {
 		
 		int width = getWidthInput();
 		int height = getHeightInput();
-		int scale = getScaleInput();
+		int boxHeight = getBoxHeightInput();
+		int boxWidth = getBoxWidthInput();
 		
-		for (double x = 0; x <= width; x++) {
-			gc.moveTo(x*scale, 0);
-			gc.lineTo(x*scale, drawArea.getHeight());
+		double heightInc = drawArea.getHeight()/(height/boxHeight);
+		
+		double widthInc = drawArea.getWidth()/(width/boxWidth);
+		
+		
+		for (double x = 0; x <= drawArea.getWidth(); x+=widthInc) {
+			gc.moveTo(x, 0);
+			gc.lineTo(x, drawArea.getHeight());
 			gc.stroke();
 		}
 		
-		for (double y = 0; y <= height; y++) {
-			gc.moveTo(0,y*scale);
-			gc.lineTo(drawArea.getWidth(),y*scale);
+		for (double y = 0; y <= drawArea.getHeight(); y+=heightInc) {
+			gc.moveTo(0,y);
+			gc.lineTo(drawArea.getWidth(),y);
 			gc.stroke();
 		}
 		gc.closePath();

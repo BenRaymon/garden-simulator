@@ -114,9 +114,15 @@ public class Controller extends Application{
 		});
 	}
 	
-	public EventHandler getPlotScaleInput() {
+	public EventHandler getPlotBoxHeightInput() {
 		return (event->{
-			plotDesignView.getScaleInput();
+			plotDesignView.getBoxHeightInput();
+		});
+	}
+	
+	public EventHandler getPlotBoxWidthInput(){
+		return (event->{
+			plotDesignView.getBoxWidthInput();
 		});
 	}
 	
