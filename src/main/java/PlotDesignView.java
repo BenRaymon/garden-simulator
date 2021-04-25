@@ -35,6 +35,7 @@ public class PlotDesignView extends View {
 	private TextField budget;
 	private TextField widthInput;
 	private TextField heightInput;
+	private TextField scaleInput;
 	private Scene scene;
 	private BorderPane base;
 	private Button toGarden;
@@ -42,7 +43,7 @@ public class PlotDesignView extends View {
 	private GraphicsContext gc;
 	private Controller controller;
 	private ArrayList<Point> coords;
-	private GridPane left_grid, bottom, right;
+	private GridPane left_grid, bottom;
 	private Canvas drawArea;
 	private boolean canDraw;
 	private final double LEFTBAR = 200;
@@ -100,7 +101,6 @@ public class PlotDesignView extends View {
 
 		// create last and next page buttons
 		createBottom();
-		createRightGrid();
 		inputDimensions();
 		
 		
@@ -146,17 +146,22 @@ public class PlotDesignView extends View {
 	public void inputDimensions() {
 		Label widthText = new Label("Input width");
 		Label heightText = new Label("Input height");
+		Label scaleText = new Label("size / square");
 		widthInput = new TextField();
 		widthInput.setOnAction(controller.getPlotWidthInput());
 		heightInput = new TextField();
 		heightInput.setOnAction(controller.getPlotHeightInput());
+		scaleInput = new TextField();
+		scaleInput.setOnAction(controller.getPlotScaleInput());
 		drawDimensions = new Button("Set Dimensions");
 		drawDimensions.setOnMouseClicked(controller.drawPlotGrid());
-		right.add(widthText, 0, 0);
-		right.add(widthInput, 1, 0);
-		right.add(heightText, 0, 1);
-		right.add(heightInput, 1, 1);
-		right.add(drawDimensions, 0, 2);
+		left_grid.add(widthText, 0, 35);
+		left_grid.add(widthInput, 1, 35);
+		left_grid.add(heightText, 0, 37);
+		left_grid.add(heightInput, 1, 37);
+		left_grid.add(scaleText, 0, 40);
+		left_grid.add(scaleInput, 1, 40);
+		left_grid.add(drawDimensions, 0, 43);
 	}
 	
 	public int getHeightInput() {
@@ -171,37 +176,36 @@ public class PlotDesignView extends View {
 		return width;
 	}
 	
+	public int getScaleInput() {
+		int scale = Integer.parseInt(scaleInput.getText());
+		System.out.print(scale);
+		return scale;
+	}
+	
 	public void drawGrid() {
 		
-		double heightScaleFactor =  (drawArea.getHeight() / getHeightInput());
-		double widthScaleFactor = drawArea.getWidth() / getWidthInput();
+		//double heightScaleFactor =  (drawArea.getHeight() / getHeightInput());
+		//double widthScaleFactor = drawArea.getWidth() / getWidthInput();
 		
 		gc.clearRect(0, 0, drawArea.getWidth(), drawArea.getHeight());
 		
-		for (double x = 0; x < drawArea.getWidth(); x += widthScaleFactor) {
-			gc.moveTo(x, 0);
-			gc.lineTo(x, drawArea.getHeight());
+		int width = getWidthInput();
+		int height = getHeightInput();
+		int scale = getScaleInput();
+		
+		for (double x = 0; x <= width; x++) {
+			gc.moveTo(x*scale, 0);
+			gc.lineTo(x*scale, drawArea.getHeight());
 			gc.stroke();
 		}
 		
-		for (double y = 0; y < drawArea.getHeight(); y += heightScaleFactor) {
-			gc.moveTo(0,y);
-			gc.lineTo(drawArea.getWidth(),y);
+		for (double y = 0; y <= height; y++) {
+			gc.moveTo(0,y*scale);
+			gc.lineTo(drawArea.getWidth(),y*scale);
 			gc.stroke();
 		}
 		gc.closePath();
 		gc.beginPath();
-	}
-	
-	public void createRightGrid() {
-		right = new GridPane();
-		right.setAlignment(Pos.TOP_LEFT);
-		right.setStyle("-fx-background-color: darkseagreen");
-		// left_grid.setGridLinesVisible(true);
-		right.setMinWidth(LEFTBAR);
-		right.setHgap(SPACING);
-		right.setVgap(SPACING);
-		base.setRight(right);
 	}
 		
 	

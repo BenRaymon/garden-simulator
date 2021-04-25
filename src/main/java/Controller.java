@@ -114,6 +114,12 @@ public class Controller extends Application{
 		});
 	}
 	
+	public EventHandler getPlotScaleInput() {
+		return (event->{
+			plotDesignView.getScaleInput();
+		});
+	}
+	
 	
 	public EventHandler scaleUpCanvas() {
 		return (event->{
