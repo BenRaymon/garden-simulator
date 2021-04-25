@@ -1,4 +1,4 @@
-import java.awt.TextField;
+import javafx.scene.control.TextField;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.scene.control.*;
@@ -81,8 +81,6 @@ public class GardenEditorView extends View{
 		setPlantInfo();
 		createBottom();
 		addPageButtons();
-		
-		garden_name = new TextField();
 	
 		//create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -207,9 +205,12 @@ public class GardenEditorView extends View{
 		toComp.setOnMouseClicked(controller.getToCompareOnClickHandler());
 		bottom.add(toComp, 4, 0);
 		
+		garden_name = new TextField();
+		bottom.add(garden_name, 5, 0);
+		
 		saveGarden = new Button("Save");
 		saveGarden.setOnMouseClicked(controller.SaveButtonClickedHandler());
-		bottom.add(saveGarden, 5, 0);
+		bottom.add(saveGarden, 6, 0);
 	}
 	
 	public void setPlantInfo() {

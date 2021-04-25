@@ -353,7 +353,7 @@ public class Controller extends Application{
 			
 			try {
 				// set the garden name
-				java.awt.TextField tmp = gardenEditorView.getGardenName();
+				TextField tmp = gardenEditorView.getGardenName();
 				String name_g = tmp.getText();
 				garden.setName(name_g);
 				savedGardens.add(garden);
