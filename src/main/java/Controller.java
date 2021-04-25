@@ -65,6 +65,15 @@ public class Controller extends Application{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		// load the saved garden array into savedGardens
+		try {
+			savedGardens = gardenSaverLoader.loadGardenList();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		//Create all other views after the screen is loaded
 		startView = new StartView(stage, this);
 		plotDesignView = new PlotDesignView(stage, this);
@@ -297,5 +306,12 @@ public class Controller extends Application{
 		});
 	}
 	
+	public EventHandler getLoadGardenOnClickHandler() {
+	return (event -> {
+		System.out.println("Load Screen button clicked");
+		
+		stage.setScene(LoadSavedGardenView.getScene());
+	});
 	
+	} 
 }

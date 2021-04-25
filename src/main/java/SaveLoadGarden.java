@@ -22,7 +22,7 @@ public class SaveLoadGarden {
 			File f = new File("src/main/resources/savedGardens.dat");
 			
 			// make the output streams for the file and garden
-			FileOutputStream f_out = new FileOutputStream(f, false); // append is false to keep save file short
+			FileOutputStream f_out = new FileOutputStream(f, false); // append is false to keep one arraylist in save file
 			ObjectOutputStream o_out = new ObjectOutputStream(f_out);
 			
 			// write the garden to f_out
@@ -39,51 +39,6 @@ public class SaveLoadGarden {
 	    	  System.out.println("Can't initialize stream");
 	    	  e.printStackTrace();
 	    }
-	}
-	
-	/*
-	 * Load a perviously saved garden
-	 * Takes the file name as input
-	 * */
-	public Garden loadGarden(String g_name) throws ClassNotFoundException {
-		// declare the garden we'll return after loading in the save file
-		Garden ret_g = new Garden();
-		boolean flag = false; // flag to check if ret_g has been loaded properly
-		
-		try {
-			// find the save file, if it doesn't exist, throw and error
-			File f = new File("src/main/resources/savedGardens.dat");
-			if(!f.exists()) {
-				System.out.println("Garden not found");
-			}
-			
-			// make the input streams for the file and garden
-			FileInputStream f_in = new FileInputStream(f);
-			ObjectInputStream o_in = new ObjectInputStream(f_in);
-			
-			// Read the garden into our return garden so we can use it in the app
-			ret_g = (Garden) o_in.readObject();
-			
-			// close the input streams
-			o_in.close();
-			f_in.close();
-			
-			//set the flag to denote proper load
-			flag = true;
-			
-		} catch (FileNotFoundException e) {
-		      System.out.println("File not found");
-	    } catch (IOException e) {
-	    	  System.out.println("Can't initialize stream");
-	    	  e.printStackTrace();
-	    }
-		// if the garden was loaded, return it, otherwise, throw error
-		if(flag) {
-			// return the loaded garden
-			return ret_g;
-		} else {
-			return null;
-		}
 	}
 	
 	/*

@@ -24,7 +24,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class StartView extends View{
+public class StartView extends View {
 
 	private Button newGarden;
 	private Button loadGarden;
@@ -57,6 +57,7 @@ public class StartView extends View{
 		loadGarden = new Button("Load Garden");
 		loadGarden.setMinHeight(BUTTON_H);
 		loadGarden.setMinWidth(BUTTON_W);
+		loadGarden.setOnMouseClicked(controller.getLoadGardenOnClickHandler());
 		buttons.getChildren().add(newGarden);
 		buttons.getChildren().add(loadGarden);
 		base.add(buttons, 0, 0);
