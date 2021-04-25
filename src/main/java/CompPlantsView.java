@@ -73,8 +73,7 @@ public class CompPlantsView extends View {
 		base.add(toGardenEditor, 0, 10);
 
 		// Creating table
-		items = FXCollections.observableArrayList("General Info", "Lep Compare", "Radius Compare", "Size Compare",
-				"Color Compare");
+		items = FXCollections.observableArrayList("General Info", "Lep Compare", "Radius Compare", "Size Compare");
 		list = new ListView<String>();
 		// list.setOn
 		list.setItems(items);
