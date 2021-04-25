@@ -80,7 +80,6 @@ public class PlotDesignView extends View {
 		gc.setLineWidth(1);
 		
 		box.getChildren().add(drawArea);
-		Image image  = new Image("https://static.wikia.nocookie.net/lotr/images/e/ec/Gimli_-_FOTR.png/revision/latest?cb=20121008105956");
 		
 		String cssLayout = "-fx-border-color: red;\n" +
                 "-fx-border-insets: 5;\n" +
@@ -98,7 +97,6 @@ public class PlotDesignView extends View {
 		createSunSlider();
 		createMoistureSlider();
 		createSoilSlider();
-		createScaleButtons();
 		
 
 		// create last and next page buttons
@@ -182,6 +180,7 @@ public class PlotDesignView extends View {
 	
 	/**
 	 * Gets the user inputed height from text field
+	 * @param
 	 * @return user inputed height of grid
 	 */
 	public int getHeightInput() {
@@ -192,6 +191,7 @@ public class PlotDesignView extends View {
 	
 	/**
 	 * Gets the user inputed height from text field
+	 * @param none
 	 * @return user inputed width of grid
 	 */
 	public int getWidthInput() {
@@ -202,6 +202,7 @@ public class PlotDesignView extends View {
 	
 	/**
 	 * Gets the user inputed height of each unit grid box
+	 * @param none
 	 * @return user inputed height of each unit grid box 
 	 */
 	public int getBoxHeightInput() {
@@ -212,6 +213,7 @@ public class PlotDesignView extends View {
 	
 	/**
 	 * Gets the user inputed width of each unit grid box
+	 * @param none
 	 * @return user inputed width of each unit grid box
 	 */
 	public int getBoxWidthInput() {
@@ -220,11 +222,12 @@ public class PlotDesignView extends View {
 		return boxWidth;
 		
 	}
-	
+	/**
+	 * Responsible for drawing the scaling grid lines on the canvas
+	 * @param none
+	 * @return none
+	 */
 	public void drawGrid() {
-		
-		//double heightScaleFactor =  (drawArea.getHeight() / getHeightInput());
-		//double widthScaleFactor = drawArea.getWidth() / getWidthInput();
 		
 		gc.clearRect(0, 0, drawArea.getWidth(), drawArea.getHeight());
 		
@@ -257,10 +260,6 @@ public class PlotDesignView extends View {
 		heightBorder *= height/boxHeight;
 		widthBorder *= width/boxWidth;
 		
-		
-		//drawArea.setWidth(widthInc * width/boxWidth);
-		
-		
 		for (double x = 1; x <= drawArea.getWidth() - widthBorder + 1; x+=widthInc) {
 			gc.moveTo(x, 0);
 			gc.lineTo(x, drawArea.getHeight() - heightBorder);
@@ -276,17 +275,11 @@ public class PlotDesignView extends View {
 		gc.beginPath();
 	}
 		
-	
-	public void createScaleButtons() {
-		Button scaleUp = new Button("+");
-		Button scaleDown = new Button("-");
-		left_grid.add(scaleUp, 0, 50);
-		left_grid.add(scaleDown, 1, 50);
-		scaleUp.setOnMouseClicked(controller.scaleUpCanvas());
-		scaleDown.setOnMouseClicked(controller.scaleDownCanvas());
-		
-	}
-
+	/**
+	 * Creates the bottom panel of the border pane
+	 * @param none
+	 * @return none
+	 */
 	public void createBottom() {
 		bottom = new GridPane();
 		bottom.setAlignment(Pos.TOP_CENTER);
@@ -301,6 +294,11 @@ public class PlotDesignView extends View {
 		
 	}
 
+	/**
+	 * Creates the left grid pane in the border pane base
+	 * @param none
+	 * @return none
+	 */
 	public void createLeftGrid() {
 		left_grid = new GridPane();
 		left_grid.setAlignment(Pos.TOP_CENTER);
@@ -311,7 +309,12 @@ public class PlotDesignView extends View {
 		left_grid.setVgap(SPACING);
 		base.setLeft(left_grid);
 	}
-
+	
+	/**
+	 * Creates the standard form for the sliders used
+	 * @param slider
+	 * @return none
+	 */
 	public Slider sliderStandards(Slider slider) {
 		slider.setShowTickLabels(true);
 		slider.setMajorTickUnit(1);
@@ -321,6 +324,11 @@ public class PlotDesignView extends View {
 
 	}
 
+	/**
+	 * Creates and places the Sunlight slider
+	 * @param none
+	 * @return none
+	 */
 	public void createSunSlider() {
 		sunlight = new Slider(1, 3, 0);
 		Text t = new Text("Sunlight Level");
@@ -330,6 +338,11 @@ public class PlotDesignView extends View {
 
 	}
 
+	/**
+	 * Creates and places the Moisture slider
+	 * @param none
+	 * @return none
+	 */
 	public void createMoistureSlider() {
 		moisture = new Slider(1, 3, 0);
 		sliderStandards(moisture);
@@ -338,6 +351,11 @@ public class PlotDesignView extends View {
 		left_grid.add(moisture, 0, 10);
 	}
 
+	/**
+	 * Creates and places the Soil Type slider
+	 * @param none
+	 * @return none
+	 */
 	public void createSoilSlider() {
 		soilType = new Slider(1, 3, 0);
 		sliderStandards(soilType);
@@ -346,24 +364,48 @@ public class PlotDesignView extends View {
 		left_grid.add(soilType, 0, 20);
 	}
 
+	/**
+	 * Getter for the current scene
+	 * @param none
+	 * @return scene
+	 */
 	public Scene getScene() {
 		return scene;
 	}
 	
-	// For eventListener events.
+
+	/**
+	 * Method used in the Controller Sunlight Slider eventListener 
+	 * @param none
+	 * @return current value of sunlight slider
+	 */
 	public double getSunlightSlider() {
 		return sunlight.getValue();
 	}
 
+	/**
+	 * Method used in the Controller Soil Type Slider eventListener
+	 * @param none
+	 * @return current value of soil type slider
+	 */
 	public double getSoilSlider() {
 		return soilType.getValue();
 	}
 
+	/**
+	 * Method used in the Controller Moisture Slider eventListener
+	 * @param none
+	 * @return current value of moisture slider
+	 */
 	public double getMoistureSlider() {
 		return moisture.getValue();
 	}
 	
-	
+	/**
+	 * Method to detect start drawing plots on the canvas
+	 * @param me
+	 * @return none
+	 */
 	public void startDrawingPlot(MouseEvent me) {
 		if(canDraw) {
 			//start drawing a plot
@@ -375,6 +417,11 @@ public class PlotDesignView extends View {
 		}
 	}
 	
+	/**
+	 * Continually draws user made lines on canvas
+	 * @param none
+	 * @return none
+	 */
 	public void drawPlot(MouseEvent me) {
 		if(canDraw) {
 			//Draw the line as the mouse is dragged
@@ -384,6 +431,12 @@ public class PlotDesignView extends View {
 			coords.add(new Point(me.getX(), me.getY()));
 		}
 	}
+	
+	/**
+	 * Fills the outline created for each plot
+	 * @param me
+	 * @return none
+	 */
 	public void fillPlot(MouseEvent me) {
 		//Close the path
 		gc.closePath();
@@ -395,6 +448,10 @@ public class PlotDesignView extends View {
 		preventDrawing();
 	}
 	
+	/**
+	 * Sets fill color based on the current soil type
+	 * @param o
+	 */
 	public void setFillColor(Options o) {
 		int[] soil = o.getSoilTypes();
 		if(soil[0] == 1) 
@@ -405,32 +462,38 @@ public class PlotDesignView extends View {
 			gc.setFill(Color.SANDYBROWN);
 	}
 	
+	/**
+	 * Returns the coordinates drawn on to the canvas 
+	 * @param none
+	 * @return none
+	 */
 	public ArrayList<Point> getCoords(){
 		return coords;
 	}
 	
-	public void scaleUp() {
-		System.out.println("IN SCALEUP");
-		gc.clearRect(0, 0, drawArea.getWidth(), drawArea.getHeight());
-		scaleIndex -= 10;
-		drawGrid();
-	}
-	
-	public void scaleDown() {
-		System.out.println("IN SCALEDOWN");
-		gc.clearRect(0, 0, drawArea.getWidth(), drawArea.getHeight());
-		scaleIndex += 10;
-		drawGrid();
-	}
-	
+	/**
+	 * Allows the user to draw on the canvas after hitting Draw Plot button
+	 * @param none
+	 * @return none
+	 */
 	public void allowDrawing() {
 		canDraw = true;
 	}
 	
+	/**
+	 * Prevents the user from drawing on the canvas before 
+	 * @param none
+	 * @return none
+	 */
 	public void preventDrawing() {
 		canDraw = false;
 	}
 	
+	/**
+	 * Returns the canDraw variable
+	 * @param none
+	 * @return none
+	 */
 	public boolean getCanDraw() {
 		return canDraw;
 	}
