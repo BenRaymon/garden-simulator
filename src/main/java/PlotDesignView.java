@@ -63,15 +63,11 @@ public class PlotDesignView extends View {
 		coords = new ArrayList<Point>();
 		canDraw = false;
 		
-		//circ.setFill(new ImagePattern((Image)value));
 		
 		
 		
 
 		// create Canvas
-		
-		
-		
 		box = new VBox();
 		System.out.println("Width" + box.getWidth());
 		base.setCenter(box);
@@ -152,6 +148,11 @@ public class PlotDesignView extends View {
 	
 	}
 	
+	/**
+	 * Creates the text fields and labels for inputing all grid dimension sizes
+	 * @param none
+	 * @return none
+	 */
 	public void inputDimensions() {
 		Label widthText = new Label("Garden width");
 		Label heightText = new Label("Garden height");
@@ -179,24 +180,40 @@ public class PlotDesignView extends View {
 		left_grid.add(drawDimensions, 1, 45);
 	}
 	
+	/**
+	 * Gets the user inputed height from text field
+	 * @return user inputed height of grid
+	 */
 	public int getHeightInput() {
 		int height = Integer.parseInt(heightInput.getText());
 		System.out.println(height);
 		return height;
 	}
 	
+	/**
+	 * Gets the user inputed height from text field
+	 * @return user inputed width of grid
+	 */
 	public int getWidthInput() {
 		int width = Integer.parseInt(widthInput.getText());
 		System.out.print(width);
 		return width;
 	}
 	
+	/**
+	 * Gets the user inputed height of each unit grid box
+	 * @return user inputed height of each unit grid box 
+	 */
 	public int getBoxHeightInput() {
 		int boxHeight = Integer.parseInt(boxHeightInput.getText());
 		System.out.print(boxHeight);
 		return boxHeight;
 	}
 	
+	/**
+	 * Gets the user inputed width of each unit grid box
+	 * @return user inputed width of each unit grid box
+	 */
 	public int getBoxWidthInput() {
 		int boxWidth = Integer.parseInt(boxWidthInput.getText());
 		System.out.println(boxWidth);
@@ -233,26 +250,26 @@ public class PlotDesignView extends View {
 		
 		int widthInc = (int)drawArea.getWidth()/(width/boxWidth);
 		
-		double fudgeWidth = perciseWidth - widthInc;
+		double widthBorder = perciseWidth - widthInc;
 		
-		double fudgeHeight = perciseHeight - heightInc;
+		double heightBorder = perciseHeight - heightInc;
 		
-		fudgeHeight *= height/boxHeight;
-		fudgeWidth *= width/boxWidth;
+		heightBorder *= height/boxHeight;
+		widthBorder *= width/boxWidth;
 		
 		
 		//drawArea.setWidth(widthInc * width/boxWidth);
 		
 		
-		for (double x = 1; x <= drawArea.getWidth() - fudgeWidth + 1; x+=widthInc) {
+		for (double x = 1; x <= drawArea.getWidth() - widthBorder + 1; x+=widthInc) {
 			gc.moveTo(x, 0);
-			gc.lineTo(x, drawArea.getHeight() - fudgeHeight);
+			gc.lineTo(x, drawArea.getHeight() - heightBorder);
 			gc.stroke();
 		}
 		
-		for (double y = 0; y <= drawArea.getHeight() - fudgeHeight + 1; y+=heightInc) {
+		for (double y = 0; y <= drawArea.getHeight() - heightBorder + 1; y+=heightInc) {
 			gc.moveTo(0,y);
-			gc.lineTo(drawArea.getWidth() - fudgeWidth,y);
+			gc.lineTo(drawArea.getWidth() - widthBorder,y);
 			gc.stroke();
 		}
 		gc.closePath();
