@@ -51,7 +51,7 @@ public class PlotDesignView extends View {
 	private final double LEFTBAR = 200;
 	private final double SPACING = 10;
 	private final double BOTTOM_HEIGHT = 100;
-	private double canvasWidth = WINDOW_WIDTH;
+	private double canvasWidth = WINDOW_WIDTH - LEFTBAR;
 	private double canvasHeight = WINDOW_HEIGHT;
 	private int scaleIndex = 50;
 	
@@ -74,7 +74,8 @@ public class PlotDesignView extends View {
 		box = new VBox();
 		System.out.println("Width" + box.getWidth());
 		base.setCenter(box);
-		drawArea = new Canvas(box.getWidth(), box.getHeight());
+		System.out.println("Initial VBOX"+ box.getWidth()+box.getHeight());
+		drawArea = new Canvas(canvasWidth, canvasHeight);
 		gc = drawArea.getGraphicsContext2D();
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(1);
@@ -128,7 +129,7 @@ public class PlotDesignView extends View {
 					public void changed(ObservableValue observable,
 										Object oldValue, Object newValue) {
 						Double width = (Double)newValue;
-						stage.setWidth(width);
+						//stage.setWidth(width);
 						System.out.println("STAGE WIDTH" + stage.getWidth());
 						drawArea.setWidth(stage.getHeight()-LEFTBAR);
 					}
@@ -140,7 +141,7 @@ public class PlotDesignView extends View {
 					public void changed(ObservableValue observable,
 										Object oldValue, Object newValue) {
 						Double height = (Double)newValue;
-						stage.setWidth(height);
+						//stage.setWidth(height);
 						drawArea.setHeight(box.getHeight());
 					}
 				});
@@ -148,10 +149,10 @@ public class PlotDesignView extends View {
 	}
 	
 	public void inputDimensions() {
-		Label widthText = new Label("Input width");
-		Label heightText = new Label("Input height");
-		Label boxHeightText = new Label("Input box height");
-		Label boxWidthText = new Label("Input box width");
+		Label widthText = new Label("Garden width");
+		Label heightText = new Label("Garden height");
+		Label boxHeightText = new Label("Unit height");
+		Label boxWidthText = new Label("Unit width");
 		widthInput = new TextField();
 		widthInput.setOnAction(controller.getPlotWidthInput());
 		heightInput = new TextField();
