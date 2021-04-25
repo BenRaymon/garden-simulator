@@ -354,7 +354,7 @@ public class PlotDesignView extends View {
 			gc.lineTo(me.getX() - LEFTBAR, me.getY());
 			gc.stroke();
 			//add the point to a coordinate list
-			coords.add(new Point(me.getX() - LEFTBAR, me.getY()));
+			coords.add(new Point(me.getX(), me.getY()));
 		}
 	}
 	
