@@ -37,6 +37,7 @@ public class PlotDesignView extends View {
 	private TextField heightInput;
 	private TextField boxHeightInput;
 	private TextField boxWidthInput;
+	private Label gridSize;
 	private Scene scene;
 	private BorderPane base;
 	private Button toGarden;
@@ -48,7 +49,7 @@ public class PlotDesignView extends View {
 	private Canvas drawArea;
 	private VBox box;
 	private boolean canDraw;
-	private final double LEFTBAR = 200;
+	private final double LEFTBAR = 325;
 	private final double SPACING = 10;
 	private final double BOTTOM_HEIGHT = 100;
 	private double canvasWidth = WINDOW_WIDTH - LEFTBAR;
@@ -74,6 +75,8 @@ public class PlotDesignView extends View {
 		box = new VBox();
 		System.out.println("Width" + box.getWidth());
 		base.setCenter(box);
+		box.setMinWidth(canvasWidth);
+		box.setMinHeight(canvasHeight);
 		System.out.println("Initial VBOX"+ box.getWidth()+box.getHeight());
 		drawArea = new Canvas(canvasWidth, canvasHeight);
 		gc = drawArea.getGraphicsContext2D();
@@ -88,7 +91,7 @@ public class PlotDesignView extends View {
                 "-fx-border-width: 3;\n" +
                 "-fx-border-style: dashed;\n";
 		
-		box.setStyle(cssLayout);
+		//box.setStyle(cssLayout);
 		
 
 		
@@ -131,7 +134,8 @@ public class PlotDesignView extends View {
 						Double width = (Double)newValue;
 						//stage.setWidth(width);
 						System.out.println("STAGE WIDTH" + stage.getWidth());
-						drawArea.setWidth(stage.getHeight()-LEFTBAR);
+						drawArea.setWidth(box.getWidth());
+						gc = drawArea.getGraphicsContext2D();
 					}
 				}
 		);
@@ -153,6 +157,7 @@ public class PlotDesignView extends View {
 		Label heightText = new Label("Garden height");
 		Label boxHeightText = new Label("Unit height");
 		Label boxWidthText = new Label("Unit width");
+		gridSize = new Label("Grid Size");
 		widthInput = new TextField();
 		widthInput.setOnAction(controller.getPlotWidthInput());
 		heightInput = new TextField();
@@ -211,20 +216,43 @@ public class PlotDesignView extends View {
 		int boxHeight = getBoxHeightInput();
 		int boxWidth = getBoxWidthInput();
 		
-		double heightInc = drawArea.getHeight()/(height/boxHeight);
+		if (boxWidth > width) {
+			System.out.println("Impossible size");
+		}
 		
-		double widthInc = drawArea.getWidth()/(width/boxWidth);
+		if (boxHeight > height) {
+			System.out.println("Impossible size");
+		}
 		
 		
-		for (double x = 0; x <= drawArea.getWidth(); x+=widthInc) {
+		double perciseWidth = drawArea.getWidth()/(width/boxWidth);
+		
+		double perciseHeight = drawArea.getHeight()/(height/boxHeight);
+		
+		int heightInc = (int)drawArea.getHeight()/(height/boxHeight);
+		
+		int widthInc = (int)drawArea.getWidth()/(width/boxWidth);
+		
+		double fudgeWidth = perciseWidth - widthInc;
+		
+		double fudgeHeight = perciseHeight - heightInc;
+		
+		fudgeHeight *= height/boxHeight;
+		fudgeWidth *= width/boxWidth;
+		
+		
+		//drawArea.setWidth(widthInc * width/boxWidth);
+		
+		
+		for (double x = 1; x <= drawArea.getWidth() - fudgeWidth + 1; x+=widthInc) {
 			gc.moveTo(x, 0);
-			gc.lineTo(x, drawArea.getHeight());
+			gc.lineTo(x, drawArea.getHeight() - fudgeHeight);
 			gc.stroke();
 		}
 		
-		for (double y = 0; y <= drawArea.getHeight(); y+=heightInc) {
+		for (double y = 0; y <= drawArea.getHeight() - fudgeHeight + 1; y+=heightInc) {
 			gc.moveTo(0,y);
-			gc.lineTo(drawArea.getWidth(),y);
+			gc.lineTo(drawArea.getWidth() - fudgeWidth,y);
 			gc.stroke();
 		}
 		gc.closePath();
@@ -323,10 +351,10 @@ public class PlotDesignView extends View {
 		if(canDraw) {
 			//start drawing a plot
 			gc.beginPath();
-			gc.lineTo(me.getX() - 195, me.getY());
+			gc.lineTo(me.getX() - LEFTBAR, me.getY());
 			gc.stroke();
 			//add the point to a coordinate list
-			coords.add(new Point(me.getX() - 195, me.getY()));
+			coords.add(new Point(me.getX() - LEFTBAR, me.getY()));
 		}
 	}
 	
