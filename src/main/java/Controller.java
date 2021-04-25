@@ -32,9 +32,10 @@ public class Controller extends Application{
 	CompPlantsView compPlantsView;
 	ShoppingListView shopView;
 	ReportView reportView;
+	LoadSavedGardenView loadSavedGardenView;
 	Garden garden;
 	SaveLoadGarden gardenSaverLoader = new SaveLoadGarden();
-	ArrayList<Garden> savedGardens = new ArrayList<Garden>();
+	ArrayList<Garden> savedGardens;
 	
 	@Override
 	public void start(Stage s) throws Exception {
@@ -69,6 +70,7 @@ public class Controller extends Application{
 		// load the saved garden array into savedGardens
 		try {
 			savedGardens = gardenSaverLoader.loadGardenList();
+			System.out.println("Load success");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -310,7 +312,7 @@ public class Controller extends Application{
 	return (event -> {
 		System.out.println("Load Screen button clicked");
 		
-		stage.setScene(LoadSavedGardenView.getScene());
+		stage.setScene(loadSavedGardenView.getScene());
 	});
 	
 	} 
