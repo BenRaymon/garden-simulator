@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.io.Serializable;
 
 public class Garden implements Serializable{
+	String name; // name for the garden that will be used to get it from the list of saved gardens
 	private double spent;
 	private double budget;
 	private ArrayList<Plot> plots;
@@ -113,5 +114,13 @@ public class Garden implements Serializable{
 	
 	public static Plant getPlant(String name) {
 		return allPlants.get(name);
+	}
+	
+	public String getName() {
+		return "test name";
+	}
+	
+	public void setName(String n) {
+		this.name = n;
 	}
 }

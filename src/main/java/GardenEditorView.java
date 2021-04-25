@@ -1,6 +1,7 @@
+import java.awt.TextField;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import javafx.scene.control.*;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -40,6 +41,7 @@ public class GardenEditorView extends View{
 	private Button saveGarden; // save the garden to a .dat file
 	private GraphicsContext gc;
 	private int imageInc = 0;
+	private TextField garden_name; // name the garden (used to load garden)
 	
 	private double LEFTBAR = 200;
 	private double RIGHTBAR = 150;
@@ -79,6 +81,8 @@ public class GardenEditorView extends View{
 		setPlantInfo();
 		createBottom();
 		addPageButtons();
+		
+		garden_name = new TextField();
 	
 		//create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -195,17 +199,17 @@ public class GardenEditorView extends View{
 		toShoppingList.setOnMouseClicked(controller.getToShoppingListOnClickHandler());
 		bottom.add(toShoppingList, 2, 0);
 		
-		saveGarden = new Button("Save");
-		saveGarden.setOnMouseClicked(controller.SaveButtonClickedHandler());
-		bottom.add(saveGarden, 3, 0);
-		
 		Button toReport = new Button("Report");
 		toReport.setOnMouseClicked(controller.getToReportOnClickHandler());
-		bottom.add(toReport, 4, 0);
+		bottom.add(toReport, 3, 0);
 		
 		Button toComp = new Button("Compare");
 		toComp.setOnMouseClicked(controller.getToCompareOnClickHandler());
-		bottom.add(toComp, 5, 0);
+		bottom.add(toComp, 4, 0);
+		
+		saveGarden = new Button("Save");
+		saveGarden.setOnMouseClicked(controller.SaveButtonClickedHandler());
+		bottom.add(saveGarden, 5, 0);
 	}
 	
 	public void setPlantInfo() {
@@ -285,4 +289,8 @@ public class GardenEditorView extends View{
 	public double getTopHeight() {
 		return TOPBAR;
 	}
+	public TextField getGardenName() {
+		return garden_name;
+	}
+	
 }

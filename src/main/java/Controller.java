@@ -32,8 +32,10 @@ public class Controller extends Application{
 	CompPlantsView compPlantsView;
 	ShoppingListView shopView;
 	ReportView reportView;
+	LoadSavedGardenView loadSavedGardenView;
 	Garden garden;
-	SaveLoadGarden gardenSaver = new SaveLoadGarden();
+	SaveLoadGarden gardenSaverLoader = new SaveLoadGarden();
+	ArrayList<Garden> savedGardens = new ArrayList<Garden>();
 	
 	@Override
 	public void start(Stage s) throws Exception {
@@ -65,6 +67,20 @@ public class Controller extends Application{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		// load the saved garden array into savedGardens
+		try {
+			savedGardens = gardenSaverLoader.loadGardenList();
+		
+			System.out.println("Load success");		
+			for(Garden g : savedGardens) {
+				System.out.println(g.getName());
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		//Create all other views after the screen is loaded
 		startView = new StartView(stage, this);
 		plotDesignView = new PlotDesignView(stage, this);
@@ -300,7 +316,12 @@ public class Controller extends Application{
 			System.out.println("Save Button clicked");
 			
 			try {
-				gardenSaver.saveGarden(garden);
+				// set the garden name
+				java.awt.TextField tmp = gardenEditorView.getGardenName();
+				String name_g = tmp.getText();
+				garden.setName(name_g);
+				savedGardens.add(garden);
+				gardenSaverLoader.saveGarden(savedGardens);
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -308,5 +329,12 @@ public class Controller extends Application{
 		});
 	}
 	
+	public EventHandler getLoadGardenOnClickHandler() {
+	return (event -> {
+		System.out.println("Load Screen button clicked");
+		
+		stage.setScene(loadSavedGardenView.getScene());
+	});
 	
+	} 
 }
