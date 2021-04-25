@@ -4,6 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -53,6 +54,9 @@ public class CompPlantsView extends View {
 
 	// Actual barChart
 	private BarChart<String, Number> bc;
+	
+	//Hbox holds plant data
+	HBox plantDataHbox;
 
 	// --------------------------
 
@@ -146,6 +150,7 @@ public class CompPlantsView extends View {
 	public void setLepCompare(String plantAName, String plantBName, int plantALeps, int plantBLeps) {
 
 		base.getChildren().remove(bc);
+		base.getChildren().remove(plantDataHbox);
 
 		xAxis = new CategoryAxis();
 		yAxis = new NumberAxis();
@@ -166,6 +171,7 @@ public class CompPlantsView extends View {
 	public void setRadiusCompare(String plantAName, String plantBName, double plantASpreadLower,
 			double plantASpreadUpper, double plantBSpreadLower, double plantBSpreadUpper) {
 		base.getChildren().remove(bc);
+		base.getChildren().remove(plantDataHbox);
 
 		xAxis = new CategoryAxis();
 		yAxis = new NumberAxis();
@@ -193,6 +199,7 @@ public class CompPlantsView extends View {
 	public void setSizeCompare(String plantAName, String plantBName, double plantASizeLower, double plantASizeUpper,
 			double plantBSizeLower, double plantBSizeUpper) {
 		base.getChildren().remove(bc);
+		base.getChildren().remove(plantDataHbox);
 		
 		xAxis = new CategoryAxis();
 		yAxis = new NumberAxis();
@@ -215,6 +222,24 @@ public class CompPlantsView extends View {
 		bc.getData().addAll(series1, series2);
 		base.add(bc, 0, 4, 1, 1);
 
+	}
+	
+	public void setGeneralInfoComapre(String aDescription, String bDescription) {
+		System.out.println("Inside general info compare");
+		base.getChildren().remove(bc);
+		base.getChildren().remove(plantDataHbox);
+		
+		plantDataHbox = new HBox();
+		plantDataHbox.setSpacing(10);
+		Text plantInfoLabel = new Text("--Common Name--\n--Scientific Name--\n--Family--\n--Color--\n--Lower Size(In ? Units)--\n--Upper Size(In ? Units)--\n--Lower Radius(In ? Units)--\n--Upper Radius(In ? Units)--");
+		
+		Text plantInfoA = new Text(aDescription);
+		Text plantInfoB = new Text(bDescription);
+		plantDataHbox.getChildren().addAll(plantInfoA,plantInfoLabel,plantInfoB);
+		
+		
+		base.add(plantDataHbox,0,4,1,1);
+		
 	}
 
 	public void setAName(String n) {

@@ -286,6 +286,15 @@ public class Controller extends Application{
 				compPlantsView.setSizeCompare(tempPlantAName, tempPlantBName, tempPlantALowerSize, tempPlantAUpperSize, tempPlantBLowerSize, tempPlantBUpperSize);
 
 			}
+			else if(currentItem == "General Info") {
+				System.out.println("Switching to General Info");
+				String infoStringA = CompPlants.getInfo(compPlantsView.getLeftBody().getText());
+				String infoStringB = CompPlants.getInfo(compPlantsView.getRightBody().getText());
+				compPlantsView.setGeneralInfoComapre(infoStringA,infoStringB);
+				
+
+				
+			}
 			//System.out.println("Selected item is: " + highlighted);
 			
 		});
