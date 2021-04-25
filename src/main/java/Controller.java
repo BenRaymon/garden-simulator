@@ -33,7 +33,8 @@ public class Controller extends Application{
 	ShoppingListView shopView;
 	ReportView reportView;
 	Garden garden;
-	SaveLoadGarden gardenSaver = new SaveLoadGarden();
+	SaveLoadGarden gardenSaverLoader = new SaveLoadGarden();
+	ArrayList<Garden> savedGardens = new ArrayList<Garden>();
 	
 	@Override
 	public void start(Stage s) throws Exception {
@@ -287,7 +288,8 @@ public class Controller extends Application{
 			System.out.println("Save Button clicked");
 			
 			try {
-				gardenSaver.saveGarden(garden);
+				savedGardens.add(garden);
+				gardenSaverLoader.saveGarden(savedGardens);
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
