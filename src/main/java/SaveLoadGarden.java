@@ -47,25 +47,27 @@ public class SaveLoadGarden {
 	public ArrayList<Garden> loadGardenList() throws ClassNotFoundException {
 		
 		ArrayList<Garden> ret_gardens = new ArrayList<Garden>();
-		boolean flag = false;
 		
 		try {
 			// get the save file from resources
 			File f = new File("src/main/resources/savedGardens.dat");
 			
-			// open the file and object input streams to read the gardens into the app
-			FileInputStream f_in = new FileInputStream(f);
-			ObjectInputStream o_in = new ObjectInputStream(f_in);
-			
-			// read gardens into our return variable and type case appropriately
-			ret_gardens = (ArrayList<Garden>) o_in.readObject();
-			
-			// close the input streams
-			o_in.close();
-			f_in.close();
-			
-			// set the flag to true to denote a good load
-			flag = true;
+			// check for empty file to avoid EOFException
+			if(f.length() != 0) {
+				// open the file and object input streams to read the gardens into the app
+				FileInputStream f_in = new FileInputStream(f);
+				ObjectInputStream o_in = new ObjectInputStream(f_in);
+				
+				// read gardens into our return variable and type case appropriately
+				ret_gardens = (ArrayList<Garden>) o_in.readObject();
+				
+				// close the input streams
+				o_in.close();
+				f_in.close();
+			} else {
+				// if file is empty, tell me
+				System.out.println("File is empty...");
+			}
 			
 		} catch (FileNotFoundException e) {
 		      System.out.println("File not found");
@@ -73,13 +75,7 @@ public class SaveLoadGarden {
 	    	  System.out.println("Can't initialize stream");
 	    	  e.printStackTrace();
 	    }
-		// if the garden was loaded, return it, otherwise, throw error
-		if(flag) {
-			// return the loaded garden
-			return ret_gardens;
-		} else {
-			return null;
-		}
+		return ret_gardens;
 	}
 	
 	/*

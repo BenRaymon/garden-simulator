@@ -35,7 +35,7 @@ public class Controller extends Application{
 	LoadSavedGardenView loadSavedGardenView;
 	Garden garden;
 	SaveLoadGarden gardenSaverLoader = new SaveLoadGarden();
-	ArrayList<Garden> savedGardens;
+	ArrayList<Garden> savedGardens = new ArrayList<Garden>();
 	
 	@Override
 	public void start(Stage s) throws Exception {
@@ -70,7 +70,11 @@ public class Controller extends Application{
 		// load the saved garden array into savedGardens
 		try {
 			savedGardens = gardenSaverLoader.loadGardenList();
-			System.out.println("Load success");
+		
+			System.out.println("Load success");		
+			for(Garden g : savedGardens) {
+				System.out.println(g.getName());
+			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -299,6 +303,10 @@ public class Controller extends Application{
 			System.out.println("Save Button clicked");
 			
 			try {
+				// set the garden name
+				java.awt.TextField tmp = gardenEditorView.getGardenName();
+				String name_g = tmp.getText();
+				garden.setName(name_g);
 				savedGardens.add(garden);
 				gardenSaverLoader.saveGarden(savedGardens);
 			} catch (ClassNotFoundException e) {

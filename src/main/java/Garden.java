@@ -149,4 +149,12 @@ public class Garden implements Serializable{
 	public static Plant getPlant(String name) {
 		return allPlants.get(name);
 	}
+	
+	public String getName() {
+		return "test name";
+	}
+	
+	public void setName(String n) {
+		this.name = n;
+	}
 }
