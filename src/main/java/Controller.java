@@ -102,6 +102,18 @@ public class Controller extends Application{
 		});
 	}
 	
+	public EventHandler getPlotWidthInput() {
+		return (event->{
+			plotDesignView.getWidthInput();
+		});
+	}
+	
+	public EventHandler getPlotHeightInput() {
+		return (event->{
+			plotDesignView.getHeightInput();
+		});
+	}
+	
 	
 	public EventHandler scaleUpCanvas() {
 		return (event->{
@@ -112,6 +124,12 @@ public class Controller extends Application{
 	public EventHandler scaleDownCanvas() {
 		return (event->{
 			plotDesignView.scaleDown();
+		});
+	}
+	
+	public EventHandler drawPlotGrid() {
+		return (event->{
+			plotDesignView.drawGrid();
 		});
 	}
 	
