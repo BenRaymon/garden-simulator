@@ -1,6 +1,8 @@
 import java.util.*;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -159,6 +161,15 @@ public class Controller extends Application{
 		return (event->{
 			plotDesignView.drawGrid();
 		});
+	}
+	
+	public ChangeListener<Object> getPlotDesignChangeListener() {
+		return new ChangeListener<Object>() {
+			public void changed(ObservableValue observable,
+					Object oldValue, Object newValue) {
+				plotDesignView.sizeChanged();
+			}
+		};
 	}
 	
 	//Handler for the DrawPlot button in PlotDesignnView

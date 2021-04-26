@@ -127,29 +127,20 @@ public class PlotDesignView extends View {
 		stage.setScene(scene);
 		stage.show();
 	
-		scene.widthProperty().addListener(
-				new ChangeListener<Object>() {
-					public void changed(ObservableValue observable,
-										Object oldValue, Object newValue) {
-						Double width = (Double)newValue;
-						//stage.setWidth(width);
-						System.out.println("STAGE WIDTH" + stage.getWidth());
-						drawArea.setWidth(box.getWidth());
-						gc = drawArea.getGraphicsContext2D();
-					}
-				}
-		);
+		scene.widthProperty().addListener(controller.getPlotDesignChangeListener());
 		
-		scene.heightProperty().addListener(
-				new ChangeListener<Object>() {
-					public void changed(ObservableValue observable,
-										Object oldValue, Object newValue) {
-						Double height = (Double)newValue;
-						//stage.setWidth(height);
-						drawArea.setHeight(box.getHeight());
-					}
-				});
+		scene.heightProperty().addListener(controller.getPlotDesignChangeListener());
 	
+	}
+	
+	public void sizeChanged() {
+		drawArea.setWidth(box.getWidth());
+		canvasWidth = drawArea.getWidth();
+		
+		drawArea.setHeight(box.getHeight());
+		canvasHeight = drawArea.getHeight();
+		
+		gc = drawArea.getGraphicsContext2D();
 	}
 	
 	public void inputDimensions() {
@@ -206,9 +197,6 @@ public class PlotDesignView extends View {
 	
 	public void drawGrid() {
 		
-		//double heightScaleFactor =  (drawArea.getHeight() / getHeightInput());
-		//double widthScaleFactor = drawArea.getWidth() / getWidthInput();
-		
 		gc.clearRect(0, 0, drawArea.getWidth(), drawArea.getHeight());
 		
 		int width = getWidthInput();
@@ -226,33 +214,29 @@ public class PlotDesignView extends View {
 		
 		
 		double perciseWidth = drawArea.getWidth()/(width/boxWidth);
-		
 		double perciseHeight = drawArea.getHeight()/(height/boxHeight);
-		
 		int heightInc = (int)drawArea.getHeight()/(height/boxHeight);
-		
 		int widthInc = (int)drawArea.getWidth()/(width/boxWidth);
-		
 		double fudgeWidth = perciseWidth - widthInc;
-		
 		double fudgeHeight = perciseHeight - heightInc;
 		
 		fudgeHeight *= height/boxHeight;
 		fudgeWidth *= width/boxWidth;
 		
 		
-		//drawArea.setWidth(widthInc * width/boxWidth);
+		drawArea.setWidth(drawArea.getWidth() - fudgeWidth + 2);
+		drawArea.setHeight(drawArea.getHeight() - fudgeHeight + 1);
 		
 		
-		for (double x = 1; x <= drawArea.getWidth() - fudgeWidth + 1; x+=widthInc) {
+		for (double x = 1; x <= drawArea.getWidth() + fudgeWidth; x+=widthInc) {
 			gc.moveTo(x, 0);
-			gc.lineTo(x, drawArea.getHeight() - fudgeHeight);
+			gc.lineTo(x, drawArea.getHeight());
 			gc.stroke();
 		}
 		
-		for (double y = 0; y <= drawArea.getHeight() - fudgeHeight + 1; y+=heightInc) {
+		for (double y = 0; y <= drawArea.getHeight() + fudgeHeight; y+=heightInc) {
 			gc.moveTo(0,y);
-			gc.lineTo(drawArea.getWidth() - fudgeWidth,y);
+			gc.lineTo(drawArea.getWidth(),y);
 			gc.stroke();
 		}
 		gc.closePath();
