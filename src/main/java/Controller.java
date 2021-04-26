@@ -461,10 +461,6 @@ public class Controller extends Application{
 			String curr_g = tmp.getSelectionModel().getSelectedItem();
 			garden = gardenSaverLoader.loadPickedGarden(curr_g, savedGardens);
 			
-			for(Plant p : garden.getPlantsInGarden()) {
-				System.out.println(p.getCommonName());
-			}
-			
 			stage.setScene(gardenEditorView.getScene());
 			System.out.println(garden.getPlots());
 			double h = gardenEditorView.getCanvasHeight();
