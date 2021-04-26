@@ -21,6 +21,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.scene.control.ListView;
 
 
 
@@ -339,10 +340,20 @@ public class Controller extends Application{
 	//Searches for plant from all loaded plants, and displays info on button click
 	public EventHandler RightPlantButtonClickedHandler() {
 		return (event ->{
+			
+			//compPlantsView.setBLeps(compPlants.getLeps());
+			
 			TextField temp = compPlantsView.getTextBox();
-			String plantInfo = CompPlants.getInfo(temp.getText());
+			String plantInfo = "Plant A\n";		
+			plantInfo = plantInfo + CompPlants.getInfo(temp.getText());
 			Text tempText = compPlantsView.getRightBody();
-			tempText.setText(plantInfo);
+			//tempText.setText(plantInfo);
+			tempText.setText(temp.getText());
+			//Setting plant A variables in compPlantView to plantInfo
+			
+			//compPlantsView.setALeps(CompPlants.getLepInfo(temp.getText()));
+			//compPlantsView.setAName(temp.getText());
+
 		});
 		
 	}
@@ -351,11 +362,77 @@ public class Controller extends Application{
 	public EventHandler LeftPlantButtonClickedHandler() {
 		return (event ->{
 			TextField temp = compPlantsView.getTextBox();
-			String plantInfo = CompPlants.getInfo(temp.getText());
+			String plantInfo = "Plant B\n";		
+			plantInfo = plantInfo + CompPlants.getInfo(temp.getText());
+			//String plantInfo = CompPlants.getInfo(temp.getText());
 			Text tempText = compPlantsView.getLeftBody();
-			tempText.setText(plantInfo);
+			//tempText.setText(plantInfo);
+			tempText.setText(temp.getText());
+
+			//Setting plant B variables in compPlantView to plantInfo
+			
+			//compPlantsView.setBLeps(CompPlants.getLepInfo(temp.getText()));
+			//compPlantsView.setBName(temp.getText());
 		});
 		
+	}
+	
+	//Event handler for listView
+	public EventHandler listClickedHandler() {
+		return(event ->{
+			System.out.println("In listClickedHandler");
+			ListView<String> tempList = compPlantsView.getListView();
+			String currentItem = tempList.getSelectionModel().getSelectedItem();
+			
+			if(currentItem == "Lep Compare") {
+				System.out.println("Switching to Lep Compare");
+				
+				String tempPlantAName = compPlantsView.getLeftBody().getText();
+				int tempPlantALeps = CompPlants.getLepInfo(tempPlantAName);
+				String tempPlantBName = compPlantsView.getRightBody().getText();
+				int tempPlantBLeps = CompPlants.getLepInfo(tempPlantBName);
+				//Creates graph
+				compPlantsView.setLepCompare(tempPlantAName,tempPlantBName,tempPlantALeps,tempPlantBLeps);
+				//compPlantsView.setLepCompare("plant a","plant b",5,10);
+			}
+			else if(currentItem == "Radius Compare") {
+				System.out.println("Switching to Radius Compare");
+				
+				String tempPlantAName = compPlantsView.getLeftBody().getText();
+				double tempPlantALowerRadius = CompPlants.getLowerRadius(tempPlantAName);
+				double tempPlantAUpperRadius = CompPlants.getUpperRadius(tempPlantAName);
+				
+				String tempPlantBName = compPlantsView.getRightBody().getText();
+				double tempPlantBLowerRadius = CompPlants.getLowerRadius(tempPlantBName);
+				double tempPlantBUpperRadius = CompPlants.getUpperRadius(tempPlantBName);
+				
+				compPlantsView.setRadiusCompare(tempPlantAName, tempPlantBName, tempPlantALowerRadius, tempPlantAUpperRadius, tempPlantBLowerRadius, tempPlantBUpperRadius);
+			}
+			else if(currentItem == "Size Compare") {
+				System.out.println("Switching to Size Compare");
+				String tempPlantAName = compPlantsView.getLeftBody().getText();
+				double tempPlantALowerSize = CompPlants.getLowerSize(tempPlantAName);
+				double tempPlantAUpperSize = CompPlants.getUpperSize(tempPlantAName);
+				
+				String tempPlantBName = compPlantsView.getRightBody().getText();
+				double tempPlantBLowerSize = CompPlants.getLowerSize(tempPlantBName);
+				double tempPlantBUpperSize = CompPlants.getUpperSize(tempPlantBName);
+				
+				compPlantsView.setSizeCompare(tempPlantAName, tempPlantBName, tempPlantALowerSize, tempPlantAUpperSize, tempPlantBLowerSize, tempPlantBUpperSize);
+
+			}
+			else if(currentItem == "General Info") {
+				System.out.println("Switching to General Info");
+				String infoStringA = CompPlants.getInfo(compPlantsView.getLeftBody().getText());
+				String infoStringB = CompPlants.getInfo(compPlantsView.getRightBody().getText());
+				compPlantsView.setGeneralInfoComapre(infoStringA,infoStringB);
+				
+
+				
+			}
+			//System.out.println("Selected item is: " + highlighted);
+			
+		});
 	}
 
 	public EventHandler SaveButtonClickedHandler() {
