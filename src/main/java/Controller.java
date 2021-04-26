@@ -3,6 +3,7 @@ import java.util.*;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -435,8 +436,9 @@ public class Controller extends Application{
 				// set the garden name
 				TextField tmp = gardenEditorView.getGardenName();
 				String name_g = tmp.getText();
-				garden.setName(name_g);
-				savedGardens.add(garden);
+				Garden tmp_g = garden;
+				tmp_g.setName(name_g);
+				savedGardens.add(tmp_g);
 				gardenSaverLoader.saveGarden(savedGardens);
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -445,7 +447,7 @@ public class Controller extends Application{
 		});
 	}
 	
-	public EventHandler getLoadGardenOnClickHandler() {
+	public EventHandler getLoadGardenViewOnClickHandler() {
 	return (event -> {
 			System.out.println("Load Screen button clicked");
 		
@@ -492,6 +494,34 @@ public class Controller extends Application{
 				}
 			}
 			
+		});
+	}
+	
+	public EventHandler deleteSelectedGardenHandler() {
+		return (event -> {
+			System.out.println("delete button pushed");
+			ListView<String> tmp = loadSavedGardenView.getListView();
+			String curr_g = tmp.getSelectionModel().getSelectedItem();
+			savedGardens = gardenSaverLoader.deleteGarden(curr_g, savedGardens);
+			
+			try {
+				gardenSaverLoader.saveGarden(savedGardens);
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			loadSavedGardenView = new LoadSavedGardenView(stage, savedGardens, this);
+			//loadSavedGardenView.setObservableList(savedGardens);
+			stage.setScene(loadSavedGardenView.getScene());
+		});
+	}
+	
+	public EventHandler fromLoadToHome() {
+		return (event -> {
+			System.out.println("from load to home");
+			
+			stage.setScene(startView.getScene());
 		});
 	}
 }

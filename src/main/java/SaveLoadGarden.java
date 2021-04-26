@@ -78,6 +78,17 @@ public class SaveLoadGarden {
 		return ret_gardens;
 	}
 	
+	public ArrayList<Garden> deleteGarden(String g_name, ArrayList<Garden> list) {
+		// find and delete the garden
+		Garden find = list.stream().filter(s -> s.name.equals(g_name)).findFirst().orElse(null);
+		if(find != null) {
+			list.remove(find);
+			return list;
+		} else {
+			return null;
+		}
+	}
+	
 	/*
 	 * Load an individual garden from the saved list
 	 * */

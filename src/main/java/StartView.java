@@ -57,7 +57,7 @@ public class StartView extends View {
 		loadGarden = new Button("Load Garden");
 		loadGarden.setMinHeight(BUTTON_H);
 		loadGarden.setMinWidth(BUTTON_W);
-		loadGarden.setOnMouseClicked(controller.getLoadGardenOnClickHandler());
+		loadGarden.setOnMouseClicked(controller.getLoadGardenViewOnClickHandler());
 		buttons.getChildren().add(newGarden);
 		buttons.getChildren().add(loadGarden);
 		base.add(buttons, 0, 0);
