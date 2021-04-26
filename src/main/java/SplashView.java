@@ -26,10 +26,10 @@ public class SplashView extends View {
 		this.controller = c;
 		
 		background = new StackPane();
-		background.setStyle("-fx-background-image: url(\"https://static.wikia.nocookie.net/lotr/images/e/ec/Gimli_-_FOTR.png/revision/latest?cb=20121008105956\")");
+		background.setStyle("-fx-background-color: darkseagreen");
 		Text loading = new Text("LOADING ASSETS");
 		loading.setStyle("-fx-font-size: 50;");
-		loading.setFill(Color.CRIMSON);
+		loading.setFill(Color.BLACK);
 		loading.setX(400);
 		loading.setY(400);
 		background.getChildren().add(loading);
