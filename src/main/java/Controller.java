@@ -88,6 +88,7 @@ public class Controller extends Application{
 		compPlantsView = new CompPlantsView(stage, this);
 		shopView = new ShoppingListView(stage, this);
 		reportView = new ReportView(stage, this);
+		loadSavedGardenView = new LoadSavedGardenView(stage, savedGardens, this);
 		
 		//set the scene and model to Start
 		stage.setScene(startView.getScene());

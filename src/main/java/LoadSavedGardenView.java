@@ -1,4 +1,4 @@
-import java.awt.Insets;
+import javafx.geometry.Insets;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,9 +33,12 @@ import javafx.stage.Stage;
 
 public class LoadSavedGardenView extends View {
 	private Scene scene;
-	private BorderPane base;
+	private GridPane base;
+	private Controller controller;
+	private Button to_garden_editor = new Button();
+	private VBox list_box;
 	private Label label = new Label("Saved Gardens");
-	private ObservableList<String> garden_names;
+	private ObservableList<String> garden_names = FXCollections.observableArrayList();
 	private ListView<String> listView;
 	
 	public LoadSavedGardenView(Stage stage, ArrayList<Garden> saved_g, Controller c) {
@@ -43,18 +46,29 @@ public class LoadSavedGardenView extends View {
 		for(Garden g : saved_g) {
 			garden_names.add(g.name);
 		}
-		
-		base = new BorderPane();
-		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
+		this.controller = c;
+		base = new GridPane();
+		base.setHgap(10);
+		base.setVgap(10);
+		base.setAlignment(Pos.CENTER);
 		
 		listView = new ListView<String>(garden_names);
 		listView.setMaxSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		
+		to_garden_editor.setOnMouseClicked(controller.getToGardenOnClickHandler());
+		list_box = createVBox();
+		base.add(to_garden_editor, 0, 10);
+		base.add(list_box, 0, 20);
+		
+		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
+		stage.setScene(scene);
+		stage.show();
 	}
 	
 	public VBox createVBox() {
 		VBox vbox_g = new VBox(10);
-		//vbox_g.setPadding(new Insets(5, 5, 5, 50));
+		Insets inset = new Insets(5, 5, 5, 50);
+		vbox_g.setPadding(inset);
 		vbox_g.getChildren().addAll(label, listView);
 		vbox_g.setStyle("-fx-background-color: BEIGE");
 		return vbox_g;
