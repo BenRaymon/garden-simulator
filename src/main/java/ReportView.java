@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -20,7 +21,14 @@ public class ReportView extends View{
 	private BorderPane base;
 	private Button toGardenEditor;
 	private GridPane reportGrid;
-	private CheckBox cb1;
+	
+	private CheckBox option1;
+	private CheckBox option2;
+	private CheckBox option3;
+
+	private Button generateButton;
+	
+	private ScrollPane sp;
 	
 	public ReportView(Stage stage, Controller c) {
 		this.controller = c;
@@ -35,9 +43,26 @@ public class ReportView extends View{
 //		base.setVgap(10);
 		//base.setAlignment(Pos.CENTER);
 		
+		//Instantiates Scroll Pane
+		sp = new ScrollPane();
+		
+		
+		Text optionTitle = new Text("Report Options");
+		reportGrid.add(optionTitle,0,0);
+		option1 = new CheckBox("option1");
+		reportGrid.add(option1,0,1);
+		option2 = new CheckBox("option2");
+		reportGrid.add(option2,0,2);
+		option3 = new CheckBox("option3");
+		reportGrid.add(option3,0,3);
+		generateButton = new Button("Generate Report");
+		//Sets button handler
+		generateButton.setOnMouseClicked(c.generateReportHandler());
+		reportGrid.add(generateButton,0,4);
+		
 		
 		// Create temp report
-		this.createTempReport();
+		//this.createTempReport();
 		//base.add(temp, 0, 1);
 		
 		//create and set scene with base
@@ -45,6 +70,15 @@ public class ReportView extends View{
         stage.setScene(scene);
         stage.show();
 	}
+	
+	public void showReport() {
+		//Clears out content in reportGrid, and adds Scroll Pane
+		reportGrid.getChildren().clear();
+		reportGrid.add(sp,0,0);
+		
+		
+	}
+	
 	
 	private void createTempReport() {
 //		// Fake pie chart for leps supported

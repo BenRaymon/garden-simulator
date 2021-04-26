@@ -527,4 +527,14 @@ public class Controller extends Application{
 			stage.setScene(startView.getScene());
 		});
 	}
+	
+	//This handler handles the report generation when the generate report button is clicked in ReportView.
+	public EventHandler generateReportHandler() {
+		return(event -> {
+			System.out.println("Generate report button pushed");
+			reportView.showReport();
+			
+		});
+		
+	}
 }
