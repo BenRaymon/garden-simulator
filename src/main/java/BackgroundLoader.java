@@ -1,26 +1,39 @@
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javafx.scene.image.Image;
 
-public class BackgroundLoaderController {
-	private HashMap<String, Image> plant_images;
-	private HashMap<String, Plant> all_plants;
+public class BackgroundLoader extends Thread {
+	private Thread thread;
+	private String threadName;
+	private ConcurrentHashMap<String, Image> plant_images;
+	private ConcurrentHashMap<String, Plant> all_plants;
 	private boolean dataCompleted;
 	private boolean imagesCompleted;
 	
-	public BackgroundLoaderController(HashMap<String, Image> pi, HashMap<String, Plant> ap, Controller c) {
+	public BackgroundLoader(String name, ConcurrentHashMap<String, Image> pi, ConcurrentHashMap<String, Plant> ap) {
 		// Get references to the hashmaps for loading
+		this.threadName = name;
 		this.plant_images = pi;
 		this.all_plants = ap;
-		this.dataCompleted = false;
-		this.imagesCompleted = false;
 		
 		loadData();
 		loadImages();
 		
-		while(!isCompleted());
-		
-		c.loadStartScreen();
+		System.out.println("Background Loading Complete");
+	}
+	
+	public void start() {
+		System.out.println("Starting background load process");
+		if (thread == null) {
+			thread = new Thread(this, threadName);
+			thread.start();
+		}
+	}
+	
+	public void run() {
+		loadData();
+		loadImages();
 	}
 	
 	public void loadData() {
@@ -34,7 +47,6 @@ public class BackgroundLoaderController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		dataCompleted = true;
 	}
 	
 	public void loadImages() {
@@ -47,14 +59,5 @@ public class BackgroundLoaderController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		imagesCompleted = true;
-	}
-	
-	public boolean isCompleted() {
-		return dataCompleted && imagesCompleted;
-	}
-	
-	public HashMap<String, Image> getPlantImages() {
-		return plant_images;
 	}
 }

@@ -41,7 +41,7 @@ public class Controller extends Application{
 	Garden garden;
 	SaveLoadGarden gardenSaverLoader = new SaveLoadGarden();
 	ArrayList<Garden> savedGardens = new ArrayList<Garden>();
-	BackgroundLoaderController loadData;
+	//BackgroundLoader backgroundLoader;
 	
 	
 	@Override
@@ -54,26 +54,35 @@ public class Controller extends Application{
 		//set the first scene to splash
 		stage.setScene(splashView.getScene());
 		
-		// BackgroundLoader loads the data and images in concurrently whilst showing a splash screen
-		// It then goes to the start screen when it is finished
-		loadData = new BackgroundLoaderController(View.getImages(), Garden.getAllPlants(), this);
+		loadStartScreen();
 		garden = new Garden();
 	}
 	
 	public static void main(String[] args) {
 		System.out.println("in main 1");
+		// BackgroundLoader loads the data and images in concurrently whilst showing a splash screen
+		// It then goes to the start screen when it is finished
+		BackgroundLoader backgroundLoader = new BackgroundLoader("bkgloader", View.getImages(), Garden.getAllPlants());
+		backgroundLoader.start();
+		try {
+			backgroundLoader.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		launch(args);	
 	}
 	
 	
 	//Start the main program
 	public void loadStartScreen() {
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			Thread.sleep(3000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		// load the saved garden array into savedGardens
 		try {
@@ -448,10 +457,6 @@ public class Controller extends Application{
 			String curr_g = tmp.getSelectionModel().getSelectedItem();
 			garden = gardenSaverLoader.loadPickedGarden(curr_g, savedGardens);
 			
-			for(Plant p : garden.getPlantsInGarden()) {
-				System.out.println(p.getCommonName());
-			}
-			
 			stage.setScene(gardenEditorView.getScene());
 			System.out.println(garden.getPlots());
 			double h = gardenEditorView.getCanvasHeight();
@@ -478,7 +483,7 @@ public class Controller extends Application{
 					// get position of plant
 					Point tmp_pos = map_element.getValue().getPosition();
 					// the image corresponding to the plot
-					Image img_v = loadData.getPlantImages().get(map_element.getValue().getScientificName());
+					Image img_v = View.getImages().get(map_element.getValue().getScientificName());
 					// method to add the image to the gardenEdtiorView base panel (draw duh plant)
 					gardenEditorView.addPlantImageToBase(tmp_pos, img_v, radius);
 				}

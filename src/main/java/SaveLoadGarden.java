@@ -18,8 +18,12 @@ public class SaveLoadGarden {
 	public void saveGarden(ArrayList<Garden> g) throws ClassNotFoundException {
 		
 		try {
-			// get the save file from resources
+			// check for file, if it exists get the save file from resources, else create it
 			File f = new File("src/main/resources/savedGardens.dat");
+			
+			if(!f.exists()) {
+				f.createNewFile();
+			}
 			
 			// make the output streams for the file and garden
 			FileOutputStream f_out = new FileOutputStream(f, false); // append is false to keep one arraylist in save file

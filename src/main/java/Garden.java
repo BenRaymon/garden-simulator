@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javafx.scene.image.ImageView;
 
@@ -15,7 +16,7 @@ public class Garden implements Serializable{
 	private ArrayList<Plot> plots;
 	private int lepsSupported;
 	private ArrayList<Plant> plantsInGarden;
-	private static HashMap<String, Plant> allPlants = new HashMap<String, Plant>();
+	private static ConcurrentHashMap<String, Plant> allPlants = new ConcurrentHashMap<String, Plant>();
 	private double pixelsPerFoot ;
 	
 	public Garden() {
@@ -117,7 +118,7 @@ public class Garden implements Serializable{
 		return plantsInGarden;
 	}
 	
-	public static HashMap<String, Plant> getAllPlants() {
+	public static ConcurrentHashMap<String, Plant> getAllPlants() {
 		return allPlants;
 	}
 	

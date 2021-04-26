@@ -3,17 +3,18 @@ import java.io.File;
 import java.io.FileReader;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BackgroundDataLoader extends Thread {
 	private Thread thread;
 	private String threadName;
 	// Reference to our model's plant map
-	private HashMap<String, Plant> all_plants;
+	private ConcurrentHashMap<String, Plant> all_plants;
 	
-	public BackgroundDataLoader(String name, HashMap<String, Plant> ap) {
+	public BackgroundDataLoader(String name, ConcurrentHashMap<String, Plant> all_plants2) {
 		System.out.println("BackgroundDataLoader created with thread name: " + name);
 		this.threadName = name;
-		this.all_plants = ap;
+		this.all_plants = all_plants2;
 	}
 	
 	public void start() {
@@ -26,6 +27,10 @@ public class BackgroundDataLoader extends Thread {
 	
 	// The thread runs this function
 	public void run() {
+		LoadPlantData();
+	}
+	
+	private void LoadPlantData() {
 		//load data file and create a list of lines
 		File plantData = Paths.get("src/main/resources/data.csv").toFile().getAbsoluteFile();
 		BufferedReader br;
@@ -98,7 +103,10 @@ public class BackgroundDataLoader extends Thread {
 							Double.parseDouble(words[7]), Double.parseDouble(words[8]),op, Double.parseDouble(words[9]), Integer.parseInt(words[10]), 
 							words[11].charAt(0));
 		//add plant to the static hashmap
-		all_plants.put(addPlant.getScientificName(), addPlant);
+		synchronized(all_plants) {
+			all_plants.put(addPlant.getScientificName(), addPlant);	
+		}
+		
 		
 		//DEBUG
 		System.out.println(addPlant.toString() + "||" + op.toString());

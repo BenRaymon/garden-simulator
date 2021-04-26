@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -8,9 +9,9 @@ import javafx.scene.text.Text;
 
 public abstract class View {
 
-	private static HashMap<String, Image> plantImages = new HashMap<String, Image>();
-	protected double WINDOW_WIDTH = 1200;
-	protected double WINDOW_HEIGHT = 950;
+	private static ConcurrentHashMap<String, Image> plantImages = new ConcurrentHashMap<String, Image>();
+	protected final double WINDOW_WIDTH = 1200;
+	protected final double WINDOW_HEIGHT = 950;
 	
 	
 	
@@ -21,7 +22,7 @@ public abstract class View {
 	public abstract Scene getScene();
 	// END TEMP CODE
 	
-	public static HashMap<String, Image> getImages() {
+	public static ConcurrentHashMap<String, Image> getImages() {
 		return plantImages;
 	}
 	
