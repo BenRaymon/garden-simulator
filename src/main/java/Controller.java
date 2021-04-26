@@ -470,9 +470,12 @@ public class Controller extends Application{
 			double h = gardenEditorView.getCanvasHeight();
 			double w = gardenEditorView.getCanvasWidth();
 			double t = gardenEditorView.getTopHeight();
-			GardenEditor.transformPlots(garden.getPlots(), w, h, t);
+			double pixelsPerFoot = GardenEditor.transformPlots(garden.getPlots(), w, h, t, garden.getScale());
+			garden.setScale(pixelsPerFoot);
+			gardenEditorView.setScale(pixelsPerFoot);
 			for (Plot p : garden.getPlots()) {
-				p.setCoordinates(GardenEditor.smooth(p.getCoordinates(), 0.3, 20));
+				//p.setCoordinates(p.filterCoords(20));
+				//p.setCoordinates(GardenEditor.smooth(p.getCoordinates(), 0.3, 20));
 				gardenEditorView.setFillColor(p.getOptions());
 				gardenEditorView.drawPlot(p.getCoordinates());
 				

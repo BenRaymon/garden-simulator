@@ -70,7 +70,6 @@ public class GardenEditorView extends View {
 		drawArea.setOnMouseClicked(event -> {
 			System.out.println(((MouseEvent) event).getSceneX());
 			System.out.println(((MouseEvent) event).getSceneY());
-			
 		});
 		
 		createRight();
