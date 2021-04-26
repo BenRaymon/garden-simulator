@@ -10,8 +10,8 @@ import javafx.scene.text.Text;
 public abstract class View {
 
 	private static ConcurrentHashMap<String, Image> plantImages = new ConcurrentHashMap<String, Image>();
-	protected final double WINDOW_WIDTH = 1200;
-	protected final double WINDOW_HEIGHT = 950;
+	protected double WINDOW_WIDTH = 1200;
+	protected double WINDOW_HEIGHT = 950;
 	
 	
 	
