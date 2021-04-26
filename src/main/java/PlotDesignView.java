@@ -63,15 +63,9 @@ public class PlotDesignView extends View {
 		coords = new ArrayList<Point>();
 		canDraw = false;
 		
-		//circ.setFill(new ImagePattern((Image)value));
-		
-		
 		
 
 		// create Canvas
-		
-		
-		
 		box = new VBox();
 		System.out.println("Width" + box.getWidth());
 		base.setCenter(box);
