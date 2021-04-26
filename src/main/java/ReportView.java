@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -19,6 +20,7 @@ public class ReportView extends View{
 	private BorderPane base;
 	private Button toGardenEditor;
 	private GridPane reportGrid;
+	private CheckBox cb1;
 	
 	public ReportView(Stage stage, Controller c) {
 		this.controller = c;
