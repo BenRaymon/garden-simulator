@@ -108,6 +108,7 @@ public class PlotDesignView extends View {
 	}
 	
 	public void heightChanged(Object windowHeight) {
+		WINDOW_HEIGHT = (double) windowHeight;
 		canvasHeight = (double)windowHeight - BOTTOM_HEIGHT;
 		drawArea.setHeight(canvasHeight);
 		
@@ -116,6 +117,7 @@ public class PlotDesignView extends View {
 	}
 	
 	public void widthChanged(Object windowWidth) {
+		WINDOW_WIDTH =(double) windowWidth;
 		canvasWidth = (double)windowWidth - LEFTBAR;
 		drawArea.setWidth(canvasWidth);
 		

@@ -9,8 +9,8 @@ import javafx.scene.text.Text;
 public abstract class View {
 
 	private static HashMap<String, Image> plantImages = new HashMap<String, Image>();
-	protected final double WINDOW_WIDTH = 1200;
-	protected final double WINDOW_HEIGHT = 950;
+	protected double WINDOW_WIDTH = 1200;
+	protected double WINDOW_HEIGHT = 950;
 	
 	
 	
