@@ -36,12 +36,17 @@ public class ShoppingListView extends View{
 		bottomVBox = this.createBottomVBox();
 		
 		addGardenButton();
+		generateShoppingListData();
 		addPlaceHolderText();
 		
 		//create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(scene);
         stage.show();
+	}
+	
+	private void generateShoppingListData() {
+		
 	}
 	
 	public VBox createBottomVBox() {
