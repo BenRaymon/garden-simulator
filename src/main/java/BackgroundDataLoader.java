@@ -7,7 +7,6 @@ import java.util.HashMap;
 public class BackgroundDataLoader extends Thread {
 	private Thread thread;
 	private String threadName;
-	private boolean exit;
 	// Reference to our model's plant map
 	private HashMap<String, Plant> all_plants;
 	
@@ -15,7 +14,6 @@ public class BackgroundDataLoader extends Thread {
 		System.out.println("BackgroundDataLoader created with thread name: " + name);
 		this.threadName = name;
 		this.all_plants = ap;
-		this.exit = false;
 	}
 	
 	public void start() {

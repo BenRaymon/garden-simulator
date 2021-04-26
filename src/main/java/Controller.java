@@ -41,7 +41,7 @@ public class Controller extends Application{
 	Garden garden;
 	SaveLoadGarden gardenSaverLoader = new SaveLoadGarden();
 	ArrayList<Garden> savedGardens = new ArrayList<Garden>();
-	BackgroundLoaderController backgroundLoader;
+	BackgroundLoader backgroundLoader;
 	
 	
 	@Override
@@ -56,7 +56,7 @@ public class Controller extends Application{
 		
 		// BackgroundLoader loads the data and images in concurrently whilst showing a splash screen
 		// It then goes to the start screen when it is finished
-		backgroundLoader = new BackgroundLoaderController(View.getImages(), Garden.getAllPlants(), this);
+		backgroundLoader = new BackgroundLoader(View.getImages(), Garden.getAllPlants(), this);
 		garden = new Garden();
 	}
 	
