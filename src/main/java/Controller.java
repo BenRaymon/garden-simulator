@@ -223,8 +223,10 @@ public class Controller extends Application{
 	//Button functionality for toGarden
 	public EventHandler getToGardenOnClickHandler() {
 		return (event -> {
+			garden.setBudget(plotDesignView.getBudget());
 			stage.setScene(gardenEditorView.getScene());
 			System.out.println(garden.getPlots());
+			gardenEditorView.setBudget(garden.getBudget());
 			double h = gardenEditorView.getCanvasHeight();
 			double w = gardenEditorView.getCanvasWidth();
 			double t = gardenEditorView.getTopHeight();

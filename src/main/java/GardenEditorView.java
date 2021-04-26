@@ -33,7 +33,7 @@ public class GardenEditorView extends View {
 	private Text selectedPlantInfo;
 	private Text lepCount;
 	private Text plantCount;
-	private Text budget;
+	private Text budgetText;
 	private GridPane top, bottom, right, left;
 	private BorderPane base;
 	private Scene scene;
@@ -51,6 +51,7 @@ public class GardenEditorView extends View {
 	private double CANVAS_WIDTH = WINDOW_WIDTH - LEFTBAR - RIGHTBAR;
 	private double CANVAS_HEIGHT = WINDOW_HEIGHT - TOPBAR - BOTTOM;
 	
+	private double budget;
 	
 	public GardenEditorView(Stage stage, Controller c) {
 		imageViewsForPlantsInGarden = new ArrayList<ImageView>();
@@ -85,6 +86,10 @@ public class GardenEditorView extends View {
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
 		stage.setScene(scene);
         stage.show();
+	}
+	
+	public void setBudget(double b) {
+		this.budget = b;
 	}
 	
 	public void drawPlot(ArrayList<Point> points) {
