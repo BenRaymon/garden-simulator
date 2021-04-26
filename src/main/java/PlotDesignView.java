@@ -157,7 +157,7 @@ public class PlotDesignView extends View {
 			dimensions.setMargin(it.next(), margin);
 		}
 		
-		left_grid.add(dimensions, 0, 2);
+		left_grid.add(dimensions, 0, 1);
 	}
 	
 	

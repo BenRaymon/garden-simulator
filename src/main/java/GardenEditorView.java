@@ -169,7 +169,7 @@ public class GardenEditorView extends View {
 	    top = new GridPane();
 		createPane(top, "white");
 		top.setMinHeight(TOPBAR);
-		top.setMaxWidth(600);
+		top.setHgap(SPACING*2);
 		base.setTop(top);
 	}
 	
@@ -183,7 +183,7 @@ public class GardenEditorView extends View {
 	public void createPane(GridPane pane, String color) {
 		pane.setAlignment(Pos.CENTER);
 		pane.setStyle("-fx-background-color: " + color);
-		pane.setGridLinesVisible(true);
+		//pane.setGridLinesVisible(true);
 		pane.setHgap(SPACING);
 		pane.setVgap(SPACING);
 	}
