@@ -1,16 +1,17 @@
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javafx.scene.image.Image;
 
 public class BackgroundLoader extends Thread {
 	private Thread thread;
 	private String threadName;
-	private HashMap<String, Image> plant_images;
-	private HashMap<String, Plant> all_plants;
+	private ConcurrentHashMap<String, Image> plant_images;
+	private ConcurrentHashMap<String, Plant> all_plants;
 	private boolean dataCompleted;
 	private boolean imagesCompleted;
 	
-	public BackgroundLoader(String name, HashMap<String, Image> pi, HashMap<String, Plant> ap) {
+	public BackgroundLoader(String name, ConcurrentHashMap<String, Image> pi, ConcurrentHashMap<String, Plant> ap) {
 		// Get references to the hashmaps for loading
 		this.threadName = name;
 		this.plant_images = pi;
@@ -58,10 +59,5 @@ public class BackgroundLoader extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	
-	
-	public HashMap<String, Image> getPlantImages() {
-		return plant_images;
 	}
 }

@@ -3,17 +3,18 @@ import java.io.File;
 import java.io.FileReader;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BackgroundDataLoader extends Thread {
 	private Thread thread;
 	private String threadName;
 	// Reference to our model's plant map
-	private HashMap<String, Plant> all_plants;
+	private ConcurrentHashMap<String, Plant> all_plants;
 	
-	public BackgroundDataLoader(String name, HashMap<String, Plant> ap) {
+	public BackgroundDataLoader(String name, ConcurrentHashMap<String, Plant> all_plants2) {
 		System.out.println("BackgroundDataLoader created with thread name: " + name);
 		this.threadName = name;
-		this.all_plants = ap;
+		this.all_plants = all_plants2;
 	}
 	
 	public void start() {

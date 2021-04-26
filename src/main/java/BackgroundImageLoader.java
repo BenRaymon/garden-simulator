@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.imageio.ImageIO;
 
@@ -20,9 +21,9 @@ import javafx.scene.image.WritableImage;
 public class BackgroundImageLoader extends Thread {
 	private Thread thread;
 	private String threadName;
-	private HashMap<String, Image> plant_images;
+	private ConcurrentHashMap<String, Image> plant_images;
 	
-	public BackgroundImageLoader(String name, HashMap<String, Image> pi) {
+	public BackgroundImageLoader(String name, ConcurrentHashMap<String, Image> pi) {
 		this.threadName = name;
 		this.plant_images = pi;
 	}
