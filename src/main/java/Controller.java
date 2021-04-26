@@ -382,6 +382,10 @@ public class Controller extends Application{
 			String curr_g = tmp.getSelectionModel().getSelectedItem();
 			garden = gardenSaverLoader.loadPickedGarden(curr_g, savedGardens);
 			
+			for(Plant p : garden.getPlantsInGarden()) {
+				System.out.println(p.getCommonName());
+			}
+			
 			stage.setScene(gardenEditorView.getScene());
 			System.out.println(garden.getPlots());
 			double h = gardenEditorView.getCanvasHeight();
@@ -392,14 +396,24 @@ public class Controller extends Application{
 				p.setCoordinates(GardenEditor.smooth(p.getCoordinates(), 0.3, 20));
 				gardenEditorView.setFillColor(p.getOptions());
 				gardenEditorView.drawPlot(p.getCoordinates());
+				
+				// iterate over the hashmap of plants from each plot and find the corresponding image
+				// in the background loader. This is the most wonky shit I've ever done in my CS career.
+				// If you have an issue with this implementation, too bad!
+				Iterator plant_itr = p.getPlantsInPlot().entrySet().iterator();
+				
+				while (plant_itr.hasNext()) {
+					// get a map entry from the plot
+					Map.Entry<Point, Plant> map_element = (Map.Entry<Point, Plant>)plant_itr.next();
+					// used to determine plant image size in the plot
+					double radius = map_element.getValue().getSpreadRadiusLower();
+					// the image corresponding to the plot
+					Image img_v = loadData.getPlantImages().get(map_element.getValue().getScientificName());
+					// method to add the image to the gardenEdtiorView base panel (draw duh plant)
+					gardenEditorView.addPlantImageToBase(map_element.getValue(), img_v, radius);
+				}
 			}
 			
-			for(Plant p : garden.getPlantsInGarden()) {	
-				System.out.println("here");
-				double radius = p.getSpreadRadiusLower();
-				Image img_v = loadData.getPlantImages().get(p.getCommonName());
-				gardenEditorView.addPlantImageToBase(p, img_v, radius);
-			}
 		});
 	}
 }
