@@ -145,19 +145,6 @@ public class Controller extends Application{
 		});
 	}
 	
-	
-	public EventHandler scaleUpCanvas() {
-		return (event->{
-			plotDesignView.scaleUp();
-		});
-	}
-	
-	public EventHandler scaleDownCanvas() {
-		return (event->{
-			plotDesignView.scaleDown();
-		});
-	}
-	
 	public EventHandler drawPlotGrid() {
 		return (event->{
 			plotDesignView.drawGrid();
