@@ -90,6 +90,7 @@ public class Garden implements Serializable{
 	
 	public  void addPlantToPlot(int index, Point point, Plant p) {
 		plots.get(index).addPlant(point, p);
+		plantsInGarden.add(p);
 	}
 	
 	public  void removePlantFromPlot(int index, Point point) {
@@ -125,18 +126,27 @@ public class Garden implements Serializable{
 		this.name = n;
 	}
 	
-	public HashMap<UUID, PlantShoppingListData> generateShoppingListData() {
-		HashMap<UUID, PlantShoppingListData> psld = new HashMap<UUID, PlantShoppingListData>();
+	public HashMap<String, PlantShoppingListData> generateShoppingListData() {
+		HashMap<String, PlantShoppingListData> psld = new HashMap<String, PlantShoppingListData>();
+		System.out.println("Plant list size is as follows:");
+		System.out.println(plantsInGarden.size());
 		
 		plantsInGarden.forEach(p -> {
+			p = (Plant)p;
+			//System.out.println("Common name: " + p.getID());
 			// If the id is already in the list, update count/cost
-			if (psld.containsKey(((Plant)p).getID())) {
-				psld.get(((Plant)p).getID()).updateCount(1);
-				psld.get(((Plant)p).getID()).updateCost(((Plant)p).getCost());
+			if (psld.containsKey(p.getCommonName())) {
+				System.out.println("In the if");
+				psld.get(p.getCommonName()).updateCount(1);
+				psld.get(p.getCommonName()).updateCost(p.getCost());
 			} else {
-				psld.put(((Plant)p).getID(), new PlantShoppingListData(1, ((Plant)p).getCost(), ((Plant)p).getCommonName(), ((Plant)p).getScientificName()));
+				System.out.println("in the else");
+				psld.put(p.getCommonName(), new PlantShoppingListData(1, p.getCost(), p.getCommonName(), p.getScientificName()));
 			}
+			System.out.println(psld.get(p.getCommonName()).getCommonName());
 		});
+		
+		System.out.println(psld);
 		
 		return psld;
 	}

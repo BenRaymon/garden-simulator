@@ -36,7 +36,6 @@ public class ShoppingListView extends View{
 		bottomVBox = this.createBottomVBox();
 		
 		addGardenButton();
-		generateShoppingListData();
 		addPlaceHolderText();
 		
 		//create and set scene with base
@@ -45,8 +44,46 @@ public class ShoppingListView extends View{
         stage.show();
 	}
 	
-	private void generateShoppingListData() {
+	public void setShoppingListData(HashMap<String, PlantShoppingListData> psld, double budget) {
+		System.out.println("Setting shopping list data...");
+		double cost = 0;
+		// First, clear the 2 VBoxes
+		leftVBox.getChildren().clear();
+		rightVBox.getChildren().clear();
 		
+		// Now, re-populate the VBoxes with the new data
+		// Key doesnt matter here, just the value
+		Iterator itr = psld.entrySet().iterator();
+		while (itr.hasNext()) {
+			Map.Entry element = (Map.Entry)itr.next();
+			PlantShoppingListData v = (PlantShoppingListData)element.getValue();
+			cost += v.getCost();
+			addDataToLeftBox(v);
+			addDataToRightBox(v);
+		}
+		
+		Separator leftSep = new Separator();
+		leftSep.setMaxWidth(300);
+		leftSep.setHalignment(HPos.CENTER);
+		Separator rightSep = new Separator();
+		rightSep.setMaxWidth(300);
+		rightSep.setHalignment(HPos.CENTER);
+		leftVBox.getChildren().add(leftSep);
+		rightVBox.getChildren().add(rightSep);
+		
+		rightVBox.getChildren().add(new Text("Budget: " + budget));
+		rightVBox.getChildren().add(new Text("Cost: " + cost));
+		System.out.println("Shopping list data set.");
+	}
+	
+	private void addDataToLeftBox(PlantShoppingListData data) {
+		Text text = new Text(data.getCount() + "x " + data.getCommonName());
+		leftVBox.getChildren().add(text);
+	}
+	
+	private void addDataToRightBox(PlantShoppingListData data) {
+		Text text = new Text("Cost: $" + data.getCost());
+		rightVBox.getChildren().add(text);
 	}
 	
 	public VBox createBottomVBox() {

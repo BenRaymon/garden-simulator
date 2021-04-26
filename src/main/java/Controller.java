@@ -107,6 +107,7 @@ public class Controller extends Application{
 	public EventHandler getToShoppingListOnClickHandler() {
 		return (event -> {
 			stage.setScene(shopView.getScene());
+			shopView.setShoppingListData(garden.generateShoppingListData(), garden.getBudget());
 		});
 	}
 	
@@ -196,7 +197,7 @@ public class Controller extends Application{
         });
 	}
 	
-	//Hanlder for when plot is done being drawn
+	//Handler for when plot is done being drawn
 	public EventHandler getOnDrawPlotDone() {
 		return (event->{
 			System.out.println("Mouse Released");
