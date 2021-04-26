@@ -62,13 +62,19 @@ public class PlotDesignView extends View {
 		coords = new ArrayList<Point>();
 		canDraw = false;
 		
-		//Drawing canvas for plots
+		
+		box = new VBox();
+		base.setCenter(box);
+		box.setMinWidth(canvasWidth);
+		box.setMinHeight(canvasHeight);
+
 		drawArea = new Canvas(canvasWidth, canvasHeight);
 		gc = drawArea.getGraphicsContext2D();
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(1);
-		base.getChildren().add(drawArea);
-
+		
+		box.getChildren().add(drawArea);
+		
 		createLeftGrid();
 		
 		// add the drawplot button
