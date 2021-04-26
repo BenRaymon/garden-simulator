@@ -127,30 +127,6 @@ public class Controller extends Application{
 		});
 	}
 	
-	public EventHandler getPlotWidthInput() {
-		return (event->{
-			plotDesignView.getWidthInput();
-		});
-	}
-	
-	public EventHandler getPlotHeightInput() {
-		return (event->{
-			plotDesignView.getHeightInput();
-		});
-	}
-	
-	public EventHandler getPlotBoxHeightInput() {
-		return (event->{
-			plotDesignView.getBoxHeightInput();
-		});
-	}
-	
-	public EventHandler getPlotBoxWidthInput(){
-		return (event->{
-			plotDesignView.getBoxWidthInput();
-		});
-	}
-	
 	public EventHandler drawPlotGrid() {
 		return (event->{
 			double pixelsPerFoot = plotDesignView.drawGrid();

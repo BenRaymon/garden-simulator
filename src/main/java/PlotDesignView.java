@@ -138,13 +138,10 @@ public class PlotDesignView extends View {
 		Label boxWidthText = new Label("Unit width");
 		gridSize = new Label("Grid Size");
 		widthInput = new TextField();
-		widthInput.setOnAction(controller.getPlotWidthInput());
 		heightInput = new TextField();
-		heightInput.setOnAction(controller.getPlotHeightInput());
 		boxHeightInput = new TextField();
-		boxHeightInput.setOnAction(controller.getPlotBoxHeightInput());
 		boxWidthInput = new TextField();
-		boxWidthInput.setOnAction(controller.getPlotBoxWidthInput());
+		
 		drawDimensions = new Button("Set Dimensions");
 		drawDimensions.setOnMouseClicked(controller.drawPlotGrid());
 		left_grid.add(widthText, 0, 35);
@@ -158,50 +155,7 @@ public class PlotDesignView extends View {
 		left_grid.add(drawDimensions, 1, 45);
 	}
 	
-	/**
-	 * Gets the user inputed height from text field
-	 * @param
-	 * @return user inputed height of grid
-	 */
-	public int getHeightInput() {
-		int height = Integer.parseInt(heightInput.getText());
-		System.out.println(height);
-		return height;
-	}
 	
-	/**
-	 * Gets the user inputed height from text field
-	 * @param none
-	 * @return user inputed width of grid
-	 */
-	public int getWidthInput() {
-		int width = Integer.parseInt(widthInput.getText());
-		System.out.print(width);
-		return width;
-	}
-	
-	/**
-	 * Gets the user inputed height of each unit grid box
-	 * @param none
-	 * @return user inputed height of each unit grid box 
-	 */
-	public int getBoxHeightInput() {
-		int boxHeight = Integer.parseInt(boxHeightInput.getText());
-		System.out.print(boxHeight);
-		return boxHeight;
-	}
-	
-	/**
-	 * Gets the user inputed width of each unit grid box
-	 * @param none
-	 * @return user inputed width of each unit grid box
-	 */
-	public int getBoxWidthInput() {
-		int boxWidth = Integer.parseInt(boxWidthInput.getText());
-		System.out.println(boxWidth);
-		return boxWidth;
-		
-	}
 	/**
 	 * Responsible for drawing the scaling grid lines on the canvas
 	 * @param none
@@ -211,10 +165,10 @@ public class PlotDesignView extends View {
 		
 		gc.clearRect(0, 0, drawArea.getWidth(), drawArea.getHeight());
 		
-		int width = getWidthInput();
-		int height = getHeightInput();
-		int boxHeight = getBoxHeightInput();
-		int boxWidth = getBoxWidthInput();
+		int width = Integer.parseInt(widthInput.getText());
+		int height = Integer.parseInt(heightInput.getText());
+		int boxHeight = Integer.parseInt(boxHeightInput.getText());
+		int boxWidth = Integer.parseInt(boxWidthInput.getText());
 		
 		if (boxWidth > width) {
 			System.out.println("Impossible size");
