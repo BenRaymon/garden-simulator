@@ -25,14 +25,16 @@ public class GardenEditor {
 		return currentlySelectedPlant;
 	}
 	
-	public static void transformPlots(ArrayList<Plot> plots, double canvasWidth, double canvasHeight, double top) {
+	public static double transformPlots(ArrayList<Plot> plots, double canvasWidth, double canvasHeight, double top, double ppf) {
 		CANVAS_HEIGHT = canvasHeight;
 		CANVAS_WIDTH = canvasWidth;
 		TOP_HEIGHT = top;
 		calculatePlotBoundaries(plots);
-		calculateScale();
+		ppf *= calculateScale();
 		scalePlots(plots);
 		checkBorders(plots);
+		
+		return ppf;
 	}
 	
 	public static void calculatePlotBoundaries(ArrayList<Plot> plots) {
@@ -63,11 +65,13 @@ public class GardenEditor {
 		
 	}
 	
-	public static void calculateScale() {
+	public static double calculateScale() {
 		scale = (CANVAS_HEIGHT - SCALE_BUFFER) / (bottom-top);
 		if ((CANVAS_WIDTH-SCALE_BUFFER)/(right-left) < scale) {
 			scale = (CANVAS_WIDTH-SCALE_BUFFER)/(right-left);
 		}
+		System.out.println("S"+ scale);
+		return scale;
 	}
 	
 	private static void scalePlots(ArrayList<Plot> plots) {

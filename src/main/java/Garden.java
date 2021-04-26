@@ -13,6 +13,7 @@ public class Garden implements Serializable{
 	private int lepsSupported;
 	private ArrayList<Plant> plantsInGarden;
 	private static HashMap<String, Plant> allPlants = new HashMap<String, Plant>();
+	private double pixelsPerFoot ;
 	
 	public Garden() {
 		spent = 0;
@@ -20,6 +21,7 @@ public class Garden implements Serializable{
 		lepsSupported = 0;
 		plantsInGarden = new ArrayList<Plant>();
 		plots = new ArrayList<Plot>();
+		pixelsPerFoot = 0;
 	}
 	
 	public Plant getPlant(int plotNum, Point pos) {
@@ -146,5 +148,11 @@ public class Garden implements Serializable{
 		}
 		
 		return psld;
+	public void setScale(double scale) {
+		pixelsPerFoot = scale;
+	}
+	
+	public double getScale() {
+		return pixelsPerFoot;
 	}
 }

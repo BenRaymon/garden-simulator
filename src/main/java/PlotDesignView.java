@@ -63,41 +63,24 @@ public class PlotDesignView extends View {
 		coords = new ArrayList<Point>();
 		canDraw = false;
 		
-		
-		
-		
-
-		// create Canvas
 		box = new VBox();
-		System.out.println("Width" + box.getWidth());
 		base.setCenter(box);
 		box.setMinWidth(canvasWidth);
 		box.setMinHeight(canvasHeight);
-		System.out.println("Initial VBOX"+ box.getWidth()+box.getHeight());
+
 		drawArea = new Canvas(canvasWidth, canvasHeight);
 		gc = drawArea.getGraphicsContext2D();
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(1);
 		
 		box.getChildren().add(drawArea);
-		
-		String cssLayout = "-fx-border-color: red;\n" +
-                "-fx-border-insets: 5;\n" +
-                "-fx-border-width: 3;\n" +
-                "-fx-border-style: dashed;\n";
-		
-		//box.setStyle(cssLayout);
-		
-
-		
-		
 
 		// Create left side bar with sliders and buttons
 		createLeftGrid();
 		createSunSlider();
 		createMoistureSlider();
 		createSoilSlider();
-		
+		createScaleButtons();
 
 		// create last and next page buttons
 		createBottom();
@@ -216,9 +199,9 @@ public class PlotDesignView extends View {
 	/**
 	 * Responsible for drawing the scaling grid lines on the canvas
 	 * @param none
-	 * @return none
+	 * @return double FIX ME
 	 */
-	public void drawGrid() {
+	public double drawGrid() {
 		
 		gc.clearRect(0, 0, drawArea.getWidth(), drawArea.getHeight());
 		
@@ -250,6 +233,7 @@ public class PlotDesignView extends View {
 		
 		drawArea.setWidth(drawArea.getWidth() - widthBorder + 2);
 		drawArea.setHeight(drawArea.getHeight() - heightBorder + 1);
+		double pixelsPerFoot = (double)widthInc / boxWidth;
 		
 		for (double x = 1; x <= drawArea.getWidth() + widthBorder; x+=widthInc) {
 			gc.moveTo(x, 0);
@@ -264,6 +248,8 @@ public class PlotDesignView extends View {
 		}
 		gc.closePath();
 		gc.beginPath();
+		
+		return pixelsPerFoot;
 	}
 		
 	/**

@@ -40,6 +40,7 @@ public class Controller extends Application{
 	SaveLoadGarden gardenSaverLoader = new SaveLoadGarden();
 	ArrayList<Garden> savedGardens = new ArrayList<Garden>();
 	
+	
 	@Override
 	public void start(Stage s) throws Exception {
 		this.stage = s;
@@ -149,7 +150,8 @@ public class Controller extends Application{
 	
 	public EventHandler drawPlotGrid() {
 		return (event->{
-			plotDesignView.drawGrid();
+			double pixelsPerFoot = plotDesignView.drawGrid();
+			garden.setScale(pixelsPerFoot);
 		});
 	}
 	
@@ -223,8 +225,11 @@ public class Controller extends Application{
 			double h = gardenEditorView.getCanvasHeight();
 			double w = gardenEditorView.getCanvasWidth();
 			double t = gardenEditorView.getTopHeight();
-			GardenEditor.transformPlots(garden.getPlots(), w, h, t);
+			double pixelsPerFoot = GardenEditor.transformPlots(garden.getPlots(), w, h, t, garden.getScale());
+			garden.setScale(pixelsPerFoot);
+			gardenEditorView.setScale(pixelsPerFoot);
 			for (Plot p : garden.getPlots()) {
+				p.setCoordinates(p.filterCoords(5));
 				p.setCoordinates(GardenEditor.smooth(p.getCoordinates(), 0.3, 20));
 				gardenEditorView.setFillColor(p.getOptions());
 				gardenEditorView.drawPlot(p.getCoordinates());
@@ -315,10 +320,6 @@ public class Controller extends Application{
 				selected.setPosition(new Point(0,0)); //reset the position of the plant in the allPlants list to be 0,0
 				garden.addPlantToPlot(plotNum, pos, newPlant);
 			}
-			
-			
-			
-			
 			
 			System.out.println(garden.getPlots().get(plotNum).getPlantsInPlot().size());
 			drag.setDropCompleted(true);

@@ -293,5 +293,7 @@ public class GardenEditorView extends View{
 	public TextField getGardenName() {
 		return garden_name;
 	}
-	
+	public void setScale(double scale) {
+		SCALE = scale;
+	}
 }

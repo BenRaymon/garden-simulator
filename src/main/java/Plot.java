@@ -14,6 +14,16 @@ public class Plot implements Serializable {
 		this.coordinates = null;
 	}
 	
+	public ArrayList<Point> filterCoords(int num) {
+		ArrayList<Point> filtered = new ArrayList<Point>();
+		int index = 0;
+		for(Point p: coordinates){
+			if(index++%num == 0) {
+				filtered.add(p);
+			}
+		}
+		return filtered;
+	}
 	
 	public void addCoordinate(Point point) {
 		coordinates.add(point);
