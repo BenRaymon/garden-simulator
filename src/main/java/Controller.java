@@ -152,6 +152,8 @@ public class Controller extends Application{
 			public void changed(ObservableValue observable,
 					Object oldValue, Object newValue) {
 				plotDesignView.heightChanged(newValue);
+				double pixelsPerFoot = plotDesignView.drawGrid();
+				garden.setScale(pixelsPerFoot);
 			}
 		};
 	}
@@ -161,6 +163,8 @@ public class Controller extends Application{
 			public void changed(ObservableValue observable,
 					Object oldValue, Object newValue) {
 				plotDesignView.widthChanged(newValue);
+				double pixelsPerFoot = plotDesignView.drawGrid();
+				garden.setScale(pixelsPerFoot);
 			}
 		};
 	}
