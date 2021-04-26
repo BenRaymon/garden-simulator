@@ -4,6 +4,7 @@ import java.util.List;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -137,8 +138,8 @@ public class PlotDesignView extends View {
 	public void inputDimensions() {
 		Label widthText = new Label("Garden width");
 		Label heightText = new Label("Garden height");
-		Label boxHeightText = new Label("Unit height");
-		Label boxWidthText = new Label("Unit width");
+		Label boxHeightText = new Label("Grid Height");
+		Label boxWidthText = new Label("Grid Width");
 		gridSize = new Label("Grid Size");
 		widthInput = new TextField();
 		heightInput = new TextField();
@@ -147,15 +148,18 @@ public class PlotDesignView extends View {
 		
 		drawDimensions = new Button("Set Dimensions");
 		drawDimensions.setOnMouseClicked(controller.drawPlotGrid());
-		left_grid.add(widthText, 0, 35);
-		left_grid.add(widthInput, 1, 35);
-		left_grid.add(heightText, 0, 37);
-		left_grid.add(heightInput, 1, 37);
-		left_grid.add(boxHeightText, 0, 40);
-		left_grid.add(boxHeightInput, 1, 40);
-		left_grid.add(boxWidthText, 0, 43);
-		left_grid.add(boxWidthInput, 1, 43);
-		left_grid.add(drawDimensions, 1, 45);
+		
+		VBox dimensions = new VBox();
+		dimensions.getChildren().add(widthText);
+		dimensions.getChildren().add(widthInput);
+		dimensions.getChildren().add(heightText);
+		dimensions.getChildren().add(heightInput);
+		dimensions.getChildren().add(boxWidthText);
+		dimensions.getChildren().add(boxWidthInput);
+		dimensions.getChildren().add(boxHeightText);
+		dimensions.getChildren().add(boxHeightInput);
+		dimensions.getChildren().add(drawDimensions);
+		left_grid.add(dimensions, 0, 40);
 	}
 	
 	
@@ -241,7 +245,7 @@ public class PlotDesignView extends View {
 	 */
 	public void createLeftGrid() {
 		left_grid = new GridPane();
-		left_grid.setAlignment(Pos.TOP_CENTER);
+		left_grid.setAlignment(Pos.CENTER);
 		left_grid.setStyle("-fx-background-color: darkseagreen");
 		// left_grid.setGridLinesVisible(true);
 		left_grid.setMinWidth(LEFTBAR);
@@ -261,7 +265,6 @@ public class PlotDesignView extends View {
 		slider.setSnapToTicks(true);
 		slider.setMinorTickCount(0);
 		return slider;
-
 	}
 
 	/**
@@ -275,7 +278,8 @@ public class PlotDesignView extends View {
 		sliderStandards(sunlight);
 		left_grid.add(t, 0, 0);
 		left_grid.add(sunlight, 0, 1);
-
+		//left_grid.setMargin(sunlight, new Insets(0, 20, 20, 20));
+		//left_grid.setMargin(t, new Insets(20, 20, 0, 20));
 	}
 
 	/**
