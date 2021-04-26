@@ -1,12 +1,17 @@
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.Iterator;
 
 import javax.imageio.ImageIO;
+
+import com.sun.prism.paint.Color;
 
 import javafx.geometry.Pos;
 
@@ -17,10 +22,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -29,7 +38,7 @@ public class StartView extends View {
 	private Button newGarden;
 	private Button loadGarden;
 	private Scene scene;
-	private GridPane base;
+	private VBox base;
 	private Controller controller;
 	private final double SPACING = 10;
 	private final double BUTTON_H = 50;
@@ -41,15 +50,28 @@ public class StartView extends View {
 	
 	public StartView(Stage stage, Controller c) {
 		controller = c;
-		base = new GridPane();
-		base.setHgap(SPACING);
-		base.setVgap(SPACING);
-		base.setAlignment(Pos.CENTER);
+		base = new VBox();
+		base.setStyle("-fx-background-color: darkgrey");
+		
+		
+		
+		pageTitle = new Text("Native Garden Designer");
+		pageTitle.setFont(Font.font(75));
+		
+		
+		VBox titleBox = new VBox(5);
+		titleBox.setStyle("-fx-background-color: darkseagreen");
+		titleBox.setAlignment(Pos.CENTER);
+		titleBox.getChildren().add(pageTitle);
+		base.getChildren().add(titleBox);
+		
 		
 		
 		//Buttons for load and new gardens
 		HBox buttons = new HBox();
+		buttons.setAlignment(Pos.BASELINE_CENTER);
 		buttons.setSpacing(100);
+		buttons.setStyle("-fx-background-color: darkgrey");
 		newGarden = new Button("Create New Garden");
 		newGarden.setMinHeight(BUTTON_H);
 		newGarden.setMinWidth(BUTTON_W);
@@ -60,17 +82,16 @@ public class StartView extends View {
 		loadGarden.setOnMouseClicked(controller.getLoadGardenOnClickHandler());
 		buttons.getChildren().add(newGarden);
 		buttons.getChildren().add(loadGarden);
-		base.add(buttons, 0, 0);
-
-		//create a temporary vbox for the name and button
-		pageTitle = new Text("START");
-		VBox temp = new VBox(5);
-		temp.getChildren().add(pageTitle);
-		temp.setAlignment(Pos.CENTER);
-		base.add(temp, 0, 1);
-		tempImages.setVgap(SPACING);
-		tempImages.setHgap(SPACING);
-		base.add(tempImages, 0, 3);
+		
+		Image butterfly = new Image("TitleImage.jpeg",WINDOW_WIDTH,WINDOW_HEIGHT - titleBox.getHeight() - 150, true, true);
+		ImageView butterflyView = new ImageView(butterfly);
+		VBox pictureBox = new VBox();
+		pictureBox.setAlignment(Pos.CENTER);
+		pictureBox.getChildren().add(butterflyView);
+		pictureBox.setStyle("-fx-background-color: darkseagreen");
+		base.getChildren().add(pictureBox);
+		base.getChildren().add(buttons);
+		
 		
 		//create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
