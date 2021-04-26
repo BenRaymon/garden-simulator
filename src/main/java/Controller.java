@@ -398,8 +398,7 @@ public class Controller extends Application{
 				gardenEditorView.drawPlot(p.getCoordinates());
 				
 				// iterate over the hashmap of plants from each plot and find the corresponding image
-				// in the background loader. This is the most wonky shit I've ever done in my CS career.
-				// If you have an issue with this implementation, too bad!
+				// in the background loader. This is a weird way to do this.
 				Iterator plant_itr = p.getPlantsInPlot().entrySet().iterator();
 				
 				while (plant_itr.hasNext()) {
@@ -407,10 +406,12 @@ public class Controller extends Application{
 					Map.Entry<Point, Plant> map_element = (Map.Entry<Point, Plant>)plant_itr.next();
 					// used to determine plant image size in the plot
 					double radius = map_element.getValue().getSpreadRadiusLower();
+					// get position of plant
+					Point tmp_pos = map_element.getValue().getPosition();
 					// the image corresponding to the plot
 					Image img_v = loadData.getPlantImages().get(map_element.getValue().getScientificName());
 					// method to add the image to the gardenEdtiorView base panel (draw duh plant)
-					gardenEditorView.addPlantImageToBase(map_element.getValue(), img_v, radius);
+					gardenEditorView.addPlantImageToBase(tmp_pos, img_v, radius);
 				}
 			}
 			

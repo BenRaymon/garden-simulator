@@ -265,8 +265,8 @@ public class GardenEditorView extends View {
     	base.getChildren().add(circ);
 	}
 	
-	public void addPlantImageToBase(Plant p, Image img_v, double radius) {
-		Circle circ = new Circle(p.getPosition().getX(), p.getPosition().getY(), radius*SCALE);
+	public void addPlantImageToBase(Point pos, Image img_v, double radius) {
+		Circle circ = new Circle(pos.getX(), pos.getY(), radius*SCALE);
         circ.setFill(new ImagePattern(img_v));
         circ.setOnDragDetected(controller.getOnImageDraggedHandler());
 		//imageViewsForPlantsInGarden.add(iv);
