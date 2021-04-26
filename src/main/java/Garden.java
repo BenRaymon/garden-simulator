@@ -148,6 +148,8 @@ public class Garden implements Serializable{
 		}
 		
 		return psld;
+	}
+	
 	public void setScale(double scale) {
 		pixelsPerFoot = scale;
 	}

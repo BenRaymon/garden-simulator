@@ -80,7 +80,6 @@ public class PlotDesignView extends View {
 		createSunSlider();
 		createMoistureSlider();
 		createSoilSlider();
-		createScaleButtons();
 
 		// create last and next page buttons
 		createBottom();
