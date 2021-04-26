@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 
 import com.sun.prism.paint.Color;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
 import javafx.scene.Group;
@@ -31,6 +32,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class StartView extends View {
@@ -43,7 +45,8 @@ public class StartView extends View {
 	private final double SPACING = 10;
 	private final double BUTTON_H = 50;
 	private final double BUTTON_W = 150;
-	
+	private final double BOTTOM_BAR = 150;
+	private final double TEXT = 75;
 	
 	GridPane tempImages = new GridPane();
 	int tempNum = 0;
@@ -56,19 +59,24 @@ public class StartView extends View {
 		
 		
 		pageTitle = new Text("Native Garden Designer");
-		pageTitle.setFont(Font.font(75));
+		pageTitle.setFont(Font.font(TEXT));
+		pageTitle.minHeight(TEXT);
+		pageTitle.maxHeight(TEXT);
 		
 		
-		VBox titleBox = new VBox(5);
-		titleBox.setStyle("-fx-background-color: darkseagreen");
-		titleBox.setAlignment(Pos.CENTER);
-		titleBox.getChildren().add(pageTitle);
-		base.getChildren().add(titleBox);
+		//Text titleBox = new VBox(5);
+		//titleBox.setStyle("-fx-background-color: darkseagreen");
+		//titleBox.setAlignment(Pos.CENTER);
+		//titleBox.getChildren().add(pageTitle);
+		base.getChildren().add(pageTitle);
+		base.setAlignment(Pos.CENTER);
+		base.setMargin(pageTitle, new Insets(50,0,0,0));
 		
 		
 		
 		//Buttons for load and new gardens
 		HBox buttons = new HBox();
+		buttons.setMinHeight(BOTTOM_BAR);
 		buttons.setAlignment(Pos.BASELINE_CENTER);
 		buttons.setSpacing(100);
 		buttons.setStyle("-fx-background-color: darkgrey");
@@ -83,7 +91,7 @@ public class StartView extends View {
 		buttons.getChildren().add(newGarden);
 		buttons.getChildren().add(loadGarden);
 		
-		Image butterfly = new Image("TitleImage.jpeg",WINDOW_WIDTH,WINDOW_HEIGHT - titleBox.getHeight() - 150, true, true);
+		Image butterfly = new Image("TitleImage.png",WINDOW_WIDTH,WINDOW_HEIGHT - 75 - BOTTOM_BAR, true, true);
 		ImageView butterflyView = new ImageView(butterfly);
 		VBox pictureBox = new VBox();
 		pictureBox.setAlignment(Pos.CENTER);

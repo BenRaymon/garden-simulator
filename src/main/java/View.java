@@ -10,9 +10,8 @@ import javafx.scene.text.Text;
 public abstract class View {
 
 	private static ConcurrentHashMap<String, Image> plantImages = new ConcurrentHashMap<String, Image>();
-	protected double WINDOW_WIDTH = 1920;
-	protected double WINDOW_HEIGHT = 1080 - 75;
-	
+	protected static double WINDOW_WIDTH = 0;
+	protected static double WINDOW_HEIGHT = 0;
 	
 	
 	//TEMPORARY FOR CHANGING PAGES IN PRE-ALPHA
@@ -24,6 +23,11 @@ public abstract class View {
 	
 	public static ConcurrentHashMap<String, Image> getImages() {
 		return plantImages;
+	}
+	
+	public static void setSize(double width, double height) {
+		WINDOW_HEIGHT = height;
+		WINDOW_WIDTH = width;
 	}
 	
 }

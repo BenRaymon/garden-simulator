@@ -83,7 +83,7 @@ public class GardenEditorView extends View {
 	
 		//create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
-        stage.setScene(scene);
+		stage.setScene(scene);
         stage.show();
 	}
 	

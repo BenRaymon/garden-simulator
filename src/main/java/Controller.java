@@ -54,6 +54,10 @@ public class Controller extends Application{
 		//set the first scene to splash
 		stage.setScene(splashView.getScene());
 		
+		stage.setMaximized(true);
+		System.out.println(stage.getWidth() + " " +  stage.getHeight());
+		View.setSize(stage.getWidth(), stage.getHeight());
+		
 		loadStartScreen();
 		garden = new Garden();
 	}
