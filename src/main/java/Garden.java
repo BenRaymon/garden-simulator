@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javafx.scene.image.ImageView;
+
 import java.io.Serializable;
 
 public class Garden implements Serializable{

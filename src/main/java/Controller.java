@@ -37,6 +37,7 @@ public class Controller extends Application{
 	Garden garden;
 	SaveLoadGarden gardenSaverLoader = new SaveLoadGarden();
 	ArrayList<Garden> savedGardens = new ArrayList<Garden>();
+	BackgroundLoaderController loadData;
 	
 	@Override
 	public void start(Stage s) throws Exception {
@@ -50,7 +51,7 @@ public class Controller extends Application{
 		
 		// BackgroundLoader loads the data and images in concurrently whilst showing a splash screen
 		// It then goes to the start screen when it is finished
-		BackgroundLoaderController loadData = new BackgroundLoaderController(View.getImages(), Garden.getAllPlants(), this);
+		loadData = new BackgroundLoaderController(View.getImages(), Garden.getAllPlants(), this);
 		garden = new Garden();
 	}
 	
@@ -391,6 +392,13 @@ public class Controller extends Application{
 				p.setCoordinates(GardenEditor.smooth(p.getCoordinates(), 0.3, 20));
 				gardenEditorView.setFillColor(p.getOptions());
 				gardenEditorView.drawPlot(p.getCoordinates());
+			}
+			
+			for(Plant p : garden.getPlantsInGarden()) {	
+				System.out.println("here");
+				double radius = p.getSpreadRadiusLower();
+				Image img_v = loadData.getPlantImages().get(p.getCommonName());
+				gardenEditorView.addPlantImageToBase(p, img_v, radius);
 			}
 		});
 	}

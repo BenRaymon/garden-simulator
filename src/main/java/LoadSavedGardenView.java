@@ -35,9 +35,9 @@ public class LoadSavedGardenView extends View {
 	private Scene scene;
 	private GridPane base;
 	private Controller controller;
-	private Button to_garden_editor = new Button();
+	private Button to_garden_editor = new Button("Load Selection");
 	private VBox list_box;
-	private Label label = new Label("Saved Gardens");
+	private Label label = new Label("Saved Gardens, pick a garden to load");
 	private ObservableList<String> garden_names = FXCollections.observableArrayList();
 	private ListView<String> listView;
 	

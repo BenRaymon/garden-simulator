@@ -53,4 +53,8 @@ public class BackgroundLoaderController {
 	public boolean isCompleted() {
 		return dataCompleted && imagesCompleted;
 	}
+	
+	public HashMap<String, Image> getPlantImages() {
+		return plant_images;
+	}
 }
