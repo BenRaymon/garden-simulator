@@ -532,6 +532,17 @@ public class Controller extends Application{
 	public EventHandler generateReportHandler() {
 		return(event -> {
 			System.out.println("Generate report button pushed");
+			HashMap<String, PlantShoppingListData> tempGardenData = garden.generateShoppingListData();
+			
+			//Adds plant info to reportGardenPieGraph
+			Iterator itr = tempGardenData.entrySet().iterator();
+			while (itr.hasNext()) {
+				Map.Entry element = (Map.Entry)itr.next();
+				PlantShoppingListData v = (PlantShoppingListData)element.getValue();
+				reportView.addItemToPieGraph(v.getCommonName(),v.getCount());
+			}
+			
+			reportView.addGardenPieGraph();
 			reportView.showReport();
 			
 		});

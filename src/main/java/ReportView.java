@@ -22,13 +22,15 @@ public class ReportView extends View{
 	private Button toGardenEditor;
 	private GridPane reportGrid;
 	
-	private CheckBox option1;
+	private CheckBox perennialDiversityOption;
 	private CheckBox option2;
 	private CheckBox option3;
 
 	private Button generateButton;
 	
 	private ScrollPane sp;
+	
+	private ObservableList<PieChart.Data> plantsInGardenPieChartData = FXCollections.observableArrayList();
 	
 	public ReportView(Stage stage, Controller c) {
 		this.controller = c;
@@ -45,12 +47,14 @@ public class ReportView extends View{
 		
 		//Instantiates Scroll Pane
 		sp = new ScrollPane();
+		//Instantiates pieChart
+		ObservableList<PieChart.Data> plantsInGardenPieChartData = FXCollections.observableArrayList();
 		
 		
 		Text optionTitle = new Text("Report Options");
 		reportGrid.add(optionTitle,0,0);
-		option1 = new CheckBox("option1");
-		reportGrid.add(option1,0,1);
+		perennialDiversityOption = new CheckBox("Perennial Diversity");
+		reportGrid.add(perennialDiversityOption,0,1);
 		option2 = new CheckBox("option2");
 		reportGrid.add(option2,0,2);
 		option3 = new CheckBox("option3");
@@ -75,9 +79,20 @@ public class ReportView extends View{
 		//Clears out content in reportGrid, and adds Scroll Pane
 		reportGrid.getChildren().clear();
 		reportGrid.add(sp,0,0);
+	}
+	
+	public void addGardenPieGraph() {
+		PieChart plantChart = new PieChart(plantsInGardenPieChartData);
+		plantChart.setTitle("Perennial Diversity");
+		sp.setContent(plantChart);
 		
 		
 	}
+	
+	public void addItemToPieGraph(String plantName, int plantNum) {
+		plantsInGardenPieChartData.add(new PieChart.Data(plantName,plantNum));
+	}
+	
 	
 	
 	private void createTempReport() {
