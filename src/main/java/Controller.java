@@ -158,14 +158,25 @@ public class Controller extends Application{
 		});
 	}
 	
-	public ChangeListener<Object> getPlotDesignChangeListener() {
+	public ChangeListener<Object> getPDHeightChangeListener() {
 		return new ChangeListener<Object>() {
 			public void changed(ObservableValue observable,
 					Object oldValue, Object newValue) {
-				plotDesignView.sizeChanged();
+				plotDesignView.heightChanged(newValue);
 			}
 		};
 	}
+	
+	public ChangeListener<Object> getPDWidthChangeListener() {
+		return new ChangeListener<Object>() {
+			public void changed(ObservableValue observable,
+					Object oldValue, Object newValue) {
+				plotDesignView.widthChanged(newValue);
+			}
+		};
+	}
+	
+	
 	
 	//Handler for the DrawPlot button in PlotDesignnView
 	public EventHandler getDrawPlotHandler() {

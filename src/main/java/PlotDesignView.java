@@ -53,7 +53,7 @@ public class PlotDesignView extends View {
 	private final double SPACING = 10;
 	private final double BOTTOM_HEIGHT = 100;
 	private double canvasWidth = WINDOW_WIDTH - LEFTBAR;
-	private double canvasHeight = WINDOW_HEIGHT;
+	private double canvasHeight = WINDOW_HEIGHT - BOTTOM_HEIGHT;
 	private int scaleIndex = 50;
 	
 	public PlotDesignView(Stage stage, Controller c) {
@@ -103,21 +103,26 @@ public class PlotDesignView extends View {
 		stage.setScene(scene);
 		stage.show();
 	
-		scene.widthProperty().addListener(controller.getPlotDesignChangeListener());
-		
-		scene.heightProperty().addListener(controller.getPlotDesignChangeListener());
-	
+		scene.widthProperty().addListener(controller.getPDWidthChangeListener());
+		scene.heightProperty().addListener(controller.getPDHeightChangeListener());
 	}
 	
-	public void sizeChanged() {
-		drawArea.setWidth(box.getWidth());
-		canvasWidth = drawArea.getWidth();
-		
-		drawArea.setHeight(box.getHeight());
-		canvasHeight = drawArea.getHeight();
+	public void heightChanged(Object windowHeight) {
+		canvasHeight = (double)windowHeight - BOTTOM_HEIGHT;
+		drawArea.setHeight(canvasHeight);
 		
 		gc = drawArea.getGraphicsContext2D();
+		drawGrid();
 	}
+	
+	public void widthChanged(Object windowWidth) {
+		canvasWidth = (double)windowWidth - LEFTBAR;
+		drawArea.setWidth(canvasWidth);
+		
+		gc = drawArea.getGraphicsContext2D();
+		drawGrid();
+	}
+	
 	
 	/**
 	 * Creates the text fields and labels for inputing all grid dimension sizes
@@ -218,10 +223,10 @@ public class PlotDesignView extends View {
 		}
 		
 		
-		double perciseWidth = drawArea.getWidth()/(width/boxWidth);
-		double perciseHeight = drawArea.getHeight()/(height/boxHeight);
-		int heightInc = (int)drawArea.getHeight()/(height/boxHeight);
-		int widthInc = (int)drawArea.getWidth()/(width/boxWidth);
+		double perciseWidth = canvasWidth/(width/boxWidth);
+		double perciseHeight = canvasHeight/(height/boxHeight);
+		int heightInc = (int)canvasHeight/(height/boxHeight);
+		int widthInc = (int)canvasWidth/(width/boxWidth);
 		
 		double widthBorder = perciseWidth - widthInc;
 		
@@ -230,19 +235,19 @@ public class PlotDesignView extends View {
 		heightBorder *= height/boxHeight;
 		widthBorder *= width/boxWidth;
 		
-		drawArea.setWidth(drawArea.getWidth() - widthBorder + 2);
-		drawArea.setHeight(drawArea.getHeight() - heightBorder + 1);
+		drawArea.setWidth(canvasWidth - widthBorder + 2);
+		drawArea.setHeight(canvasHeight - heightBorder + 1);
 		double pixelsPerFoot = (double)widthInc / boxWidth;
 		
-		for (double x = 1; x <= drawArea.getWidth() + widthBorder; x+=widthInc) {
+		for (double x = 1; x <= canvasWidth + widthBorder; x+=widthInc) {
 			gc.moveTo(x, 0);
-			gc.lineTo(x, drawArea.getHeight());
+			gc.lineTo(x, canvasHeight);
 			gc.stroke();
 		}
 		
-		for (double y = 0; y <= drawArea.getHeight() + heightBorder; y+=heightInc) {
+		for (double y = 0; y <= canvasHeight + heightBorder; y+=heightInc) {
 			gc.moveTo(0,y);
-			gc.lineTo(drawArea.getWidth(),y);
+			gc.lineTo(canvasWidth,y);
 			gc.stroke();
 		}
 		gc.closePath();
