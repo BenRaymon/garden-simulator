@@ -63,6 +63,9 @@ public class PlotDesignView extends View {
 		coords = new ArrayList<Point>();
 		canDraw = false;
 		
+		
+
+		// create Canvas
 		box = new VBox();
 		base.setCenter(box);
 		box.setMinWidth(canvasWidth);
