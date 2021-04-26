@@ -532,6 +532,12 @@ public class Controller extends Application{
 	public EventHandler generateReportHandler() {
 		return(event -> {
 			System.out.println("Generate report button pushed");
+			//Gets vlaues of checkboxes
+			boolean perennialDiversityOptionFlag = reportView.getPerennialDiversityOption().isSelected();
+			
+			
+			
+			if(perennialDiversityOptionFlag) {
 			HashMap<String, PlantShoppingListData> tempGardenData = garden.generateShoppingListData();
 			
 			//Adds plant info to reportGardenPieGraph
@@ -543,6 +549,7 @@ public class Controller extends Application{
 			}
 			
 			reportView.addGardenPieGraph();
+			}
 			reportView.showReport();
 			
 		});

@@ -89,6 +89,7 @@ public class ReportView extends View{
 		
 	}
 	
+	
 	public void addItemToPieGraph(String plantName, int plantNum) {
 		plantsInGardenPieChartData.add(new PieChart.Data(plantName,plantNum));
 	}
@@ -140,6 +141,10 @@ public class ReportView extends View{
 	
 	public void displayReport(String title, String summary) {
 		
+	}
+	
+	public CheckBox getPerennialDiversityOption() {
+		return perennialDiversityOption;
 	}
 	
 	
