@@ -35,9 +35,9 @@ public class LoadSavedGardenView extends View {
 	private Scene scene;
 	private GridPane base;
 	private Controller controller;
-	private Button to_garden_editor = new Button();
+	private Button to_garden_editor = new Button("Load Selection");
 	private VBox list_box;
-	private Label label = new Label("Saved Gardens");
+	private Label label = new Label("Saved Gardens, pick a garden to load");
 	private ObservableList<String> garden_names = FXCollections.observableArrayList();
 	private ListView<String> listView;
 	
@@ -55,7 +55,7 @@ public class LoadSavedGardenView extends View {
 		listView = new ListView<String>(garden_names);
 		listView.setMaxSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		
-		to_garden_editor.setOnMouseClicked(controller.getToGardenOnClickHandler());
+		to_garden_editor.setOnMouseClicked(controller.loadSelectedGardenHandler());
 		list_box = createVBox();
 		base.add(to_garden_editor, 0, 10);
 		base.add(list_box, 0, 20);
@@ -72,6 +72,10 @@ public class LoadSavedGardenView extends View {
 		vbox_g.getChildren().addAll(label, listView);
 		vbox_g.setStyle("-fx-background-color: BEIGE");
 		return vbox_g;
+	}
+	
+	public ListView<String> getListView() {
+		return listView;
 	}
 	
 	public Scene getScene() {

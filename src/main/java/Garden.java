@@ -3,6 +3,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
+
+import javafx.scene.image.ImageView;
+
 import java.io.Serializable;
 
 public class Garden implements Serializable{

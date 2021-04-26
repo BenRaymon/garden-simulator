@@ -23,7 +23,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class GardenEditorView extends View{
+public class GardenEditorView extends View {
 
 	private Controller controller;
 	private ArrayList<ImageView> imageViewsForPlantsInGarden;
@@ -260,6 +260,14 @@ public class GardenEditorView extends View{
 		//imc.setHandlerForClick(iv);
 		Circle circ = new Circle(event.getX(), event.getY(), radius*SCALE);
         circ.setFill(new ImagePattern(selectedPlant));
+        circ.setOnDragDetected(controller.getOnImageDraggedHandler());
+		//imageViewsForPlantsInGarden.add(iv);
+    	base.getChildren().add(circ);
+	}
+	
+	public void addPlantImageToBase(Point pos, Image img_v, double radius) {
+		Circle circ = new Circle(pos.getX(), pos.getY(), radius*SCALE);
+        circ.setFill(new ImagePattern(img_v));
         circ.setOnDragDetected(controller.getOnImageDraggedHandler());
 		//imageViewsForPlantsInGarden.add(iv);
     	base.getChildren().add(circ);

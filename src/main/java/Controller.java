@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.scene.control.ListView;
@@ -39,6 +40,7 @@ public class Controller extends Application{
 	Garden garden;
 	SaveLoadGarden gardenSaverLoader = new SaveLoadGarden();
 	ArrayList<Garden> savedGardens = new ArrayList<Garden>();
+	BackgroundLoaderController loadData;
 	
 	
 	@Override
@@ -53,7 +55,7 @@ public class Controller extends Application{
 		
 		// BackgroundLoader loads the data and images in concurrently whilst showing a splash screen
 		// It then goes to the start screen when it is finished
-		BackgroundLoaderController loadData = new BackgroundLoaderController(View.getImages(), Garden.getAllPlants(), this);
+		loadData = new BackgroundLoaderController(View.getImages(), Garden.getAllPlants(), this);
 		garden = new Garden();
 	}
 	
@@ -445,10 +447,51 @@ public class Controller extends Application{
 	
 	public EventHandler getLoadGardenOnClickHandler() {
 	return (event -> {
-		System.out.println("Load Screen button clicked");
+			System.out.println("Load Screen button clicked");
 		
-		stage.setScene(loadSavedGardenView.getScene());
-	});
+			stage.setScene(loadSavedGardenView.getScene());
+		});
+	}
 	
-	} 
+	public EventHandler loadSelectedGardenHandler() {
+		return (event -> {
+			ListView<String> tmp = loadSavedGardenView.getListView();
+			String curr_g = tmp.getSelectionModel().getSelectedItem();
+			garden = gardenSaverLoader.loadPickedGarden(curr_g, savedGardens);
+			
+			for(Plant p : garden.getPlantsInGarden()) {
+				System.out.println(p.getCommonName());
+			}
+			
+			stage.setScene(gardenEditorView.getScene());
+			System.out.println(garden.getPlots());
+			double h = gardenEditorView.getCanvasHeight();
+			double w = gardenEditorView.getCanvasWidth();
+			double t = gardenEditorView.getTopHeight();
+			GardenEditor.transformPlots(garden.getPlots(), w, h, t);
+			for (Plot p : garden.getPlots()) {
+				p.setCoordinates(GardenEditor.smooth(p.getCoordinates(), 0.3, 20));
+				gardenEditorView.setFillColor(p.getOptions());
+				gardenEditorView.drawPlot(p.getCoordinates());
+				
+				// iterate over the hashmap of plants from each plot and find the corresponding image
+				// in the background loader. This is a weird way to do this.
+				Iterator plant_itr = p.getPlantsInPlot().entrySet().iterator();
+				
+				while (plant_itr.hasNext()) {
+					// get a map entry from the plot
+					Map.Entry<Point, Plant> map_element = (Map.Entry<Point, Plant>)plant_itr.next();
+					// used to determine plant image size in the plot
+					double radius = map_element.getValue().getSpreadRadiusLower();
+					// get position of plant
+					Point tmp_pos = map_element.getValue().getPosition();
+					// the image corresponding to the plot
+					Image img_v = loadData.getPlantImages().get(map_element.getValue().getScientificName());
+					// method to add the image to the gardenEdtiorView base panel (draw duh plant)
+					gardenEditorView.addPlantImageToBase(tmp_pos, img_v, radius);
+				}
+			}
+			
+		});
+	}
 }
