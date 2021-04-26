@@ -41,7 +41,7 @@ public class Controller extends Application{
 	Garden garden;
 	SaveLoadGarden gardenSaverLoader = new SaveLoadGarden();
 	ArrayList<Garden> savedGardens = new ArrayList<Garden>();
-	BackgroundLoader backgroundLoader;
+	//BackgroundLoader backgroundLoader;
 	
 	
 	@Override
@@ -54,14 +54,23 @@ public class Controller extends Application{
 		//set the first scene to splash
 		stage.setScene(splashView.getScene());
 		
-		// BackgroundLoader loads the data and images in concurrently whilst showing a splash screen
-		// It then goes to the start screen when it is finished
-		backgroundLoader = new BackgroundLoader(View.getImages(), Garden.getAllPlants(), this);
+		loadStartScreen();
 		garden = new Garden();
 	}
 	
 	public static void main(String[] args) {
 		System.out.println("in main 1");
+		// BackgroundLoader loads the data and images in concurrently whilst showing a splash screen
+		// It then goes to the start screen when it is finished
+		BackgroundLoader backgroundLoader = new BackgroundLoader("bkgloader", View.getImages(), Garden.getAllPlants());
+		backgroundLoader.start();
+		try {
+			backgroundLoader.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		launch(args);	
 	}
 	
@@ -487,9 +496,10 @@ public class Controller extends Application{
 					// get position of plant
 					Point tmp_pos = map_element.getValue().getPosition();
 					// the image corresponding to the plot
-					Image img_v = backgroundLoader.getPlantImages().get(map_element.getValue().getScientificName());
+					// TODO FIXME
+					//Image img_v = backgroundLoader.getPlantImages().get(map_element.getValue().getScientificName());
 					// method to add the image to the gardenEdtiorView base panel (draw duh plant)
-					gardenEditorView.addPlantImageToBase(tmp_pos, img_v, radius);
+					//gardenEditorView.addPlantImageToBase(tmp_pos, img_v, radius);
 				}
 			}
 			

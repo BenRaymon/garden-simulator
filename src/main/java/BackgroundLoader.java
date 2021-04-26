@@ -2,14 +2,17 @@ import java.util.HashMap;
 
 import javafx.scene.image.Image;
 
-public class BackgroundLoader {
+public class BackgroundLoader extends Thread {
+	private Thread thread;
+	private String threadName;
 	private HashMap<String, Image> plant_images;
 	private HashMap<String, Plant> all_plants;
 	private boolean dataCompleted;
 	private boolean imagesCompleted;
 	
-	public BackgroundLoader(HashMap<String, Image> pi, HashMap<String, Plant> ap, Controller c) {
+	public BackgroundLoader(String name, HashMap<String, Image> pi, HashMap<String, Plant> ap) {
 		// Get references to the hashmaps for loading
+		this.threadName = name;
 		this.plant_images = pi;
 		this.all_plants = ap;
 		
@@ -17,7 +20,19 @@ public class BackgroundLoader {
 		loadImages();
 		
 		System.out.println("Background Loading Complete");
-		c.loadStartScreen();
+	}
+	
+	public void start() {
+		System.out.println("Starting background load process");
+		if (thread == null) {
+			thread = new Thread(this, threadName);
+			thread.start();
+		}
+	}
+	
+	public void run() {
+		loadData();
+		loadImages();
 	}
 	
 	public void loadData() {
