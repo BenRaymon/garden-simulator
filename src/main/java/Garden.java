@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.UUID;
 import java.io.Serializable;
 
@@ -131,22 +133,17 @@ public class Garden implements Serializable{
 		System.out.println("Plant list size is as follows:");
 		System.out.println(plantsInGarden.size());
 		
-		plantsInGarden.forEach(p -> {
-			p = (Plant)p;
-			//System.out.println("Common name: " + p.getID());
-			// If the id is already in the list, update count/cost
+		Iterator itr = plantsInGarden.iterator();
+		while (itr.hasNext()) {
+			Plant p = (Plant)itr.next();
 			if (psld.containsKey(p.getCommonName())) {
-				System.out.println("In the if");
 				psld.get(p.getCommonName()).updateCount(1);
 				psld.get(p.getCommonName()).updateCost(p.getCost());
 			} else {
-				System.out.println("in the else");
 				psld.put(p.getCommonName(), new PlantShoppingListData(1, p.getCost(), p.getCommonName(), p.getScientificName()));
 			}
 			System.out.println(psld.get(p.getCommonName()).getCommonName());
-		});
-		
-		System.out.println(psld);
+		}
 		
 		return psld;
 	}
