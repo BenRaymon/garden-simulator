@@ -442,4 +442,8 @@ public class PlotDesignView extends View {
 	public boolean getCanDraw() {
 		return canDraw;
 	}
+	
+	public double getBudget() {
+		return Double.parseDouble(budgetInput.getText());
+	}
 }

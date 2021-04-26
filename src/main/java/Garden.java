@@ -99,9 +99,12 @@ public class Garden implements Serializable{
 	public  void addPlantToPlot(int index, Point point, Plant p) {
 		plots.get(index).addPlant(point, p);
 		plantsInGarden.add(p);
+		this.spent += p.getCost();
 	}
 	
 	public  void removePlantFromPlot(int index, Point point) {
+		this.spent -= plots.get(index).getPlant(point).getCost();
+		plantsInGarden.remove(plots.get(index).getPlant(point));
 		plots.get(index).removePlant(point);
 	}
 	
