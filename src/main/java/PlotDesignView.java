@@ -37,6 +37,7 @@ public class PlotDesignView extends View {
 	private TextField heightInput;
 	private TextField boxHeightInput;
 	private TextField boxWidthInput;
+	private TextField budgetInput;
 	private Label gridSize;
 	private Scene scene;
 	private BorderPane base;
@@ -95,7 +96,7 @@ public class PlotDesignView extends View {
 		left_grid.add(drawPlot, 0, 30);
 		toGarden = new Button("To Garden");
 		toGarden.setOnMouseClicked(controller.getToGardenOnClickHandler());
-		left_grid.add(toGarden, 0, 45);
+		left_grid.add(toGarden, 0, 50);
 		
 		// create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -139,11 +140,13 @@ public class PlotDesignView extends View {
 		Label heightText = new Label("Garden height");
 		Label boxHeightText = new Label("Unit height");
 		Label boxWidthText = new Label("Unit width");
+		Label budgetText = new Label("Budget");
 		gridSize = new Label("Grid Size");
 		widthInput = new TextField();
 		heightInput = new TextField();
 		boxHeightInput = new TextField();
 		boxWidthInput = new TextField();
+		budgetInput = new TextField();
 		
 		drawDimensions = new Button("Set Dimensions");
 		drawDimensions.setOnMouseClicked(controller.drawPlotGrid());
@@ -155,7 +158,9 @@ public class PlotDesignView extends View {
 		left_grid.add(boxHeightInput, 1, 40);
 		left_grid.add(boxWidthText, 0, 43);
 		left_grid.add(boxWidthInput, 1, 43);
-		left_grid.add(drawDimensions, 1, 45);
+		left_grid.add(budgetText, 0, 46);
+		left_grid.add(budgetInput, 1, 46);
+		left_grid.add(drawDimensions, 1, 50);
 	}
 	
 	
