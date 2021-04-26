@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
@@ -368,10 +369,29 @@ public class Controller extends Application{
 	
 	public EventHandler getLoadGardenOnClickHandler() {
 	return (event -> {
-		System.out.println("Load Screen button clicked");
+			System.out.println("Load Screen button clicked");
 		
-		stage.setScene(loadSavedGardenView.getScene());
-	});
+			stage.setScene(loadSavedGardenView.getScene());
+		});
+	}
 	
-	} 
+	public EventHandler loadSelectedGardenHandler() {
+		return (event -> {
+			ListView<String> tmp = loadSavedGardenView.getListView();
+			String curr_g = tmp.getSelectionModel().getSelectedItem();
+			garden = gardenSaverLoader.loadPickedGarden(curr_g, savedGardens);
+			
+			stage.setScene(gardenEditorView.getScene());
+			System.out.println(garden.getPlots());
+			double h = gardenEditorView.getCanvasHeight();
+			double w = gardenEditorView.getCanvasWidth();
+			double t = gardenEditorView.getTopHeight();
+			GardenEditor.transformPlots(garden.getPlots(), w, h, t);
+			for (Plot p : garden.getPlots()) {
+				p.setCoordinates(GardenEditor.smooth(p.getCoordinates(), 0.3, 20));
+				gardenEditorView.setFillColor(p.getOptions());
+				gardenEditorView.drawPlot(p.getCoordinates());
+			}
+		});
+	}
 }
