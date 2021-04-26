@@ -435,6 +435,7 @@ public class Controller extends Application{
 			}
 			
 			loadSavedGardenView = new LoadSavedGardenView(stage, savedGardens, this);
+			//loadSavedGardenView.setObservableList(savedGardens);
 			stage.setScene(loadSavedGardenView.getScene());
 		});
 	}

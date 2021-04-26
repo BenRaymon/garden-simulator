@@ -44,10 +44,7 @@ public class LoadSavedGardenView extends View {
 	private ListView<String> listView;
 	
 	public LoadSavedGardenView(Stage stage, ArrayList<Garden> saved_g, Controller c) {
-		// get the names of saved gardens into our observable list
-		for(Garden g : saved_g) {
-			garden_names.add(g.name);
-		}
+		setObservableList(saved_g);
 		this.controller = c;
 		base = new GridPane();
 		base.setHgap(10);
@@ -80,8 +77,14 @@ public class LoadSavedGardenView extends View {
 		return vbox_g;
 	}
 	
-	public ObservableList<String> getObservableList() {
-		return garden_names;
+	public void setObservableList(ArrayList<Garden> list_g) {
+		// get the names of saved gardens into our observable list
+		ObservableList<String> tmp = FXCollections.observableArrayList();
+		for(Garden g : list_g) {
+			tmp.add(g.name);
+		}
+		
+		garden_names = tmp;
 	}
 	
 	public ListView<String> getListView() {
