@@ -248,15 +248,18 @@ public class PlotDesignView extends View {
 		heightBorder *= height/boxHeight;
 		widthBorder *= width/boxWidth;
 		
-		for (double x = 1; x <= drawArea.getWidth() - widthBorder + 1; x+=widthInc) {
+		drawArea.setWidth(drawArea.getWidth() - widthBorder + 2);
+		drawArea.setHeight(drawArea.getHeight() - heightBorder + 1);
+		
+		for (double x = 1; x <= drawArea.getWidth() + widthBorder; x+=widthInc) {
 			gc.moveTo(x, 0);
-			gc.lineTo(x, drawArea.getHeight() - heightBorder);
+			gc.lineTo(x, drawArea.getHeight());
 			gc.stroke();
 		}
 		
-		for (double y = 0; y <= drawArea.getHeight() - heightBorder + 1; y+=heightInc) {
+		for (double y = 0; y <= drawArea.getHeight() + heightBorder; y+=heightInc) {
 			gc.moveTo(0,y);
-			gc.lineTo(drawArea.getWidth() - widthBorder,y);
+			gc.lineTo(drawArea.getWidth(),y);
 			gc.stroke();
 		}
 		gc.closePath();
