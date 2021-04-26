@@ -37,25 +37,7 @@ public class BackgroundImageLoader extends Thread {
 	
 	// The thread runs this function
 	public void run() {
-		test();
-		/*
-		System.out.println("PLEASE ONLY SHOW ONCE");
-		//load data file and create a list of lines
-		File plantData = Paths.get("src/main/resources/result.csv").toFile().getAbsoluteFile();
-		BufferedReader br;
-		int numLines = 0;
-		
-		try {
-			br = new BufferedReader(new FileReader(plantData));
-		    String line;
-		    while ((line = br.readLine()) != null) {
-		        addImage(line);
-		        numLines++;
-		    }
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		*/
+		LoadImages();
 	}
 	
 	public InputStream getFile(String fileName) {
@@ -77,7 +59,7 @@ public class BackgroundImageLoader extends Thread {
 		}
 	}
 	
-	public void test() {
+	public void LoadImages() {
 		File dir = Paths.get("src/main/resources/images").toFile().getAbsoluteFile();
 		File[] directoryListing = dir.listFiles();
 		int x = 0;

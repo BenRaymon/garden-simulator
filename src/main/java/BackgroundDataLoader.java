@@ -26,6 +26,10 @@ public class BackgroundDataLoader extends Thread {
 	
 	// The thread runs this function
 	public void run() {
+		LoadData();
+	}
+	
+	private void LoadData() {
 		//load data file and create a list of lines
 		File plantData = Paths.get("src/main/resources/data.csv").toFile().getAbsoluteFile();
 		BufferedReader br;
