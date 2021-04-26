@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.UUID;
 import java.io.Serializable;
 
 public class Garden implements Serializable{
@@ -89,6 +92,7 @@ public class Garden implements Serializable{
 	
 	public  void addPlantToPlot(int index, Point point, Plant p) {
 		plots.get(index).addPlant(point, p);
+		plantsInGarden.add(p);
 	}
 	
 	public  void removePlantFromPlot(int index, Point point) {
@@ -122,5 +126,25 @@ public class Garden implements Serializable{
 	
 	public void setName(String n) {
 		this.name = n;
+	}
+	
+	public HashMap<String, PlantShoppingListData> generateShoppingListData() {
+		HashMap<String, PlantShoppingListData> psld = new HashMap<String, PlantShoppingListData>();
+		System.out.println("Plant list size is as follows:");
+		System.out.println(plantsInGarden.size());
+		
+		Iterator itr = plantsInGarden.iterator();
+		while (itr.hasNext()) {
+			Plant p = (Plant)itr.next();
+			if (psld.containsKey(p.getCommonName())) {
+				psld.get(p.getCommonName()).updateCount(1);
+				psld.get(p.getCommonName()).updateCost(p.getCost());
+			} else {
+				psld.put(p.getCommonName(), new PlantShoppingListData(1, p.getCost(), p.getCommonName(), p.getScientificName()));
+			}
+			System.out.println(psld.get(p.getCommonName()).getCommonName());
+		}
+		
+		return psld;
 	}
 }

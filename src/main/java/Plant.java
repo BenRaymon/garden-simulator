@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.io.Serializable;
+import java.util.UUID;
 
 public class Plant implements Serializable {
 	
@@ -18,6 +19,7 @@ public class Plant implements Serializable {
 	private int lepsSupported;
 	private char type;
 	private String genera;
+	private UUID ID;
 	
 	public Plant(String commonName, String scientificName, String genera, String family, String color, double sizeLower, double sizeUpper, 
 			double spreadRadiusLower, double spreadRadiusUpper, Options options, double cost, int lepsSupported, char type) {
@@ -35,11 +37,16 @@ public class Plant implements Serializable {
 		this.cost = cost;
 		this.type=type;
 		this.position = new Point(0,0);
+		this.ID = UUID.randomUUID();
 		
 	}
 	
 	
 	
+	public UUID getID() {
+		return ID;
+	}
+
 	public Plant() {
 		
 	}

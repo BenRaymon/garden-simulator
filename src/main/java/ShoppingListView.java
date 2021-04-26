@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -21,7 +22,9 @@ public class ShoppingListView extends View{
 	private ListView plants;
 	private Scene scene;
 	private Controller controller;
+	//private GridPane base;
 	private BorderPane base;
+	private HBox center;
 	private VBox leftVBox;
 	private VBox rightVBox;
 	private VBox bottomVBox;
@@ -30,13 +33,21 @@ public class ShoppingListView extends View{
 		System.out.println("In shopping list view");
 		controller = c;
 		
+		//base = new GridPane();
 		base = new BorderPane();
+//		base.setHgap(10);
+//		base.setVgap(10);
+//		base.setAlignment(Pos.CENTER);
+		
+		center = new HBox();
+		base.setCenter(center);
+		
 		leftVBox = this.createLeftVBox();
 		rightVBox = this.createRightVBox();
 		bottomVBox = this.createBottomVBox();
 		
 		addGardenButton();
-		addPlaceHolderText();
+		//addPlaceHolderText();
 		
 		//create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -44,33 +55,76 @@ public class ShoppingListView extends View{
         stage.show();
 	}
 	
+	public void setShoppingListData(HashMap<String, PlantShoppingListData> psld, double budget) {
+		System.out.println("Setting shopping list data...");
+		double cost = 0;
+		// First, clear the 2 VBoxes
+		leftVBox.getChildren().clear();
+		rightVBox.getChildren().clear();
+		
+		// Now, re-populate the VBoxes with the new data
+		// Key doesnt matter here, just the value
+		Iterator itr = psld.entrySet().iterator();
+		while (itr.hasNext()) {
+			Map.Entry element = (Map.Entry)itr.next();
+			PlantShoppingListData v = (PlantShoppingListData)element.getValue();
+			cost += v.getCost();
+			addDataToLeftBox(v);
+			addDataToRightBox(v);
+		}
+		
+		Separator leftSep = new Separator();
+		leftSep.setMaxWidth(300);
+		leftSep.setHalignment(HPos.CENTER);
+		Separator rightSep = new Separator();
+		rightSep.setMaxWidth(300);
+		rightSep.setHalignment(HPos.CENTER);
+		leftVBox.getChildren().add(leftSep);
+		rightVBox.getChildren().add(rightSep);
+		
+		rightVBox.getChildren().add(new Text("Budget: " + budget));
+		rightVBox.getChildren().add(new Text("Cost: " + cost));
+		System.out.println("Shopping list data set.");
+	}
+	
+	private void addDataToLeftBox(PlantShoppingListData data) {
+		Text text = new Text(data.getCount() + "x " + data.getCommonName());
+		leftVBox.getChildren().add(text);
+	}
+	
+	private void addDataToRightBox(PlantShoppingListData data) {
+		Text text = new Text("Cost: $" + data.getCost());
+		rightVBox.getChildren().add(text);
+	}
+	
 	public VBox createBottomVBox() {
 		VBox bottom_vbox = new VBox(2);
 		bottom_vbox.setAlignment(Pos.BASELINE_CENTER);
 		bottom_vbox.setStyle("-fx-background-color: aqua");
-		bottom_vbox.setMinWidth(800);
+		bottom_vbox.setMinWidth(WINDOW_WIDTH / 2);
+		//center.getChildren().add(bottom_vbox);
 		base.setBottom(bottom_vbox);
 		return bottom_vbox;
 	
 	}
 	
 	public VBox createLeftVBox(){
-		VBox left_vbox = new VBox(3);
-		left_vbox.setAlignment(Pos.TOP_CENTER);
+		VBox left_vbox = new VBox(2);
+		left_vbox.setAlignment(Pos.TOP_RIGHT);
 		left_vbox.setStyle("-fx-background-color: #42f58d");
 		//left_grid.setGridLinesVisible(true);
-		left_vbox.setMinWidth(400);
-		base.setLeft(left_vbox);
+		left_vbox.setMinWidth(WINDOW_WIDTH / 2);
+		center.getChildren().add(left_vbox);
 		return left_vbox;
 	}
 	
 	public VBox createRightVBox(){
-		VBox right_vbox = new VBox(3);
-		right_vbox.setAlignment(Pos.TOP_CENTER);
-		right_vbox.setStyle("-fx-background-color: #42adf5");
+		VBox right_vbox = new VBox(2);
+		right_vbox.setAlignment(Pos.TOP_LEFT);
+		right_vbox.setStyle("-fx-background-color: #42f58d");
 		//left_grid.setGridLinesVisible(true);
-		right_vbox.setMinWidth(400);
-		base.setRight(right_vbox);
+		right_vbox.setMinWidth(800);
+		center.getChildren().add(right_vbox);
 		return right_vbox;
 	}
 	
