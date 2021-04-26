@@ -7,6 +7,8 @@ public class PlantShoppingListData {
 	public PlantShoppingListData(int count, int cost, String cname, String sname) {
 		super();
 		this.count = count;
+		// Cost is the cost of the entire stack of plants here, not a single one.
+		// So it is price x count
 		this.cost = cost;
 		this.common_name = cname;
 		this.scientific_name = sname;

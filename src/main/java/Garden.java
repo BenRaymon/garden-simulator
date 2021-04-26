@@ -123,4 +123,10 @@ public class Garden implements Serializable{
 	public void setName(String n) {
 		this.name = n;
 	}
+	
+	public ArrayList<PlantShoppingListData> generateShoppingListData() {
+		ArrayList<PlantShoppingListData> psld = new ArrayList<PlantShoppingListData>();
+		
+		return psld;
+	}
 }
