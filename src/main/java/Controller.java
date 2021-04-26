@@ -91,6 +91,7 @@ public class Controller extends Application{
 		compPlantsView = new CompPlantsView(stage, this);
 		shopView = new ShoppingListView(stage, this);
 		reportView = new ReportView(stage, this);
+		loadSavedGardenView = new LoadSavedGardenView(stage, savedGardens, this);
 		
 		//set the scene and model to Start
 		stage.setScene(startView.getScene());
@@ -428,7 +429,7 @@ public class Controller extends Application{
 			
 			try {
 				// set the garden name
-				java.awt.TextField tmp = gardenEditorView.getGardenName();
+				TextField tmp = gardenEditorView.getGardenName();
 				String name_g = tmp.getText();
 				garden.setName(name_g);
 				savedGardens.add(garden);

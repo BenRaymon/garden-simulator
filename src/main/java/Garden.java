@@ -117,7 +117,7 @@ public class Garden implements Serializable{
 	}
 	
 	public String getName() {
-		return "test name";
+		return name;
 	}
 	
 	public void setName(String n) {
