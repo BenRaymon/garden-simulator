@@ -63,39 +63,17 @@ public class PlotDesignView extends View {
 		coords = new ArrayList<Point>();
 		canDraw = false;
 		
-		//circ.setFill(new ImagePattern((Image)value));
-		
-		
-		
-
-		// create Canvas
-		
-		
-		
 		box = new VBox();
-		System.out.println("Width" + box.getWidth());
 		base.setCenter(box);
 		box.setMinWidth(canvasWidth);
 		box.setMinHeight(canvasHeight);
-		System.out.println("Initial VBOX"+ box.getWidth()+box.getHeight());
+
 		drawArea = new Canvas(canvasWidth, canvasHeight);
 		gc = drawArea.getGraphicsContext2D();
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(1);
 		
 		box.getChildren().add(drawArea);
-		Image image  = new Image("https://static.wikia.nocookie.net/lotr/images/e/ec/Gimli_-_FOTR.png/revision/latest?cb=20121008105956");
-		
-		String cssLayout = "-fx-border-color: red;\n" +
-                "-fx-border-insets: 5;\n" +
-                "-fx-border-width: 3;\n" +
-                "-fx-border-style: dashed;\n";
-		
-		//box.setStyle(cssLayout);
-		
-
-		
-		
 
 		// Create left side bar with sliders and buttons
 		createLeftGrid();
@@ -103,7 +81,6 @@ public class PlotDesignView extends View {
 		createMoistureSlider();
 		createSoilSlider();
 		createScaleButtons();
-		
 
 		// create last and next page buttons
 		createBottom();
@@ -195,7 +172,7 @@ public class PlotDesignView extends View {
 		
 	}
 	
-	public void drawGrid() {
+	public double drawGrid() {
 		
 		gc.clearRect(0, 0, drawArea.getWidth(), drawArea.getHeight());
 		
@@ -227,6 +204,8 @@ public class PlotDesignView extends View {
 		drawArea.setWidth(drawArea.getWidth() - fudgeWidth + 2);
 		drawArea.setHeight(drawArea.getHeight() - fudgeHeight + 1);
 		
+		System.out.println("W" + widthInc + " " + boxWidth);
+		double pixelsPerFoot = (double)widthInc / boxWidth;
 		
 		for (double x = 1; x <= drawArea.getWidth() + fudgeWidth; x+=widthInc) {
 			gc.moveTo(x, 0);
@@ -241,6 +220,8 @@ public class PlotDesignView extends View {
 		}
 		gc.closePath();
 		gc.beginPath();
+		
+		return pixelsPerFoot;
 	}
 		
 	
