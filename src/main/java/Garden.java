@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 import java.io.Serializable;
 
 public class Garden implements Serializable{
@@ -124,8 +125,18 @@ public class Garden implements Serializable{
 		this.name = n;
 	}
 	
-	public ArrayList<PlantShoppingListData> generateShoppingListData() {
-		ArrayList<PlantShoppingListData> psld = new ArrayList<PlantShoppingListData>();
+	public HashMap<UUID, PlantShoppingListData> generateShoppingListData() {
+		HashMap<UUID, PlantShoppingListData> psld = new HashMap<UUID, PlantShoppingListData>();
+		
+		plantsInGarden.forEach(p -> {
+			// If the id is already in the list, update count/cost
+			if (psld.containsKey(((Plant)p).getID())) {
+				psld.get(((Plant)p).getID()).updateCount(1);
+				psld.get(((Plant)p).getID()).updateCost(((Plant)p).getCost());
+			} else {
+				psld.put(((Plant)p).getID(), new PlantShoppingListData(1, ((Plant)p).getCost(), ((Plant)p).getCommonName(), ((Plant)p).getScientificName()));
+			}
+		});
 		
 		return psld;
 	}

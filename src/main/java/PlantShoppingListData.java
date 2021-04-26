@@ -1,10 +1,10 @@
 public class PlantShoppingListData {
 	private int count;
-	private int cost;
+	private double cost;
 	private String common_name;
 	private String scientific_name;
 	
-	public PlantShoppingListData(int count, int cost, String cname, String sname) {
+	public PlantShoppingListData(int count, double cost, String cname, String sname) {
 		super();
 		this.count = count;
 		// Cost is the cost of the entire stack of plants here, not a single one.
@@ -19,11 +19,18 @@ public class PlantShoppingListData {
 	public void setCount(int count) {
 		this.count = count;
 	}
-	public int getCost() {
+	
+	public void updateCount(int up) {
+		this.count += up;
+	}
+	public double getCost() {
 		return cost;
 	}
-	public void setCost(int cost) {
+	public void setCost(double cost) {
 		this.cost = cost;
+	}
+	public void updateCost(double up) {
+		this.cost += up;
 	}
 	public String getCommonName() {
 		return common_name;
