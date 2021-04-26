@@ -12,14 +12,11 @@ public class BackgroundLoaderController {
 		// Get references to the hashmaps for loading
 		this.plant_images = pi;
 		this.all_plants = ap;
-		this.dataCompleted = false;
-		this.imagesCompleted = false;
 		
 		loadData();
 		loadImages();
 		
-		while(!isCompleted());
-		
+		System.out.println("Background Loading Complete");
 		c.loadStartScreen();
 	}
 	
@@ -34,7 +31,6 @@ public class BackgroundLoaderController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		dataCompleted = true;
 	}
 	
 	public void loadImages() {
@@ -47,12 +43,8 @@ public class BackgroundLoaderController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		imagesCompleted = true;
 	}
 	
-	public boolean isCompleted() {
-		return dataCompleted && imagesCompleted;
-	}
 	
 	public HashMap<String, Image> getPlantImages() {
 		return plant_images;

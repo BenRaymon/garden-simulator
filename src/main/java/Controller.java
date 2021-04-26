@@ -41,7 +41,7 @@ public class Controller extends Application{
 	Garden garden;
 	SaveLoadGarden gardenSaverLoader = new SaveLoadGarden();
 	ArrayList<Garden> savedGardens = new ArrayList<Garden>();
-	BackgroundLoaderController loadData;
+	BackgroundLoaderController backgroundLoader;
 	
 	
 	@Override
@@ -56,7 +56,7 @@ public class Controller extends Application{
 		
 		// BackgroundLoader loads the data and images in concurrently whilst showing a splash screen
 		// It then goes to the start screen when it is finished
-		loadData = new BackgroundLoaderController(View.getImages(), Garden.getAllPlants(), this);
+		backgroundLoader = new BackgroundLoaderController(View.getImages(), Garden.getAllPlants(), this);
 		garden = new Garden();
 	}
 	
@@ -68,12 +68,12 @@ public class Controller extends Application{
 	
 	//Start the main program
 	public void loadStartScreen() {
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			Thread.sleep(3000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		// load the saved garden array into savedGardens
 		try {
@@ -487,7 +487,7 @@ public class Controller extends Application{
 					// get position of plant
 					Point tmp_pos = map_element.getValue().getPosition();
 					// the image corresponding to the plot
-					Image img_v = loadData.getPlantImages().get(map_element.getValue().getScientificName());
+					Image img_v = backgroundLoader.getPlantImages().get(map_element.getValue().getScientificName());
 					// method to add the image to the gardenEdtiorView base panel (draw duh plant)
 					gardenEditorView.addPlantImageToBase(tmp_pos, img_v, radius);
 				}

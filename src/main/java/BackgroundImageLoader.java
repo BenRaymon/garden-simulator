@@ -44,20 +44,20 @@ public class BackgroundImageLoader extends Thread {
 		return BackgroundImageLoader.class.getResourceAsStream("images/"+fileName);
 	}
 	
-	public void addImage(String line) {
-		if(line.contains("﻿"))
-			return;
-		String words[] = line.split(",");
-		String loc = words[17];
-		try {
-			Image image = new Image(getFile(loc), 150, 150, true, false);
-			plant_images.put(words[0], image);
-			
-		} catch (Exception e) {
-			System.out.println("Failed to add image");
-			e.printStackTrace();
-		}
-	}
+//	public void addImage(String line) {
+//		if(line.contains("﻿"))
+//			return;
+//		String words[] = line.split(",");
+//		String loc = words[17];
+//		try {
+//			Image image = new Image(getFile(loc), 150, 150, true, false);
+//			plant_images.put(words[0], image);
+//			
+//		} catch (Exception e) {
+//			System.out.println("Failed to add image");
+//			e.printStackTrace();
+//		}
+//	}
 	
 	public void LoadImages() {
 		File dir = Paths.get("src/main/resources/images").toFile().getAbsoluteFile();
@@ -67,7 +67,9 @@ public class BackgroundImageLoader extends Thread {
 			for (File child : directoryListing) {
 				Image image = new Image(getFile(child.getName()));
 				String name = child.getName().replace(".jpg", "");
-				plant_images.put(name, image);
+				synchronized(plant_images) {
+					plant_images.put(name, image);
+				}
 			}
 		}
 	}

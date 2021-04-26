@@ -7,6 +7,7 @@ import java.util.HashMap;
 public class BackgroundDataLoader extends Thread {
 	private Thread thread;
 	private String threadName;
+	private boolean exit;
 	// Reference to our model's plant map
 	private HashMap<String, Plant> all_plants;
 	
@@ -14,6 +15,7 @@ public class BackgroundDataLoader extends Thread {
 		System.out.println("BackgroundDataLoader created with thread name: " + name);
 		this.threadName = name;
 		this.all_plants = ap;
+		this.exit = false;
 	}
 	
 	public void start() {
@@ -26,10 +28,10 @@ public class BackgroundDataLoader extends Thread {
 	
 	// The thread runs this function
 	public void run() {
-		LoadData();
+		LoadPlantData();
 	}
 	
-	private void LoadData() {
+	private void LoadPlantData() {
 		//load data file and create a list of lines
 		File plantData = Paths.get("src/main/resources/data.csv").toFile().getAbsoluteFile();
 		BufferedReader br;
@@ -102,7 +104,10 @@ public class BackgroundDataLoader extends Thread {
 							Double.parseDouble(words[7]), Double.parseDouble(words[8]),op, Double.parseDouble(words[9]), Integer.parseInt(words[10]), 
 							words[11].charAt(0));
 		//add plant to the static hashmap
-		all_plants.put(addPlant.getScientificName(), addPlant);
+		synchronized(all_plants) {
+			all_plants.put(addPlant.getScientificName(), addPlant);	
+		}
+		
 		
 		//DEBUG
 		System.out.println(addPlant.toString() + "||" + op.toString());
