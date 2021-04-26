@@ -497,9 +497,9 @@ public class Controller extends Application{
 					Point tmp_pos = map_element.getValue().getPosition();
 					// the image corresponding to the plot
 					// TODO FIXME
-					//Image img_v = backgroundLoader.getPlantImages().get(map_element.getValue().getScientificName());
+					Image img_v = View.getImages().get(map_element.getValue().getScientificName());
 					// method to add the image to the gardenEdtiorView base panel (draw duh plant)
-					//gardenEditorView.addPlantImageToBase(tmp_pos, img_v, radius);
+					gardenEditorView.addPlantImageToBase(tmp_pos, img_v, radius);
 				}
 			}
 			
