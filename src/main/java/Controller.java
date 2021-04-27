@@ -71,14 +71,6 @@ public class Controller extends Application{
 	
 	//Start the main program
 	public void loadStartScreen() {
-//		try {
-//			Thread.sleep(3000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
-		// load the saved garden array into savedGardens
 		try {
 			savedGardens = gardenSaverLoader.loadGardenList();
 			System.out.println("Load success");		
@@ -279,7 +271,7 @@ public class Controller extends Application{
 			
 			//is the plant in the plot
 			Point pos = new Point(circ.getCenterX(), circ.getCenterY());
-			int plotNum = GardenEditor.inPlot(pos, garden.getPlots());
+			int plotNum = GardenEditor.inPlot(pos, garden.getPlots(), gardenEditorView.getTopBar(), gardenEditorView.getLeftBar());
 			if(plotNum != -1) {
 				//if the plant is in the plot make selected plant that plant
 				GardenEditor.setSelectedPlant(garden.getPlant(plotNum, pos));
@@ -310,8 +302,14 @@ public class Controller extends Application{
 			
 			//check for valid placement (right now only checks if in a plot)
 			Point pos = new Point(drag.getX(), drag.getY());
-			int plotNum = GardenEditor.inPlot(pos, garden.getPlots());
-			if(plotNum == -1) {
+			int plotNum = GardenEditor.inPlot(pos, garden.getPlots(), gardenEditorView.getTopBar(), gardenEditorView.getLeftBar());
+			if(plotNum == -1) { 
+				
+				Plant plant = GardenEditor.getSelectedPlant();
+				plotNum = GardenEditor.inPlot(plant.getPosition(), garden.getPlots(), gardenEditorView.getTopBar(), gardenEditorView.getLeftBar());
+				garden.removePlantFromPlot(plotNum,plant.getPosition());
+				gardenEditorView.updatePlantLepNums(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
+				drag.consume();
 				return;
 			} 
 			
@@ -340,8 +338,8 @@ public class Controller extends Application{
 				selected.setPosition(new Point(0,0)); //reset the position of the plant in the allPlants list to be 0,0
 				garden.addPlantToPlot(plotNum, pos, newPlant);
 			}
-			
 			gardenEditorView.updatePlantLepNums(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
+			System.out.println(garden.getPlots().get(plotNum).getPlantsInPlot().size());
 
 			drag.setDropCompleted(true);
 			drag.consume();

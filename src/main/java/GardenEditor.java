@@ -114,11 +114,11 @@ public class GardenEditor {
 
 	
 	//returns the plotNum that the position falls in (-1 if out of bounds of all plots)
-	public static int inPlot(Point pos, ArrayList<Plot> plots) {
+	public static int inPlot(Point pos, ArrayList<Plot> plots, double verticalBuffer, double horizontalBuffer) {
 		boolean inAPlot = false;
 		int plotNum = 0;
 		for (int i = 0; i < plots.size(); i++) {
-			boolean result = inBounds(plots.get(i).getCoordinates(), pos.getX()-200, pos.getY()-100);
+			boolean result = inBounds(plots.get(i).getCoordinates(), pos.getX()-horizontalBuffer, pos.getY()-verticalBuffer);
 			if(result) {
 				inAPlot = true;
 				plotNum = i;
