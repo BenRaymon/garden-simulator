@@ -45,10 +45,10 @@ public class ShoppingListView extends View{
 		rightVBox = this.createRightVBox();
 		bottomVBox = this.createBottomVBox();
 		
-		HBox center_of_hbox = new HBox();
-		center_of_hbox.getChildren().add(leftVBox);
-		center_of_hbox.getChildren().add(rightVBox);
-		center.getChildren().add(center_of_hbox);
+		//HBox center_of_hbox = new HBox();
+		//center_of_hbox.getChildren().add(leftVBox);
+		//center_of_hbox.getChildren().add(rightVBox);
+		//center.getChildren().add(center_of_hbox);
 		
 		addGardenButton();
 		base.add(center, 0, 10);
@@ -118,7 +118,7 @@ public class ShoppingListView extends View{
 		left_vbox.setStyle("-fx-background-color: red");
 		//left_grid.setGridLinesVisible(true);
 		left_vbox.setMinWidth(WINDOW_WIDTH / 2);
-		//center.getChildren().add(left_vbox);
+		center.getChildren().add(left_vbox);
 		return left_vbox;
 	}
 	
@@ -128,7 +128,7 @@ public class ShoppingListView extends View{
 		right_vbox.setStyle("-fx-background-color: #42f58d");
 		//left_grid.setGridLinesVisible(true);
 		right_vbox.setMinWidth(800);
-		//center.getChildren().add(right_vbox);
+		center.getChildren().add(right_vbox);
 		return right_vbox;
 	}
 	
