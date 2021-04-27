@@ -95,7 +95,7 @@ public class ReportView extends View{
 	public void addBudgetBox(double spent, double budget) {
 		GridPane budgetGrid = new GridPane();
 		Text spentText = new Text("Spent: " + spent);
-		Text budgetText = new Text("Budgett: " + budget);
+		Text budgetText = new Text("Budget: " + budget);
 
 		budgetGrid.add(budgetText,0,0);
 		budgetGrid.add(spentText,1,0);
