@@ -60,7 +60,7 @@ public class GardenEditorView extends View {
 	
 	private double LEFTBAR = 200;
 	private double RIGHTBAR = 200;
-	private double TOPBAR = 125, BOTTOM = 30;
+	private double TOPBAR = 125, BOTTOM = 100;
 	private double SPACING = 10;
 	private double SCALE = 10;
 	private double CANVAS_WIDTH = WINDOW_WIDTH - LEFTBAR - RIGHTBAR;
