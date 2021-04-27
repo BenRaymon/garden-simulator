@@ -10,6 +10,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -26,7 +27,7 @@ public class ReportView extends View{
 	
 	private CheckBox perennialDiversityOption;
 	private CheckBox budgetOption;
-	private CheckBox option3;
+	private CheckBox tableOption;
 
 	private Button generateButton;
 	
@@ -35,7 +36,7 @@ public class ReportView extends View{
 	private TableView plantTable;
 	
 	private ObservableList<PieChart.Data> plantsInGardenPieChartData = FXCollections.observableArrayList();
-	
+	private ObservableList<Plant> plantsInGardenTableData = FXCollections.observableArrayList();
 	public ReportView(Stage stage, Controller c) {
 		this.controller = c;
 		base = new BorderPane();
@@ -55,6 +56,8 @@ public class ReportView extends View{
 		plantData = new GridPane();
 		//Instantiates pieChart
 		ObservableList<PieChart.Data> plantsInGardenPieChartData = FXCollections.observableArrayList();
+		ObservableList<Plant> plantsInGardenTableData = FXCollections.observableArrayList();
+
 		
 		
 		//Sets up checkboxes
@@ -62,11 +65,12 @@ public class ReportView extends View{
 		reportGrid.add(optionTitle,0,0);
 		perennialDiversityOption = new CheckBox("Perennial Diversity");
 		reportGrid.add(perennialDiversityOption,0,1);
-		budgetOption = new CheckBox("budget");
+		budgetOption = new CheckBox("Budget");
 		reportGrid.add(budgetOption,0,2);
-		option3 = new CheckBox("option3");
-		reportGrid.add(option3,0,3);
+		tableOption = new CheckBox("Plant Table");
+		reportGrid.add(tableOption,0,3);
 		generateButton = new Button("Generate Report");
+		
 		
 		//Sets button handler
 		generateButton.setOnMouseClicked(c.generateReportHandler());
@@ -108,25 +112,37 @@ public class ReportView extends View{
 		plantData.add(budgetGrid,0,1);
 
 	}
-	
+	/*
 	public void addTable() {
 		//Instantiates plantTable
 		plantTable = new TableView();
 		//Creates columns 
 		TableColumn commonNameCol = new TableColumn("Common Name");
+		commonNameCol.setCellValueFactory(
+				new PropertyValueFactory<Plant, String>("commonName"));
         TableColumn scientificNameCol = new TableColumn("Scientific Name");
         TableColumn amountCol = new TableColumn("Perennial Amount");
         
+        plantTable.setItems(plantsInGardenTableData);
         plantTable.getColumns().addAll(commonNameCol, scientificNameCol, amountCol);
+        
+        plantData.add(plantTable, 0,2);
 
 
 	}
+	*/
 	
 	
 	public void addItemToPieGraph(String plantName, int plantNum) {
 		plantsInGardenPieChartData.add(new PieChart.Data(plantName,plantNum));
 	}
 	
+	/*
+	public void addItemToTable(Plant tempPlant) {
+		plantsInGardenTableData.add(tempPlant);
+		
+	}
+	*/
 	
 	
 	

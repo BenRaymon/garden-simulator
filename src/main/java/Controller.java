@@ -535,7 +535,7 @@ public class Controller extends Application{
 			//Gets vlaues of checkboxes
 			boolean perennialDiversityOptionFlag = reportView.getPerennialDiversityOption().isSelected();
 			boolean budgetFlag = reportView.getBudgetOption().isSelected();
-			
+			//boolean tableFlag = reportView.get
 			
 			if(perennialDiversityOptionFlag) {
 			HashMap<String, PlantShoppingListData> tempGardenData = garden.generateShoppingListData();
