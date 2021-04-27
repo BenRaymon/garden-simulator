@@ -28,6 +28,16 @@ public class Garden implements Serializable{
 		pixelsPerFoot = 0;
 	}
 	
+	public Garden(String name, double spent, double budget, ArrayList<Plot> plots, int lepsSupported, ArrayList<Plant> plants, double pixelsperfoot) {
+		this.name = name;
+		this.spent = spent;
+		this.budget = budget;
+		this.plots = plots;
+		this.lepsSupported = lepsSupported;
+		this.plantsInGarden = plants;
+		this.pixelsPerFoot = pixelsperfoot;
+	}
+	
 	public Plant getPlant(int plotNum, Point pos) {
 		return plots.get(plotNum).getPlant(pos);
 	}

@@ -97,12 +97,21 @@ public class SaveLoadGarden {
 	 * Load an individual garden from the saved list
 	 * */
 	public Garden loadPickedGarden(String g_name, ArrayList<Garden> list) {
-		// find the garden by filtering a stream of saved gardens
-		Garden find = list.stream().filter(s -> s.name.equals(g_name)).findFirst().orElse(null);
-		if(find != null) {
-			return find;
-		} else {
-			return null;
+		// find the garden by iterating over the given list and finding the element
+		// with a name that matches the given name.
+		int ind = 0;
+		Garden ret_g = null;
+		Iterator<Garden> saved_itr = list.iterator();
+		
+		while(saved_itr.hasNext()) {
+			ret_g = saved_itr.next();
+			if(ret_g.getName() == g_name) {
+				ret_g = list.get(ind);
+			} else {
+				ind++;
+			}
 		}
+		
+		return ret_g;
 	}
 }
