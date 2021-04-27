@@ -468,6 +468,10 @@ public class Controller extends Application{
 					
 				} else {
 					Garden tmp_g = new Garden(name_g, tmp_spent, tmp_budget, tmp_plots, tmp_leps, tmp_plants, tmp_scale);
+					System.out.println("saved plants");
+					for(Plant p : tmp_g.getPlantsInGarden()) {
+						System.out.println(p.getScientificName()+ " " + p.getPosition());
+					}
 					savedGardens.add(tmp_g);
 					gardenSaverLoader.saveGarden(savedGardens);
 				}
@@ -500,28 +504,41 @@ public class Controller extends Application{
 			double pixelsPerFoot = GardenEditor.transformPlots(garden.getPlots(), w, h, t, garden.getScale());
 			garden.setScale(pixelsPerFoot);
 			gardenEditorView.setScale(pixelsPerFoot);
-			for (Plot p : garden.getPlots()) {
+			double radius;
+			Point tmp_pos;
+			Image img_v;
+			
+			Iterator plot_itr = garden.getPlots().iterator();
+			Plot tmp_p;
+			while (plot_itr.hasNext()) {
 				//p.setCoordinates(p.filterCoords(20));
 				//p.setCoordinates(GardenEditor.smooth(p.getCoordinates(), 0.3, 20));
-				gardenEditorView.setFillColor(p.getOptions());
-				gardenEditorView.drawPlot(p.getCoordinates());
+				tmp_p = (Plot) plot_itr.next();
+				gardenEditorView.setFillColor(tmp_p.getOptions());
+				gardenEditorView.drawPlot(tmp_p.getCoordinates());
 				
 				// iterate over the hashmap of plants from each plot and find the corresponding image
 				// in the background loader. This is a weird way to do this.
-				Iterator plant_itr = p.getPlantsInPlot().entrySet().iterator();
+				Iterator plant_itr = tmp_p.getPlantsInPlot().entrySet().iterator();
 				
 				while (plant_itr.hasNext()) {
 					// get a map entry from the plot
 					Map.Entry<Point, Plant> map_element = (Map.Entry<Point, Plant>)plant_itr.next();
 					// used to determine plant image size in the plot
-					double radius = map_element.getValue().getSpreadRadiusLower();
+					radius = map_element.getValue().getSpreadRadiusLower();
 					// get position of plant
-					Point tmp_pos = map_element.getValue().getPosition();
+					tmp_pos = map_element.getValue().getPosition();
 					// the image corresponding to the plot
-					Image img_v = View.getImages().get(map_element.getValue().getScientificName());
+					img_v = View.getImages().get(map_element.getValue().getScientificName());
 					// method to add the image to the gardenEdtiorView base panel (draw duh plant)
-					gardenEditorView.addPlantImageToBase(tmp_pos, img_v, radius);
+					if(gardenEditorView.addPlantImageToBase(tmp_pos, img_v, radius)) {
+						System.out.println("success");
+					}
 				}
+			}
+			System.out.println("loaded plants");
+			for(Plant p : garden.getPlantsInGarden()) {
+				System.out.println(p.getScientificName() + " " + p.getPosition());
 			}
 			
 			HashMap<String, Plant> recommendedPlants  = garden.getPlots().get(0).getRecommendedPlants();

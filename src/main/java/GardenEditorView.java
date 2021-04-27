@@ -292,11 +292,11 @@ public class GardenEditorView extends View {
     	base.getChildren().add(circ);
 	}
 	
-	public void addPlantImageToBase(Point pos, Image img_v, double radius) {
+	public boolean addPlantImageToBase(Point pos, Image img_v, double radius) {
 		Circle circ = new Circle(pos.getX(), pos.getY(), radius*SCALE);
         circ.setFill(new ImagePattern(img_v));
         circ.setOnDragDetected(controller.getOnImageDraggedHandler());
-    	base.getChildren().add(circ);
+    	return base.getChildren().add(circ);
 	}
 	
 	public boolean hasChild(MouseEvent event) {
