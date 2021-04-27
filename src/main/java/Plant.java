@@ -40,12 +40,6 @@ public class Plant implements Serializable {
 		this.ID = UUID.randomUUID();
 		
 	}
-	
-	
-	
-	public UUID getID() {
-		return ID;
-	}
 
 	public Plant() {
 		
