@@ -152,15 +152,19 @@ public class GardenEditorView extends View {
 		Iterator<String> it = keys.iterator();
 		
 		while(it.hasNext()) {
-			String name = it.next();
-			Image image = allImages.get(name);
-			recommendedPlantImages.put(image, name);
-			
-			Circle circ = new Circle(50);
-	        circ.setFill(new ImagePattern(image));
-	        circ.setOnDragDetected(controller.getOnImageDraggedHandler());
-	        circ.setOnMouseClicked(controller.getOnImageClickedInfo());
-	        recommendedPlantCircs.add(circ);
+			try {
+				String name = it.next();
+				Image image = allImages.get(name);
+				recommendedPlantImages.put(image, name);
+				
+				Circle circ = new Circle(50);
+		        circ.setFill(new ImagePattern(image));
+		        circ.setOnDragDetected(controller.getOnImageDraggedHandler());
+		        circ.setOnMouseClicked(controller.getOnImageClickedInfo());
+		        recommendedPlantCircs.add(circ);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 		ObservableList<Circle> backingList = FXCollections.observableArrayList(recommendedPlantCircs);

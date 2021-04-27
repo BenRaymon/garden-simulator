@@ -5,27 +5,50 @@ public class GardenEditor {
 	
 	private static Plant currentlySelectedPlant;
 	private static double cx, cy, scale, left, right, top, bottom;
-	private static double CANVAS_WIDTH, CANVAS_HEIGHT, TOP_HEIGHT;
+	private static double CANVAS_WIDTH, CANVAS_HEIGHT;
 	private static double SCALE_BUFFER = 100, BUFFER = 10;
 	
+	/**
+	 * Set the currentlySelectedPlant for while dragging a plant from the plant list to a plot
+	 * @param plantName the name of the plant to select from the garden
+	 * @param pos the current position of the plant in the garden
+	 * @return none
+	 */
 	public static void setSelectedPlant(String plantName, Point pos) {
 		Plant p = Garden.getPlant(plantName);
 		p.setPosition(pos);
 		currentlySelectedPlant = Garden.getPlant(plantName);
 	}
 	
+	/**
+	 * Set the currentlySelectedPlant for while dragging a plant from the plant list to a plot
+	 * @param plant the plant to select 
+	 * @return none
+	 */
 	public static void setSelectedPlant(Plant p) {
 		currentlySelectedPlant = p;
 	}
 	
+	/**
+	 * Gets the currently selected plant
+	 * @return the plant object representing the image that is currently being dragged
+	 */
 	public static Plant getSelectedPlant() {
 		return currentlySelectedPlant;
 	}
 	
-	public static double transformPlots(ArrayList<Plot> plots, double canvasWidth, double canvasHeight, double top, double ppf) {
+	/**
+	 * Set the currentlySelectedPlant for while dragging a plant from the plant list to a plot
+	 * @param plots an array list of plots that are in the garden
+	 * @param canvasWidth the width of the canvas to scale to
+	 * @param canvasHeight the height of the canvas to scale to
+	 * @param top the height of the top bar used for  
+	 * @return pixels per foot, a value representing the scale of the garden
+	 */
+	public static double transformPlots(ArrayList<Plot> plots, double canvasWidth, double canvasHeight, double ppf) {
 		CANVAS_HEIGHT = canvasHeight;
 		CANVAS_WIDTH = canvasWidth;
-		TOP_HEIGHT = top;
+		//TOP_HEIGHT = top;
 		calculatePlotBoundaries(plots);
 		ppf *= calculateScale();
 		scalePlots(plots);

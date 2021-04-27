@@ -58,5 +58,6 @@ public class BackgroundImageLoader extends Thread {
 				}
 			}
 		}
+		System.out.println(plant_images.size());
 	}
 }
