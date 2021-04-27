@@ -20,6 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -43,8 +44,8 @@ public class GardenEditorView extends View {
 	private Text plantCount = new Text("0");
 	private Text budgetText = new Text();
 	
-	private double LEFTBAR = 200;
-	private double RIGHTBAR = 150;
+	private double LEFTBAR = 250;
+	private double RIGHTBAR = 175;
 	private double TOPBAR = 100, BOTTOM = 30;
 	private double SPACING = 10;
 	private double SCALE = 10;
@@ -118,6 +119,7 @@ public class GardenEditorView extends View {
 	
 	public void createRightText() {
 		Text t0 = new Text("Remaining Budget");
+		t0.setFont(Font.font(20));
 		right.add(t0, 0, 0);
 		budgetText.setText(String.valueOf(budgetLeft));
 		right.add(budgetText, 0, 1);
@@ -146,6 +148,7 @@ public class GardenEditorView extends View {
 		        Circle circ = new Circle(50);
 		        circ.setFill(new ImagePattern((Image)value));
 		        circ.setOnDragDetected(controller.getOnImageDraggedHandler());
+		        circ.setOnMouseClicked(controller.getOnImageClickedInfo());
 		        top.add(circ, imageInc, 0);
 		        imageInc++;
 			}
@@ -155,10 +158,40 @@ public class GardenEditorView extends View {
 		
 	}
 	
+	public void setPlantInfoImage(Image plantImg) {
+		left.getChildren().clear();
+		ImageView plantIV = new ImageView();
+		plantIV.setImage(plantImg);
+		plantIV.setFitWidth(100);
+		plantIV.setFitHeight(100);
+		plantIV.setPreserveRatio(true);
+		left.add(plantIV, 0, 0);
+	}
+	
+	
+	public void setPlantInfo(Plant plant) {
+		System.out.println("IN SET PLANT INFO");
+		Text commonName = new Text(plant.getCommonName());
+		Text commonText = new Text("Common Name:");
+		left.add(commonText, 0, 1);
+		left.add(commonName, 1, 1);
+		Text scienceText = new Text("Scientific Name");
+		Text scienceName = new Text(plant.getScientificName());
+		left.add(scienceText, 0, 2);
+		left.add(scienceName, 1, 2);
+		Text lepText = new Text("Number of Leps Supported");
+		Text lepNum = new Text(String.valueOf(plant.getLepsSupported()));
+		left.add(lepText, 0, 3);
+		left.add(lepNum, 1, 3);
+		System.out.println(commonName);
+	}
+	
 	public void createRight() {
 		right = new GridPane();
 		createPane(right, "darkseagreen");
 		right.setMinWidth(RIGHTBAR);
+		right.setAlignment(Pos.CENTER);
+		right.setGridLinesVisible(true);
 		base.setRight(right);
 	}
 	
@@ -222,7 +255,7 @@ public class GardenEditorView extends View {
 	}
 	
 	public void setPlantInfo() {
-		Text t = new Text("Plant Info Here");
+		Text t = new Text("Click a Plant to See it's Info");
 		left.add(t, 0, 0);
 	}
 	

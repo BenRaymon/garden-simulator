@@ -247,6 +247,21 @@ public class Controller extends Application{
 		});
 	}
 		
+	public EventHandler getOnImageClickedInfo() {
+		return (event-> {
+			System.out.println("IN CLICKED HANDLER");
+			Circle plantCirc = (Circle)event.getSource();
+			Image plantImage = ((ImagePattern)plantCirc.getFill()).getImage();
+			gardenEditorView.setPlantInfoImage(plantImage);
+			String plant = gardenEditorView.getPlantName(plantImage);
+			System.out.print(plant);
+			Plant selectedPlant = garden.getPlant(plant);
+			gardenEditorView.setPlantInfo(selectedPlant);
+			
+		});
+	}
+	
+	
 	//Handler for image being dragged
 	public EventHandler getOnImageDraggedHandler() {
 		return (event -> {
