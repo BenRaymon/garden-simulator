@@ -1,6 +1,7 @@
 import java.util.*;
 
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -50,7 +52,6 @@ public class ShoppingListView extends View{
 		//center_of_hbox.getChildren().add(rightVBox);
 		//center.getChildren().add(center_of_hbox);
 		
-		addGardenButton();
 		base.add(center, 0, 10);
 		//addPlaceHolderText();
 		
@@ -86,24 +87,40 @@ public class ShoppingListView extends View{
 		leftVBox.getChildren().add(leftSep);
 		rightVBox.getChildren().add(rightSep);
 		
-		rightVBox.getChildren().add(new Text("Budget: " + budget));
-		rightVBox.getChildren().add(new Text("Cost: " + cost));
+		Text budgetText = new Text("Budget: " + budget);
+		budgetText.setFont(Font.font(15));
+		Text costText = new Text("Cost: " + cost);
+		costText.setFont(Font.font(15));
+		rightVBox.getChildren().add(budgetText);
+		rightVBox.getChildren().add(costText);
+		rightVBox.setMargin(costText, new Insets(0,0,0,15));
+		rightVBox.setMargin(budgetText, new Insets(0,0,0,15));
+		Text costBudget = new Text("You went " + (cost-budget) + " over budget");
+		costBudget.setFont(Font.font(20));
+		bottomVBox.getChildren().add(costBudget);
+		bottomVBox.setMargin(costBudget, new Insets(-20,20,20,20));
+		addGardenButton();
+
 	}
 	
 	private void addDataToLeftBox(PlantShoppingListData data) {
 		Text text = new Text(data.getCount() + "x " + data.getCommonName());
+		text.setFont(Font.font(15));
 		leftVBox.getChildren().add(text);
+		leftVBox.setMargin(text, new Insets(0,15,0,0));
 	}
 	
 	private void addDataToRightBox(PlantShoppingListData data) {
-		Text text = new Text("Cost: $" + data.getCost());
+		Text text = new Text("$" + data.getCost());
+		text.setFont(Font.font(15));
 		rightVBox.getChildren().add(text);
+		rightVBox.setMargin(text, new Insets(0,0,0,15));
 	}
 	
 	public VBox createBottomVBox() {
 		VBox bottom_vbox = new VBox(2);
 		bottom_vbox.setAlignment(Pos.BOTTOM_CENTER);
-		bottom_vbox.setStyle("-fx-background-color: aqua");
+		//bottom_vbox.setStyle("-fx-background-color: aqua");
 		bottom_vbox.setMinWidth(WINDOW_WIDTH / 2);
 		//center.getChildren().add(bottom_vbox);
 		base.add(bottom_vbox, 0, 15);
@@ -115,8 +132,7 @@ public class ShoppingListView extends View{
 	public VBox createLeftVBox(){
 		VBox left_vbox = new VBox(2);
 		left_vbox.setAlignment(Pos.TOP_RIGHT);
-		left_vbox.setStyle("-fx-background-color: red");
-		//left_grid.setGridLinesVisible(true);
+		//left_vbox.setStyle("-fx-background-color: red");
 		left_vbox.setMinWidth(WINDOW_WIDTH / 2);
 		center.getChildren().add(left_vbox);
 		return left_vbox;
@@ -125,9 +141,9 @@ public class ShoppingListView extends View{
 	public VBox createRightVBox(){
 		VBox right_vbox = new VBox(2);
 		right_vbox.setAlignment(Pos.CENTER_LEFT);
-		right_vbox.setStyle("-fx-background-color: #42f58d");
+		//right_vbox.setStyle("-fx-background-color: #42f58d");
 		//left_grid.setGridLinesVisible(true);
-		right_vbox.setMinWidth(800);
+		right_vbox.setMinWidth(WINDOW_WIDTH / 2);
 		center.getChildren().add(right_vbox);
 		return right_vbox;
 	}
@@ -136,40 +152,6 @@ public class ShoppingListView extends View{
 		Button toGarden = new Button("Back to Garden Editor");
 		toGarden.setOnMouseClicked(controller.getToGardenOnClickHandler());
 		bottomVBox.getChildren().add(toGarden);
-	}
-	
-	private void addPlaceHolderText() {
-		Text fakeplant1 = new Text("1x Testing1");
-		Text fakeplant2 = new Text("3x Testing2");
-		Text fakeplant3 = new Text("3x Testing3");
-		Text fakeplant4 = new Text("7x Testing4");
-		Separator leftSep = new Separator();
-		leftSep.setMaxWidth(300);
-		leftSep.setHalignment(HPos.CENTER);
-		Text fakeTotal = new Text("Total: 14 Perenials");
-		leftVBox.getChildren().add(fakeplant1);
-		leftVBox.getChildren().add(fakeplant2);
-		leftVBox.getChildren().add(fakeplant3);
-		leftVBox.getChildren().add(fakeplant4);
-		leftVBox.getChildren().add(leftSep);
-		leftVBox.getChildren().add(fakeTotal);
-		
-		Text fakeCost1 = new Text("Cost: 50");
-		Text fakeCost2 = new Text("Cost: 150");
-		Text fakeCost3 = new Text("Cost: 150");
-		Text fakeCost4 = new Text("Cost: 350");
-		Separator rightSep = new Separator();
-		rightSep.setMaxWidth(300);
-		rightSep.setHalignment(HPos.CENTER);
-		Text fakeBudget = new Text("Budget: $1000");
-		Text fakeCost = new Text("Total Cost: $700");
-		rightVBox.getChildren().add(fakeCost1);
-		rightVBox.getChildren().add(fakeCost2);
-		rightVBox.getChildren().add(fakeCost3);
-		rightVBox.getChildren().add(fakeCost4);
-		rightVBox.getChildren().add(rightSep);
-		rightVBox.getChildren().add(fakeBudget);
-		rightVBox.getChildren().add(fakeCost);
 	}
 	
 	public Scene getScene() {
