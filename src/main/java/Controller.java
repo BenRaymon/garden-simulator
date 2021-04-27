@@ -81,14 +81,6 @@ public class Controller extends Application{
 	
 	//Start the main program
 	public void loadStartScreen() {
-//		try {
-//			Thread.sleep(3000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
-		// load the saved garden array into savedGardens
 		try {
 			savedGardens = gardenSaverLoader.loadGardenList();
 		

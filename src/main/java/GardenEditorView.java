@@ -55,6 +55,8 @@ public class GardenEditorView extends View {
 	private GraphicsContext gc;
 	private int imageInc = 1;
 	private TextField garden_name; // name the garden (used to load garden)
+	private VBox leftBase;
+	private VBox plantBox;
 	private Text lepCount = new Text("0");
 	private Text plantCount = new Text("0");
 	private Text budgetText = new Text();
@@ -129,18 +131,46 @@ public class GardenEditorView extends View {
 			gc.setFill(Color.SANDYBROWN);
 	}
 	
-	public void createRightText() {
-		Text t0 = new Text("Remaining Budget");
-		t0.setFont(Font.font(20));
-		right.add(t0, 0, 0);
+	
+	public void createBudgetText(){
+		Text budgetLabel = new Text("Remaining Budget");
+		budgetLabel.setFont(Font.font(20));
+		GridPane.setHalignment(budgetLabel, HPos.CENTER);
+		right.add(budgetLabel, 0, 0);
+		
+		
 		budgetText.setText(String.valueOf(budgetLeft));
+		budgetText.setFont(Font.font(32));
+		GridPane.setHalignment(budgetText, HPos.CENTER);
 		right.add(budgetText, 0, 1);
-		Text t1 = new Text("Number of Plants");
-		right.add(t1, 0, 2);
+	}
+	
+	public void createPlantText() {
+		Text plantLabel = new Text("Number of Plants");
+		plantLabel.setFont(Font.font(20));
+		GridPane.setHalignment(plantLabel, HPos.CENTER);
+		right.add(plantLabel, 0, 2);
+		
+		plantCount.setFont(Font.font(32));
+		GridPane.setHalignment(plantCount, HPos.CENTER);
 		right.add(plantCount, 0, 3);
-		Text t3 = new Text("Number of Lep");
-		right.add(t3, 0, 4);
+	}
+	
+	public void createLepText() {
+		Text lepLabel = new Text("Number of Lep");
+		lepLabel.setFont(Font.font(20));
+		GridPane.setHalignment(lepLabel, HPos.CENTER);
+		right.add(lepLabel, 0, 4);
+		
+		lepCount.setFont(Font.font(32));
+		GridPane.setHalignment(lepCount, HPos.CENTER);
 		right.add(lepCount, 0, 5);
+	}
+	
+	public void createRightText() {
+		createBudgetText();
+		createPlantText();
+		createLepText();
 	}
 	
 	//Supposed to draw images in the top grid pane
@@ -172,32 +202,67 @@ public class GardenEditorView extends View {
 	}
 	
 	public void setPlantInfoImage(Image plantImg) {
-		left.getChildren().clear();
+		plantBox.getChildren().clear();
 		ImageView plantIV = new ImageView();
 		plantIV.setImage(plantImg);
-		plantIV.setFitWidth(100);
-		plantIV.setFitHeight(100);
+		plantIV.setFitWidth(LEFTBAR);
+		plantIV.setFitHeight(300);
 		plantIV.setPreserveRatio(true);
-		left.add(plantIV, 0,0);
-		GridPane.setHalignment(plantIV, HPos.CENTER);
+		plantBox.setAlignment(Pos.CENTER);
+		plantBox.getChildren().add(plantIV);
 	}
 	
 	
-	public void setPlantInfo(Plant plant) {
-		System.out.println("IN SET PLANT INFO");
+	public void addNames(Plant plant){
 		Text commonName = new Text(plant.getCommonName());
 		Text commonText = new Text("Common Name:");
 		left.add(commonText, 0, 1);
 		left.add(commonName, 1, 1);
-		Text scienceText = new Text("Scientific Name");
+		Text scienceText = new Text("Scientific Name:");
 		Text scienceName = new Text(plant.getScientificName());
 		left.add(scienceText, 0, 2);
 		left.add(scienceName, 1, 2);
-		Text lepText = new Text("Number of Leps Supported");
+	}
+	
+	public void addLeps(Plant plant) {
+		Text lepText = new Text("Number of Leps Supported:");
 		Text lepNum = new Text(String.valueOf(plant.getLepsSupported()));
 		left.add(lepText, 0, 3);
 		left.add(lepNum, 1, 3);
-		System.out.println(commonName);
+	}
+	
+	public void addType(Plant plant) {
+		Text typeText = new Text("Type:");
+		String type = "HOLD";
+		System.out.println(plant.getType());
+		if (plant.getType() ==  'w'){
+			type = "Woody";
+		}
+		else {
+			type = "Herbaceous";
+		}
+		Text typeName = new Text(type);
+		
+		left.add(typeText, 0, 4);
+		left.add(typeName, 1, 4);
+	}
+	
+	public void addSize(Plant plant) {
+		Text sizeText = new Text("Size Range (ft):");
+		Text sizeRange = new Text(String.valueOf(plant.getSizeLower())+ "-" + String.valueOf(plant.getSizeUpper()));
+		left.add(sizeText, 0, 5);
+		left.add(sizeRange, 1, 5);
+	}
+	
+	
+	
+	public void setPlantInfo(Plant plant) {
+		System.out.println("IN SET PLANT INFO");
+		left.getChildren().clear();
+		addNames(plant);
+		addLeps(plant);
+		addType(plant);
+		addSize(plant);
 	}
 	
 	public void createRight() {
@@ -205,16 +270,22 @@ public class GardenEditorView extends View {
 		createPane(right, "darkseagreen");
 		right.setMinWidth(RIGHTBAR);
 		right.setAlignment(Pos.CENTER);
-		right.setGridLinesVisible(true);
+		//right.setGridLinesVisible(true);
 		base.setRight(right);
 	}
 	
 	public void createLeft() {
+		leftBase = new VBox();
+		leftBase.setStyle("-fx-background-color:darkseagreen");
 		left  = new GridPane();
+		plantBox = new VBox();
 		createPane(left, "darkseagreen");
+		left.setAlignment(Pos.TOP_CENTER);
 		left.setMinWidth(LEFTBAR);
 		left.setMaxWidth(LEFTBAR);
-		base.setLeft(left);
+		leftBase.getChildren().add(plantBox);
+		leftBase.getChildren().add(left);
+		base.setLeft(leftBase);
 	}
 	
 	public void createBottom() {
@@ -236,6 +307,13 @@ public class GardenEditorView extends View {
 		lepCount.setText(String.valueOf(leps));
 		plantCount.setText(String.valueOf(plants));
 		budgetLeft = budget - spent;
+		
+		if (budgetLeft < 0) {
+			budgetText.setFill(Color.RED);
+		}
+		else{
+			budgetText.setFill(Color.BLACK);
+		}
 		budgetText.setText(String.valueOf(budgetLeft));
 	}
 	
@@ -297,20 +375,9 @@ public class GardenEditorView extends View {
 	
 	public void createNewImageInBase(DragEvent event, Dragboard db, double radius) {
 		System.out.println("Creating new gardeneditorview image");
-		//Image i = (Image)db.getContent(DataFormat.IMAGE);
-		//ImageView iv = new ImageView();
-    	//iv.setImage(i);
-    	//iv.setPreserveRatio(true);
-    	//iv.setFitHeight(100);
-    	//iv.setX(event.getX());
-		//iv.setY(event.getY());
-		//iv.setOnDragDetected(controller.getOnImageDraggedHandler());
-		// right here problem
-		//imc.setHandlerForClick(iv);
 		Circle circ = new Circle(event.getX(), event.getY(), radius*SCALE);
         circ.setFill(new ImagePattern(selectedPlant));
         circ.setOnDragDetected(controller.getOnImageDraggedHandler());
-		//imageViewsForPlantsInGarden.add(iv);
     	base.getChildren().add(circ);
 	}
 	
@@ -318,7 +385,6 @@ public class GardenEditorView extends View {
 		Circle circ = new Circle(pos.getX(), pos.getY(), radius*SCALE);
         circ.setFill(new ImagePattern(img_v));
         circ.setOnDragDetected(controller.getOnImageDraggedHandler());
-		//imageViewsForPlantsInGarden.add(iv);
     	base.getChildren().add(circ);
 	}
 	
