@@ -555,4 +555,35 @@ public class Controller extends Application{
 			stage.setScene(startView.getScene());
 		});
 	}
+	
+	//This handler handles the report generation when the generate report button is clicked in ReportView.
+	public EventHandler generateReportHandler() {
+		return(event -> {
+			System.out.println("Generate report button pushed");
+			//Gets vlaues of checkboxes
+			boolean perennialDiversityOptionFlag = reportView.getPerennialDiversityOption().isSelected();
+			boolean budgetFlag = reportView.getBudgetOption().isSelected();
+			//boolean tableFlag = reportView.get
+			
+			if(perennialDiversityOptionFlag) {
+			HashMap<String, PlantShoppingListData> tempGardenData = garden.generateShoppingListData();
+			
+			//Adds plant info to reportGardenPieGraph
+			Iterator itr = tempGardenData.entrySet().iterator();
+			while (itr.hasNext()) {
+				Map.Entry element = (Map.Entry)itr.next();
+				PlantShoppingListData v = (PlantShoppingListData)element.getValue();
+				reportView.addItemToPieGraph(v.getCommonName(),v.getCount());
+			}
+			
+			reportView.addGardenPieGraph();
+			}
+			if(budgetFlag) {
+				reportView.addBudgetBox(garden.getSpent(),garden.getBudget());
+			}
+			reportView.showReport();
+			
+		});
+		
+	}
 }
