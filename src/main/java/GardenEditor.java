@@ -38,12 +38,14 @@ public class GardenEditor {
 	}
 	
 	/**
-	 * Set the currentlySelectedPlant for while dragging a plant from the plant list to a plot
+	 * Transform a plot to fit in the desired canvas. Transform includes
+	 * scaling a plot up and smoothing the edges of a rough shape
+	 * 
 	 * @param plots an array list of plots that are in the garden
 	 * @param canvasWidth the width of the canvas to scale to
 	 * @param canvasHeight the height of the canvas to scale to
-	 * @param top the height of the top bar used for  
-	 * @return pixels per foot, a value representing the scale of the garden
+	 * @param ppf is the current scale of the garden, current pixels per foot
+	 * @return pixels per foot, a value representing the resulting scale of the garden
 	 */
 	public static double transformPlots(ArrayList<Plot> plots, double canvasWidth, double canvasHeight, double ppf) {
 		CANVAS_HEIGHT = canvasHeight;
@@ -52,11 +54,17 @@ public class GardenEditor {
 		calculatePlotBoundaries(plots);
 		ppf *= calculateScale();
 		scalePlots(plots);
-		checkBorders(plots);
+		recenterGarden(plots);
 		
 		return ppf;
 	}
 	
+	/**
+	 * Calculate the boundaries of the plots in your garden. 
+	 * Finds the leftmost, rightmost, topmost, and bottom most coordinate in the garden.
+	 * @param plots a list of plots in the garden
+	 * @return void
+	 */
 	public static void calculatePlotBoundaries(ArrayList<Plot> plots) {
 		
 		Iterator<Plot> it = plots.iterator();
@@ -85,6 +93,10 @@ public class GardenEditor {
 		
 	}
 	
+	/**
+	 * Calculate the scale factor that is needed to fit the garden in the desired canvas
+	 * @return scale factor as a double
+	 */
 	public static double calculateScale() {
 		scale = (CANVAS_HEIGHT - SCALE_BUFFER) / (bottom-top);
 		if ((CANVAS_WIDTH-SCALE_BUFFER)/(right-left) < scale) {
@@ -94,6 +106,13 @@ public class GardenEditor {
 		return scale;
 	}
 	
+	/**
+	 * Resize all plots in the garden according to the scale factor. 
+	 * New position = (old position - center) * scale + center
+	 * 
+	 * @param plots all the plots in the garden
+	 * @return none
+	 */
 	private static void scalePlots(ArrayList<Plot> plots) {
 		Iterator<Plot> it = plots.iterator();
 		while(it.hasNext()) {
@@ -107,7 +126,12 @@ public class GardenEditor {
 		}
 	}
 	
-	private static void checkBorders(ArrayList<Plot> plots) {
+	/**
+	 * Recenter all of the plots in the garden after the scale has been applied 
+	 * @param plots a list of all the plots in the garden
+	 * @return none
+	 */
+	private static void recenterGarden(ArrayList<Plot> plots) {
 		right = (right-cx)*scale + cx;
 		left = (left-cx)*scale + cx;
 		top = (top-cy)*scale + cy;
@@ -136,7 +160,12 @@ public class GardenEditor {
 	
 
 	
-	//returns the plotNum that the position falls in (-1 if out of bounds of all plots)
+	/**
+	 * Check if the point falls within any of the plots in the garden
+	 * @param pos coordinate of the point to check
+	 * @param plots all the plots in the garden
+	 * @return the plot number that this coordinate belongs to,, -1 if none
+	 */
 	public static int inPlot(Point pos, ArrayList<Plot> plots) {
 		boolean inAPlot = false;
 		int plotNum = 0;
@@ -154,7 +183,13 @@ public class GardenEditor {
 			return -1;
 	}
 	
-	//check if a Point falls within the bounds of a list of points
+	/**
+	 * Checks if a coordinate is within the bounds of a list of points
+	 * @param points the list points that is used as bounds
+	 * @param x the x coordinate of the position to check
+	 * @param y the y coordinate of the position to check
+	 * @return true or false if the coordinate is within the bounds
+	 */
 	private static boolean inBounds(ArrayList<Point> points, double x, double y) {
 		boolean bounds = false;
 		int i, j;
@@ -168,12 +203,21 @@ public class GardenEditor {
 		return bounds;
 	}
 	
-	
-	private static ArrayList<ArrayList<Point>> getControlPoints(ArrayList<Point> coords, int N, double alpha) {
+	/**
+	 * Creates a pair of control points for each coordinate in the list
+	 * The control points list is used in the bezier algorithm to smooth plot edges
+	 * 
+	 * @param coords an array list of points used as a reference for the control points
+	 * @param alpha a numeric value between zero and 1 used as a factor to generate control points
+	 * @return the list of lists (list of control point pairs)
+	 */
+	private static ArrayList<ArrayList<Point>> getControlPoints(ArrayList<Point> coords,  double alpha) {
 		if (alpha < 0.0 || alpha > 1.0) {
 			throw new IllegalArgumentException("alpha must be a value between 0 and 1 inclusive");
 		}
-		  
+		
+		int N = coords.size();
+		
 		ArrayList<ArrayList<Point>> ctrl = new ArrayList<ArrayList<Point>>();
 		
 		Point v1, v2, v3;
@@ -225,6 +269,16 @@ public class GardenEditor {
 		return ctrl;
 	}
 
+	/**
+	 * Calculates a list of coordinates following a Bezier curve between a start point and end point
+	 * 
+	 * @param start the start position
+	 * @param end the end position
+	 * @param ctrl1 the first control point
+	 * @param ctrl2 the second control point 
+	 * @param nv the number of verticies to add between start and end point (including the start and end point)
+	 * @return list of coordinates along the Bezier curve
+	 */
 	private static ArrayList<Point> cubicBezier(final Point start, final Point end,
 		final Point ctrl1, final Point ctrl2, final int nv) {
 		        
@@ -253,15 +307,25 @@ public class GardenEditor {
 	}
 
 
+	/**
+	 * Creates a new list of coordinates with a smooth exterior following a bezier curve of the original coordinates
+	 * 
+	 * NOTE: This algorithm and the 2 private helper methods above were based on another project
+	 * http://lastresortsoftware.blogspot.com/2010/12/smooth-as.html
+	 * 
+	 * @param coords an array list of points that need smoothing
+	 * @param alpha a numeric value between zero and 1 for the tightness of fit
+	 * @param pointsPerSegment number of verticies to add between every coordinate
+	 * @return a list of points for a newly smoothed plot
+	 */
 	public static ArrayList<Point> smooth(ArrayList<Point> points, double alpha, int pointsPerSegment) {
 	    
-		int Nvertices = points.size();
-		ArrayList<ArrayList<Point>> controlPoints = getControlPoints(points, Nvertices, alpha);
+		ArrayList<ArrayList<Point>> controlPoints = getControlPoints(points, alpha);
 		
 		ArrayList<Point> smoothCoords = new ArrayList<Point>();
 		  
-		for (int i = 0, k = 0; i < Nvertices; i++) {
-		    int next = (i + 1) % Nvertices;  
+		for (int i = 0, k = 0; i < points.size(); i++) {
+		    int next = (i + 1) % points.size();  
 		      
 		    ArrayList<Point> segment = cubicBezier(
 		            points.get(i), points.get(next),
