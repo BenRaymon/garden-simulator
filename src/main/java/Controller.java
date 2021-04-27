@@ -427,19 +427,20 @@ public class Controller extends Application{
 	public EventHandler SaveButtonClickedHandler() {
 		return (event -> {
 			System.out.println("Save Button clicked");
-			
+			// set the garden name
+			TextField tmp = gardenEditorView.getGardenName();
+			String name_g = tmp.getText();
+			int tmp_leps = garden.getLepsSupported();
+			double tmp_spent = garden.getSpent();
+			double tmp_budget = garden.getBudget();
+			double tmp_scale = garden.getScale();
+			ArrayList<Plot> tmp_plots = garden.getPlots();
+			ArrayList<Plant> tmp_plants = garden.getPlantsInGarden();
+			Garden tmp_g = new Garden(name_g, tmp_spent, tmp_budget, tmp_plots, tmp_leps, tmp_plants, tmp_scale);
+			//Garden tmp_g = garden;
+			tmp_g.setName(name_g);
+			savedGardens.add(tmp_g);
 			try {
-				// set the garden name
-				TextField tmp = gardenEditorView.getGardenName();
-				String name_g = tmp.getText();
-				int tmp_leps = garden.getLepsSupported();
-				double tmp_spent = garden.getSpent();
-				double tmp_budget = garden.getBudget();
-				double tmp_scale = garden.getScale();
-				ArrayList<Plot> tmp_plots = garden.getPlots();
-				ArrayList<Plant> tmp_plants = garden.getPlantsInGarden();
-				Garden tmp_g = new Garden(name_g, tmp_spent, tmp_budget, tmp_plots, tmp_leps, tmp_plants, tmp_scale);
-				savedGardens.add(tmp_g);
 				gardenSaverLoader.saveGarden(savedGardens);
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -461,7 +462,6 @@ public class Controller extends Application{
 			ListView<String> tmp = loadSavedGardenView.getListView();
 			String curr_g = tmp.getSelectionModel().getSelectedItem();
 			garden = gardenSaverLoader.loadPickedGarden(curr_g, savedGardens);
-			
 			
 			stage.setScene(gardenEditorView.getScene());
 			System.out.println(garden.getPlots());

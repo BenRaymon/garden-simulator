@@ -9,7 +9,7 @@ import javafx.scene.image.ImageView;
 
 import java.io.Serializable;
 
-public class Garden implements Serializable{
+public class Garden implements Serializable {
 	String name; // name for the garden that will be used to get it from the list of saved gardens
 	private double spent;
 	private double budget;
