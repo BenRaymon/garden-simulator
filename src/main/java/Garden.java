@@ -84,10 +84,12 @@ public class Garden implements Serializable{
 		plots.get(index).addPlant(point, p);
 		plantsInGarden.add(p);
 		this.spent += p.getCost();
+		lepsSupported += p.getLepsSupported();
 	}
 	
 	public  void removePlantFromPlot(int index, Point point) {
 		this.spent -= plots.get(index).getPlant(point).getCost();
+		this.lepsSupported -= plots.get(index).getPlant(point).getLepsSupported();
 		plantsInGarden.remove(plots.get(index).getPlant(point));
 		plots.get(index).removePlant(point);
 	}
