@@ -515,6 +515,9 @@ public class Controller extends Application{
 				}
 			}
 			
+			HashMap<String, Plant> recommendedPlants  = garden.getPlots().get(0).getRecommendedPlants();
+			gardenEditorView.setPlantImages(recommendedPlants.keySet());
+			
 		});
 	}
 	
