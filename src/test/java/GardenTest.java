@@ -1,6 +1,6 @@
 import java.util.*;
 import static org.junit.Assert.*;
-import java.util.ArrayList;
+
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.junit.Test;
@@ -8,6 +8,7 @@ import org.junit.Test;
 public class GardenTest {
 	
 	Garden testGarden = new Garden();
+	Garden testGarden2 = new Garden("test name", 0.0, 10.0, new ArrayList<Plot>(), 0, new ArrayList<Plant>(), 1.0);
 
 	@Test
 	public void testGetPlant() {
@@ -126,7 +127,34 @@ public class GardenTest {
 	
 	@Test
 	public void testGenerateShoppingListData() {
+		testGarden2.newPlot(new Options(1,1,1));
+		Plant testP = new Plant();
+		Plant testP2 = new Plant();
+		testP.setCost(10);
+		testP.setCommonName("Test name");
+		testP.setScientificName("Sci name");
+
+		testP2.setCost(10);
+		testP2.setCommonName("Test name");
+		testP2.setScientificName("Sci name");
 		
+		testGarden2.addPlantToPlot(0, new Point(0,0), testP);
+		testGarden2.addPlantToPlot(0, new Point(10,10), testP2);
+		HashMap<String, PlantShoppingListData>  data = testGarden2.generateShoppingListData();
+		PlantShoppingListData testResult = data.get(testP.getCommonName());
+		assertEquals(testResult.getCount(), 2);
+		assertEquals(testResult.getCommonName(), testP.getCommonName());
+		assertEquals(testResult.getScientificName(), testP.getScientificName());
+		assertEquals(testResult.getCost(), 20,0);
+		
+		testResult.setCommonName("New Name");
+		testResult.setCost(5);
+		testResult.setCount(10);
+		testResult.setScientificName("New Sci");
+		assertEquals(testResult.getCount(), 10);
+		assertEquals(testResult.getCommonName(), "New Name");
+		assertEquals(testResult.getScientificName(), "New Sci");
+		assertEquals(testResult.getCost(), 5.0,0);
 	}
 	
 	@Test

@@ -214,7 +214,7 @@ public class Controller extends Application{
 			double h = gardenEditorView.getCanvasHeight();
 			double w = gardenEditorView.getCanvasWidth();
 			double t = gardenEditorView.getTopHeight();
-			double pixelsPerFoot = GardenEditor.transformPlots(garden.getPlots(), w, h, t, garden.getScale());
+			double pixelsPerFoot = GardenEditor.transformPlots(garden.getPlots(), w, h, garden.getScale());
 			garden.setScale(pixelsPerFoot);
 			gardenEditorView.setScale(pixelsPerFoot);
 			for (Plot p : garden.getPlots()) {
@@ -495,7 +495,7 @@ public class Controller extends Application{
 			double h = gardenEditorView.getCanvasHeight();
 			double w = gardenEditorView.getCanvasWidth();
 			double t = gardenEditorView.getTopHeight();
-			double pixelsPerFoot = GardenEditor.transformPlots(garden.getPlots(), w, h, t, garden.getScale());
+			double pixelsPerFoot = GardenEditor.transformPlots(garden.getPlots(), w, h, garden.getScale());
 			garden.setScale(pixelsPerFoot);
 			gardenEditorView.setScale(pixelsPerFoot);
 			for (Plot p : garden.getPlots()) {

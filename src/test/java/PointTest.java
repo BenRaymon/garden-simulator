@@ -51,4 +51,10 @@ public class PointTest {
 		Point b = new Point(0,0);
 		assertEquals(a.distance(b), 14.142136, 0.2);
 	}
+	
+	@Test
+	public void testToString() {
+		Point a = new Point(1,2);
+		assertEquals(a.toString(), "(1.0, 2.0)");
+	}
 }
