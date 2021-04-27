@@ -1,6 +1,10 @@
 import javafx.scene.control.TextField;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
 import javafx.scene.control.*;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -20,15 +24,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class GardenEditorView extends View {
 
 	private Controller controller;
-	private ArrayList<ImageView> imageViewsForPlantsInGarden;
 	private HashMap<Image, String> recommendedPlantImages;
-	private ListView recommendedPlants;
+	private ArrayList<Circle> recommendedPlantCircs;
 	private Image selectedPlant;
 	private Text selectedPlantInfo;
 	private GridPane top, bottom, right, left;
@@ -55,7 +59,6 @@ public class GardenEditorView extends View {
 	private double budgetLeft;
 	
 	public GardenEditorView(Stage stage, Controller c) {
-		imageViewsForPlantsInGarden = new ArrayList<ImageView>();
 		controller = c;
 		base = new BorderPane();
 		base.setOnDragOver(controller.getOnDragOverHandler());
@@ -77,7 +80,7 @@ public class GardenEditorView extends View {
 		createRight();
 		createRightText();
 		createTop();
-		setPlantImages();
+		//setPlantImages();
 		createLeft();
 		setPlantInfo();
 		createBottom();
@@ -130,27 +133,36 @@ public class GardenEditorView extends View {
 	}
 	
 	//Supposed to draw images in the top grid pane
-	public void setPlantImages(){
-		System.out.println(getImages().size());
-		recommendedPlantImages = new HashMap<Image, String>();
-		getImages().forEach((key,value) -> {
-			//ImageView temp = new ImageView((Image)value);
-	        //temp.setPreserveRatio(true);
-	        //temp.setFitHeight(100);
-	        //temp.setFitWidth(100);
-	        //temp.setOnDragDetected(controller.getOnImageDraggedHandler());
-	        //top.add(temp, imageInc, 0);
-			if(imageInc < 10) {
-				recommendedPlantImages.put(value, key);
-				
-		        Circle circ = new Circle(50);
-		        circ.setFill(new ImagePattern((Image)value));
-		        circ.setOnDragDetected(controller.getOnImageDraggedHandler());
-		        top.add(circ, imageInc, 0);
-		        imageInc++;
-			}
-	        
-		});
+	public void setPlantImages(Set<String> keys){
+		//recommendedPlantImages = new HashMap<Image, String>();
+		recommendedPlantCircs = new ArrayList<Circle>();
+		
+		ConcurrentHashMap<String, Image> allImages = View.getImages();
+		
+		Iterator<String> it = keys.iterator();
+		
+		while(it.hasNext()) {
+			String name = it.next();
+			Image image = allImages.get(name);
+			//recommendedPlantImages.put(image, name);
+			
+			Circle circ = new Circle(50);
+	        circ.setFill(new ImagePattern(image));
+	        circ.setOnDragDetected(controller.getOnImageDraggedHandler());
+	        recommendedPlantCircs.add(circ);
+	        if (imageInc < 10)
+	        	top.add(circ, imageInc, 0);
+	        imageInc++;
+		}
+		
+		//Polygon toRight = new Polygon();
+		//toRight.getPoints().addAll(new Double[]{  
+		//		0.0, 50.0,  
+		//        75.0, 0.0,  
+		//        75.0, 75.0 });  
+		
+		//top.add(toRight, imageInc, 0);
+		
 		base.setTop(top);
 		
 	}
@@ -241,10 +253,6 @@ public class GardenEditorView extends View {
 	
 	public BorderPane getBase() {
 		return this.base;
-	}
-	
-	public ArrayList<ImageView> getImageViewsForPlantsInGarden() {
-		return this.imageViewsForPlantsInGarden;
 	}
 	
 	public Scene getScene() {

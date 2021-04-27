@@ -244,6 +244,16 @@ public class Controller extends Application{
 				gardenEditorView.drawPlot(p.getCoordinates());
 			}
 			gardenEditorView.updatePlantLepNums(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
+			
+			//Recommended plant list stuff
+			if(garden.getPlots().get(0).getRecommendedPlants() == null) {
+				System.out.println("IN HERE");
+				garden.getPlots().get(0).createRecommendedPlants();
+				HashMap<String, Plant> recommendedPlants  = garden.getPlots().get(0).getRecommendedPlants();
+				System.out.println(recommendedPlants.values());
+				gardenEditorView.setPlantImages(recommendedPlants.keySet());
+			}
+			
 		});
 	}
 		

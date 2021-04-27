@@ -8,7 +8,6 @@ public class GardenEditor {
 	private static double CANVAS_WIDTH, CANVAS_HEIGHT, TOP_HEIGHT;
 	private static double SCALE_BUFFER = 100, BUFFER = 10;
 	
-	
 	public static void setSelectedPlant(String plantName, Point pos) {
 		Plant p = Garden.getPlant(plantName);
 		System.out.println(plantName);
