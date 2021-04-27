@@ -1,12 +1,21 @@
 import javafx.scene.control.TextField;
+
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javafx.scene.control.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -35,13 +44,14 @@ public class GardenEditorView extends View {
 	private ArrayList<Circle> recommendedPlantCircs;
 	private Image selectedPlant;
 	private Text selectedPlantInfo;
-	private GridPane top, bottom, right, left;
+	private GridPane bottom, right, left;
+	private ListView<Circle> top;
 	private BorderPane base;
 	private Scene scene;
 	private Button toShoppingList;
 	private Button saveGarden; // save the garden to a .dat file
 	private GraphicsContext gc;
-	private int imageInc = 0;
+	private int imageInc = 1;
 	private TextField garden_name; // name the garden (used to load garden)
 	private Text lepCount = new Text("0");
 	private Text plantCount = new Text("0");
@@ -49,7 +59,7 @@ public class GardenEditorView extends View {
 	
 	private double LEFTBAR = 200;
 	private double RIGHTBAR = 150;
-	private double TOPBAR = 100, BOTTOM = 30;
+	private double TOPBAR = 125, BOTTOM = 30;
 	private double SPACING = 10;
 	private double SCALE = 10;
 	private double CANVAS_WIDTH = WINDOW_WIDTH - LEFTBAR - RIGHTBAR;
@@ -79,8 +89,6 @@ public class GardenEditorView extends View {
 		
 		createRight();
 		createRightText();
-		createTop();
-		//setPlantImages();
 		createLeft();
 		setPlantInfo();
 		createBottom();
@@ -134,7 +142,7 @@ public class GardenEditorView extends View {
 	
 	//Supposed to draw images in the top grid pane
 	public void setPlantImages(Set<String> keys){
-		//recommendedPlantImages = new HashMap<Image, String>();
+		recommendedPlantImages = new HashMap<Image, String>();
 		recommendedPlantCircs = new ArrayList<Circle>();
 		
 		ConcurrentHashMap<String, Image> allImages = View.getImages();
@@ -144,28 +152,21 @@ public class GardenEditorView extends View {
 		while(it.hasNext()) {
 			String name = it.next();
 			Image image = allImages.get(name);
-			//recommendedPlantImages.put(image, name);
+			recommendedPlantImages.put(image, name);
 			
 			Circle circ = new Circle(50);
 	        circ.setFill(new ImagePattern(image));
 	        circ.setOnDragDetected(controller.getOnImageDraggedHandler());
 	        recommendedPlantCircs.add(circ);
-	        if (imageInc < 10)
-	        	top.add(circ, imageInc, 0);
-	        imageInc++;
 		}
 		
-		//Polygon toRight = new Polygon();
-		//toRight.getPoints().addAll(new Double[]{  
-		//		0.0, 50.0,  
-		//        75.0, 0.0,  
-		//        75.0, 75.0 });  
-		
-		//top.add(toRight, imageInc, 0);
-		
+		ObservableList<Circle> backingList = FXCollections.observableArrayList(recommendedPlantCircs);
+		top = new ListView<>(backingList);
+		top.setOrientation(Orientation.HORIZONTAL);
+		top.setMaxHeight(TOPBAR);
 		base.setTop(top);
-		
 	}
+	
 	
 	public void createRight() {
 		right = new GridPane();
@@ -179,14 +180,6 @@ public class GardenEditorView extends View {
 		createPane(left, "darkseagreen");
 		left.setMinWidth(LEFTBAR);
 		base.setLeft(left);
-	}
-	
-	public void createTop() {
-	    top = new GridPane();
-		createPane(top, "white");
-		top.setMinHeight(TOPBAR);
-		top.setHgap(SPACING*2);
-		base.setTop(top);
 	}
 	
 	public void createBottom() {
@@ -247,9 +240,9 @@ public class GardenEditorView extends View {
 		return this.toShoppingList;
 	}
 	
-	public GridPane getTop() {
-		return this.top;
-	}
+	//public GridPane getTop() {
+	//	return this.top;
+	//}
 	
 	public BorderPane getBase() {
 		return this.base;
