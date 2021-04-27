@@ -447,21 +447,30 @@ public class Controller extends Application{
 	public EventHandler SaveButtonClickedHandler() {
 		return (event -> {
 			System.out.println("Save Button clicked");
-			// set the garden name
-			TextField tmp = gardenEditorView.getGardenName();
-			String name_g = tmp.getText();
-			int tmp_leps = garden.getLepsSupported();
-			double tmp_spent = garden.getSpent();
-			double tmp_budget = garden.getBudget();
-			double tmp_scale = garden.getScale();
-			ArrayList<Plot> tmp_plots = garden.getPlots();
-			ArrayList<Plant> tmp_plants = garden.getPlantsInGarden();
-			Garden tmp_g = new Garden(name_g, tmp_spent, tmp_budget, tmp_plots, tmp_leps, tmp_plants, tmp_scale);
-			//Garden tmp_g = garden;
-			tmp_g.setName(name_g);
-			savedGardens.add(tmp_g);
+			
 			try {
-				gardenSaverLoader.saveGarden(savedGardens);
+				// set the garden name
+				TextField tmp = gardenEditorView.getGardenName();
+				String name_g = tmp.getText();
+				int tmp_leps = garden.getLepsSupported();
+				double tmp_spent = garden.getSpent();
+				double tmp_budget = garden.getBudget();
+				double tmp_scale = garden.getScale();
+				ArrayList<Plot> tmp_plots = garden.getPlots();
+				ArrayList<Plant> tmp_plants = garden.getPlantsInGarden();
+				
+				if(name_g == "") {
+					//System.out.println("empty name");
+					Garden tmp_g = new Garden(garden.getName(), tmp_spent, tmp_budget, tmp_plots, tmp_leps, tmp_plants, tmp_scale);
+					savedGardens.add(tmp_g);
+					gardenSaverLoader.deleteGarden(garden.getName(), savedGardens);
+					gardenSaverLoader.saveGarden(savedGardens);
+					
+				} else {
+					Garden tmp_g = new Garden(name_g, tmp_spent, tmp_budget, tmp_plots, tmp_leps, tmp_plants, tmp_scale);
+					savedGardens.add(tmp_g);
+					gardenSaverLoader.saveGarden(savedGardens);
+				}
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
