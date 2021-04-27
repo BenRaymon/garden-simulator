@@ -182,7 +182,6 @@ public class GardenEditorView extends View {
 	
 	
 	public void setPlantInfo(Plant plant) {
-		System.out.println("IN SET PLANT INFO");
 		Text commonName = new Text(plant.getCommonName());
 		Text commonText = new Text("Common Name:");
 		left.add(commonText, 0, 1);
@@ -195,7 +194,6 @@ public class GardenEditorView extends View {
 		Text lepNum = new Text(String.valueOf(plant.getLepsSupported()));
 		left.add(lepText, 0, 3);
 		left.add(lepNum, 1, 3);
-		System.out.println(commonName);
 	}
 	
 	public void createRight() {
@@ -224,7 +222,6 @@ public class GardenEditorView extends View {
 	public void createPane(GridPane pane, String color) {
 		pane.setAlignment(Pos.CENTER);
 		pane.setStyle("-fx-background-color: " + color);
-		//pane.setGridLinesVisible(true);
 		pane.setHgap(SPACING);
 		pane.setVgap(SPACING);
 	}
@@ -272,10 +269,6 @@ public class GardenEditorView extends View {
 		return this.toShoppingList;
 	}
 	
-	//public GridPane getTop() {
-	//	return this.top;
-	//}
-	
 	public BorderPane getBase() {
 		return this.base;
 	}
@@ -293,21 +286,9 @@ public class GardenEditorView extends View {
 	}
 	
 	public void createNewImageInBase(DragEvent event, Dragboard db, double radius) {
-		System.out.println("Creating new gardeneditorview image");
-		//Image i = (Image)db.getContent(DataFormat.IMAGE);
-		//ImageView iv = new ImageView();
-    	//iv.setImage(i);
-    	//iv.setPreserveRatio(true);
-    	//iv.setFitHeight(100);
-    	//iv.setX(event.getX());
-		//iv.setY(event.getY());
-		//iv.setOnDragDetected(controller.getOnImageDraggedHandler());
-		// right here problem
-		//imc.setHandlerForClick(iv);
 		Circle circ = new Circle(event.getX(), event.getY(), radius*SCALE);
         circ.setFill(new ImagePattern(selectedPlant));
         circ.setOnDragDetected(controller.getOnImageDraggedHandler());
-		//imageViewsForPlantsInGarden.add(iv);
     	base.getChildren().add(circ);
 	}
 	
@@ -315,7 +296,6 @@ public class GardenEditorView extends View {
 		Circle circ = new Circle(pos.getX(), pos.getY(), radius*SCALE);
         circ.setFill(new ImagePattern(img_v));
         circ.setOnDragDetected(controller.getOnImageDraggedHandler());
-		//imageViewsForPlantsInGarden.add(iv);
     	base.getChildren().add(circ);
 	}
 	

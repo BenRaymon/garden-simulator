@@ -30,7 +30,6 @@ public class ShoppingListView extends View{
 	private VBox bottomVBox;
 	
 	public ShoppingListView(Stage stage, Controller c) {
-		System.out.println("In shopping list view");
 		controller = c;
 		
 		//base = new GridPane();
@@ -56,7 +55,6 @@ public class ShoppingListView extends View{
 	}
 	
 	public void setShoppingListData(HashMap<String, PlantShoppingListData> psld, double budget) {
-		System.out.println("Setting shopping list data...");
 		double cost = 0;
 		// First, clear the 2 VBoxes
 		leftVBox.getChildren().clear();
@@ -84,7 +82,6 @@ public class ShoppingListView extends View{
 		
 		rightVBox.getChildren().add(new Text("Budget: " + budget));
 		rightVBox.getChildren().add(new Text("Cost: " + cost));
-		System.out.println("Shopping list data set.");
 	}
 	
 	private void addDataToLeftBox(PlantShoppingListData data) {

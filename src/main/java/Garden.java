@@ -115,8 +115,7 @@ public class Garden implements Serializable{
 	
 	public HashMap<String, PlantShoppingListData> generateShoppingListData() {
 		HashMap<String, PlantShoppingListData> psld = new HashMap<String, PlantShoppingListData>();
-		System.out.println("Plant list size is as follows:");
-		System.out.println(plantsInGarden.size());
+		System.out.println("Plant list size is as follows:" + plantsInGarden.size());
 		
 		Iterator itr = plantsInGarden.iterator();
 		while (itr.hasNext()) {
@@ -127,7 +126,6 @@ public class Garden implements Serializable{
 			} else {
 				psld.put(p.getCommonName(), new PlantShoppingListData(1, p.getCost(), p.getCommonName(), p.getScientificName()));
 			}
-			System.out.println(psld.get(p.getCommonName()).getCommonName());
 		}
 		
 		return psld;
