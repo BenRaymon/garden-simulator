@@ -11,6 +11,13 @@ public class BackgroundLoader extends Thread {
 	private boolean dataCompleted;
 	private boolean imagesCompleted;
 	
+	/**
+	 * Constructor for the thread controller (which is also a thread)
+	 * @param name name of the thread
+	 * @param po static concurrenthashmap for plant images
+	 * @param ap static concurrenthashmap for plant data
+	 * @return none
+	 */
 	public BackgroundLoader(String name, ConcurrentHashMap<String, Image> pi, ConcurrentHashMap<String, Plant> ap) {
 		// Get references to the hashmaps for loading
 		this.threadName = name;
@@ -23,6 +30,10 @@ public class BackgroundLoader extends Thread {
 		System.out.println("Background Loading Complete");
 	}
 	
+	/**
+	 * Start method for the thread
+	 * @return none
+	 */
 	public void start() {
 		System.out.println("Starting background load process");
 		if (thread == null) {
@@ -31,11 +42,19 @@ public class BackgroundLoader extends Thread {
 		}
 	}
 	
+	/**
+	 * The run function for the thread, begins executing here.
+	 * @return none
+	 */
 	public void run() {
 		loadData();
 		loadImages();
 	}
 	
+	/**
+	 * This starts the BackgroundDataLoader thread for loading in plant data
+	 * @return none
+	 */
 	public void loadData() {
 		BackgroundDataLoader bdl = new BackgroundDataLoader("DataThread", all_plants);
 		// Start the data thread
@@ -49,6 +68,10 @@ public class BackgroundLoader extends Thread {
 		}
 	}
 	
+	/**
+	 * This starts the BackgroundImageLoader thread for loading in plant images
+	 * @return none
+	 */
 	public void loadImages() {
 		BackgroundImageLoader bil = new BackgroundImageLoader("ImageThread", plant_images);
 		bil.start();
