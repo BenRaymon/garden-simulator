@@ -23,7 +23,6 @@ public class Options implements Serializable {
 	}
 	
 	public String toString() {
-		
 		String str = "Soil: [" + soilTypes[0] + ", " + soilTypes[1] + ", " + soilTypes[2] + "] ";
 		str += "Sun: [" + sunLevels[0] + ", " + sunLevels[1] + ", " + sunLevels[2] + "]";
 		str += "Moisture: [" + moistures[0] + ", " + moistures[1] + ", " + moistures[2] + "]";
