@@ -31,9 +31,6 @@ public class GardenEditorView extends View {
 	private ListView recommendedPlants;
 	private Image selectedPlant;
 	private Text selectedPlantInfo;
-	private Text lepCount;
-	private Text plantCount;
-	private Text budgetText;
 	private GridPane top, bottom, right, left;
 	private BorderPane base;
 	private Scene scene;
@@ -42,6 +39,9 @@ public class GardenEditorView extends View {
 	private GraphicsContext gc;
 	private int imageInc = 0;
 	private TextField garden_name; // name the garden (used to load garden)
+	private Text lepCount = new Text("0");
+	private Text plantCount = new Text("0");
+	private Text budgetText = new Text();
 	
 	private double LEFTBAR = 200;
 	private double RIGHTBAR = 150;
@@ -52,6 +52,7 @@ public class GardenEditorView extends View {
 	private double CANVAS_HEIGHT = WINDOW_HEIGHT - TOPBAR - BOTTOM;
 	
 	private double budget;
+	private double budgetLeft;
 	
 	public GardenEditorView(Stage stage, Controller c) {
 		imageViewsForPlantsInGarden = new ArrayList<ImageView>();
@@ -117,17 +118,15 @@ public class GardenEditorView extends View {
 	
 	public void createRightText() {
 		Text t0 = new Text("Remaining Budget");
-		Text t00 = new Text("$#");
 		right.add(t0, 0, 0);
-		right.add(t00, 0, 1);
+		budgetText.setText(String.valueOf(budgetLeft));
+		right.add(budgetText, 0, 1);
 		Text t1 = new Text("Number of Plants");
 		right.add(t1, 0, 2);
-		Text t2 = new Text("# of Plants");
-		right.add(t2, 0, 3);
+		right.add(plantCount, 0, 3);
 		Text t3 = new Text("Number of Lep");
 		right.add(t3, 0, 4);
-		Text t4 = new Text("# of Leps");
-		right.add(t4, 0, 5);
+		right.add(lepCount, 0, 5);
 	}
 	
 	//Supposed to draw images in the top grid pane
@@ -193,7 +192,12 @@ public class GardenEditorView extends View {
 		pane.setVgap(SPACING);
 	}
 	
-	
+	public void updatePlantLepNums(int leps, int plants, double spent){
+		lepCount.setText(String.valueOf(leps));
+		plantCount.setText(String.valueOf(plants));
+		budgetLeft = budget - spent;
+		budgetText.setText(String.valueOf(budgetLeft));
+	}
 	
 	
 	public void addPageButtons() {
@@ -220,6 +224,11 @@ public class GardenEditorView extends View {
 	public void setPlantInfo() {
 		Text t = new Text("Plant Info Here");
 		left.add(t, 0, 0);
+	}
+	
+	public void setBudgetLeft(double remaining) {
+		budgetLeft = remaining;
+		createRightText();
 	}
 	
 	public Button getToShoppingListButton() {

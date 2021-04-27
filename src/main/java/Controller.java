@@ -243,6 +243,7 @@ public class Controller extends Application{
 				gardenEditorView.setFillColor(p.getOptions());
 				gardenEditorView.drawPlot(p.getCoordinates());
 			}
+			gardenEditorView.updatePlantLepNums(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
 		});
 	}
 		
@@ -331,6 +332,8 @@ public class Controller extends Application{
 			}
 			
 			System.out.println(garden.getPlots().get(plotNum).getPlantsInPlot().size());
+			gardenEditorView.updatePlantLepNums(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
+
 			drag.setDropCompleted(true);
 			drag.consume();
 		});
