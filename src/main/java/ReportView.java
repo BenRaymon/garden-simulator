@@ -23,12 +23,13 @@ public class ReportView extends View{
 	private GridPane reportGrid;
 	
 	private CheckBox perennialDiversityOption;
-	private CheckBox option2;
+	private CheckBox budgetOption;
 	private CheckBox option3;
 
 	private Button generateButton;
 	
 	private ScrollPane sp;
+	private GridPane plantData;
 	
 	private ObservableList<PieChart.Data> plantsInGardenPieChartData = FXCollections.observableArrayList();
 	
@@ -47,6 +48,8 @@ public class ReportView extends View{
 		
 		//Instantiates Scroll Pane
 		sp = new ScrollPane();
+		
+		plantData = new GridPane();
 		//Instantiates pieChart
 		ObservableList<PieChart.Data> plantsInGardenPieChartData = FXCollections.observableArrayList();
 		
@@ -55,7 +58,7 @@ public class ReportView extends View{
 		reportGrid.add(optionTitle,0,0);
 		perennialDiversityOption = new CheckBox("Perennial Diversity");
 		reportGrid.add(perennialDiversityOption,0,1);
-		option2 = new CheckBox("option2");
+		budget = new CheckBox("budget");
 		reportGrid.add(option2,0,2);
 		option3 = new CheckBox("option3");
 		reportGrid.add(option3,0,3);
@@ -88,6 +91,9 @@ public class ReportView extends View{
 		
 		
 	}
+	public void addBudgetBox(double spent, double budget) {
+		
+	}
 	
 	
 	public void addItemToPieGraph(String plantName, int plantNum) {
@@ -96,32 +102,6 @@ public class ReportView extends View{
 	
 	
 	
-	private void createTempReport() {
-//		// Fake pie chart for leps supported
-//		ObservableList<PieChart.Data> lepsSupportedPieChartData = FXCollections.observableArrayList(
-//				new PieChart.Data("Lep A", 35),
-//				new PieChart.Data("Lep B", 65));
-//		PieChart lepChart = new PieChart(lepsSupportedPieChartData);
-//		lepChart.setTitle("Leps Supported");
-//		reportGrid.add(lepChart, 0, 0);
-		
-		// Fake pie chart for plants in garden
-		ObservableList<PieChart.Data> plantsInGardenPieChartData = FXCollections.observableArrayList(
-				new PieChart.Data("Plant A", 5),
-				new PieChart.Data("Plant B", 15),
-				new PieChart.Data("Plant C", 20),
-				new PieChart.Data("Plant D", 8),
-				new PieChart.Data("Plant E", 7),
-				new PieChart.Data("Plant F", 10));
-		PieChart plantChart = new PieChart(plantsInGardenPieChartData);
-		plantChart.setTitle("Plants In Garden");
-		reportGrid.add(plantChart, 1, 0);
-		
-		Text budget = new Text("Budget: $1000");
-		reportGrid.add(budget, 0, 2);
-		Text plantCost = new Text("Plant cost: $750");
-		reportGrid.add(plantCost, 0, 3);
-	}
 	
 	public GridPane createBottom() {
 		GridPane bottom_grid = new GridPane();
@@ -145,6 +125,10 @@ public class ReportView extends View{
 	
 	public CheckBox getPerennialDiversityOption() {
 		return perennialDiversityOption;
+	}
+	
+	public CheckBox getBudgetOption() {
+		return budgetOption;
 	}
 	
 	
