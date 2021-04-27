@@ -32,12 +32,20 @@ public class Garden implements Serializable{
 		return plots.get(plotNum).getPlant(pos);
 	}
 	
+	public ArrayList<Plant> getPlantsInGarden() {
+		return plantsInGarden;
+	}
+	
 	public int getNumPlots() {
 		return plots.size();
 	}
 	
-	public Plot getPlot(int plotIndex) {
-		return plots.get(plotIndex);
+	public ArrayList<Plot> getPlots() {
+		return plots;
+	}
+	
+	public void newPlot(Options o) {
+		plots.add(new Plot(o));
 	}
 	
 	public Options getPlotOptions(int plotIndex) {
@@ -52,6 +60,10 @@ public class Garden implements Serializable{
 		this.spent = spent;
 	}
 	
+	public void updateSpent(int delta) {
+		this.spent += delta;
+	}
+	
 	public double getBudget() {
 		return budget;
 	}
@@ -59,41 +71,13 @@ public class Garden implements Serializable{
 	public void setBudget(double budget) {
 		this.budget = budget;
 	}
-	
-	public void addPlot(Plot p) {
-		plots.add(p);
-	}
-	
-	public void loadPlants() {
-		
-	}
-	
-	public void loadPlots() {
-		
-	}
-	
-	public void updateSpent(int delta) {
-		this.spent += delta;
-	}
-	
-	public ArrayList<Plot> getPlots() {
-		return plots;
-	}
 
 	public int getLepsSupported() {
 		return lepsSupported;
 	}
 	
-	public boolean addCoordsToPlot(ArrayList<Point> points) {
+	public void addCoordsToPlot(ArrayList<Point> points) {
 		plots.get(plots.size() - 1).setCoordinates(points);
-		if (plots.get(plots.size() - 1) != null)
-			return true;
-		else
-			return false;
-	}
-	
-	public void newPlot(Options o) {
-		plots.add(new Plot(o));
 	}
 	
 	public  void addPlantToPlot(int index, Point point, Plant p) {
@@ -115,26 +99,6 @@ public class Garden implements Serializable{
 			e.printStackTrace();
 		}
 		return false;
-	}
-	
-	public ArrayList<Plant> getPlantsInGarden() {
-		return plantsInGarden;
-	}
-	
-	public static ConcurrentHashMap<String, Plant> getAllPlants() {
-		return allPlants;
-	}
-	
-	public static Plant getPlant(String name) {
-		return allPlants.get(name);
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String n) {
-		this.name = n;
 	}
 	
 	public HashMap<String, PlantShoppingListData> generateShoppingListData() {
@@ -163,5 +127,20 @@ public class Garden implements Serializable{
 	
 	public double getScale() {
 		return pixelsPerFoot;
+	}
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String n) {
+		this.name = n;
+	}
+	
+	public static ConcurrentHashMap<String, Plant> getAllPlants() {
+		return allPlants;
+	}
+	
+	public static Plant getPlant(String name) {
+		return allPlants.get(name);
 	}
 }
