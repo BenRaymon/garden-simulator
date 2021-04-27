@@ -68,7 +68,7 @@ public class ReportView extends View{
 		budgetOption = new CheckBox("Budget");
 		reportGrid.add(budgetOption,0,2);
 		tableOption = new CheckBox("Plant Table");
-		reportGrid.add(tableOption,0,3);
+		//reportGrid.add(tableOption,0,3);
 		generateButton = new Button("Generate Report");
 		
 		
