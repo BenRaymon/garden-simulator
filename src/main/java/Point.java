@@ -52,7 +52,6 @@ public class Point implements Serializable{
 	public boolean equals(Object o) {
 		if (o instanceof Point) {
 			Point p = (Point)o;
-			System.out.println("IN EQUALS");
 			return this.xCord == p.getX() && this.yCord == p.getY();
 		}
 		else return false;
