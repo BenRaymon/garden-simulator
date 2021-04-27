@@ -23,7 +23,7 @@ public class ShoppingListView extends View{
 	private Scene scene;
 	private Controller controller;
 	//private GridPane base;
-	private BorderPane base;
+	private GridPane base;
 	private HBox center;
 	private VBox leftVBox;
 	private VBox rightVBox;
@@ -32,20 +32,26 @@ public class ShoppingListView extends View{
 	public ShoppingListView(Stage stage, Controller c) {
 		controller = c;
 		
-		//base = new GridPane();
-		base = new BorderPane();
-//		base.setHgap(10);
-//		base.setVgap(10);
-//		base.setAlignment(Pos.CENTER);
+		base = new GridPane();
+		//base = new BorderPane();
+		base.setHgap(10);
+		base.setVgap(10);
+		base.setAlignment(Pos.CENTER);
 		
 		center = new HBox();
-		base.setCenter(center);
+		//base.setCenter(center);
 		
 		leftVBox = this.createLeftVBox();
 		rightVBox = this.createRightVBox();
 		bottomVBox = this.createBottomVBox();
 		
+		HBox center_of_hbox = new HBox();
+		center_of_hbox.getChildren().add(leftVBox);
+		center_of_hbox.getChildren().add(rightVBox);
+		center.getChildren().add(center_of_hbox);
+		
 		addGardenButton();
+		base.add(center, 0, 10);
 		//addPlaceHolderText();
 		
 		//create and set scene with base
@@ -96,11 +102,12 @@ public class ShoppingListView extends View{
 	
 	public VBox createBottomVBox() {
 		VBox bottom_vbox = new VBox(2);
-		bottom_vbox.setAlignment(Pos.BASELINE_CENTER);
+		bottom_vbox.setAlignment(Pos.BOTTOM_CENTER);
 		bottom_vbox.setStyle("-fx-background-color: aqua");
 		bottom_vbox.setMinWidth(WINDOW_WIDTH / 2);
 		//center.getChildren().add(bottom_vbox);
-		base.setBottom(bottom_vbox);
+		base.add(bottom_vbox, 0, 15);
+		//base.setBottom(bottom_vbox);
 		return bottom_vbox;
 	
 	}
@@ -108,25 +115,25 @@ public class ShoppingListView extends View{
 	public VBox createLeftVBox(){
 		VBox left_vbox = new VBox(2);
 		left_vbox.setAlignment(Pos.TOP_RIGHT);
-		left_vbox.setStyle("-fx-background-color: #42f58d");
+		left_vbox.setStyle("-fx-background-color: red");
 		//left_grid.setGridLinesVisible(true);
 		left_vbox.setMinWidth(WINDOW_WIDTH / 2);
-		center.getChildren().add(left_vbox);
+		//center.getChildren().add(left_vbox);
 		return left_vbox;
 	}
 	
 	public VBox createRightVBox(){
 		VBox right_vbox = new VBox(2);
-		right_vbox.setAlignment(Pos.TOP_LEFT);
+		right_vbox.setAlignment(Pos.CENTER_LEFT);
 		right_vbox.setStyle("-fx-background-color: #42f58d");
 		//left_grid.setGridLinesVisible(true);
 		right_vbox.setMinWidth(800);
-		center.getChildren().add(right_vbox);
+		//center.getChildren().add(right_vbox);
 		return right_vbox;
 	}
 	
 	public void addGardenButton() {
-		Button toGarden = new Button("Garden Editor");
+		Button toGarden = new Button("Back to Garden Editor");
 		toGarden.setOnMouseClicked(controller.getToGardenOnClickHandler());
 		bottomVBox.getChildren().add(toGarden);
 	}

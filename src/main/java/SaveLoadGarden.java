@@ -11,10 +11,13 @@ import java.io.IOException;
 
 // *.class.getResourceAsStream(fileName); gets you the specified files in resources
 public class SaveLoadGarden {
-	/*
-	 * Takes as input Garden g and serializes
-	 * it to save files in .dat format.
-	 * */
+	
+	/**
+	 * Save a list of gardens to savedGardens.dat so they can be loaded and edited later
+	 * @param g - ArrayList of gardens to write the save file
+	 * @return void
+	 */
+
 	public void saveGarden(ArrayList<Garden> g) throws ClassNotFoundException {
 		
 		try {
@@ -45,9 +48,11 @@ public class SaveLoadGarden {
 	    }
 	}
 	
-	/*
-	 * Load the collection of gardens in the save file.
-	 * */
+	/**
+	 * Load in the list of gardens saved into savedGardens.dat
+	 * @param none
+	 * @return ArrayList of gardens that were saved into savedGardens.dat
+	 */
 	public ArrayList<Garden> loadGardenList() throws ClassNotFoundException {
 		
 		ArrayList<Garden> ret_gardens = new ArrayList<Garden>();
@@ -82,6 +87,12 @@ public class SaveLoadGarden {
 		return ret_gardens;
 	}
 	
+	/**
+	 * Deletes a specified garden from the ArrayList of saved gardens
+	 * @param g_name - the name of the garden we want to delete
+	 * @param list - the list of saved gardens that we want to remove a garden from
+	 * @return the new list without the garden we wanted to remove.
+	 */
 	public ArrayList<Garden> deleteGarden(String g_name, ArrayList<Garden> list) {
 		// find and delete the garden
 		Garden find = list.stream().filter(s -> s.name.equals(g_name)).findFirst().orElse(null);
@@ -93,9 +104,12 @@ public class SaveLoadGarden {
 		}
 	}
 	
-	/*
-	 * Load an individual garden from the saved list
-	 * */
+	/**
+	 * Loads a specified garden from the ArrayList of saved gardens
+	 * @param g_name - the name of the garden we want to load
+	 * @param list - the list of saved gardens that we want to get a garden from
+	 * @return if the garden was found we return it, otherwise we return null
+	 */
 	public Garden loadPickedGarden(String g_name, ArrayList<Garden> list) {
 		// find the garden by iterating over the given list and finding the element
 		// with a name that matches the given name.
