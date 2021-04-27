@@ -6,6 +6,8 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -30,6 +32,7 @@ public class ReportView extends View{
 	
 	private ScrollPane sp;
 	private GridPane plantData;
+	private TableView plantTable;
 	
 	private ObservableList<PieChart.Data> plantsInGardenPieChartData = FXCollections.observableArrayList();
 	
@@ -54,6 +57,7 @@ public class ReportView extends View{
 		ObservableList<PieChart.Data> plantsInGardenPieChartData = FXCollections.observableArrayList();
 		
 		
+		//Sets up checkboxes
 		Text optionTitle = new Text("Report Options");
 		reportGrid.add(optionTitle,0,0);
 		perennialDiversityOption = new CheckBox("Perennial Diversity");
@@ -63,6 +67,7 @@ public class ReportView extends View{
 		option3 = new CheckBox("option3");
 		reportGrid.add(option3,0,3);
 		generateButton = new Button("Generate Report");
+		
 		//Sets button handler
 		generateButton.setOnMouseClicked(c.generateReportHandler());
 		reportGrid.add(generateButton,0,4);
@@ -99,7 +104,21 @@ public class ReportView extends View{
 
 		budgetGrid.add(budgetText,0,0);
 		budgetGrid.add(spentText,1,0);
+		//budgetGrid.setHgap(10);
 		plantData.add(budgetGrid,0,1);
+
+	}
+	
+	public void addTable() {
+		//Instantiates plantTable
+		plantTable = new TableView();
+		//Creates columns 
+		TableColumn commonNameCol = new TableColumn("Common Name");
+        TableColumn scientificNameCol = new TableColumn("Scientific Name");
+        TableColumn amountCol = new TableColumn("Perennial Amount");
+        
+        plantTable.getColumns().addAll(commonNameCol, scientificNameCol, amountCol);
+
 
 	}
 	
