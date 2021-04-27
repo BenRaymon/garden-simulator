@@ -21,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -81,10 +82,10 @@ public class PlotDesignView extends View {
 		// add the drawplot button
 		drawPlot = new Button("Draw Plot");
 		drawPlot.setOnMouseClicked(controller.getDrawPlotHandler());
-		left_grid.add(drawPlot, 0, 17);
+		left_grid.add(drawPlot, 0, 4);
 		toGarden = new Button("To Garden");
 		toGarden.setOnMouseClicked(controller.getToGardenOnClickHandler());
-		left_grid.add(toGarden, 0, 19);
+		left_grid.add(toGarden, 0, 5);
 		
 		// create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -143,6 +144,11 @@ public class PlotDesignView extends View {
 		drawDimensions = new Button("Set Dimensions");
 		drawDimensions.setOnMouseClicked(controller.drawPlotGrid());
 		
+		VBox budget = new VBox();
+		budget.getChildren().add(budgetText);
+		budget.getChildren().add(budgetInput);
+		
+		
 		VBox dimensions = new VBox();
 		dimensions.getChildren().add(widthText);
 		dimensions.getChildren().add(widthInput);
@@ -152,17 +158,18 @@ public class PlotDesignView extends View {
 		dimensions.getChildren().add(boxWidthInput);
 		dimensions.getChildren().add(boxHeightText);
 		dimensions.getChildren().add(boxHeightInput);
-		dimensions.getChildren().add(budgetText);
-		dimensions.getChildren().add(budgetInput);
 		dimensions.getChildren().add(drawDimensions);
 		
-		Insets margin = new Insets(10,0,10,0);
+		Insets margin = new Insets(5,0,5,0);
 		Iterator<Node> it = dimensions.getChildren().iterator();
 		while(it.hasNext()) {
 			dimensions.setMargin(it.next(), margin);
 		}
-		
-		left_grid.add(dimensions, 0, 1);
+		budget.setMargin(budgetText, margin);
+		budget.setMargin(budgetInput, margin);
+
+		left_grid.add(dimensions, 0, 0);
+		left_grid.add(budget, 0, 2);
 	}
 	
 	
@@ -239,6 +246,26 @@ public class PlotDesignView extends View {
 		inputDimensions();
 		createSliders();
 		
+		RowConstraints row1 = new RowConstraints();
+	    row1.setPercentHeight(25);
+	    RowConstraints row151 = new RowConstraints();
+	    row151.setPercentHeight(5);
+	    RowConstraints row15 = new RowConstraints();
+	    row15.setPercentHeight(10);
+	    RowConstraints row2 = new RowConstraints();
+	    row2.setPercentHeight(25);
+	    RowConstraints row3 = new RowConstraints();
+	    row3.setPercentHeight(5);
+	    RowConstraints row4 = new RowConstraints();
+	    row4.setPercentHeight(5);
+	    RowConstraints row5 = new RowConstraints();
+	    row5.setPercentHeight(5);
+	    RowConstraints row6 = new RowConstraints();
+	    row6.setPercentHeight(5);
+	    RowConstraints row7 = new RowConstraints();
+	    row7.setPercentHeight(20);
+	    left_grid.getRowConstraints().addAll(row1,row151,row15,row2,row3,row4,row5,row6);
+		
 		base.setLeft(left_grid);
 	}
 	
@@ -261,15 +288,14 @@ public class PlotDesignView extends View {
 		sliders.getChildren().add(moisture);
 		sliders.getChildren().add(soilTypeText);
 		sliders.getChildren().add(soilType);
-		
-		Insets margins = new Insets(10,0,10,0);
-		Insets margin = new Insets(10,0,10,0);
+
+		Insets margin = new Insets(5,0,5,0);
 		Iterator<Node> it = sliders.getChildren().iterator();
 		while(it.hasNext()) {
 			sliders.setMargin(it.next(), margin);
 		}
 		
-		left_grid.add(sliders, 0, 10);
+		left_grid.add(sliders, 0, 3);
 	}
 	
 	/**
