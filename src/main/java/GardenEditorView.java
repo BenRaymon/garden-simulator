@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.HPos;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -58,8 +59,8 @@ public class GardenEditorView extends View {
 	private Text plantCount = new Text("0");
 	private Text budgetText = new Text();
 	
-	private double LEFTBAR = 200;
-	private double RIGHTBAR = 150;
+	private double LEFTBAR = 350;
+	private double RIGHTBAR = 200;
 	private double TOPBAR = 125, BOTTOM = 30;
 	private double SPACING = 10;
 	private double SCALE = 10;
@@ -158,6 +159,7 @@ public class GardenEditorView extends View {
 			
 			Circle circ = new Circle(50);
 	        circ.setFill(new ImagePattern(image));
+	        circ.setOnMouseClicked(controller.getOnImageClickedInfo());
 	        circ.setOnDragDetected(controller.getOnImageDraggedHandler());
 	        recommendedPlantCircs.add(circ);
 		}
@@ -176,7 +178,8 @@ public class GardenEditorView extends View {
 		plantIV.setFitWidth(100);
 		plantIV.setFitHeight(100);
 		plantIV.setPreserveRatio(true);
-		left.add(plantIV, 0, 0);
+		left.add(plantIV, 0,0);
+		GridPane.setHalignment(plantIV, HPos.CENTER);
 	}
 	
 	
@@ -210,6 +213,7 @@ public class GardenEditorView extends View {
 		left  = new GridPane();
 		createPane(left, "darkseagreen");
 		left.setMinWidth(LEFTBAR);
+		left.setMaxWidth(LEFTBAR);
 		base.setLeft(left);
 	}
 	
