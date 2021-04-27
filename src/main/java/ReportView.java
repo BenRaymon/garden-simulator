@@ -58,8 +58,8 @@ public class ReportView extends View{
 		reportGrid.add(optionTitle,0,0);
 		perennialDiversityOption = new CheckBox("Perennial Diversity");
 		reportGrid.add(perennialDiversityOption,0,1);
-		budget = new CheckBox("budget");
-		reportGrid.add(option2,0,2);
+		budgetOption = new CheckBox("budget");
+		reportGrid.add(budgetOption,0,2);
 		option3 = new CheckBox("option3");
 		reportGrid.add(option3,0,3);
 		generateButton = new Button("Generate Report");
@@ -81,18 +81,26 @@ public class ReportView extends View{
 	public void showReport() {
 		//Clears out content in reportGrid, and adds Scroll Pane
 		reportGrid.getChildren().clear();
+		sp.setContent(plantData);
 		reportGrid.add(sp,0,0);
 	}
 	
 	public void addGardenPieGraph() {
 		PieChart plantChart = new PieChart(plantsInGardenPieChartData);
 		plantChart.setTitle("Perennial Diversity");
-		sp.setContent(plantChart);
+		plantData.add(plantChart,0,0);
 		
 		
 	}
 	public void addBudgetBox(double spent, double budget) {
-		
+		GridPane budgetGrid = new GridPane();
+		Text spentText = new Text("Spent: " + spent);
+		Text budgetText = new Text("Budgett: " + budget);
+
+		budgetGrid.add(budgetText,0,0);
+		budgetGrid.add(spentText,1,0);
+		plantData.add(budgetGrid,0,1);
+
 	}
 	
 	

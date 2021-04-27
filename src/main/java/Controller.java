@@ -534,7 +534,7 @@ public class Controller extends Application{
 			System.out.println("Generate report button pushed");
 			//Gets vlaues of checkboxes
 			boolean perennialDiversityOptionFlag = reportView.getPerennialDiversityOption().isSelected();
-			
+			boolean budgetFlag = reportView.getBudgetOption().isSelected();
 			
 			
 			if(perennialDiversityOptionFlag) {
@@ -549,6 +549,9 @@ public class Controller extends Application{
 			}
 			
 			reportView.addGardenPieGraph();
+			}
+			if(budgetFlag) {
+				reportView.addBudgetBox(garden.getSpent(),garden.getBudget());
 			}
 			reportView.showReport();
 			
