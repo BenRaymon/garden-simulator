@@ -59,7 +59,7 @@ public class GardenEditorView extends View {
 	private Text budgetText = new Text();
 	
 	private double LEFTBAR = 200;
-	private double RIGHTBAR = 150;
+	private double RIGHTBAR = 200;
 	private double TOPBAR = 125, BOTTOM = 30;
 	private double SPACING = 10;
 	private double SCALE = 10;
@@ -159,6 +159,7 @@ public class GardenEditorView extends View {
 			Circle circ = new Circle(50);
 	        circ.setFill(new ImagePattern(image));
 	        circ.setOnDragDetected(controller.getOnImageDraggedHandler());
+	        circ.setOnMouseClicked(controller.getOnImageClickedInfo());
 	        recommendedPlantCircs.add(circ);
 		}
 		
