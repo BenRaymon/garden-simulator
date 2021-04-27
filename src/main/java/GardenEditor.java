@@ -8,11 +8,8 @@ public class GardenEditor {
 	private static double CANVAS_WIDTH, CANVAS_HEIGHT, TOP_HEIGHT;
 	private static double SCALE_BUFFER = 100, BUFFER = 10;
 	
-	
 	public static void setSelectedPlant(String plantName, Point pos) {
 		Plant p = Garden.getPlant(plantName);
-		System.out.println(plantName);
-		System.out.println(Garden.getAllPlants().keySet());
 		p.setPosition(pos);
 		currentlySelectedPlant = Garden.getPlant(plantName);
 	}
@@ -70,7 +67,7 @@ public class GardenEditor {
 		if ((CANVAS_WIDTH-SCALE_BUFFER)/(right-left) < scale) {
 			scale = (CANVAS_WIDTH-SCALE_BUFFER)/(right-left);
 		}
-		System.out.println("S"+ scale);
+		System.out.println("Scale factor: "+ scale);
 		return scale;
 	}
 	

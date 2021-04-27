@@ -248,8 +248,6 @@ public class Plant implements Serializable {
 	public boolean equals(Object o) {
 		if (o instanceof Plant) {
 			Plant p = (Plant)o;
-			System.out.println("in equals");
-			System.out.println(p.getPosition() + " - " + this.position);
 			return p.getPosition().equals(this.position);
 		} else return false;
 	}

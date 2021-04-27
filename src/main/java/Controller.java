@@ -3,27 +3,19 @@ import java.util.*;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import javafx.scene.control.ListView;
 
 
 
@@ -54,12 +46,14 @@ public class Controller extends Application{
 		//set the first scene to splash
 		stage.setScene(splashView.getScene());
 		
+		stage.setMaximized(true);
+		View.setSize(stage.getWidth(), stage.getHeight());
+		
 		loadStartScreen();
 		garden = new Garden();
 	}
 	
 	public static void main(String[] args) {
-		System.out.println("in main 1");
 		// BackgroundLoader loads the data and images in concurrently whilst showing a splash screen
 		// It then goes to the start screen when it is finished
 		BackgroundLoader backgroundLoader = new BackgroundLoader("bkgloader", View.getImages(), Garden.getAllPlants());
@@ -87,7 +81,6 @@ public class Controller extends Application{
 		// load the saved garden array into savedGardens
 		try {
 			savedGardens = gardenSaverLoader.loadGardenList();
-		
 			System.out.println("Load success");		
 			for(Garden g : savedGardens) {
 				System.out.println(g.getName());
@@ -148,6 +141,8 @@ public class Controller extends Application{
 			public void changed(ObservableValue observable,
 					Object oldValue, Object newValue) {
 				plotDesignView.heightChanged(newValue);
+				double pixelsPerFoot = plotDesignView.drawGrid();
+				garden.setScale(pixelsPerFoot);
 			}
 		};
 	}
@@ -157,6 +152,8 @@ public class Controller extends Application{
 			public void changed(ObservableValue observable,
 					Object oldValue, Object newValue) {
 				plotDesignView.widthChanged(newValue);
+				double pixelsPerFoot = plotDesignView.drawGrid();
+				garden.setScale(pixelsPerFoot);
 			}
 		};
 	}
@@ -182,7 +179,7 @@ public class Controller extends Application{
 	//Handler for detecting start of drag for drawing plot
 	public EventHandler getDrawPlotDragDetected() {
 		return (event->{
-        	System.out.println("Mouse pressed");
+        	System.out.println("Draw Plot Mouse Pressed");
 			MouseEvent me = (MouseEvent)event;
 			plotDesignView.startDrawingPlot(me);
 			
@@ -192,7 +189,7 @@ public class Controller extends Application{
 	//Handler for while plot is being drawn
 	public EventHandler getDrawPlotDragged() {
 		return (event->{
-			System.out.println("Mouse Dragged");
+			System.out.println("Draw Plot Mouse Dragged");
 			MouseEvent me = (MouseEvent)event;
 			plotDesignView.drawPlot(me);
         });
@@ -201,7 +198,7 @@ public class Controller extends Application{
 	//Handler for when plot is done being drawn
 	public EventHandler getOnDrawPlotDone() {
 		return (event->{
-			System.out.println("Mouse Released");
+			System.out.println("Draw Plot Mouse Released");
 			MouseEvent me = (MouseEvent)event;
         	
         	//add coords to the plot in the garden
@@ -219,8 +216,9 @@ public class Controller extends Application{
 	//Button functionality for toGarden
 	public EventHandler getToGardenOnClickHandler() {
 		return (event -> {
+			garden.setBudget(plotDesignView.getBudget());
 			stage.setScene(gardenEditorView.getScene());
-			System.out.println(garden.getPlots());
+			gardenEditorView.setBudget(garden.getBudget());
 			double h = gardenEditorView.getCanvasHeight();
 			double w = gardenEditorView.getCanvasWidth();
 			double t = gardenEditorView.getTopHeight();
@@ -233,13 +231,36 @@ public class Controller extends Application{
 				gardenEditorView.setFillColor(p.getOptions());
 				gardenEditorView.drawPlot(p.getCoordinates());
 			}
+			gardenEditorView.updatePlantLepNums(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
+			
+			//Recommended plant list stuff
+			if(garden.getPlots().get(0).getRecommendedPlants() == null) {
+				garden.getPlots().get(0).createRecommendedPlants();
+				HashMap<String, Plant> recommendedPlants  = garden.getPlots().get(0).getRecommendedPlants();
+				gardenEditorView.setPlantImages(recommendedPlants.keySet());
+			}
+			
 		});
 	}
 		
+	public EventHandler getOnImageClickedInfo() {
+		return (event-> {
+			System.out.println("In Image Clicked on Handler");
+			Circle plantCirc = (Circle)event.getSource();
+			Image plantImage = ((ImagePattern)plantCirc.getFill()).getImage();
+			gardenEditorView.setPlantInfoImage(plantImage);
+			String plant = gardenEditorView.getPlantName(plantImage);
+			Plant selectedPlant = garden.getPlant(plant);
+			gardenEditorView.setPlantInfo(selectedPlant);
+			
+		});
+	}
+	
+	
 	//Handler for image being dragged
 	public EventHandler getOnImageDraggedHandler() {
 		return (event -> {
-			System.out.println("On dragged (drag detected handler)");
+			System.out.println("On dragged (drag detected plant image handler)");
 			
 			Circle circ = (Circle)event.getSource();
 			Dragboard db = circ.startDragAndDrop(TransferMode.ANY);
@@ -274,7 +295,7 @@ public class Controller extends Application{
 	//Handler for dragOver
 	public EventHandler getOnDragOverHandler() {
 		return (event -> {
-			System.out.println("On drag over");
+			System.out.println("On drag over (while dragging image)");
 			((DragEvent) event).acceptTransferModes(TransferMode.ANY);
 			event.consume();
 		});
@@ -283,7 +304,7 @@ public class Controller extends Application{
 	//Handler for dropping image into plot
 	public EventHandler getOnDragDroppedHandler() {
 		return (event -> {
-			System.out.println("On drag dropped");
+			System.out.println("On drag dropped (drop plant image)");
 			DragEvent drag = (DragEvent) event;
 			Dragboard db = drag.getDragboard();
 			
@@ -320,7 +341,8 @@ public class Controller extends Application{
 				garden.addPlantToPlot(plotNum, pos, newPlant);
 			}
 			
-			System.out.println(garden.getPlots().get(plotNum).getPlantsInPlot().size());
+			gardenEditorView.updatePlantLepNums(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
+
 			drag.setDropCompleted(true);
 			drag.consume();
 		});
@@ -418,9 +440,7 @@ public class Controller extends Application{
 				
 
 				
-			}
-			//System.out.println("Selected item is: " + highlighted);
-			
+			}			
 		});
 	}
 
@@ -494,6 +514,9 @@ public class Controller extends Application{
 					gardenEditorView.addPlantImageToBase(tmp_pos, img_v, radius);
 				}
 			}
+			
+			HashMap<String, Plant> recommendedPlants  = garden.getPlots().get(0).getRecommendedPlants();
+			gardenEditorView.setPlantImages(recommendedPlants.keySet());
 			
 		});
 	}

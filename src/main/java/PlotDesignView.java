@@ -1,9 +1,11 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -19,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -28,15 +31,13 @@ import javafx.stage.Stage;
 
 public class PlotDesignView extends View {
 
-	private Slider sunlight;
-	private Slider moisture;
-	private Slider soilType;
 	private Button drawPlot;
 	private TextField budget;
 	private TextField widthInput;
 	private TextField heightInput;
 	private TextField boxHeightInput;
 	private TextField boxWidthInput;
+	private TextField budgetInput;
 	private Label gridSize;
 	private Scene scene;
 	private BorderPane base;
@@ -45,15 +46,15 @@ public class PlotDesignView extends View {
 	private GraphicsContext gc;
 	private Controller controller;
 	private ArrayList<Point> coords;
-	private GridPane left_grid, bottom;
+	private GridPane left_grid;
 	private Canvas drawArea;
 	private VBox box;
+	private Slider moisture, soilType, sunlight;
 	private boolean canDraw;
 	private final double LEFTBAR = 325;
 	private final double SPACING = 10;
-	private final double BOTTOM_HEIGHT = 100;
 	private double canvasWidth = WINDOW_WIDTH - LEFTBAR;
-	private double canvasHeight = WINDOW_HEIGHT - BOTTOM_HEIGHT;
+	private double canvasHeight = WINDOW_HEIGHT;
 	private int scaleIndex = 50;
 	
 	public PlotDesignView(Stage stage, Controller c) {
@@ -64,8 +65,6 @@ public class PlotDesignView extends View {
 		canDraw = false;
 		
 		
-
-		// create Canvas
 		box = new VBox();
 		base.setCenter(box);
 		box.setMinWidth(canvasWidth);
@@ -77,25 +76,16 @@ public class PlotDesignView extends View {
 		gc.setLineWidth(1);
 		
 		box.getChildren().add(drawArea);
-
-		// Create left side bar with sliders and buttons
-		createLeftGrid();
-		createSunSlider();
-		createMoistureSlider();
-		createSoilSlider();
-
-		// create last and next page buttons
-		createBottom();
-		inputDimensions();
 		
+		createLeftGrid();
 		
 		// add the drawplot button
 		drawPlot = new Button("Draw Plot");
 		drawPlot.setOnMouseClicked(controller.getDrawPlotHandler());
-		left_grid.add(drawPlot, 0, 30);
+		left_grid.add(drawPlot, 0, 4);
 		toGarden = new Button("To Garden");
 		toGarden.setOnMouseClicked(controller.getToGardenOnClickHandler());
-		left_grid.add(toGarden, 0, 45);
+		left_grid.add(toGarden, 0, 5);
 		
 		// create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -112,11 +102,11 @@ public class PlotDesignView extends View {
 	
 	public void heightChanged(Object windowHeight) {
 		WINDOW_HEIGHT = (double) windowHeight;
-		canvasHeight = (double)windowHeight - BOTTOM_HEIGHT;
+		canvasHeight = (double)windowHeight;
 		drawArea.setHeight(canvasHeight);
 		
 		gc = drawArea.getGraphicsContext2D();
-		drawGrid();
+		//drawGrid();
 	}
 	
 	public void widthChanged(Object windowWidth) {
@@ -125,7 +115,7 @@ public class PlotDesignView extends View {
 		drawArea.setWidth(canvasWidth);
 		
 		gc = drawArea.getGraphicsContext2D();
-		drawGrid();
+		//drawGrid();
 	}
 	
 	
@@ -137,25 +127,49 @@ public class PlotDesignView extends View {
 	public void inputDimensions() {
 		Label widthText = new Label("Garden width");
 		Label heightText = new Label("Garden height");
-		Label boxHeightText = new Label("Unit height");
-		Label boxWidthText = new Label("Unit width");
+		Label boxHeightText = new Label("Grid Height");
+		Label boxWidthText = new Label("Grid Width");
+		Label budgetText = new Label("Budget");
 		gridSize = new Label("Grid Size");
 		widthInput = new TextField();
+		widthInput.setText("" + 100);
 		heightInput = new TextField();
+		heightInput.setText("" + 100);
 		boxHeightInput = new TextField();
+		boxHeightInput.setText("" + 10);
 		boxWidthInput = new TextField();
+		budgetInput = new TextField();
+		boxWidthInput.setText("" + 10);
 		
 		drawDimensions = new Button("Set Dimensions");
 		drawDimensions.setOnMouseClicked(controller.drawPlotGrid());
-		left_grid.add(widthText, 0, 35);
-		left_grid.add(widthInput, 1, 35);
-		left_grid.add(heightText, 0, 37);
-		left_grid.add(heightInput, 1, 37);
-		left_grid.add(boxHeightText, 0, 40);
-		left_grid.add(boxHeightInput, 1, 40);
-		left_grid.add(boxWidthText, 0, 43);
-		left_grid.add(boxWidthInput, 1, 43);
-		left_grid.add(drawDimensions, 1, 45);
+		
+		VBox budget = new VBox();
+		budget.getChildren().add(budgetText);
+		budget.getChildren().add(budgetInput);
+		
+		
+		VBox dimensions = new VBox();
+		dimensions.getChildren().add(widthText);
+		dimensions.getChildren().add(widthInput);
+		dimensions.getChildren().add(heightText);
+		dimensions.getChildren().add(heightInput);
+		dimensions.getChildren().add(boxWidthText);
+		dimensions.getChildren().add(boxWidthInput);
+		dimensions.getChildren().add(boxHeightText);
+		dimensions.getChildren().add(boxHeightInput);
+		dimensions.getChildren().add(drawDimensions);
+		
+		Insets margin = new Insets(5,0,5,0);
+		Iterator<Node> it = dimensions.getChildren().iterator();
+		while(it.hasNext()) {
+			dimensions.setMargin(it.next(), margin);
+		}
+		budget.setMargin(budgetText, margin);
+		budget.setMargin(budgetInput, margin);
+
+		left_grid.add(dimensions, 0, 0);
+		left_grid.add(budget, 0, 2);
 	}
 	
 	
@@ -215,24 +229,6 @@ public class PlotDesignView extends View {
 		return pixelsPerFoot;
 	}
 		
-	/**
-	 * Creates the bottom panel of the border pane
-	 * @param none
-	 * @return none
-	 */
-	public void createBottom() {
-		bottom = new GridPane();
-		bottom.setAlignment(Pos.TOP_CENTER);
-		bottom.setStyle("-fx-background-color: darkgrey");
-		bottom.setGridLinesVisible(true);
-		bottom.setHgap(SPACING);
-		bottom.setVgap(SPACING);
-		bottom.setMinHeight(BOTTOM_HEIGHT);
-		base.setBottom(bottom);
-		Text t = new Text("Testing");
-		bottom.add(t, 0, 0);
-		
-	}
 
 	/**
 	 * Creates the left grid pane in the border pane base
@@ -241,13 +237,65 @@ public class PlotDesignView extends View {
 	 */
 	public void createLeftGrid() {
 		left_grid = new GridPane();
-		left_grid.setAlignment(Pos.TOP_CENTER);
+		left_grid.setAlignment(Pos.CENTER);
 		left_grid.setStyle("-fx-background-color: darkseagreen");
-		// left_grid.setGridLinesVisible(true);
 		left_grid.setMinWidth(LEFTBAR);
 		left_grid.setHgap(SPACING);
 		left_grid.setVgap(SPACING);
+		
+		inputDimensions();
+		createSliders();
+		
+		RowConstraints row1 = new RowConstraints();
+	    row1.setPercentHeight(25);
+	    RowConstraints row151 = new RowConstraints();
+	    row151.setPercentHeight(5);
+	    RowConstraints row15 = new RowConstraints();
+	    row15.setPercentHeight(10);
+	    RowConstraints row2 = new RowConstraints();
+	    row2.setPercentHeight(25);
+	    RowConstraints row3 = new RowConstraints();
+	    row3.setPercentHeight(5);
+	    RowConstraints row4 = new RowConstraints();
+	    row4.setPercentHeight(5);
+	    RowConstraints row5 = new RowConstraints();
+	    row5.setPercentHeight(5);
+	    RowConstraints row6 = new RowConstraints();
+	    row6.setPercentHeight(5);
+	    RowConstraints row7 = new RowConstraints();
+	    row7.setPercentHeight(20);
+	    left_grid.getRowConstraints().addAll(row1,row151,row15,row2,row3,row4,row5,row6);
+		
 		base.setLeft(left_grid);
+	}
+	
+	public void createSliders() {
+		sunlight = new Slider(1, 3, 0);
+		soilType = new Slider(1, 3, 0);
+		moisture = new Slider(1, 3, 0);
+		sliderStandards(sunlight);
+		sliderStandards(soilType);
+		sliderStandards(moisture);
+		
+		Text sunlightText = new Text("Sunlight Level");
+		Text soilTypeText = new Text("Soil Type");
+		Text moistureText = new Text("Moisture Level");
+		
+		VBox sliders = new VBox();
+		sliders.getChildren().add(sunlightText);
+		sliders.getChildren().add(sunlight);
+		sliders.getChildren().add(moistureText);
+		sliders.getChildren().add(moisture);
+		sliders.getChildren().add(soilTypeText);
+		sliders.getChildren().add(soilType);
+
+		Insets margin = new Insets(5,0,5,0);
+		Iterator<Node> it = sliders.getChildren().iterator();
+		while(it.hasNext()) {
+			sliders.setMargin(it.next(), margin);
+		}
+		
+		left_grid.add(sliders, 0, 3);
 	}
 	
 	/**
@@ -261,47 +309,6 @@ public class PlotDesignView extends View {
 		slider.setSnapToTicks(true);
 		slider.setMinorTickCount(0);
 		return slider;
-
-	}
-
-	/**
-	 * Creates and places the Sunlight slider
-	 * @param none
-	 * @return none
-	 */
-	public void createSunSlider() {
-		sunlight = new Slider(1, 3, 0);
-		Text t = new Text("Sunlight Level");
-		sliderStandards(sunlight);
-		left_grid.add(t, 0, 0);
-		left_grid.add(sunlight, 0, 1);
-
-	}
-
-	/**
-	 * Creates and places the Moisture slider
-	 * @param none
-	 * @return none
-	 */
-	public void createMoistureSlider() {
-		moisture = new Slider(1, 3, 0);
-		sliderStandards(moisture);
-		Text t = new Text("Moisture Level");
-		left_grid.add(t, 0, 9);
-		left_grid.add(moisture, 0, 10);
-	}
-
-	/**
-	 * Creates and places the Soil Type slider
-	 * @param none
-	 * @return none
-	 */
-	public void createSoilSlider() {
-		soilType = new Slider(1, 3, 0);
-		sliderStandards(soilType);
-		Text t = new Text("Soil Type");
-		left_grid.add(t, 0, 19);
-		left_grid.add(soilType, 0, 20);
 	}
 
 	/**
@@ -350,7 +357,7 @@ public class PlotDesignView extends View {
 		if(canDraw) {
 			//start drawing a plot
 			gc.beginPath();
-			gc.lineTo(me.getX() - LEFTBAR, me.getY());
+			gc.lineTo(me.getX()- LEFTBAR - 5, me.getY());
 			gc.stroke();
 			//add the point to a coordinate list
 			coords.add(new Point(me.getX(), me.getY()));
@@ -365,10 +372,10 @@ public class PlotDesignView extends View {
 	public void drawPlot(MouseEvent me) {
 		if(canDraw) {
 			//Draw the line as the mouse is dragged
-			gc.lineTo(me.getX() - LEFTBAR - 5, me.getY());
+			gc.lineTo(me.getX()- LEFTBAR - 5, me.getY());
 			gc.stroke();	
 			//add the point to a coordinate list
-			coords.add(new Point(me.getX(), me.getY()));
+			coords.add(new Point(me.getX() , me.getY()));
 		}
 	}
 	
@@ -436,5 +443,9 @@ public class PlotDesignView extends View {
 	 */
 	public boolean getCanDraw() {
 		return canDraw;
+	}
+	
+	public double getBudget() {
+		return Double.parseDouble(budgetInput.getText());
 	}
 }

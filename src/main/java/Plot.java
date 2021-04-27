@@ -8,7 +8,7 @@ public class Plot implements Serializable {
 	private ArrayList<Point> coordinates;
 	
 	public Plot(Options o) {
-		this.recommendedPlants = new HashMap<String, Plant>();
+		this.recommendedPlants = null;
 		this.plantsInPlot = new HashMap<Point, Plant>();
 		this.options = o;
 		this.coordinates = null;
@@ -53,6 +53,31 @@ public class Plot implements Serializable {
 	
 	public HashMap<String, Plant> getRecommendedPlants() {
 		return recommendedPlants;
+	}
+	
+	public void createRecommendedPlants() {
+		recommendedPlants = new HashMap<String, Plant>();
+		//iterate through every plant in the whole plant list
+		Iterator<Plant> it = Garden.getAllPlants().values().iterator();
+		while(it.hasNext()) {
+			Plant p = it.next();
+			Options o = p.getOptions();
+			boolean sunlight = false, soiltype = false, moisture = false; 
+			for(int i = 0; i < 3; i++) {
+				if(options.getMoistures()[i] == 1 && o.getMoistures()[i] == 1) {
+					moisture = true;
+				}
+				if(options.getSoilTypes()[i] == 1 && o.getSoilTypes()[i] == 1) {
+					soiltype = true;
+				}
+				if(options.getSunLevels()[i] == 1 && o.getSunLevels()[i] == 1) {
+					sunlight = true;
+				}
+			}
+			if(sunlight && soiltype && moisture) {
+				recommendedPlants.put(p.getScientificName(), p);
+			}
+		}
 	}
 	
 	public void addPlant(Point pos, Plant p) {
