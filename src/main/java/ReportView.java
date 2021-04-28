@@ -25,19 +25,22 @@ public class ReportView extends View{
 	private BorderPane base;
 	private Button toGardenEditor;
 	private GridPane reportGrid;
-	
 	private CheckBox perennialDiversityOption;
 	private CheckBox budgetOption;
 	private CheckBox tableOption;
-
 	private Button generateButton;
-	
 	private ScrollPane sp;
 	private GridPane plantData;
 	private TableView plantTable;
-	
 	private ObservableList<PieChart.Data> plantsInGardenPieChartData = FXCollections.observableArrayList();
 	private ObservableList<Plant> plantsInGardenTableData = FXCollections.observableArrayList();
+	
+	
+	/**
+	 * Constructor
+	 * @param stage the stage for the program
+	 * @param c the controller instance
+	 */
 	public ReportView(Stage stage, Controller c) {
 		this.controller = c;
 		base = new BorderPane();
@@ -47,9 +50,6 @@ public class ReportView extends View{
 		toGardenEditor = new Button("Garden Editor");
 		toGardenEditor.setOnMouseClicked(controller.getToGardenOnClickHandler());
 		createBottom().add(toGardenEditor, 0, 0);
-//		base.setHgap(10);
-//		base.setVgap(10);
-		//base.setAlignment(Pos.CENTER);
 		
 		//Instantiates Scroll Pane
 		sp = new ScrollPane();
@@ -62,8 +62,6 @@ public class ReportView extends View{
 		ObservableList<PieChart.Data> plantsInGardenPieChartData = FXCollections.observableArrayList();
 		ObservableList<Plant> plantsInGardenTableData = FXCollections.observableArrayList();
 
-		
-		
 		//Sets up checkboxes
 		Text optionTitle = new Text("Report Options");
 		reportGrid.add(optionTitle,0,0);
@@ -79,11 +77,6 @@ public class ReportView extends View{
 		//Sets button handler
 		generateButton.setOnMouseClicked(c.generateReportHandler());
 		reportGrid.add(generateButton,0,4);
-		
-		
-		// Create temp report
-		//this.createTempReport();
-		//base.add(temp, 0, 1);
 		
 		//create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -113,9 +106,8 @@ public class ReportView extends View{
 		PieChart plantChart = new PieChart(plantsInGardenPieChartData);
 		plantChart.setTitle("Perennial Diversity");
 		plantData.add(plantChart,0,0);
-		
-		
 	}
+	
 	/**
 	 * Adds the budget and spent values to a gridpane, and adds the gridPane to the plantData gridPane. 
 	 * @param spent
@@ -135,28 +127,7 @@ public class ReportView extends View{
 		budgetGrid.add(spentText,1,0);
 		//budgetGrid.setHgap(10);
 		plantData.add(budgetGrid,0,1);
-
 	}
-	/*
-	public void addTable() {
-		//Instantiates plantTable
-		plantTable = new TableView();
-		//Creates columns 
-		TableColumn commonNameCol = new TableColumn("Common Name");
-		commonNameCol.setCellValueFactory(
-				new PropertyValueFactory<Plant, String>("commonName"));
-        TableColumn scientificNameCol = new TableColumn("Scientific Name");
-        TableColumn amountCol = new TableColumn("Perennial Amount");
-        
-        plantTable.setItems(plantsInGardenTableData);
-        plantTable.getColumns().addAll(commonNameCol, scientificNameCol, amountCol);
-        
-        plantData.add(plantTable, 0,2);
-
-
-	}
-	*/
-	
 	
 	/**
 	 * Adds a pieChart.Data() object to the observable arrayList addItemToPieGraph using the plantName and plantNum parameters. 
@@ -167,15 +138,6 @@ public class ReportView extends View{
 	public void addItemToPieGraph(String plantName, int plantNum) {
 		plantsInGardenPieChartData.add(new PieChart.Data(plantName,plantNum));
 	}
-	
-	/*
-	public void addItemToTable(Plant tempPlant) {
-		plantsInGardenTableData.add(tempPlant);
-		
-	}
-	*/
-	
-	
 	
 	/**
 	 * Creates the bottom pane that holds a button to return to return to the main garden editor screen.  
@@ -200,8 +162,6 @@ public class ReportView extends View{
 	public Scene getScene() {
 		return scene;
 	}
-	
-	
 	
 	/**
 	 * Getter for PerennialDiversityOption checkbox.
