@@ -144,6 +144,7 @@ public class PlotDesignView extends View {
 		boxHeightInput.setText("" + 10);
 		boxWidthInput = new TextField();
 		budgetInput = new TextField();
+		budgetInput.setText("0");
 		boxWidthInput.setText("" + 10);
 		
 		drawDimensions = new Button("Set Dimensions");
