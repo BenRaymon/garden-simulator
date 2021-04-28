@@ -4,8 +4,8 @@ import org.junit.Test;
 public class GardenEditorTest {
 	
 	Garden testGarden = new Garden();
-	Plant
-	GardenEditor testGardenEditor = new GardenEditor(testGarden);
+	Plant testPlant = new Plant();
+	GardenEditor testGardenEditor = new GardenEditor();
 	
 	// TODO: These are just stub test for stub functions, needs
 	// actual implementation
@@ -23,7 +23,9 @@ public class GardenEditorTest {
 	@Test
 	public void testisValidPlacement() {
 		Point testPoint = new Point();
-		assertEquals(testGardenEditor.inPlot(testPoint), 0);
+		double vBuf = 0.0;
+		double hBuf = 0.0;
+		assertEquals(testGardenEditor.inPlot(testPoint, testGarden.getPlots(), vBuf, hBuf), 0);
 	}
 	
 	@Test

@@ -50,10 +50,11 @@ public class PlotTest {
 	public void testPlantToPlot() {
 		//fail("Not yet implemented");
 		Plant testPlant = new Plant("name", "sciName", "genera", "fam", "color", 0, 0,0, 0, op, 0, 0, 't');
-		p.addPlant("plant", testPlant);
-		assertEquals(p.getPlantsInPlot().containsKey("plant"),true);
+		Point testPoint = new Point(0, 1);
+		p.addPlant(testPoint, testPlant);
+		assertEquals(p.getPlantsInPlot().containsKey(testPoint),true);
 		int oldSize = p.getPlantsInPlot().size();
-		p.removePlant("plant");
+		p.removePlant((testPoint));
 		assertEquals(p.getPlantsInPlot().size(), oldSize - 1);
 	}
 	
