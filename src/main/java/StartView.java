@@ -51,6 +51,11 @@ public class StartView extends View {
 	GridPane tempImages = new GridPane();
 	int tempNum = 0;
 	
+	/**
+	 * StartView Constructor
+	 * @param stage
+	 * @param c
+	 */
 	public StartView(Stage stage, Controller c) {
 		controller = c;
 		base = new VBox();
@@ -107,14 +112,25 @@ public class StartView extends View {
         stage.show();
 	}
 	
+	/**
+	 * Getter for scence
+	 */
 	public Scene getScene() {
 		return scene;
 	}
 	
+	/**
+	 * Getter for new Garden Button
+	 * @return newGarden Button
+	 */
 	public Button getNewGarden() {
 		return newGarden;
 	}
 	
+	/**
+	 * Getter for loadGardenButton
+	 * @return loadGardenButton
+	 */
 	public Button getLoadGarden() {
 		return loadGarden;
 	}
