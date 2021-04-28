@@ -31,6 +31,11 @@ public class ShoppingListView extends View{
 	private VBox rightVBox;
 	private VBox bottomVBox;
 	
+	/**
+	 * Constructor for ShoppingListView
+	 * @param stage
+	 * @param c
+	 */
 	public ShoppingListView(Stage stage, Controller c) {
 		controller = c;
 		
@@ -61,6 +66,11 @@ public class ShoppingListView extends View{
         stage.show();
 	}
 	
+	/**
+	 * Sets the data in the Shopping List
+	 * @param psld
+	 * @param budget
+	 */
 	public void setShoppingListData(HashMap<String, PlantShoppingListData> psld, double budget) {
 		double cost = 0;
 		// First, clear the 2 VBoxes
@@ -103,6 +113,10 @@ public class ShoppingListView extends View{
 
 	}
 	
+	/**
+	 * Adds the data to the left Box
+	 * @param data
+	 */
 	private void addDataToLeftBox(PlantShoppingListData data) {
 		Text text = new Text(data.getCount() + "x " + data.getCommonName());
 		text.setFont(Font.font(15));
@@ -129,6 +143,10 @@ public class ShoppingListView extends View{
 	
 	}
 	
+	/**
+	 * Creates the left VBox
+	 * @return left_vbox
+	 */
 	public VBox createLeftVBox(){
 		VBox left_vbox = new VBox(2);
 		left_vbox.setAlignment(Pos.TOP_RIGHT);
@@ -138,6 +156,10 @@ public class ShoppingListView extends View{
 		return left_vbox;
 	}
 	
+	/**
+	 * Creates the right VBox
+	 * @return right_vbox
+	 */
 	public VBox createRightVBox(){
 		VBox right_vbox = new VBox(2);
 		right_vbox.setAlignment(Pos.CENTER_LEFT);
@@ -148,16 +170,30 @@ public class ShoppingListView extends View{
 		return right_vbox;
 	}
 	
+	/**
+	 * Creates and adds button to Garden Editor
+	 */
 	public void addGardenButton() {
 		Button toGarden = new Button("Back to Garden Editor");
 		toGarden.setOnMouseClicked(controller.getToGardenOnClickHandler());
 		bottomVBox.getChildren().add(toGarden);
 	}
 	
+	/**
+	 * Getter for scene
+	 */
 	public Scene getScene() {
 		return scene;
 	}
 	
+	/**
+	 * Method for displaying values
+	 * @param title
+	 * @param budget
+	 * @param cost
+	 * @param plantCount
+	 * @param plantsInGarden
+	 */
 	public void display(String title, double budget, double cost, int plantCount, HashMap plantsInGarden) {
 		
 	}
