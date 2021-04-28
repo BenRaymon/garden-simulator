@@ -21,6 +21,11 @@ public class SplashView extends View {
 	private StackPane background;
 	private Scene scene;
 	
+	/**
+	 * Constructor for SplashView
+	 * @param s
+	 * @param c
+	 */
 	public SplashView(Stage s, Controller c) {
 		this.stage = s;
 		this.controller = c;
@@ -39,6 +44,9 @@ public class SplashView extends View {
         stage.show();
 	}
 
+	/**
+	 * Getter for splashView scene
+	 */
 	@Override
 	public Scene getScene() {
 		return scene;
