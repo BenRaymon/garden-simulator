@@ -94,17 +94,20 @@ public class SaveLoadGarden {
 	 * This is called when the user deletes a garden from the load screen.
 	 * @param g_name - the name of the garden we want to delete
 	 * @param list - the list of saved gardens that we want to remove a garden from
-	 * @return the new list without the garden we wanted to remove or null.
+	 * @return the new list without the garden we wanted to remove or just the unedited list.
 	 */
 	public ArrayList<Garden> deleteGarden(String g_name, ArrayList<Garden> list) {
 		// find and delete the garden
-		Garden find = list.stream().filter(s -> s.name.equals(g_name)).findFirst().orElse(null);
-		if(find != null) {
-			list.remove(find);
-			return list;
-		} else {
-			return null;
+		Garden tmp_g;
+		Iterator<Garden> itr = list.iterator();
+		while(itr.hasNext()) {
+			tmp_g = itr.next();
+			if(tmp_g.getName() == g_name) {
+				list.remove(tmp_g);
+				return list;
+			}
 		}
+		return list;
 	}
 	
 	/**
