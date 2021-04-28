@@ -8,8 +8,6 @@ import java.io.Serializable;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-
-// *.class.getResourceAsStream(fileName); gets you the specified files in resources
 public class SaveLoadGarden {
 	
 	/**
