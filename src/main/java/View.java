@@ -18,13 +18,27 @@ public abstract class View {
 	Text pageTitle;
 	View next;
 	View back;
+	
+	/**
+	 * abstract method for getting the scene
+	 * @return the scene in extended views
+	 */
 	public abstract Scene getScene();
 	// END TEMP CODE
 	
+	/**
+	 * getter for the static map of images
+	 * @return the concurrent hashmap of images
+	 */
 	public static ConcurrentHashMap<String, Image> getImages() {
 		return plantImages;
 	}
 	
+	/**
+	 * set the window size
+	 * @param width width of window
+	 * @param height height of window
+	 */
 	public static void setSize(double width, double height) {
 		WINDOW_HEIGHT = height;
 		WINDOW_WIDTH = width;

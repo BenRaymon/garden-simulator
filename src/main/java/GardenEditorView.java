@@ -72,6 +72,12 @@ public class GardenEditorView extends View {
 	private double budget;
 	private double budgetLeft;
 	
+	
+	/**
+	 * Construct for for GardenEditorView
+	 * @param stage the javafx stage for the view
+	 * @param c reference to the controller
+	 */
 	public GardenEditorView(Stage stage, Controller c) {
 		controller = c;
 		base = new BorderPane();
