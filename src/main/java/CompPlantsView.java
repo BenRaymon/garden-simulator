@@ -290,7 +290,7 @@ public class CompPlantsView extends View {
 		
 		plantDataHbox = new HBox();
 		plantDataHbox.setSpacing(10);
-		Text plantInfoLabel = new Text("--Common Name--\n--Scientific Name--\n--Family--\n--Color--\n--Lower Size(In ? Units)--\n--Upper Size(In ? Units)--\n--Lower Radius(In ? Units)--\n--Upper Radius(In ? Units)--");
+		Text plantInfoLabel = new Text("--Common Name--\n--Scientific Name--\n--Family--\n--Color--\n--Lower Size(In feet)--\n--Upper Size(In feet)--\n--Lower Radius(In feet)--\n--Upper Radius(In feet)--");
 		
 		Text plantInfoA = new Text(aDescription);
 		Text plantInfoB = new Text(bDescription);
