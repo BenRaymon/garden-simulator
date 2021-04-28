@@ -60,6 +60,11 @@ public class CompPlantsView extends View {
 
 	// --------------------------
 
+	/**
+	 * Creates the compPlantsView.
+	 * @param Stage stage
+	 * @param Controller c
+	 */
 	public CompPlantsView(Stage stage, Controller c) {
 		this.controller = c;
 		base = new GridPane();
@@ -114,38 +119,70 @@ public class CompPlantsView extends View {
 		stage.show();
 	}
 
+	/**
+	 * Scene getter. 
+	 *@return Scene scene
+	 */
 	public Scene getScene() {
 		return scene;
 	}
 
+	/**
+	 * TextBox getter. 
+	 * @return TextField plantNameInput
+	 */
 	public TextField getTextBox() {
 		return plantNameInput;
 	}
 
+	/**
+	 * RightTextBox (plantSummaryB) setter. 
+	 * @param String s
+	 */
 	public void setRightTextBox(String s) {
 		plantSummaryB.setText(s);
 	}
 
+	/**
+	 * RightTextBox (plantSummaryB) getter.
+	 * @return Text plantSummaryB
+	 */
 	public Text getRightBody() {
 		return plantSummaryB;
 	}
 
+	/**
+	 * LeftTextBox (plantSummaryA) getter. 
+	 * @return Text plantSummrayA
+	 */
 	public Text getLeftBody() {
 		return plantSummaryA;
 	}
 
+	/**
+	 * ObservableList getter.
+	 * @return ObservableList<String> items
+	 */
 	public ObservableList<String> getObservableList() {
 		return items;
 	}
 
+	/**
+	 * ListView getter.
+	 * @return ListView<String> list
+	 */
 	public ListView<String> getListView() {
 		return list;
 	}
 
-	public void setInfoView() {
 
-	}
-
+	/**
+	 * LepCompare setter. 
+	 * @param plantAName
+	 * @param plantBName
+	 * @param plantALeps
+	 * @param plantBLeps
+	 */
 	public void setLepCompare(String plantAName, String plantBName, int plantALeps, int plantBLeps) {
 
 		base.getChildren().remove(bc);
@@ -167,6 +204,15 @@ public class CompPlantsView extends View {
 
 	}
 
+	/**
+	 * RadiusCompare setter. 
+	 * @param plantAName
+	 * @param plantBName
+	 * @param plantASpreadLower
+	 * @param plantASpreadUpper
+	 * @param plantBSpreadLower
+	 * @param plantBSpreadUpper
+	 */
 	public void setRadiusCompare(String plantAName, String plantBName, double plantASpreadLower,
 			double plantASpreadUpper, double plantBSpreadLower, double plantBSpreadUpper) {
 		base.getChildren().remove(bc);
@@ -195,6 +241,15 @@ public class CompPlantsView extends View {
 
 	}
 
+	/**
+	 * SizeCompare Setter. 
+	 * @param plantAName
+	 * @param plantBName
+	 * @param plantASizeLower
+	 * @param plantASizeUpper
+	 * @param plantBSizeLower
+	 * @param plantBSizeUpper
+	 */
 	public void setSizeCompare(String plantAName, String plantBName, double plantASizeLower, double plantASizeUpper,
 			double plantBSizeLower, double plantBSizeUpper) {
 		base.getChildren().remove(bc);
@@ -223,6 +278,11 @@ public class CompPlantsView extends View {
 
 	}
 	
+	/**
+	 * GeneralInfoCompare setter. 
+	 * @param aDescription
+	 * @param bDescription
+	 */
 	public void setGeneralInfoComapre(String aDescription, String bDescription) {
 		System.out.println("Inside general info compare");
 		base.getChildren().remove(bc);
@@ -241,10 +301,18 @@ public class CompPlantsView extends View {
 		
 	}
 
+	/**
+	 * AName Setter. 
+	 * @param String n
+	 */
 	public void setAName(String n) {
 		plantAName = n;
 	}
 
+	/**
+	 * BName Setter. 
+	 * @param String n
+	 */
 	public void setBName(String n) {
 		plantBName = n;
 	}
