@@ -22,4 +22,33 @@ public class CompPlantsTest {
 	public void testmoreLeps() {
 		assertEquals(CompPlants.moreLeps(testPlant2, testPlant1), String.class);
 	}
+	
+	@Test
+	public void testLowerRadius() {
+		assertEquals(CompPlants.getLowerRadius("Salix Sericea"), double.class);
+	}
+	
+	@Test
+	public void testUpperRadius() {
+		assertEquals(CompPlants.getUpperRadius("Salix Sericea"), double.class);
+	}
+	
+	@Test 
+	public void testgetLowerSize() {
+		assertEquals(CompPlants.getLowerSize("Salix Sericea"), double.class);
+	}
+	
+	@Test 
+	public void testgetUpperSize() {
+		assertEquals(CompPlants.getUpperSize("Salix Sericea"), double.class);
+	}
+	
+	@Test
+	public void testMoreLeps() {
+		testPlant1.setScientificName("plantA");
+		testPlant2.setScientitifcName("plantB");
+		testPlant1.setLeps(10);
+		testPlant2.setLeps(5);
+		assertEquals(CompPlants.moreLeps(testPlant1,testPlant2),"plantA");
+	}
 }
