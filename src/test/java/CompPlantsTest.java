@@ -17,7 +17,7 @@ public class CompPlantsTest {
 		//add plant tot list first
 		Garden.getAllPlants().put("testPlant", testPlant1);
 		Garden.getAllPlants().put("testPlant2", testPlant2);
-		assertEquals(CompPlants.getInfo("testPlant"), String.class);
+		assertEquals(CompPlants.getInfo("testPlant").getClass(), String.class);
 	}
 	
 	/*@Test
@@ -28,22 +28,26 @@ public class CompPlantsTest {
 	
 	@Test
 	public void testLowerRadius() {
-		assertEquals(CompPlants.getLowerRadius("Viola Cucullata"), 0.0);
+		Garden.getAllPlants().put("Viola Cucullata", testPlant1);
+		assertEquals(CompPlants.getLowerRadius("Viola Cucullata"), 0.0,0);
 	}
 	
 	@Test
 	public void testUpperRadius() {
-		assertEquals(CompPlants.getUpperRadius("Viola Cucullata"), 0.0);
+		Garden.getAllPlants().put("Viola Cucullata", testPlant1);
+		assertEquals(CompPlants.getUpperRadius("Viola Cucullata"), 0.0,0);
 	}
 	
 	@Test 
 	public void testgetLowerSize() {
-		assertEquals(CompPlants.getLowerSize("Viola Cucullata"), 0.0);
+		Garden.getAllPlants().put("Viola Cucullata", testPlant1);
+		assertEquals(CompPlants.getLowerSize("Viola Cucullata"), 0.0,0);
 	}
 	
 	@Test 
 	public void testgetUpperSize() {
-		assertEquals(CompPlants.getUpperSize("Viola Cucullata"), 0.0); //6.0
+		Garden.getAllPlants().put("Viola Cucullata", testPlant1);
+		assertEquals(CompPlants.getUpperSize("Viola Cucullata"), 0.0,0); //6.0
 	}
 	
 	@Test

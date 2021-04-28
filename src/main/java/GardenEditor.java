@@ -345,34 +345,6 @@ public class GardenEditor {
 			}
 		}
 		  
-		return newPoints;
-	    
-	      
-	}
-	
-	
-	public Plant selectPlant() {
-		return null;
-	}
-	
-	public int placePlant() {
-		return 0;
-	}
-	
-	public static int isValidPlacement(double x, double y) {
-		
-		return 0;
-	}
-	
-	public int updateStats() {
-		return 0;
-	}
-	
-	public int search() {
-		return 0;
-	}
-	
-	public int setPos(Point point) {
-		return 0;
+		return newPoints;     
 	}
 }

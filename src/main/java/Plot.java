@@ -114,7 +114,6 @@ public class Plot implements Serializable {
 	}
 	
 	
-	
 	public boolean movePlant() {
 		
 		
@@ -122,6 +121,13 @@ public class Plot implements Serializable {
 		
 	}
 	
+	public void setRecommended(HashMap<String,Plant> rec) {
+		this.recommendedPlants = rec;
+	}
+	
+	public void setPlantsinPlot(HashMap<Point,Plant> list) {
+		this.plantsInPlot = list;
+	}
 	
 
 	
