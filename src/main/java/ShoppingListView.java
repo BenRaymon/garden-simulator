@@ -105,7 +105,13 @@ public class ShoppingListView extends View{
 		rightVBox.getChildren().add(costText);
 		rightVBox.setMargin(costText, new Insets(0,0,0,15));
 		rightVBox.setMargin(budgetText, new Insets(0,0,0,15));
-		Text costBudget = new Text("You went " + (cost-budget) + " over budget");
+		Text costBudget;
+		if(budget - cost >= 0) {
+			costBudget = new Text("You went " + (budget-cost) + " under budget");
+		}
+		else {
+			costBudget = new Text("You went " + (cost-budget) + " over budget");
+		}
 		costBudget.setFont(Font.font(20));
 		bottomVBox.getChildren().add(costBudget);
 		bottomVBox.setMargin(costBudget, new Insets(-20,20,20,20));
