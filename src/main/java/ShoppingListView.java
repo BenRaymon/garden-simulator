@@ -186,17 +186,4 @@ public class ShoppingListView extends View{
 		return scene;
 	}
 	
-	/**
-	 * Method for displaying values
-	 * @param title
-	 * @param budget
-	 * @param cost
-	 * @param plantCount
-	 * @param plantsInGarden
-	 */
-	public void display(String title, double budget, double cost, int plantCount, HashMap plantsInGarden) {
-		
-	}
-	
-	
 }
