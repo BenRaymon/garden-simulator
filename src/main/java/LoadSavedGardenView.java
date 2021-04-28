@@ -43,6 +43,15 @@ public class LoadSavedGardenView extends View {
 	private ObservableList<String> garden_names = FXCollections.observableArrayList();
 	private ListView<String> listView;
 	
+	
+	/**
+	 * Constructor to create the LoadSavedGardenView. Makes and places all elements of the
+	 * load screen
+	 * 
+	 * @param stage - the stage initialized by the controller
+	 * @param saved_g - the list of saved gardens
+	 * @param c - the controller
+	 * */
 	public LoadSavedGardenView(Stage stage, ArrayList<Garden> saved_g, Controller c) {
 		setObservableList(saved_g);
 		this.controller = c;
