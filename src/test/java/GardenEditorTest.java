@@ -4,6 +4,7 @@ import org.junit.Test;
 public class GardenEditorTest {
 	
 	Garden testGarden = new Garden();
+	Plant
 	GardenEditor testGardenEditor = new GardenEditor(testGarden);
 	
 	// TODO: These are just stub test for stub functions, needs
