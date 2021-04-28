@@ -63,7 +63,7 @@ public class StartView extends View {
 		
 		
 		
-		pageTitle = new Text("Native Garden Designer");
+		pageTitle = new Text("OkBloomer");
 		pageTitle.setFont(Font.font(TEXT));
 		pageTitle.minHeight(TEXT);
 		pageTitle.maxHeight(TEXT);
