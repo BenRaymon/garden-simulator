@@ -50,8 +50,8 @@ public class CompPlantsTest {
 	public void testMoreLeps() {
 		testPlant1.setScientificName("plantA");
 		testPlant2.setScientitifcName("plantB");
-		testPlant1.setLeps(10);
-		testPlant2.setLeps(5);
+		testPlant1.setLepsSupported(10);
+		testPlant2.setLepsSupported(5);
 		assertEquals(CompPlants.moreLeps(testPlant1,testPlant2),"plantA");
 	}
 }
