@@ -57,6 +57,11 @@ public class PlotDesignView extends View {
 	private double canvasHeight = WINDOW_HEIGHT;
 	private int scaleIndex = 50;
 	
+	/**
+	 * Constructor
+	 * @param stage the stage
+	 * @param c the controller
+	 */
 	public PlotDesignView(Stage stage, Controller c) {
 
 		controller = c;
@@ -176,7 +181,7 @@ public class PlotDesignView extends View {
 	/**
 	 * Responsible for drawing the scaling grid lines on the canvas
 	 * @param none
-	 * @return double FIX ME
+	 * @return a scale value calculated based on grid lines and pixel distances
 	 */
 	public double drawGrid() {
 		
@@ -269,6 +274,9 @@ public class PlotDesignView extends View {
 		base.setLeft(left_grid);
 	}
 	
+	/**
+	 * create the sliders for sunlight, soiltype and moisture
+	 */
 	public void createSliders() {
 		sunlight = new Slider(1, 3, 0);
 		soilType = new Slider(1, 3, 0);
@@ -446,6 +454,10 @@ public class PlotDesignView extends View {
 		return canDraw;
 	}
 	
+	/** 
+	 * Returns the budget input value
+	 * @return the text in the budget input box
+	 */
 	public double getBudget() {
 		return Double.parseDouble(budgetInput.getText());
 	}
