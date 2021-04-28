@@ -346,7 +346,12 @@ public class Controller extends Application{
 		});
 	}
 	
-	//Searches for plant from all loaded plants, and displays info on button click
+	/**
+	 * Event handler that gets text from search bar in compPlantsView, searches for plant from all loaded plants in model,
+	 * and sends info gotten from compPlants to compPlantsView on button Click (Right Button Click).
+	 * @param None
+	 * @return None
+	 */
 	public EventHandler RightPlantButtonClickedHandler() {
 		return (event ->{
 			
@@ -367,7 +372,12 @@ public class Controller extends Application{
 		
 	}
 	
-	//Searches for plant from all loaded plants, and displays info on button click
+	/**
+	 * Event handler that gets text from search bar in compPlantsView, searches for plant from all loaded plants in model,
+	 * and sends info gotten from compPlants to compPlantsView on button Click (Left Button Click).
+	 * @param None
+	 * @return None
+	 */
 	public EventHandler LeftPlantButtonClickedHandler() {
 		return (event ->{
 			TextField temp = compPlantsView.getTextBox();
@@ -386,7 +396,14 @@ public class Controller extends Application{
 		
 	}
 	
-	//Event handler for listView
+	
+	/**
+	 * Event handler for listView in compPlantView. 
+	 * On list click, this handler finds the element clicked on, gets the coresponding information from CompPlants, 
+	 * and sends the gotten info to compPlantsView.
+	 * @param None
+	 * @return None
+	 */
 	public EventHandler listClickedHandler() {
 		return(event ->{
 			System.out.println("In listClickedHandler");
@@ -573,7 +590,13 @@ public class Controller extends Application{
 		});
 	}
 	
-	//This handler handles the report generation when the generate report button is clicked in ReportView.
+	
+	/**
+	 * Handles the report generation when the generate report button is clicked in ReportView.
+	 * This will send different pieces of information to reportView depending on the reportView checkBoxes. 
+	 * @param None
+	 * @return None
+	 */
 	public EventHandler generateReportHandler() {
 		return(event -> {
 			System.out.println("Generate report button pushed");
