@@ -1,6 +1,6 @@
 import java.util.*;
 import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+//import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Test;
 
@@ -49,7 +49,7 @@ public class CompPlantsTest {
 	@Test
 	public void testMoreLeps() {
 		testPlant1.setScientificName("plantA");
-		testPlant2.setScientitifcName("plantB");
+		testPlant2.setScientificName("plantB");
 		testPlant1.setLepsSupported(10);
 		testPlant2.setLepsSupported(5);
 		assertEquals(CompPlants.moreLeps(testPlant1,testPlant2),"plantA");
