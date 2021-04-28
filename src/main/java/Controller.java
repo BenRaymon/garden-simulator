@@ -281,6 +281,12 @@ public class Controller extends Application{
 		});
 	}
 		
+	public EventHandler getToGardenOnClickHandler2() {
+		return (event -> {
+			stage.setScene(gardenEditorView.getScene());
+			
+		});
+	}
 	/**
 	 * Returns the event handler for clicking an image in the garden editor
 	 * Updates plant info in gardeneditorview

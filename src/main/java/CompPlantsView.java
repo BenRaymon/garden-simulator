@@ -74,7 +74,7 @@ public class CompPlantsView extends View {
 
 		// button to go back to the garden editor
 		toGardenEditor = new Button("Garden Editor");
-		toGardenEditor.setOnMouseClicked(controller.getToGardenOnClickHandler());
+		toGardenEditor.setOnMouseClicked(controller.getToGardenOnClickHandler2());
 		base.add(toGardenEditor, 0, 10);
 
 		// Creating table

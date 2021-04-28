@@ -48,7 +48,7 @@ public class ReportView extends View{
 		base.setTop(reportGrid);
 		
 		toGardenEditor = new Button("Garden Editor");
-		toGardenEditor.setOnMouseClicked(controller.getToGardenOnClickHandler());
+		toGardenEditor.setOnMouseClicked(controller.getToGardenOnClickHandler2());
 		createBottom().add(toGardenEditor, 0, 0);
 		
 		//Instantiates Scroll Pane

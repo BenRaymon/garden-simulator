@@ -185,7 +185,7 @@ public class ShoppingListView extends View{
 	 */
 	public void addGardenButton() {
 		Button toGarden = new Button("Back to Garden Editor");
-		toGarden.setOnMouseClicked(controller.getToGardenOnClickHandler());
+		toGarden.setOnMouseClicked(controller.getToGardenOnClickHandler2());
 		bottomVBox.getChildren().add(toGarden);
 	}
 	
