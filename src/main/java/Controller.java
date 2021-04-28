@@ -458,7 +458,15 @@ public class Controller extends Application{
 			}			
 		});
 	}
-
+	/**
+	 * Called from the Garden Editor View when the user clicks the save button.
+	 * creates a copy of the current garden and if a unique name is given it will save the
+	 * current garden as a unique entry in the list of saved gardens but if no name or the same
+	 * name is given it will overwrite the loaded garden.
+	 * 
+	 * @param none
+	 * @return event - creates and saves copy garden.
+	 * */
 	public EventHandler SaveButtonClickedHandler() {
 		return (event -> {
 			System.out.println("Save Button clicked");
@@ -474,7 +482,7 @@ public class Controller extends Application{
 				ArrayList<Plot> tmp_plots = garden.getPlots();
 				ArrayList<Plant> tmp_plants = garden.getPlantsInGarden();
 				
-				if(name_g == "") {
+				if(name_g == "" || name_g == garden.getName()) {
 					//System.out.println("empty name");
 					Garden tmp_g = new Garden(garden.getName(), tmp_spent, tmp_budget, tmp_plots, tmp_leps, tmp_plants, tmp_scale);
 					savedGardens.add(tmp_g);
