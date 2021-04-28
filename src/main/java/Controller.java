@@ -551,10 +551,6 @@ public class Controller extends Application{
 					
 				} else {
 					Garden tmp_g = new Garden(name_g, tmp_spent, tmp_budget, tmp_plots, tmp_leps, tmp_plants, tmp_scale);
-					System.out.println("saved plants");
-					for(Plant p : tmp_g.getPlantsInGarden()) {
-						System.out.println(p.getScientificName()+ " " + p.getPosition());
-					}
 					savedGardens.add(tmp_g);
 					gardenSaverLoader.saveGarden(savedGardens);
 				}
