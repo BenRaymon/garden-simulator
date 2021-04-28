@@ -58,10 +58,23 @@ public class LoadSavedGardenView extends View {
 		delete_garden.setOnMouseClicked(controller.deleteSelectedGardenHandler());
 		to_home.setOnMouseClicked(controller.fromLoadToHome());
 		list_box = createVBox();
-		base.add(to_garden_editor, 0, 10);
-		base.add(delete_garden, 1, 10);
-		base.add(to_home, 2, 10);
-		base.add(list_box, 0, 20);
+		
+		GridPane sideBySide = new GridPane();
+		VBox buttonBox = new VBox(10);
+		buttonBox.getChildren().add(to_garden_editor);
+		buttonBox.getChildren().add(delete_garden);
+		buttonBox.getChildren().add(to_home);
+		sideBySide.add(list_box,0,0);
+		sideBySide.add(buttonBox,1,0);
+		
+		base.add(sideBySide,0,0);
+		base.setStyle("-fx-background-color: BEIGE");
+		
+		
+		//base.add(to_garden_editor, 0, 10);
+		//base.add(delete_garden, 1, 10);
+		//base.add(to_home, 2, 10);
+		//base.add(list_box, 0, 20);
 		
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
 		stage.setScene(scene);
