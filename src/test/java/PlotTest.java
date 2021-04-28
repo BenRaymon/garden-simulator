@@ -121,18 +121,5 @@ public class PlotTest {
 		assertEquals(0, p.getOptions().getSunLevels()[2]);
 		assertEquals(0, p.getOptions().getMoistures()[2]);
 	}
-	
-	@Test
-	public void testCheckSpread() {
-		//fail("Not yet implemented");
-		assertTrue(p.checkSpread());
-	}
-	
-	@Test
-	public void testMovePlant() {
-		//fail("Not yet implemented");
-		assertTrue(p.movePlant());
-		
-	}
 
 }

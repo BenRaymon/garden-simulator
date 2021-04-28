@@ -81,6 +81,13 @@ public class LoadSavedGardenView extends View {
 		stage.show();
 	}
 	
+	/**
+	 * Creates the vbox that holds the listView of saved gardens. The user can click one
+	 * of the entries in the list and then load that selected entry with the load button.
+	 * 
+	 * @param none
+	 * @return VBox - the created VBox with the label and listView added to it
+	 * */
 	public VBox createVBox() {
 		VBox vbox_g = new VBox(10);
 		Insets inset = new Insets(5, 5, 5, 50);
@@ -90,20 +97,43 @@ public class LoadSavedGardenView extends View {
 		return vbox_g;
 	}
 	
+	/**
+	 * Fills the observable list with the names of thegardens in the saved list after 
+	 * it's loaded into the application
+	 * 
+	 * @param list_g - the list of saved gardens
+	 * @return void
+	 * */
 	public void setObservableList(ArrayList<Garden> list_g) {
 		// get the names of saved gardens into our observable list
 		ObservableList<String> tmp = FXCollections.observableArrayList();
-		for(Garden g : list_g) {
+		Iterator garden_itr = list_g.iterator();
+		while(garden_itr.hasNext()) {
+			Garden g = (Garden) garden_itr.next();
 			tmp.add(g.name);
 		}
 		
 		garden_names = tmp;
 	}
 	
+	/**
+	 * Gets the listView so that the name of the selected garden can be use to load the right
+	 * garden
+	 * 
+	 * @param none
+	 * @return ListView - the listview containing the garden names
+	 * */
 	public ListView<String> getListView() {
 		return listView;
 	}
 	
+	/**
+	 * Gets the scene so that we can display the load screen when user clicks
+	 * the load menu button on the home screen.
+	 * 
+	 * @param none
+	 * @return Scene - the scene of this view
+	 * */
 	public Scene getScene() {
 		return scene;
 	}
