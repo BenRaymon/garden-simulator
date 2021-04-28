@@ -33,27 +33,24 @@ public class GardenEditorTest {
 		GardenEditor.setSelectedPlant("b", p);
 		assertEquals(GardenEditor.getSelectedPlant(),plant);
 	}
-	
-	@Test
-	public void testplacePlant() {
-		assertEquals(testGardenEditor.placePlant(), 0);
-	}
+
 	
 	@Test
 	public void testisValidPlacement() {
 		Point testPoint = new Point();
 		testPoint.setX(10);
 		testPoint.setY(10);
+		ArrayList<Point> coords = new ArrayList<Point>();
+		coords.add(new Point(0,0));
+		coords.add(new Point(0,20));
+		coords.add(new Point(20,0));
+		coords.add(new Point(20,20));
+		plot1.setCoordinates(coords);
 		plot1.addPlant(new Point(10,10), testPlant);
+		plots.add(plot1);
 		double vBuf = 0.0;
 		double hBuf = 0.0;
-		assertEquals(testGardenEditor.inPlot(testPoint, testGarden.getPlots(), vBuf, hBuf), 0);
-	}
-	
-	@Test
-	public void testinPlot() {
-		Point p = new Point(0,0);
-		assertEquals();
+		assertEquals(GardenEditor.inPlot(testPoint, testGarden.getPlots(), vBuf, hBuf), 0);
 	}
 	
 	@Test

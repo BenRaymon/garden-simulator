@@ -41,36 +41,36 @@ public class CompPlants {
 		Plant p = Garden.getPlant(s);
 		return p.getSpreadRadiusLower();
 	}
+		
+	/**
+	 * Accepts a plant name as a string, and returns the upper spread radius. 
+	 * @param String plantName
+	 * @return double spreadRadius
+	 */
+	public static double getUpperRadius(String s) {
+		Plant p = Garden.getPlant(s);
+		return p.getSpreadRadiusUpper();
+		}
 	
-/**
- * Accepts a plant name as a string, and returns the upper spread radius. 
- * @param String plantName
- * @return double spreadRadius
- */
-public static double getUpperRadius(String s) {
-	Plant p = Garden.getPlant(s);
-	return p.getSpreadRadiusUpper();
+	/**
+	 * Accepts a plant name as a string, and returns the lower plant size. 
+	 * @param String plantName
+	 * @return double lowerSize
+	 */
+	public static double getLowerSize(String s) {
+		Plant p = Garden.getPlant(s);
+		return p.getSizeLower();
 	}
-
-/**
- * Accepts a plant name as a string, and returns the lower plant size. 
- * @param String plantName
- * @return double lowerSize
- */
-public static double getLowerSize(String s) {
-	Plant p = Garden.getPlant(s);
-	return p.getSizeLower();
-}
-
-/**
- * Accpets a plant name as a string, and returns the upper plant size. 
- * @param String plantName
- * @return double upperSize
- */
-public static double getUpperSize(String s) {
-	Plant p = Garden.getPlant(s);
-	return p.getSizeUpper();
-}
+	
+	/**
+	 * Accpets a plant name as a string, and returns the upper plant size. 
+	 * @param String plantName
+	 * @return double upperSize
+	 */
+	public static double getUpperSize(String s) {
+		Plant p = Garden.getPlant(s);
+		return p.getSizeUpper();
+	}
 	
 	/**
 	 * Accepts two plants, and returns the scientific name of the plant with more leps. 

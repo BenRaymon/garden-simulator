@@ -21,6 +21,23 @@ public class Plant implements Serializable {
 	private String genera;
 	private UUID ID;
 	
+	/**
+	 * Creates an instance of plant. 
+	 * @param commonName
+	 * @param scientificName
+	 * @param genera
+	 * @param family
+	 * @param color
+	 * @param sizeLower
+	 * @param sizeUpper
+	 * @param spreadRadiusLower
+	 * @param spreadRadiusUpper
+	 * @param options
+	 * @param cost
+	 * @param lepsSupported
+	 * @param type
+	 * @return None
+	 */
 	public Plant(String commonName, String scientificName, String genera, String family, String color, double sizeLower, double sizeUpper, 
 			double spreadRadiusLower, double spreadRadiusUpper, Options options, double cost, int lepsSupported, char type) {
 		this.commonName = commonName;
@@ -45,6 +62,10 @@ public class Plant implements Serializable {
 		
 	}
 	
+	/**
+	 * Clones a copy of the plant in the static list, so a copy can be used in the garden.
+	 * @return Plant p
+	 */
 	public Plant clone() {
 		Plant p = new Plant();
 		p.commonName = commonName;
@@ -64,6 +85,11 @@ public class Plant implements Serializable {
 		return p;
 	}
 
+	/**
+	 * Creates a plant toString. 
+	 * @param None
+	 * @return String toString
+	 */
 	public String toString() {
 		
 		String str = commonName +"|"+scientificName+"|"+family+"|"+color+"|"+sizeLower+"|"+sizeUpper+"|"+
@@ -73,169 +99,287 @@ public class Plant implements Serializable {
 	}
 
 
+	/**
+	 *Position getter. 
+	 * @return Point position
+	 */
 	public Point getPosition() {
 		return position;
 	}
 
 
 
+	/**
+	 * Position setter.
+	 * @param Point position
+	 */
 	public void setPosition(Point position) {
 		this.position = position;
 	}
 
+	/**
+	 * Genera setter
+	 * @return String genera
+	 */
 	public String getGenera() {
 		return genera;
 	}
 
 
 
+	/**
+	 * Genera setter.
+	 * @param String genera
+	 */
 	public void setGenera(String genera) {
 		this.genera = genera;
 	}
 
 
+	/**
+	 * Common Name getter.
+	 * @return String commonName
+	 */
 	public String getCommonName() {
 		return commonName;
 	}
 
 
 
+	/**
+	 * Common Name setter.
+	 * 
+	 * @param String commonName
+	 */
 	public void setCommonName(String commonName) {
 		this.commonName = commonName;
 	}
 
 
 
+	/**
+	 * ScientificName getter. 
+	 * @return String scientificName
+	 */
 	public String getScientificName() {
 		return scientificName;
 	}
 
 
 
+	/**
+	 * ScientificName setter. 
+	 * @param String scientificName
+	 */
 	public void setScientificName(String scientificName) {
 		this.scientificName = scientificName;
 	}
 
 
 
+	/**
+	 * Family getter. 
+	 * @return String family
+	 */
 	public String getFamily() {
 		return family;
 	}
 
 
 
+	/**
+	 * Family setter. 
+	 * @param String family
+	 */
 	public void setFamily(String family) {
 		this.family = family;
 	}
 
 
 
+	/**
+	 * Color getter. 
+	 * @return String color
+	 */
 	public String getColor() {
 		return color;
 	}
 
 
 
+	/**
+	 * Color setter. 
+	 * @param String color
+	 */
 	public void setColor(String color) {
 		this.color = color;
 	}
 
 
 
+	/**
+	 * SizeLower getter. 
+	 * @return double sizeLower
+	 */
 	public double getSizeLower() {
 		return sizeLower;
 	}
 
 
 
+	/**
+	 * SizeLower setter. 
+	 * @param int sizeLower
+	 */
 	public void setSizeLower(int sizeLower) {
 		this.sizeLower = sizeLower;
 	}
 
 
 
+	/**
+	 * SizeUpper getter. 
+	 * @return double sizeUpper
+	 */
 	public double getSizeUpper() {
 		return sizeUpper;
 	}
 
 
 
+	/**
+	 * SizeUpper setter. 
+	 * @param int sizeUpper
+	 */
 	public void setSizeUpper(int sizeUpper) {
 		this.sizeUpper = sizeUpper;
 	}
 
 
 
+	/**
+	 * SpreadRadiusLower getter. 
+	 * @return double spreadRadiusLower
+	 */
 	public double getSpreadRadiusLower() {
 		return spreadRadiusLower;
 	}
 
 
 
+	/**
+	 * SpreadRadiusLower setter
+	 * @param double spreadRadiusLower
+	 */
 	public void setSpreadRadiusLower(double spreadRadiusLower) {
 		this.spreadRadiusLower = spreadRadiusLower;
 	}
 
 
 
+	/**
+	 * SpreadRadiusUpper getter. 
+	 * @return double spreadRadiusUpper
+	 */
 	public double getSpreadRadiusUpper() {
 		return spreadRadiusUpper;
 	}
 
 
 
+	/**
+	 * SpreadRadiusUpper setter. 
+	 * @param double spreadRadiusUpper
+	 */
 	public void setSpreadRadiusUpper(double spreadRadiusUpper) {
 		this.spreadRadiusUpper = spreadRadiusUpper;
 	}
 
 
 
+	/**
+	 * Options getter. 
+	 * @return Options options
+	 */
 	public Options getOptions() {
 		return options;
 	}
 
 
 
+	/**
+	 * Options setter. 
+	 * @param Options options
+	 */
 	public void setOptions(Options options) {
 		this.options = options;
 	}
 
 
 
+	/**
+	 * Cost getter. 
+	 * @return double cost
+	 */
 	public double getCost() {
 		return cost;
 	}
 
 
 
+	/**
+	 * Cost setter. 
+	 * @param double cost
+	 */
 	public void setCost(double cost) {
 		this.cost = cost;
 	}
 
 
 
+	/**
+	 * LepsSupported getter. 
+	 * @return int lepsSupported
+	 */
 	public int getLepsSupported() {
 		return lepsSupported;
 	}
 
 
 
+	/**
+	 * LepsSupported setter. 
+	 * @param int lepsSupported
+	 */
 	public void setLepsSupported(int lepsSupported) {
 		this.lepsSupported = lepsSupported;
 	}
 
 
 
+	/**
+	 * Type getter.
+	 * @return char type
+	 */
 	public char getType() {
 		return type;
 	}
 
 
 
+	/**
+	 * Type setter. 
+	 * @param char type
+	 */
 	public void setType(char type) {
 		this.type = type;
 	}
 	
+	/**
+	 * Checks if a plant passed in is equal to the plant the method was called from.
+	 * @param Object o
+	 * @return boolean
+	 */
 	@Override
 	//two plants are considered equal (as of right now) if they're locations are the same
 
@@ -246,6 +390,10 @@ public class Plant implements Serializable {
 		} else return false;
 	}
 	
+	/**
+	 * Returns x position of the plant object this is called from. 
+	 * @return int hashCode
+	 */
 	@Override
 	public int hashCode() {
 		return (int)(this.getPosition().getX());
