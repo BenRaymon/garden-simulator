@@ -76,6 +76,7 @@ public class ShoppingListView extends View{
 		// First, clear the 2 VBoxes
 		leftVBox.getChildren().clear();
 		rightVBox.getChildren().clear();
+		bottomVBox.getChildren().clear();
 		
 		// Now, re-populate the VBoxes with the new data
 		// Key doesnt matter here, just the value
