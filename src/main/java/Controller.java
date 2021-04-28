@@ -626,6 +626,9 @@ public class Controller extends Application{
 					Map.Entry<Point, Plant> map_element = (Map.Entry<Point, Plant>)plant_itr.next();
 					// used to determine plant image size in the plot
 					radius = map_element.getValue().getSpreadRadiusLower();
+					if(radius == 0) {
+						radius = map_element.getValue().getSizeLower();
+					}
 					// get position of plant
 					tmp_pos = map_element.getValue().getPosition();
 					// the image corresponding to the plot
