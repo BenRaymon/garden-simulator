@@ -630,10 +630,6 @@ public class Controller extends Application{
 					}
 				}
 			}
-			System.out.println("loaded plants");
-			for(Plant p : garden.getPlantsInGarden()) {
-				System.out.println(p.getScientificName() + " " + p.getPosition());
-			}
 			
 			HashMap<String, Plant> recommendedPlants  = garden.getPlots().get(0).getRecommendedPlants();
 			gardenEditorView.setPlantImages(recommendedPlants.keySet());
