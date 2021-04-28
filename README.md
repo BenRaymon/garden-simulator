@@ -4,7 +4,7 @@ Team 11: Ben Raymon, Trevor Dolbow, Michael Carr, Gavin Morris, Alex Sederquest
 Garden Planner project for CISC275. A garden planner designed to help people easily build gardens
 that support the most Leps possibe. Made with Java 15, JavaFX, and Python 3.
 
-#Features:
+# Features:
  - Draw plots with specified demensions, budget, sunlight level, moisture content, and soil type
  - Place plants from a curated list into your plots
  - Get more info on the plants such as root spread, cost, and more
