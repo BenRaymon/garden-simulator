@@ -8,14 +8,14 @@ import java.io.Serializable;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-
-// *.class.getResourceAsStream(fileName); gets you the specified files in resources
 public class SaveLoadGarden {
 	
 	/**
-	 * Save a list of gardens to savedGardens.dat so they can be loaded and edited later
+	 * Save a list of gardens to savedGardens.dat so they can be loaded and edited later.
+	 * This gets called every time the user clicks the save button in the Garden Editor.
 	 * @param g - ArrayList of gardens to write the save file
 	 * @return void
+	 * @throws ClassNotFoundException if saving the garden fails
 	 */
 
 	public void saveGarden(ArrayList<Garden> g) throws ClassNotFoundException {
@@ -49,9 +49,11 @@ public class SaveLoadGarden {
 	}
 	
 	/**
-	 * Load in the list of gardens saved into savedGardens.dat
+	 * Load in the list of gardens saved into savedGardens.dat. This is called once at the start
+	 * of the program and never again during that instance of the program.
 	 * @param none
 	 * @return ArrayList of gardens that were saved into savedGardens.dat
+	 * @throws ClassNotFoundException if reading in the list of gardens fails
 	 */
 	public ArrayList<Garden> loadGardenList() throws ClassNotFoundException {
 		
@@ -88,7 +90,8 @@ public class SaveLoadGarden {
 	}
 	
 	/**
-	 * Deletes a specified garden from the ArrayList of saved gardens
+	 * Deletes a specified garden from the ArrayList of saved gardens. This is called when
+	 * the user deletes a garden from the load screen.
 	 * @param g_name - the name of the garden we want to delete
 	 * @param list - the list of saved gardens that we want to remove a garden from
 	 * @return the new list without the garden we wanted to remove.
@@ -105,7 +108,8 @@ public class SaveLoadGarden {
 	}
 	
 	/**
-	 * Loads a specified garden from the ArrayList of saved gardens
+	 * Loads a specified garden from the ArrayList of saved gardens. This is called when
+	 * the user loads a garden from the load screen.
 	 * @param g_name - the name of the garden we want to load
 	 * @param list - the list of saved gardens that we want to get a garden from
 	 * @return if the garden was found we return it, otherwise we return null
