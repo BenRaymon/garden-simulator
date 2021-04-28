@@ -45,7 +45,7 @@ public class StartView extends View {
 	private final double SPACING = 10;
 	private final double BUTTON_H = 50;
 	private final double BUTTON_W = 150;
-	private final double BOTTOM_BAR = 150;
+	private final double BOTTOM_BAR = 250;
 	private final double TEXT = 75;
 	
 	GridPane tempImages = new GridPane();
@@ -59,7 +59,7 @@ public class StartView extends View {
 	public StartView(Stage stage, Controller c) {
 		controller = c;
 		base = new VBox();
-		base.setStyle("-fx-background-color: darkgrey");
+		base.setStyle("-fx-background-color: darkseagreen");
 		
 		
 		
@@ -84,7 +84,7 @@ public class StartView extends View {
 		buttons.setMinHeight(BOTTOM_BAR);
 		buttons.setAlignment(Pos.BASELINE_CENTER);
 		buttons.setSpacing(100);
-		buttons.setStyle("-fx-background-color: darkgrey");
+		buttons.setStyle("-fx-background-color: darkseagreen");
 		newGarden = new Button("Create New Garden");
 		newGarden.setMinHeight(BUTTON_H);
 		newGarden.setMinWidth(BUTTON_W);

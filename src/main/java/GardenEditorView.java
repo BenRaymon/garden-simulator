@@ -272,6 +272,7 @@ public class GardenEditorView extends View {
 	
 	/**
 	 * Adds the plant's scientific and common name on left pane
+	 * Also add the genus and family
 	 * @param Plant
 	 */
 	public void addNames(Plant plant){
@@ -283,6 +284,15 @@ public class GardenEditorView extends View {
 		Text scienceName = new Text(plant.getScientificName());
 		left.add(scienceText, 0, 2);
 		left.add(scienceName, 1, 2);
+		Text familyText = new Text("Family:");
+		Text familyName = new Text(plant.getFamily());
+		left.add(familyText, 0, 3);
+		left.add(familyName, 1, 3);
+		Text genusText = new Text("Genus:");
+		Text genusName = new Text(plant.getGenera());
+		left.add(genusText, 0, 4);
+		left.add(genusName, 1, 4);
+		
 	}
 	
 	/**
@@ -292,8 +302,8 @@ public class GardenEditorView extends View {
 	public void addLeps(Plant plant) {
 		Text lepText = new Text("Number of Leps Supported:");
 		Text lepNum = new Text(String.valueOf(plant.getLepsSupported()));
-		left.add(lepText, 0, 3);
-		left.add(lepNum, 1, 3);
+		left.add(lepText, 0, 5);
+		left.add(lepNum, 1, 5);
 	}
 	
 	/**
@@ -312,8 +322,19 @@ public class GardenEditorView extends View {
 		}
 		Text typeName = new Text(type);
 		
-		left.add(typeText, 0, 4);
-		left.add(typeName, 1, 4);
+		left.add(typeText, 0, 6);
+		left.add(typeName, 1, 6);
+	}
+	
+	/**
+	 * Add the cost of this plant on left pane
+	 * @param plant
+	 */
+	public void addCost(Plant plant) {
+		Text costText = new Text("Plant Cost:");
+		Text costNum = new Text("$" + String.valueOf(plant.getCost()));
+		left.add(costText, 0, 7);
+		left.add(costNum, 1, 7);
 	}
 	
 	/**
@@ -323,10 +344,21 @@ public class GardenEditorView extends View {
 	public void addSize(Plant plant) {
 		Text sizeText = new Text("Size Range (ft):");
 		Text sizeRange = new Text(String.valueOf(plant.getSizeLower())+ "-" + String.valueOf(plant.getSizeUpper()));
-		left.add(sizeText, 0, 5);
-		left.add(sizeRange, 1, 5);
+		left.add(sizeText, 0, 8);
+		left.add(sizeRange, 1, 8);
 	}
 	
+	
+	/**
+	 * Adds the plant's color on the left pane
+	 * @param plant
+	 */
+	public void addColor(Plant plant) {
+		Text colorText = new Text("Color:");
+		Text colorStr = new Text(String.valueOf(plant.getColor()));
+		left.add(colorText, 0, 9);
+		left.add(colorStr, 1, 9);
+	}
 	
 	/**
 	 * Sets all the plants info on left pane
@@ -339,6 +371,8 @@ public class GardenEditorView extends View {
 		addLeps(plant);
 		addType(plant);
 		addSize(plant);
+		addCost(plant);
+		addColor(plant);
 	}
 	
 	/**

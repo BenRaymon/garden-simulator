@@ -1,6 +1,6 @@
 import java.util.ArrayList;
+
 import java.io.Serializable;
-import java.util.UUID;
 
 public class Plant implements Serializable {
 	
@@ -19,7 +19,6 @@ public class Plant implements Serializable {
 	private int lepsSupported;
 	private char type;
 	private String genera;
-	private UUID ID;
 	
 	/**
 	 * Creates an instance of plant. 
@@ -54,8 +53,6 @@ public class Plant implements Serializable {
 		this.cost = cost;
 		this.type=type;
 		this.position = new Point(0,0);
-		this.ID = UUID.randomUUID();
-		
 	}
 
 	public Plant() {
