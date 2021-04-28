@@ -505,6 +505,13 @@ public class Controller extends Application{
 		});
 	}
 	
+	/**
+	 * Sets the scene to the load menu when the Load Garden button is clicked
+	 * on the home screen.
+	 * 
+	 * @param none
+	 * @return event - loads the view for the load screen
+	 * */
 	public EventHandler getLoadGardenViewOnClickHandler() {
 		return (event -> {
 			System.out.println("Load Screen button clicked");
@@ -513,6 +520,14 @@ public class Controller extends Application{
 		});
 	}
 	
+	/**
+	 * Loads the garden picked by the user on the load menu. Uses the string highlighted
+	 * in the ListView to find the garden in list of saved gardens. Once it has the garden
+	 * it draws the plots in the garden and every plant in each plot in the Garden Editor
+	 * 
+	 * @param none
+	 * @return event - loads and displays the chosen garden.
+	 * */
 	public EventHandler loadSelectedGardenHandler() {
 		return (event -> {
 			ListView<String> tmp = loadSavedGardenView.getListView();
@@ -570,6 +585,15 @@ public class Controller extends Application{
 		});
 	}
 	
+	/**
+	 * Deletes the garden selected by the user in the load menu. Uses the string from the listView
+	 * to find the right garden, removes it from the arrayList of saved gardens, and then saves the arraylist
+	 * to overwrite the old list.
+	 * 
+	 * @param none
+	 * @return event - deletes the selected garden
+	 * */
+	
 	public EventHandler deleteSelectedGardenHandler() {
 		return (event -> {
 			System.out.println("delete button pushed");
@@ -590,6 +614,12 @@ public class Controller extends Application{
 		});
 	}
 	
+	/**
+	 * Takes the user from the load menu to the home screen if they click the back button.
+	 * 
+	 * @param - none
+	 * @return event - sets the stage back to the home view.
+	 * */
 	public EventHandler fromLoadToHome() {
 		return (event -> {
 			System.out.println("from load to home");

@@ -90,11 +90,11 @@ public class SaveLoadGarden {
 	}
 	
 	/**
-	 * Deletes a specified garden from the ArrayList of saved gardens. This is called when
-	 * the user deletes a garden from the load screen.
+	 * Deletes a specified garden from the ArrayList of saved gardens. If the garden isn't found, return null.
+	 * This is called when the user deletes a garden from the load screen.
 	 * @param g_name - the name of the garden we want to delete
 	 * @param list - the list of saved gardens that we want to remove a garden from
-	 * @return the new list without the garden we wanted to remove.
+	 * @return the new list without the garden we wanted to remove or null.
 	 */
 	public ArrayList<Garden> deleteGarden(String g_name, ArrayList<Garden> list) {
 		// find and delete the garden
