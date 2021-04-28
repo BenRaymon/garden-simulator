@@ -104,18 +104,34 @@ public class GardenEditorView extends View {
         stage.show();
 	}
 	
+	/**
+	 * Getter for Top Panel Height
+	 * @return double 
+	 */
 	public double getTopBar() {
 		return TOPBAR;
 	}
 	
+	/**
+	 * Getter for Left Panel Width
+	 * @return double
+	 */
 	public double getLeftBar() {
 		return LEFTBAR;
 	}
 	
+	/**
+	 * Setter for the total budget
+	 * @param double total budget 
+	 */
 	public void setBudget(double b) {
 		this.budget = b;
 	}
 	
+	/**
+	 * Draws plots on the canvas
+	 * @param ArrayList points
+	 */
 	public void drawPlot(ArrayList<Point> points) {
 		
 		double[] xcords = new double[points.size()];
@@ -129,6 +145,10 @@ public class GardenEditorView extends View {
 		//gc.strokePolygon(xcords, ycords, i);
 	}
 	
+	/**
+	 * Sets the fill color for the plots drawn
+	 * @param Options o 
+	 */
 	public void setFillColor(Options o) {
 		int[] soil = o.getSoilTypes();
 		if(soil[0] == 1) 
@@ -140,6 +160,10 @@ public class GardenEditorView extends View {
 	}
 	
 	
+	/**
+	 * Creates and sets the budget text in right panel
+	 * @return none
+	 */
 	public void createBudgetText(){
 		Text budgetLabel = new Text("Remaining Budget");
 		budgetLabel.setFont(Font.font(20));
@@ -153,6 +177,9 @@ public class GardenEditorView extends View {
 		right.add(budgetText, 0, 1);
 	}
 	
+	/**
+	 * Creates and sets the number of plants text
+	 */
 	public void createPlantText() {
 		Text plantLabel = new Text("Number of Plants");
 		plantLabel.setFont(Font.font(20));
@@ -164,6 +191,9 @@ public class GardenEditorView extends View {
 		right.add(plantCount, 0, 3);
 	}
 	
+	/**
+	 * Creates and sets the number of leps text
+	 */
 	public void createLepText() {
 		Text lepLabel = new Text("Number of Lep");
 		lepLabel.setFont(Font.font(20));
@@ -175,13 +205,19 @@ public class GardenEditorView extends View {
 		right.add(lepCount, 0, 5);
 	}
 	
+	/**
+	 * Creates the entire right text fields
+	 */
 	public void createRightText() {
 		createBudgetText();
 		createPlantText();
 		createLepText();
 	}
 	
-	//Supposed to draw images in the top grid pane
+	/**
+	 * Draws images on top grid
+	 * @param keys
+	 */
 	public void setPlantImages(Set<String> keys){
 		recommendedPlantImages = new HashMap<Image, String>();
 		recommendedPlantCircs = new ArrayList<Circle>();
@@ -213,6 +249,10 @@ public class GardenEditorView extends View {
 		base.setTop(top);
 	}
 	
+	/**
+	 * Sets the plant image on left pane
+	 * @param plantImg
+	 */
 	public void setPlantInfoImage(Image plantImg) {
 		plantBox.getChildren().clear();
 		ImageView plantIV = new ImageView();
@@ -224,7 +264,10 @@ public class GardenEditorView extends View {
 		plantBox.getChildren().add(plantIV);
 	}
 	
-	
+	/**
+	 * Adds the plant's scientific and common name on left pane
+	 * @param Plant
+	 */
 	public void addNames(Plant plant){
 		Text commonName = new Text(plant.getCommonName());
 		Text commonText = new Text("Common Name:");
@@ -236,6 +279,10 @@ public class GardenEditorView extends View {
 		left.add(scienceName, 1, 2);
 	}
 	
+	/**
+	 * Add the number of leps supported on left pane
+	 * @param plant
+	 */
 	public void addLeps(Plant plant) {
 		Text lepText = new Text("Number of Leps Supported:");
 		Text lepNum = new Text(String.valueOf(plant.getLepsSupported()));
@@ -243,6 +290,10 @@ public class GardenEditorView extends View {
 		left.add(lepNum, 1, 3);
 	}
 	
+	/**
+	 * Adds the plant's type on left pane
+	 * @param plant
+	 */
 	public void addType(Plant plant) {
 		Text typeText = new Text("Type:");
 		String type = "HOLD";
@@ -259,6 +310,10 @@ public class GardenEditorView extends View {
 		left.add(typeName, 1, 4);
 	}
 	
+	/**
+	 * Adds the plant's size on left pane
+	 * @param plant
+	 */
 	public void addSize(Plant plant) {
 		Text sizeText = new Text("Size Range (ft):");
 		Text sizeRange = new Text(String.valueOf(plant.getSizeLower())+ "-" + String.valueOf(plant.getSizeUpper()));
@@ -267,7 +322,10 @@ public class GardenEditorView extends View {
 	}
 	
 	
-	
+	/**
+	 * Sets all the plants info on left pane
+	 * @param plant
+	 */
 	public void setPlantInfo(Plant plant) {
 		System.out.println("IN SET PLANT INFO");
 		left.getChildren().clear();
@@ -277,6 +335,9 @@ public class GardenEditorView extends View {
 		addSize(plant);
 	}
 	
+	/**
+	 * Creates the right pane
+	 */
 	public void createRight() {
 		right = new GridPane();
 		createPane(right, "darkseagreen");
@@ -286,6 +347,9 @@ public class GardenEditorView extends View {
 		base.setRight(right);
 	}
 	
+	/**
+	 * Creates the left pane
+	 */
 	public void createLeft() {
 		leftBase = new VBox();
 		leftBase.setStyle("-fx-background-color:darkseagreen");
@@ -300,6 +364,9 @@ public class GardenEditorView extends View {
 		base.setLeft(leftBase);
 	}
 	
+	/**
+	 * Creates the bottom pane
+	 */
 	public void createBottom() {
 		bottom = new GridPane();
 		createPane(bottom, "darkgrey");
@@ -307,6 +374,11 @@ public class GardenEditorView extends View {
 		base.setBottom(bottom);
 	}
 	
+	/**
+	 * Helper method for generally used pane creation
+	 * @param pane
+	 * @param color
+	 */
 	public void createPane(GridPane pane, String color) {
 		pane.setAlignment(Pos.CENTER);
 		pane.setStyle("-fx-background-color: " + color);
@@ -314,6 +386,12 @@ public class GardenEditorView extends View {
 		pane.setVgap(SPACING);
 	}
 	
+	/**
+	 * Updates the budget, leps, and plant numbers
+	 * @param leps
+	 * @param plants
+	 * @param spent
+	 */
 	public void updatePlantLepNums(int leps, int plants, double spent){
 		lepCount.setText(String.valueOf(leps));
 		plantCount.setText(String.valueOf(plants));
@@ -328,7 +406,9 @@ public class GardenEditorView extends View {
 		budgetText.setText(String.valueOf(budgetLeft));
 	}
 	
-	
+	/**
+	 * Adds the page buttons
+	 */
 	public void addPageButtons() {
 		toShoppingList = new Button("Shopping List");
 		toShoppingList.setOnMouseClicked(controller.getToShoppingListOnClickHandler());
@@ -350,36 +430,53 @@ public class GardenEditorView extends View {
 		bottom.add(saveGarden, 6, 0);
 	}
 	
+	/**
+	 * First text set for plant info
+	 */
 	public void setPlantInfo() {
 		Text t = new Text("Click a Plant to See it's Info");
 		left.add(t, 0, 0);
 	}
 	
+	/**
+	 * Sets remaining budget
+	 * @param remaining
+	 */
 	public void setBudgetLeft(double remaining) {
 		budgetLeft = remaining;
 		createRightText();
 	}
 	
+	/**
+	 * Getter for shoppign list button
+	 * @return shopping list button
+	 */
 	public Button getToShoppingListButton() {
 		return this.toShoppingList;
 	}
 	
+	/**
+	 * Getter for base pane
+	 * @return base 
+	 */
 	public BorderPane getBase() {
 		return this.base;
 	}
 	
+	/**
+	 * Getter for scene
+	 * @return scene
+	 */
 	public Scene getScene() {
 		return scene;
 	}
 	
-	public void updateValues() {
-		
-	}
-	
-	public void updateInfo() {
-		
-	}
-	
+	/**
+	 * Creates new image in base for drag and drop
+	 * @param event
+	 * @param db
+	 * @param radius
+	 */
 	public void createNewImageInBase(DragEvent event, Dragboard db, double radius) {
 		System.out.println("Creating new gardeneditorview image");
 		Circle circ = new Circle(event.getX(), event.getY(), radius*SCALE);
@@ -388,6 +485,13 @@ public class GardenEditorView extends View {
     	base.getChildren().add(circ);
 	}
 	
+	/**
+	 * Adds the plant image to base for drag and drop
+	 * @param pos
+	 * @param img_v
+	 * @param radius
+	 * @return base added children
+	 */
 	public boolean addPlantImageToBase(Point pos, Image img_v, double radius) {
 		Circle circ = new Circle(pos.getX(), pos.getY(), radius*SCALE);
         circ.setFill(new ImagePattern(img_v));
@@ -395,34 +499,76 @@ public class GardenEditorView extends View {
     	return base.getChildren().add(circ);
 	}
 	
+	/**
+	 * Checks for event source in mouse event
+	 * @param event
+	 * @return boolean checking for source in base
+	 */
 	public boolean hasChild(MouseEvent event) {
 		return base.getChildren().contains(event.getSource());
 	}
 	
+	/**
+	 * Getter for plant name based on image
+	 * @param im
+	 * @return plant name
+	 */
 	public String getPlantName(Image im) {
 		return recommendedPlantImages.get(im);
 	}
 	
+	/**
+	 * sets selected plant
+	 * @param im
+	 */
 	public void setSelectedPlantImage(Image im) {
 		selectedPlant = im; 
 	}
 	
+	/**
+	 * Getter for Graphics Context
+	 * @return
+	 */
 	public GraphicsContext getGC() {
 		return gc;
 	}
 	
+	/**
+	 * Getter for canvas height
+	 * @return canvas height
+	 */
 	public double getCanvasHeight() {
 		return CANVAS_HEIGHT;
 	}
+	
+	/**
+	 * Getter for canvas width
+	 * @return canvas width
+	 */
 	public double getCanvasWidth() {
 		return CANVAS_WIDTH;
 	}
+	
+	/**
+	 * Getter for Top Bar height
+	 * @return top bar height
+	 */
 	public double getTopHeight() {
 		return TOPBAR;
 	}
+	
+	/**
+	 * Getter for garden name
+	 * @return garden name
+	 */
 	public TextField getGardenName() {
 		return garden_name;
 	}
+	
+	/**
+	 * Sets Garden scale
+	 * @param scale
+	 */
 	public void setScale(double scale) {
 		SCALE = scale;
 	}
