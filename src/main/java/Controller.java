@@ -69,7 +69,11 @@ public class Controller extends Application{
 	}
 	
 	
-	//Start the main program
+	/**
+	 * Create views for all views in the program
+	 * Load saved gardens
+	 * Set the start screen to the main into screen
+	 */
 	public void loadStartScreen() {
 		try {
 			savedGardens = gardenSaverLoader.loadGardenList();
@@ -95,13 +99,20 @@ public class Controller extends Application{
 		stage.setScene(startView.getScene());
 	}
 	
-	//Button functionality for startView Create New Garden
+	/**
+	 * Returns the event handler for clicking the new garden button
+	 * @return event handler
+	 */
 	public EventHandler getNewGardenOnClickHandler() {
 		return (event -> {
 			stage.setScene(plotDesignView.getScene());
 		});
 	}
 	
+	/**
+	 * Returns the event handler for shopping list button clicked
+	 * @return event handler
+	 */
 	public EventHandler getToShoppingListOnClickHandler() {
 		return (event -> {
 			stage.setScene(shopView.getScene());
@@ -109,18 +120,30 @@ public class Controller extends Application{
 		});
 	}
 	
+	/**
+	 * Returns the event handler for report button clicked
+	 * @return event handler
+	 */
 	public EventHandler getToReportOnClickHandler() {
 		return (event -> {
 			stage.setScene(reportView.getScene());
 		});
 	}
 	
+	/**
+	 * Returns the event handler for compare plants button clicked
+	 * @return event handler
+	 */
 	public EventHandler getToCompareOnClickHandler() {
 		return (event -> {
 			stage.setScene(compPlantsView.getScene());
 		});
 	}
 	
+	/**
+	 * Returns the event handler for set dimensions button clicked
+	 * @return event handler
+	 */
 	public EventHandler drawPlotGrid() {
 		return (event->{
 			double pixelsPerFoot = plotDesignView.drawGrid();
@@ -128,6 +151,10 @@ public class Controller extends Application{
 		});
 	}
 	
+	/**
+	 * Returns the change listener for plot design height change
+	 * @return change listener
+	 */
 	public ChangeListener<Object> getPDHeightChangeListener() {
 		return new ChangeListener<Object>() {
 			public void changed(ObservableValue observable,
@@ -139,6 +166,11 @@ public class Controller extends Application{
 		};
 	}
 	
+
+	/**
+	 * Returns the change listener for plot design width change
+	 * @return change listener
+	 */
 	public ChangeListener<Object> getPDWidthChangeListener() {
 		return new ChangeListener<Object>() {
 			public void changed(ObservableValue observable,
@@ -149,10 +181,11 @@ public class Controller extends Application{
 			}
 		};
 	}
-	
-	
-	
-	//Handler for the DrawPlot button in PlotDesignnView
+
+	/**
+	 * Returns the event handler for draw plot button in plotdesignview
+	 * @return event handler
+	 */
 	public EventHandler getDrawPlotHandler() {
 		return (event -> {
 			//get Options values and create a new plot with these options
@@ -166,9 +199,11 @@ public class Controller extends Application{
 			plotDesignView.allowDrawing();
 		});
 	}
-	
-	
-	//Handler for detecting start of drag for drawing plot
+
+	/**
+	 * Returns the event handler for initiating drawing a plot
+	 * @return event handler
+	 */
 	public EventHandler getDrawPlotDragDetected() {
 		return (event->{
         	System.out.println("Draw Plot Mouse Pressed");
@@ -178,7 +213,10 @@ public class Controller extends Application{
         });
 	}
 	
-	//Handler for while plot is being drawn
+	/**
+	 * Returns the event handler for while the plot is being drawn, while mouse is being dragged
+	 * @return event handler
+	 */
 	public EventHandler getDrawPlotDragged() {
 		return (event->{
 			System.out.println("Draw Plot Mouse Dragged");
@@ -187,7 +225,10 @@ public class Controller extends Application{
         });
 	}
 	
-	//Handler for when plot is done being drawn
+	/**
+	 * Returns the event handler for when the plot is done drawing. On drag complete
+	 * @return event handler
+	 */	
 	public EventHandler getOnDrawPlotDone() {
 		return (event->{
 			System.out.println("Draw Plot Mouse Released");
@@ -205,7 +246,12 @@ public class Controller extends Application{
         });
 	}
 	
-	//Button functionality for toGarden
+	/**
+	 * Returns the event handler for the to garden button in plotdesignview
+	 * Transform plots to fit in the gardeneditor, set a new scale, smooth the newly scaled plots
+	 * Update information in right bar with garden info and send a recommended plant list based on plot
+	 * @return event handler
+	 */
 	public EventHandler getToGardenOnClickHandler() {
 		return (event -> {
 			garden.setBudget(plotDesignView.getBudget());
@@ -235,6 +281,11 @@ public class Controller extends Application{
 		});
 	}
 		
+	/**
+	 * Returns the event handler for clicking an image in the garden editor
+	 * Updates plant info in gardeneditorview
+	 * @return event handler
+	 */
 	public EventHandler getOnImageClickedInfo() {
 		return (event-> {
 			System.out.println("In Image Clicked on Handler");
@@ -249,7 +300,10 @@ public class Controller extends Application{
 	}
 	
 	
-	//Handler for image being dragged
+	/**
+	 * Returns the event handler for initiating dragging a plant from the recommended bar to a plot
+	 * @return event handler
+	 */
 	public EventHandler getOnImageDraggedHandler() {
 		return (event -> {
 			System.out.println("On dragged (drag detected plant image handler)");
@@ -284,7 +338,10 @@ public class Controller extends Application{
 		});
 	}
 
-	//Handler for dragOver
+	/**
+	 * Returns the event handler for while the plant/image is being dragged
+	 * @return event handler
+	 */
 	public EventHandler getOnDragOverHandler() {
 		return (event -> {
 			System.out.println("On drag over (while dragging image)");
@@ -293,7 +350,10 @@ public class Controller extends Application{
 		});
 	}
 	
-	//Handler for dropping image into plot
+	/**
+	 * Returns the event handler for when the image is dropped, drag complete
+	 * @return event handler
+	 */
 	public EventHandler getOnDragDroppedHandler() {
 		return (event -> {
 			System.out.println("On drag dropped (drop plant image)");
