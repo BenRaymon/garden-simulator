@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+
 public class ReportView extends View{
 
 	private Text title;
@@ -54,6 +55,9 @@ public class ReportView extends View{
 		sp = new ScrollPane();
 		
 		plantData = new GridPane();
+		plantData.setHgap(10);
+		plantData.setVgap(10);
+
 		//Instantiates pieChart
 		ObservableList<PieChart.Data> plantsInGardenPieChartData = FXCollections.observableArrayList();
 		ObservableList<Plant> plantsInGardenTableData = FXCollections.observableArrayList();
@@ -87,6 +91,11 @@ public class ReportView extends View{
         stage.show();
 	}
 	
+	/**
+	 * Sets the scroll pane to the gridPane plantData, and adds the scroll pane to reportGrid. 
+	 * @param None
+	 * @return None
+	 */
 	public void showReport() {
 		//Clears out content in reportGrid, and adds Scroll Pane
 		reportGrid.getChildren().clear();
@@ -94,6 +103,12 @@ public class ReportView extends View{
 		reportGrid.add(sp,0,0);
 	}
 	
+	/**
+	 * Creates an instance of a pie chart, using the data found in the plantsInGardenPieChartData observable list. 
+	 * Adds this to the plantData Scroll Pane.
+	 * @param None
+	 * @return None 
+	 */
 	public void addGardenPieGraph() {
 		PieChart plantChart = new PieChart(plantsInGardenPieChartData);
 		plantChart.setTitle("Perennial Diversity");
@@ -101,8 +116,18 @@ public class ReportView extends View{
 		
 		
 	}
+	/**
+	 * Adds the budget and spent values to a gridpane, and adds the gridPane to the plantData gridPane. 
+	 * @param spent
+	 * @param budget
+	 * @return None
+	 */
 	public void addBudgetBox(double spent, double budget) {
 		GridPane budgetGrid = new GridPane();
+		budgetGrid.setHgap(10);
+		budgetGrid.setVgap(10);
+		budgetGrid.setGridLinesVisible(true);
+		budgetGrid.setAlignment(Pos.CENTER);
 		Text spentText = new Text("Spent: " + spent);
 		Text budgetText = new Text("Budget: " + budget);
 
@@ -133,6 +158,12 @@ public class ReportView extends View{
 	*/
 	
 	
+	/**
+	 * Adds a pieChart.Data() object to the observable arrayList addItemToPieGraph using the plantName and plantNum parameters. 
+	 * @param plantName
+	 * @param plantNum
+	 * @return None
+	 */
 	public void addItemToPieGraph(String plantName, int plantNum) {
 		plantsInGardenPieChartData.add(new PieChart.Data(plantName,plantNum));
 	}
@@ -146,6 +177,11 @@ public class ReportView extends View{
 	
 	
 	
+	/**
+	 * Creates the bottom pane that holds a button to return to return to the main garden editor screen.  
+	 * @param None
+	 * @return bottom_grid
+	 */
 	public GridPane createBottom() {
 		GridPane bottom_grid = new GridPane();
 		bottom_grid.setAlignment(Pos.CENTER_LEFT);
@@ -157,19 +193,28 @@ public class ReportView extends View{
 		return bottom_grid;	
 	}
 	
+	/**
+	 * Getter for Scene.
+	 *@return scene
+	 */
 	public Scene getScene() {
 		return scene;
 	}
 	
 	
-	public void displayReport(String title, String summary) {
-		
-	}
 	
+	/**
+	 * Getter for PerennialDiversityOption checkbox.
+	 * @return perennialDiversityOption
+	 */
 	public CheckBox getPerennialDiversityOption() {
 		return perennialDiversityOption;
 	}
 	
+	/**
+	 * Getter for BudgetOption checkbox. 
+	 * @return budgetOption
+	 */
 	public CheckBox getBudgetOption() {
 		return budgetOption;
 	}
