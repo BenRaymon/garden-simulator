@@ -63,7 +63,7 @@ public class CompPlants {
 	}
 	
 	/**
-	 * Accpets a plant name as a string, and returns the upper plant size. 
+	 * Accepts a plant name as a string, and returns the upper plant size. 
 	 * @param String plantName
 	 * @return double upperSize
 	 */
