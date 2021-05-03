@@ -254,21 +254,32 @@ public class Controller extends Application{
 	 */
 	public EventHandler getToGardenOnClickHandler() {
 		return (event -> {
+			//set the budget in the garden to the current budget in the plotdesignview
 			garden.setBudget(plotDesignView.getBudget());
+			//set new scene to gardeneditorview
 			stage.setScene(gardenEditorView.getScene());
+			//update budget in the view
 			gardenEditorView.setBudget(garden.getBudget());
+			
+			//create list of plots for recommended plant list selection
+			gardenEditorView.setPlotBoxes(garden.getPlots());
+			
+			//get the current canvas size
 			double h = gardenEditorView.getCanvasHeight();
 			double w = gardenEditorView.getCanvasWidth();
-			double t = gardenEditorView.getTopHeight();
+			//transform plots to and calculate scale 
 			double pixelsPerFoot = GardenEditor.transformPlots(garden.getPlots(), w, h, garden.getScale());
+			//set the new scale in both the model and the view
 			garden.setScale(pixelsPerFoot);
 			gardenEditorView.setScale(pixelsPerFoot);
+			//smooth the plots in the model and fill them based on soil type
 			for (Plot p : garden.getPlots()) {
 				p.setCoordinates(p.filterCoords(5));
 				p.setCoordinates(GardenEditor.smooth(p.getCoordinates(), 0.3, 20));
 				gardenEditorView.setFillColor(p.getOptions());
 				gardenEditorView.drawPlot(p.getCoordinates());
 			}
+			//update leps supported
 			gardenEditorView.updatePlantLepNums(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
 			
 			//Recommended plant list stuff
@@ -295,13 +306,9 @@ public class Controller extends Application{
 	public EventHandler getOnImageClickedInfo() {
 		return (event-> {
 			System.out.println("In Image Clicked on Handler");
-			Circle plantCirc = (Circle)event.getSource();
-			Image plantImage = ((ImagePattern)plantCirc.getFill()).getImage();
-			gardenEditorView.setPlantInfoImage(plantImage);
-			String plant = gardenEditorView.getPlantName(plantImage);
-			Plant selectedPlant = garden.getPlant(plant);
-			gardenEditorView.setPlantInfo(selectedPlant);
-			
+			String plantName = gardenEditorView.getPlantName(event);
+			Plant selectedPlant = garden.getPlant(plantName);
+			gardenEditorView.setPlantInfo(selectedPlant, garden.getPlots());
 		});
 	}
 	
@@ -600,7 +607,7 @@ public class Controller extends Application{
 			System.out.println(garden.getPlots());
 			double h = gardenEditorView.getCanvasHeight();
 			double w = gardenEditorView.getCanvasWidth();
-			double t = gardenEditorView.getTopHeight();
+			double t = gardenEditorView.getTopBar();
 			double pixelsPerFoot = GardenEditor.transformPlots(garden.getPlots(), w, h, garden.getScale());
 			garden.setScale(pixelsPerFoot);
 			gardenEditorView.setScale(pixelsPerFoot);
