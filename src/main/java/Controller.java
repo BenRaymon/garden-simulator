@@ -157,14 +157,11 @@ public class Controller extends Application{
 	 * @return change listener
 	 */
 	public ChangeListener<Object> getPDHeightChangeListener() {
-		return new ChangeListener<Object>() {
-			public void changed(ObservableValue observable,
-					Object oldValue, Object newValue) {
+		return ((observable, oldValue, newValue) -> {
 				plotDesignView.heightChanged(newValue);
 				double pixelsPerFoot = plotDesignView.drawGrid();
 				garden.setScale(pixelsPerFoot);
-			}
-		};
+		});
 	}
 	
 
@@ -173,14 +170,11 @@ public class Controller extends Application{
 	 * @return change listener
 	 */
 	public ChangeListener<Object> getPDWidthChangeListener() {
-		return new ChangeListener<Object>() {
-			public void changed(ObservableValue observable,
-					Object oldValue, Object newValue) {
+		return ((observable, oldValue, newValue) -> {
 				plotDesignView.widthChanged(newValue);
 				double pixelsPerFoot = plotDesignView.drawGrid();
 				garden.setScale(pixelsPerFoot);
-			}
-		};
+		});
 	}
 
 	/**
@@ -309,7 +303,7 @@ public class Controller extends Application{
 			System.out.println("In Image Clicked on Handler");
 			String plantName = gardenEditorView.getPlantName(event);
 			Plant selectedPlant = garden.getPlant(plantName);
-			gardenEditorView.setPlantInfo(selectedPlant, garden.getPlots());
+			gardenEditorView.setPlantInfo(selectedPlant);
 		});
 	}
 	
@@ -441,6 +435,13 @@ public class Controller extends Application{
 			gardenEditorView.setPlantImages(recommendedPlants.keySet());
 		});
 	}
+	
+	public ChangeListener getSortByHandler() {
+		return ((ov, t, t1) -> {
+			
+		});
+	}
+	
 	/**
 	 * Event handler that gets text from search bar in compPlantsView, searches for plant from all loaded plants in model,
 	 * and sends info gotten from compPlants to compPlantsView on button Click (Right Button Click).

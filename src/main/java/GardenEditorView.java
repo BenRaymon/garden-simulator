@@ -48,6 +48,7 @@ public class GardenEditorView extends View {
 	private GridPane right, left;
 	private ListView<Circle> top;
 	private BorderPane base;
+	private ComboBox sortBy;
 	private Scene scene;
 	private Button toShoppingList;
 	private Button saveGarden; // save the garden to a .dat file
@@ -97,10 +98,10 @@ public class GardenEditorView extends View {
 		
 		createRight();
 		createLeft();
-		setPlantInfo(null, null);
+		setPlantInfo(null);
 		GridPane bottom = createBottom();
 		addPageButtons(bottom);
-		
+		createComboBox();
 	
 		//create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -158,6 +159,13 @@ public class GardenEditorView extends View {
 			gc.setFill(Color.SADDLEBROWN);
 		else if (soil[2] == 1) 
 			gc.setFill(Color.SANDYBROWN);
+	}
+	
+	public void createComboBox() {
+		sortBy = new ComboBox();
+		sortBy.valueProperty().addListener(controller.getSortByHandler());
+		sortBy.getItems().addAll("Butterfly Count", "Plant Size");
+		left.add(sortBy, 0, 10);
 	}
 	
 	
@@ -254,7 +262,7 @@ public class GardenEditorView extends View {
 	 * Sets all the plants info on left pane
 	 * @param plant
 	 */
-	public void setPlantInfo(Plant plant, ArrayList<Plot> plots) {
+	public void setPlantInfo(Plant plant) {
 		if (plant == null) {
 			Text t = new Text("Click a Plant to See it's Info");
 			left.add(t, 0, 0);
@@ -271,6 +279,7 @@ public class GardenEditorView extends View {
 			addSize(plant);
 			addCost(plant);
 			addColor(plant);
+			left.add(sortBy,0,10);
 		}
 	}
 	
