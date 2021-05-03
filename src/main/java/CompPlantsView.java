@@ -54,15 +54,19 @@ public class CompPlantsView extends View {
 
 	// Actual barChart
 	private BarChart<String, Number> bc;
-	
-	//Hbox holds plant data
+
+	// Hbox holds plant data
 	HBox plantDataHbox;
+
+	private ObservableList<String> plantsList;
+	private ListView<String> plantsListView;
 
 	// --------------------------
 
 	/**
 	 * Creates the compPlantsView.
-	 * @param Stage stage
+	 * 
+	 * @param Stage      stage
 	 * @param Controller c
 	 */
 	public CompPlantsView(Stage stage, Controller c) {
@@ -99,6 +103,11 @@ public class CompPlantsView extends View {
 
 		plantNameInput = new TextField();
 
+		plantsList = FXCollections.observableArrayList("Test Plant A", "Test Plant B", "Test Plant C");
+		plantsListView = new ListView<String>();
+		plantsListView.setItems(plantsList);
+		plantsListView.setPrefHeight(100);
+
 		rightPlantButton.setOnMouseClicked(c.RightPlantButtonClickedHandler());
 		leftPlantButton.setOnMouseClicked(c.LeftPlantButtonClickedHandler());
 
@@ -109,13 +118,13 @@ public class CompPlantsView extends View {
 		base.add(plantSummaryB, 1, 0, 1, 1);
 		base.add(leftPlantButton, 0, 1, 1, 1);
 		base.add(rightPlantButton, 1, 1, 1, 1);
-		base.add(plantNameInput, 0, 2, 1, 1);
+		base.add(plantsListView, 0, 2, 1, 1);
 		base.add(list, 0, 3, 1, 1);
 		// base.add(bc,0,4,1,1);
-		
+
 		// get button styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
-		
+
 		// create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.getStylesheets().add(buttonStyle);
@@ -124,15 +133,17 @@ public class CompPlantsView extends View {
 	}
 
 	/**
-	 * Scene getter. 
-	 *@return Scene scene
+	 * Scene getter.
+	 * 
+	 * @return Scene scene
 	 */
 	public Scene getScene() {
 		return scene;
 	}
 
 	/**
-	 * TextBox getter. 
+	 * TextBox getter.
+	 * 
 	 * @return TextField plantNameInput
 	 */
 	public TextField getTextBox() {
@@ -140,7 +151,8 @@ public class CompPlantsView extends View {
 	}
 
 	/**
-	 * RightTextBox (plantSummaryB) setter. 
+	 * RightTextBox (plantSummaryB) setter.
+	 * 
 	 * @param String s
 	 */
 	public void setRightTextBox(String s) {
@@ -149,6 +161,7 @@ public class CompPlantsView extends View {
 
 	/**
 	 * RightTextBox (plantSummaryB) getter.
+	 * 
 	 * @return Text plantSummaryB
 	 */
 	public Text getRightBody() {
@@ -156,7 +169,8 @@ public class CompPlantsView extends View {
 	}
 
 	/**
-	 * LeftTextBox (plantSummaryA) getter. 
+	 * LeftTextBox (plantSummaryA) getter.
+	 * 
 	 * @return Text plantSummrayA
 	 */
 	public Text getLeftBody() {
@@ -165,6 +179,7 @@ public class CompPlantsView extends View {
 
 	/**
 	 * ObservableList getter.
+	 * 
 	 * @return ObservableList<String> items
 	 */
 	public ObservableList<String> getObservableList() {
@@ -173,15 +188,16 @@ public class CompPlantsView extends View {
 
 	/**
 	 * ListView getter.
+	 * 
 	 * @return ListView<String> list
 	 */
 	public ListView<String> getListView() {
 		return list;
 	}
 
-
 	/**
-	 * LepCompare setter. 
+	 * LepCompare setter.
+	 * 
 	 * @param plantAName
 	 * @param plantBName
 	 * @param plantALeps
@@ -209,7 +225,8 @@ public class CompPlantsView extends View {
 	}
 
 	/**
-	 * RadiusCompare setter. 
+	 * RadiusCompare setter.
+	 * 
 	 * @param plantAName
 	 * @param plantBName
 	 * @param plantASpreadLower
@@ -246,7 +263,8 @@ public class CompPlantsView extends View {
 	}
 
 	/**
-	 * SizeCompare Setter. 
+	 * SizeCompare Setter.
+	 * 
 	 * @param plantAName
 	 * @param plantBName
 	 * @param plantASizeLower
@@ -258,7 +276,7 @@ public class CompPlantsView extends View {
 			double plantBSizeLower, double plantBSizeUpper) {
 		base.getChildren().remove(bc);
 		base.getChildren().remove(plantDataHbox);
-		
+
 		xAxis = new CategoryAxis();
 		yAxis = new NumberAxis();
 		xAxis.setLabel("Plant names");
@@ -281,9 +299,10 @@ public class CompPlantsView extends View {
 		base.add(bc, 0, 4, 1, 1);
 
 	}
-	
+
 	/**
-	 * GeneralInfoCompare setter. 
+	 * GeneralInfoCompare setter.
+	 * 
 	 * @param aDescription
 	 * @param bDescription
 	 */
@@ -291,22 +310,23 @@ public class CompPlantsView extends View {
 		System.out.println("Inside general info compare");
 		base.getChildren().remove(bc);
 		base.getChildren().remove(plantDataHbox);
-		
+
 		plantDataHbox = new HBox();
 		plantDataHbox.setSpacing(10);
-		Text plantInfoLabel = new Text("--Common Name--\n--Scientific Name--\n--Family--\n--Color--\n--Lower Size(In feet)--\n--Upper Size(In feet)--\n--Lower Radius(In feet)--\n--Upper Radius(In feet)--");
-		
+		Text plantInfoLabel = new Text(
+				"--Common Name--\n--Scientific Name--\n--Family--\n--Color--\n--Lower Size(In feet)--\n--Upper Size(In feet)--\n--Lower Radius(In feet)--\n--Upper Radius(In feet)--");
+
 		Text plantInfoA = new Text(aDescription);
 		Text plantInfoB = new Text(bDescription);
-		plantDataHbox.getChildren().addAll(plantInfoA,plantInfoLabel,plantInfoB);
-		
-		
-		base.add(plantDataHbox,0,4,1,1);
-		
+		plantDataHbox.getChildren().addAll(plantInfoA, plantInfoLabel, plantInfoB);
+
+		base.add(plantDataHbox, 0, 4, 1, 1);
+
 	}
 
 	/**
-	 * AName Setter. 
+	 * AName Setter.
+	 * 
 	 * @param String n
 	 */
 	public void setAName(String n) {
@@ -314,10 +334,22 @@ public class CompPlantsView extends View {
 	}
 
 	/**
-	 * BName Setter. 
+	 * BName Setter.
+	 * 
 	 * @param String n
 	 */
 	public void setBName(String n) {
 		plantBName = n;
+	}
+
+	public void setPlantList(String p) {
+		plantsList.add(p);
+	}
+
+	public void clearPlantList() {
+		plantsList.clear();
+	}
+	public ListView<String> getplantList() {
+		return plantsListView;
 	}
 }
