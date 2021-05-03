@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -53,7 +54,7 @@ public class GardenEditorView extends View {
 	private GraphicsContext gc;
 	private int imageInc = 1;
 	private TextField garden_name; // name the garden (used to load garden)
-	private VBox plantBox;
+	private VBox plantBox, plotSelectors;
 	private Text lepCount = new Text("0");
 	private Text plantCount = new Text("0");
 	private Text budgetText = new Text();
@@ -109,12 +110,21 @@ public class GardenEditorView extends View {
 	
 	
 	public void setPlotBoxes(ArrayList<Plot> plots) {
-		VBox plotSelectors = new VBox();
-		int index = 0;
+		plotSelectors = new VBox();
+		Insets margins = new Insets(5,5,5,15);
+		plotSelectors.getChildren().add(new Text("Select plots"));
+		int index = 1;
 		for (Plot plot : plots) {
 			CheckBox plotCheck = new CheckBox("Plot " + index++);
+			plotCheck.setOnAction(controller.getSelectPlotCheckboxHander());
 			plotSelectors.getChildren().add(plotCheck);
 		}
+		
+		for(Node x : plotSelectors.getChildren()) {
+			plotSelectors.setMargin(x, margins);
+		}
+		
+		((CheckBox) plotSelectors.getChildren().get(1)).setSelected(true);
 		plantBox.getChildren().add(plotSelectors);
 	}
 
@@ -468,6 +478,42 @@ public class GardenEditorView extends View {
 		saveGarden = new Button("Save");
 		saveGarden.setOnMouseClicked(controller.SaveButtonClickedHandler());
 		bottom.add(saveGarden, 6, 0);
+	}
+	
+	/**
+	 * returns the index of the plot that the checkbox represents
+	 * @param event which should represent the checkbox that was changed
+	 * @return index of plot
+	 */
+	public int getPlotIndex(Event e) {
+		if (e.getSource() instanceof CheckBox) {
+            CheckBox chk = (CheckBox) e.getSource();
+            return Integer.parseInt(chk.getText().substring(5)) - 1;
+        }
+		else
+			return -1;
+	}
+	
+	/**
+	 * get the values of the current plot selections
+	 * @return an array list of 1s and 0s representing if the recommended plants for each plot should be shown
+	 */
+	public ArrayList<Integer> getSelections() {
+		
+		ArrayList<Integer> selections = new ArrayList<Integer>(); 
+		
+		//box of checkboxes
+		for(Node n : plotSelectors.getChildren()) {
+			if (n instanceof CheckBox) {
+				CheckBox chk = (CheckBox) n;
+				if(chk.isSelected())
+					selections.add(1);
+				else
+					selections.add(0);
+			}
+		}
+		
+		return selections;
 	}
 	
 	

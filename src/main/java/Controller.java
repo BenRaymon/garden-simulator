@@ -13,6 +13,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -419,6 +420,27 @@ public class Controller extends Application{
 		});
 	}
 	
+	public EventHandler getSelectPlotCheckboxHander() {
+		return (event -> {
+			int plotIndex = gardenEditorView.getPlotIndex(event);
+			ArrayList<Integer> plotSelections = gardenEditorView.getSelections();
+			//Construct the recommended plant list if this plot does not have one already
+			if(garden.getPlots().get(plotIndex).getRecommendedPlants() == null) {
+				garden.getPlots().get(plotIndex).createRecommendedPlants();
+			}
+			//new blank recommendedPlant list
+			HashMap<String, Plant> recommendedPlants = new HashMap<String, Plant>();
+			int index = 0; //index of plot as it iterates thru them
+			for(Integer selection : plotSelections) {
+				//if the checkbox is checked, add the recommended plants for this plot to the list
+				if (selection == 1)
+					recommendedPlants.putAll(garden.getPlots().get(index).getRecommendedPlants());
+				index++;
+			}
+			//set the final list of recommended plants in the view based on the selected checkboxes
+			gardenEditorView.setPlantImages(recommendedPlants.keySet());
+		});
+	}
 	/**
 	 * Event handler that gets text from search bar in compPlantsView, searches for plant from all loaded plants in model,
 	 * and sends info gotten from compPlants to compPlantsView on button Click (Right Button Click).
