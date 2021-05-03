@@ -420,6 +420,11 @@ public class Controller extends Application{
 		});
 	}
 	
+	/**
+	 * Returns event handler for changing selection of plots in the checkbox
+	 * This method updates the recommended plants list in the view based on which boxes are checked
+	 * @return event handler
+	 */
 	public EventHandler getSelectPlotCheckboxHander() {
 		return (event -> {
 			int plotIndex = gardenEditorView.getPlotIndex(event);
@@ -446,6 +451,11 @@ public class Controller extends Application{
 		});
 	}
 	
+	/**
+	 * Returns the change listener that activates when an item is selected in the sort by dropdown
+	 * This method sorts the recommended plants based on the selected option
+	 * @return ChangeListener
+	 */
 	public ChangeListener getSortByHandler() {
 		return ((ov, t, t1) -> {
 			//get the hashmap of recommended plants from the model

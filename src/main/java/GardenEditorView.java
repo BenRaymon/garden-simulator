@@ -1,11 +1,7 @@
-import java.io.File;
-import java.io.InputStream;
-import java.nio.file.Paths;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.ListIterator;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javafx.scene.control.*;
@@ -25,15 +21,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.DataFormat;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -42,19 +35,14 @@ public class GardenEditorView extends View {
 
 	private Controller controller;
 	private HashMap<Image, String> recommendedPlantImages;
-	private ArrayList<Circle> recommendedPlantCircs;
 	private Image selectedPlant;
-	private Text selectedPlantInfo;
 	private GridPane right, left;
 	private ListView<Circle> top;
 	private BorderPane base;
 	private ComboBox sortBy;
 	private Scene scene;
-	private Button toShoppingList;
-	private Button saveGarden; // save the garden to a .dat file
 	private GraphicsContext gc;
-	private int imageInc = 1;
-	private TextField garden_name; // name the garden (used to load garden)
+	private TextField gardenName; // name the garden (used to load garden)
 	private VBox plantBox, plotSelectors;
 	private Text lepCount = new Text("0");
 	private Text plantCount = new Text("0");
@@ -90,11 +78,6 @@ public class GardenEditorView extends View {
 		gc.setLineWidth(1);
 		base.setCenter(drawArea);
 		
-		//TEMP
-		drawArea.setOnMouseClicked(event -> {
-			System.out.println(((MouseEvent) event).getSceneX());
-			System.out.println(((MouseEvent) event).getSceneY());
-		});
 		
 		createRight();
 		createLeft();
@@ -114,6 +97,10 @@ public class GardenEditorView extends View {
 	}
 	
 	
+	/**
+	 * Creates the a vbox of checkboxes for every plot in the garden
+	 * @param plots a list of all the plots in the garden
+	 */
 	public void setPlotBoxes(ArrayList<Plot> plots) {
 		plotSelectors = new VBox();
 		Insets margins = new Insets(5,5,5,15);
@@ -165,6 +152,9 @@ public class GardenEditorView extends View {
 			gc.setFill(Color.SANDYBROWN);
 	}
 	
+	/**
+	 * Create the combobox to hold options for sort criteria
+	 */
 	public void createComboBox() {
 		sortBy = new ComboBox();
 		sortBy.valueProperty().addListener(controller.getSortByHandler());
@@ -233,7 +223,7 @@ public class GardenEditorView extends View {
 	 */
 	public void setPlantImages(ArrayList<String> plantNames){
 		recommendedPlantImages = new HashMap<Image, String>();
-		recommendedPlantCircs = new ArrayList<Circle>();
+		ArrayList<Circle> recommendedPlantCircs = new ArrayList<Circle>();
 		
 		ConcurrentHashMap<String, Image> allImages = View.getImages();
 		
@@ -473,7 +463,7 @@ public class GardenEditorView extends View {
 	 * Adds the page buttons
 	 */
 	public void addPageButtons(GridPane bottom) {
-		toShoppingList = new Button("Shopping List");
+		Button toShoppingList = new Button("Shopping List");
 		toShoppingList.setOnMouseClicked(controller.getToShoppingListOnClickHandler());
 		bottom.add(toShoppingList, 2, 0);
 		
@@ -485,10 +475,10 @@ public class GardenEditorView extends View {
 		toComp.setOnMouseClicked(controller.getToCompareOnClickHandler());
 		bottom.add(toComp, 4, 0);
 		
-		garden_name = new TextField();
-		bottom.add(garden_name, 5, 0);
+		gardenName = new TextField();
+		bottom.add(gardenName, 5, 0);
 		
-		saveGarden = new Button("Save");
+		Button saveGarden = new Button("Save");
 		saveGarden.setOnMouseClicked(controller.SaveButtonClickedHandler());
 		bottom.add(saveGarden, 6, 0);
 	}
@@ -537,14 +527,6 @@ public class GardenEditorView extends View {
 	public void setBudgetLeft(double remaining) {
 		budgetLeft = remaining;
 		createRightText();
-	}
-	
-	/**
-	 * Getter for shoppign list button
-	 * @return shopping list button
-	 */
-	public Button getToShoppingListButton() {
-		return this.toShoppingList;
 	}
 	
 	/**
@@ -657,7 +639,7 @@ public class GardenEditorView extends View {
 	 * @return garden name
 	 */
 	public TextField getGardenName() {
-		return garden_name;
+		return gardenName;
 	}
 	
 	/**
