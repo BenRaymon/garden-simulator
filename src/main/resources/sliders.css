@@ -1,0 +1,22 @@
+.slider {
+	-fx-font-family: sans-serif;
+	-fx-click-to-position: true;
+	-fx-control-inner-background: #E2E4E0;
+}
+
+.slider .track {
+	-fx-pref-height:10;
+}
+
+.slider .thumb {
+	-fx-background-color: 
+        #596E89;
+	-fx-pref-height: 25;
+	-fx-pref-width: 25;
+}
+
+.slider .thumb:hover {
+	-fx-background-color:
+		 #263C46;
+	-fx-effect: dropshadow(gaussian, #000000, 10, 0.25, 0, 0);
+}

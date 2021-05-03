@@ -103,8 +103,12 @@ public class GardenEditorView extends View {
 		addPageButtons(bottom);
 		createComboBox();
 	
+		// get button styles
+		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
+
 		//create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
+		scene.getStylesheets().add(buttonStyle);
 		stage.setScene(scene);
         stage.show();
 	}

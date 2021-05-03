@@ -60,9 +60,13 @@ public class ShoppingListView extends View{
 		base.add(center, 0, 10);
 		//addPlaceHolderText();
 		
+		// get button styles
+		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
+		
 		//create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
-        stage.setScene(scene);
+        scene.getStylesheets().add(buttonStyle);
+		stage.setScene(scene);
         stage.show();
 	}
 	

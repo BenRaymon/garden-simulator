@@ -79,13 +79,12 @@ public class LoadSavedGardenView extends View {
 		base.add(sideBySide,0,0);
 		base.setStyle("-fx-background-color: BEIGE");
 		
+		// get the button styles
+		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
 		
-		//base.add(to_garden_editor, 0, 10);
-		//base.add(delete_garden, 1, 10);
-		//base.add(to_home, 2, 10);
-		//base.add(list_box, 0, 20);
-		
+		// set the scene
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
+		scene.getStylesheets().add(buttonStyle);
 		stage.setScene(scene);
 		stage.show();
 	}
