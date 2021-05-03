@@ -28,6 +28,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 public class PlotDesignView extends View {
 
@@ -298,9 +299,33 @@ public class PlotDesignView extends View {
 		sliderStandards(soilType);
 		sliderStandards(moisture);
 		
-		Text sunlightText = new Text("Sunlight Level");
-		Text soilTypeText = new Text("Soil Type");
-		Text moistureText = new Text("Moisture Level");
+		// makes the soiltype slider display Clay Loam and Sand instead of 1 2 and 3
+        soilType.setLabelFormatter(new StringConverter<Double>() {
+            @Override
+            public String toString(Double n) {
+                if (n < 2) return "Clay";
+                if (n < 3) return "Loam";
+
+                return "Sand";
+            }
+
+            @Override
+            public Double fromString(String s) {
+                switch (s) {
+                    case "Clay":
+                        return 0d;
+                    case "Loam":
+                        return 1d;
+
+                    default:
+                        return 3d;
+                }
+            }
+        });
+        
+		Label sunlightText = new Label("Sunlight Level");
+		Label soilTypeText = new Label("Soil Type");
+		Label moistureText = new Label("Moisture Level");
 		
 		VBox sliders = new VBox();
 		sliders.getChildren().add(sunlightText);
