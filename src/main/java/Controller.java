@@ -279,9 +279,15 @@ public class Controller extends Application{
 			
 			//Recommended plant list stuff
 			if(garden.getPlots().get(0).getRecommendedPlants() == null) {
+				//create recommended list for the first plot
 				garden.getPlots().get(0).createRecommendedPlants();
 				HashMap<String, Plant> recommendedPlants  = garden.getPlots().get(0).getRecommendedPlants();
-				gardenEditorView.setPlantImages(recommendedPlants.keySet());
+				garden.setRecommendedPlants(recommendedPlants);
+				//make an array list of all the plant names for the view
+				ArrayList<String> recommendedPlantNames = new ArrayList<String>();
+				recommendedPlantNames.addAll(recommendedPlants.keySet());
+				//set plant images based on list of plant names
+				gardenEditorView.setPlantImages(recommendedPlantNames);
 			}
 			
 		});
@@ -431,14 +437,23 @@ public class Controller extends Application{
 					recommendedPlants.putAll(garden.getPlots().get(index).getRecommendedPlants());
 				index++;
 			}
+			//set the recommended plant list for the garden
+			garden.setRecommendedPlants(recommendedPlants);
 			//set the final list of recommended plants in the view based on the selected checkboxes
-			gardenEditorView.setPlantImages(recommendedPlants.keySet());
+			ArrayList<String> plantNames = new ArrayList<String>();
+			plantNames.addAll(recommendedPlants.keySet());
+			gardenEditorView.setPlantImages(plantNames);
 		});
 	}
 	
 	public ChangeListener getSortByHandler() {
 		return ((ov, t, t1) -> {
-			
+			//get the hashmap of recommended plants from the model
+			HashMap<String, Plant> recommendedPlants = garden.getRecommendedPlants();
+			//sort the plans based on the chosen option, returns the list of sorted names
+			ArrayList<String> recommendedPlantNames = GardenEditor.sortRecommendedPlants(recommendedPlants, (String)t1);
+			//use the list of sorted names to display the newly sorted list of recommended plants
+			gardenEditorView.setPlantImages(recommendedPlantNames);
 		});
 	}
 	
@@ -671,7 +686,9 @@ public class Controller extends Application{
 			}
 			
 			HashMap<String, Plant> recommendedPlants  = garden.getPlots().get(0).getRecommendedPlants();
-			gardenEditorView.setPlantImages(recommendedPlants.keySet());
+			ArrayList<String> recommendedPlantNames = new ArrayList<String>();
+			recommendedPlantNames.addAll(recommendedPlants.keySet());
+			gardenEditorView.setPlantImages(recommendedPlantNames);
 			
 		});
 	}

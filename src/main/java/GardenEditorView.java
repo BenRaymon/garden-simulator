@@ -225,15 +225,15 @@ public class GardenEditorView extends View {
 	
 	/**
 	 * Draws images on top grid
-	 * @param keys
+	 * @param plantNames
 	 */
-	public void setPlantImages(Set<String> keys){
+	public void setPlantImages(ArrayList<String> plantNames){
 		recommendedPlantImages = new HashMap<Image, String>();
 		recommendedPlantCircs = new ArrayList<Circle>();
 		
 		ConcurrentHashMap<String, Image> allImages = View.getImages();
 		
-		Iterator<String> it = keys.iterator();
+		Iterator<String> it = plantNames.iterator();
 		
 		while(it.hasNext()) {
 			try {
