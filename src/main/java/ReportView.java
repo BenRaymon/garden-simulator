@@ -78,8 +78,12 @@ public class ReportView extends View{
 		generateButton.setOnMouseClicked(c.generateReportHandler());
 		reportGrid.add(generateButton,0,4);
 		
+		// get button styles
+		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
+		
 		//create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
+		scene.getStylesheets().add(buttonStyle);
         stage.setScene(scene);
         stage.show();
 	}

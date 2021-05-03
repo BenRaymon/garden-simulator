@@ -92,12 +92,16 @@ public class PlotDesignView extends View {
 		toGarden.setOnMouseClicked(controller.getToGardenOnClickHandler());
 		left_grid.add(toGarden, 0, 5);
 		
+		// get button styles
+		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
+		
 		// create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.setOnDragDetected(controller.getDrawPlotDragDetected());
 		scene.setOnMouseDragged(controller.getDrawPlotDragged());
 		scene.setOnMouseDragReleased(controller.getOnDrawPlotDone());
 		scene.setOnMouseReleased(controller.getOnDrawPlotDone());
+		scene.getStylesheets().add(buttonStyle);
 		stage.setScene(scene);
 		stage.show();
 	
