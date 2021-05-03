@@ -50,4 +50,13 @@ public class OptionsTest{
 		assertEquals(test.getMoistures()[2],0);
 	}
 	
+	@Test
+	public void testToString() {
+		Options o = new Options(1,3,2);
+		String str = "Soil: [" + 1 + ", " + 0 + ", " + 0 + "] ";
+		str += "Sun: [" + 0 + ", " + 0 + ", " + 1 + "]";
+		str += "Moisture: [" + 0 + ", " + 1 + ", " + 0 + "]";
+		assertEquals(o.toString(), str);
+	}
+	
 }

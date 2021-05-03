@@ -45,4 +45,16 @@ public class PointTest {
 		assertEquals(testP.checkBoundry(), true);
 	}
 	
+	@Test
+	public void testDistance() {
+		Point a = new Point(10,10);
+		Point b = new Point(0,0);
+		assertEquals(a.distance(b), 14.142136, 0.2);
+	}
+	
+	@Test
+	public void testToString() {
+		Point a = new Point(1,2);
+		assertEquals(a.toString(), "(1.0, 2.0)");
+	}
 }

@@ -3,19 +3,30 @@ import java.io.File;
 import java.io.FileReader;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BackgroundDataLoader extends Thread {
 	private Thread thread;
 	private String threadName;
 	// Reference to our model's plant map
-	private HashMap<String, Plant> all_plants;
+	private ConcurrentHashMap<String, Plant> all_plants;
 	
-	public BackgroundDataLoader(String name, HashMap<String, Plant> ap) {
+	/**
+	 * Constructor for data loading
+	 * @param name name of the thread
+	 * @param all_plants2 static concurrenthashmap from the model to load plant data to
+	 * @return none
+	 */
+	public BackgroundDataLoader(String name, ConcurrentHashMap<String, Plant> all_plants2) {
 		System.out.println("BackgroundDataLoader created with thread name: " + name);
 		this.threadName = name;
-		this.all_plants = ap;
+		this.all_plants = all_plants2;
 	}
 	
+	/**
+	 * Start method for the thread
+	 * @return none
+	 */
 	public void start() {
 		System.out.println("Starting background load process");
 		if (thread == null) {
@@ -24,8 +35,19 @@ public class BackgroundDataLoader extends Thread {
 		}
 	}
 	
-	// The thread runs this function
+	/**
+	 * The run function for the thread, begins executing here.
+	 * @return none
+	 */
 	public void run() {
+		LoadPlantData();
+	}
+	
+	/**
+	 * This opens the data file for plant data and ensures all 366 are loaded
+	 * @return none
+	 */
+	private void LoadPlantData() {
 		//load data file and create a list of lines
 		File plantData = Paths.get("src/main/resources/data.csv").toFile().getAbsoluteFile();
 		BufferedReader br;
@@ -46,6 +68,11 @@ public class BackgroundDataLoader extends Thread {
 			System.out.println("All 366 plants loaded sucessfully in the background");
 	}
 	
+	/**
+	 * This function loads the plant data from the csv into a Plant object
+	 * @param line line in the csv file of data
+	 * @return none
+	 */
 	public void loadPlant(String line) {
 		if(line.contains("commonName"))
 			return;
@@ -95,10 +122,13 @@ public class BackgroundDataLoader extends Thread {
 		Options op = new Options(st,sl,m);
 		//create plant instance
 		Plant addPlant = new Plant(words[0], words[1], words[2], words[3], words[4], Double.parseDouble(words[5]), Double.parseDouble(words[6]), 
-							Integer.parseInt(words[7]), Integer.parseInt(words[8]),op, Double.parseDouble(words[9]), Integer.parseInt(words[10]), 
+							Double.parseDouble(words[7]), Double.parseDouble(words[8]),op, Double.parseDouble(words[9]), Integer.parseInt(words[10]), 
 							words[11].charAt(0));
 		//add plant to the static hashmap
-		all_plants.put(addPlant.getCommonName(), addPlant);
+		synchronized(all_plants) {
+			all_plants.put(addPlant.getScientificName(), addPlant);	
+		}
+		
 		
 		//DEBUG
 		System.out.println(addPlant.toString() + "||" + op.toString());
