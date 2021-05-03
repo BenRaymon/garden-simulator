@@ -95,6 +95,12 @@ public class PlotDesignView extends View {
 		// get button styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
 		
+		//get slider styles
+		String sliderStyle = getClass().getResource("sliders.css").toExternalForm();
+		
+		// get text styles
+		String textStyle = getClass().getResource("labels.css").toExternalForm();
+		
 		// create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.setOnDragDetected(controller.getDrawPlotDragDetected());
@@ -102,6 +108,8 @@ public class PlotDesignView extends View {
 		scene.setOnMouseDragReleased(controller.getOnDrawPlotDone());
 		scene.setOnMouseReleased(controller.getOnDrawPlotDone());
 		scene.getStylesheets().add(buttonStyle);
+		scene.getStylesheets().add(sliderStyle);
+		scene.getStylesheets().add(textStyle);
 		stage.setScene(scene);
 		stage.show();
 	
@@ -257,7 +265,7 @@ public class PlotDesignView extends View {
 		createSliders();
 		
 		RowConstraints row1 = new RowConstraints();
-	    row1.setPercentHeight(25);
+	    row1.setPercentHeight(35);
 	    RowConstraints row151 = new RowConstraints();
 	    row151.setPercentHeight(5);
 	    RowConstraints row15 = new RowConstraints();

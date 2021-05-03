@@ -16,3 +16,9 @@
 		 #263C46;
 	-fx-effect: dropshadow(gaussian, #000000, 10, 0.25, 0, 0);
 }
+
+.button:pressed {
+	-fx-background-color:
+		 #263C46;
+	-fx-effect: dropshadow(gaussian, #000000, 10, 0.25, 0, 0);
+}
