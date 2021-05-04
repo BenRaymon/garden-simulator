@@ -37,13 +37,14 @@ public class LoadSavedGardenView extends View {
 	private Scene scene;
 	private BorderPane base;
 	private Controller controller;
-	private Button to_garden_editor = new Button("Load Selection");
-	private Button delete_garden = new Button("Delete Selection");
+	private Button to_garden_editor = new Button("Load Garden");
+	private Button delete_garden = new Button("Delete Garden");
 	private Button to_home = new Button("Back to Home");
 	private VBox list_box;
 	private Label label = new Label("Saved Gardens, pick a garden to load");
 	private ObservableList<String> garden_names = FXCollections.observableArrayList();
 	private ListView<String> listView;
+	private GridPane right;
 	
 	
 	/**
@@ -58,6 +59,7 @@ public class LoadSavedGardenView extends View {
 		setObservableList(saved_g);
 		this.controller = c;
 		base = new BorderPane();
+		right = new GridPane();
 		
 		listView = new ListView<String>(garden_names);
 		listView.setMaxSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -67,28 +69,23 @@ public class LoadSavedGardenView extends View {
 		to_home.setOnMouseClicked(controller.fromLoadToHome());
 		list_box = createVBox();
 		
-		//GridPane sideBySide = new GridPane();
-		VBox buttonBox = new VBox(10);
-		buttonBox.getChildren().add(to_garden_editor);
-		buttonBox.getChildren().add(delete_garden);
-		buttonBox.getChildren().add(to_home);
-//		sideBySide.add(list_box,0,0);
-//		sideBySide.add(buttonBox,1,0);
-		
+		right.setHgap(10);
+		right.setVgap(10);
+		right.add(to_garden_editor, 0, 3);
+		right.add(delete_garden, 0, 8);
+		right.add(to_home, 0, 13);
+		right.setStyle("-fx-background-color: #678B5E");
+
 		// add the menu to the top of the screen
-//		Menu test = new Menu("test");
-//		MenuBar menu = new MenuBar(test);
 		MenuBox menu = new MenuBox(c);
 		base.setTop(menu);
 		base.setCenter(listView);
-		base.setRight(buttonBox);
-		base.setStyle("-fx-background-color: #678B5E");
+		base.setLeft(right);
+		//base.setStyle("-fx-background-color: #678B5E");
 		
 		// get the button styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
-		String menuStyle = getClass().getResource("menubox.css").toExternalForm();
 		String listStyle = getClass().getResource("listview.css").toExternalForm();
-		//String listStyle = getClass().getResource("menubox.css").toExternalForm();
 		// set the scene
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.getStylesheets().add(buttonStyle);

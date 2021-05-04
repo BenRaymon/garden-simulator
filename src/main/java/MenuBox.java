@@ -20,6 +20,7 @@ public class MenuBox extends Pane{
 		container = new GridPane();
 		createPane(container, "#E2E4E0");
 		container.setMinHeight(30);
+		container.setMinWidth(100);
 		
 		// make the buttons
 		load = new Button("Load Menu");

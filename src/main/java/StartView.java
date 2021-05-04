@@ -62,7 +62,7 @@ public class StartView extends View {
 	public StartView(Stage stage, Controller c) {
 		controller = c;
 		base = new VBox();
-		base.setStyle("-fx-background-color: darkseagreen");
+		base.setStyle("-fx-background-color: #678B5E");
 		
 		
 		
