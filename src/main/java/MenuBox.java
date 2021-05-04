@@ -1,8 +1,9 @@
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 
-public class MenuBox {
+public class MenuBox extends Pane{
 	Button plot_d;
 	Button editor;
 	Button report;
@@ -16,7 +17,7 @@ public class MenuBox {
 		// make the pane
 		container = new GridPane();
 		createPane(container, "darkgrey");
-		container.setMinHeight(100);
+		container.setMinHeight(30);
 		
 		// make the buttons
 		load = new Button("Load");
@@ -32,6 +33,8 @@ public class MenuBox {
 		container.add(report, 3, 0);
 		container.add(shopping_l, 4, 0);
 		container.add(comp_p, 5, 0);
+		
+		getChildren().add(container);
 	}
 	
 	/**
