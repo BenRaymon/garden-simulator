@@ -1,4 +1,6 @@
-
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,7 +24,11 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.input.DataFormat;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
@@ -50,6 +56,7 @@ public class GardenEditorView extends View {
 	private Text lepCount = new Text("0");
 	private Text plantCount = new Text("0");
 	private Text budgetText = new Text();
+	private VBox container;
 	
 	private double LEFTBAR = 350;
 	private double RIGHTBAR = 250;
@@ -85,15 +92,29 @@ public class GardenEditorView extends View {
 		createRight();
 		createLeft();
 		setPlantInfo(null);
-		GridPane bottom = createBottom();
-		addPageButtons(bottom);
-	
-		// get button styles
+		//createBottom();
+		//addPageButtons();
+		
+		// get button and scroll bar styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
-
+		String scrollBarStyle = getClass().getResource("scrollbars.css").toExternalForm();
+		
+		// add save inputs to menu for the editor, add menu to the container
+		gardenName = new TextField();
+		
+		Button saveGarden = new Button("Save");
+		saveGarden.setOnMouseClicked(controller.SaveButtonClickedHandler());
+		
+		MenuBox menu = new MenuBox(c);
+		menu.getContainer().add(gardenName, 6, 0);
+		menu.getContainer().add(saveGarden, 7, 0);
+		container = new VBox( menu, base);
+		
 		//create and set scene with base
-		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
+		scene = new Scene(container, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.getStylesheets().add(buttonStyle);
+		scene.getStylesheets().add(scrollBarStyle);
+		//scene.getStylesheets().add(menuStyle);
 		stage.setScene(scene);
         stage.show();
 	}
@@ -402,7 +423,7 @@ public class GardenEditorView extends View {
 	 */
 	public void createRight() {
 		right = new GridPane();
-		createPane(right, "darkseagreen");
+		createPane(right, "#678B5E");
 		right.setMinWidth(RIGHTBAR);
 		right.setAlignment(Pos.TOP_CENTER);
 		base.setRight(right);
@@ -452,10 +473,10 @@ public class GardenEditorView extends View {
 	 */
 	public void createLeft() {
 		VBox leftBase = new VBox();
-		leftBase.setStyle("-fx-background-color:darkseagreen");
+		leftBase.setStyle("-fx-background-color: #678B5E");
 		left  = new GridPane();
 		plantBox = new VBox();
-		createPane(left, "darkseagreen");
+		createPane(left, "#678B5E");
 		left.setAlignment(Pos.TOP_CENTER);
 		left.setMinWidth(LEFTBAR);
 		left.setMaxWidth(LEFTBAR);

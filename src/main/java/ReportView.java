@@ -45,7 +45,7 @@ public class ReportView extends View{
 		this.controller = c;
 		base = new BorderPane();
 		reportGrid = new GridPane();
-		base.setTop(reportGrid);
+		base.setCenter(reportGrid);
 		
 		toGardenEditor = new Button("Garden Editor");
 		toGardenEditor.setOnMouseClicked(controller.getToGardenOnClickHandler2());
@@ -80,7 +80,9 @@ public class ReportView extends View{
 		
 		// get button styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
+		MenuBox menu = new MenuBox(c);
 		
+		base.setTop(menu);
 		//create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.getStylesheets().add(buttonStyle);

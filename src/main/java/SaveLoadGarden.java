@@ -98,15 +98,16 @@ public class SaveLoadGarden {
 	 */
 	public ArrayList<Garden> deleteGarden(String g_name, ArrayList<Garden> list) {
 		// find and delete the garden
-		Garden tmp_g;
-		Iterator<Garden> itr = list.iterator();
-		while(itr.hasNext()) {
-			tmp_g = itr.next();
-			if(tmp_g.getName() == g_name) {
-				list.remove(tmp_g);
-				return list;
+		Garden ret_g = null;
+		
+		for(Garden g : list) {
+			if(g.getName() == g_name) {
+				ret_g = g;
+				break;
 			}
 		}
+		
+		list.remove(ret_g);
 		return list;
 	}
 	
@@ -120,16 +121,12 @@ public class SaveLoadGarden {
 	public Garden loadPickedGarden(String g_name, ArrayList<Garden> list) {
 		// find the garden by iterating over the given list and finding the element
 		// with a name that matches the given name.
-		int ind = 0;
 		Garden ret_g = null;
-		Iterator<Garden> saved_itr = list.iterator();
 		
-		while(saved_itr.hasNext()) {
-			ret_g = saved_itr.next();
-			if(ret_g.getName() == g_name) {
-				ret_g = list.get(ind);
-			} else {
-				ind++;
+		for(Garden g : list) {
+			if(g.getName() == g_name) {
+				ret_g = g;
+				break;
 			}
 		}
 		
