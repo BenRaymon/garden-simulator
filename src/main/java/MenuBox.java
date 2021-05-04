@@ -35,6 +35,7 @@ public class MenuBox extends Pane{
 		container.add(comp_p, 5, 0);
 		
 		getChildren().add(container);
+		getStylesheets().add(getClass().getResource("menubox.css").toExternalForm());
 	}
 	
 	/**

@@ -86,12 +86,12 @@ public class LoadSavedGardenView extends View {
 		
 		// get the button styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
-		String menuStyle = getClass().getResource("menu.css").toExternalForm();
+		String menuStyle = getClass().getResource("menubox.css").toExternalForm();
 		String listStyle = getClass().getResource("listview.css").toExternalForm();
+		//String listStyle = getClass().getResource("menubox.css").toExternalForm();
 		// set the scene
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.getStylesheets().add(buttonStyle);
-		scene.getStylesheets().add(menuStyle);
 		scene.getStylesheets().add(listStyle);
 		stage.setScene(scene);
 		stage.show();
