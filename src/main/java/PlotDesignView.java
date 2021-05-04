@@ -61,7 +61,6 @@ public class PlotDesignView extends View {
 	private double canvasWidth = WINDOW_WIDTH - LEFTBAR;
 	private double canvasHeight = WINDOW_HEIGHT;
 	private int scaleIndex = 50;
-	private VBox container;
 	
 	/**
 	 * Constructor
@@ -103,15 +102,15 @@ public class PlotDesignView extends View {
 		
 		//get slider styles
 		String sliderStyle = getClass().getResource("sliders.css").toExternalForm();
-		//String menuStyle = getClass().getResource("menu.css").toExternalForm();
+
 		// get text styles
 		String textStyle = getClass().getResource("labels.css").toExternalForm();
 		
 		MenuBox menu = new MenuBox(c);
+		base.setTop(menu);
 		
-		container = new VBox(30, menu, base);
 		// create and set scene with base
-		scene = new Scene(container, WINDOW_WIDTH, WINDOW_HEIGHT);
+		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.setOnDragDetected(controller.getDrawPlotDragDetected());
 		scene.setOnMouseDragged(controller.getDrawPlotDragged());
 		scene.setOnMouseDragReleased(controller.getOnDrawPlotDone());
@@ -119,7 +118,6 @@ public class PlotDesignView extends View {
 		scene.getStylesheets().add(buttonStyle);
 		scene.getStylesheets().add(sliderStyle);
 		scene.getStylesheets().add(textStyle);
-		//scene.getStylesheets().add(menuStyle);
 		stage.setScene(scene);
 		stage.show();
 	
@@ -129,7 +127,7 @@ public class PlotDesignView extends View {
 	
 	public void heightChanged(Object windowHeight) {
 		WINDOW_HEIGHT = (double) windowHeight;
-		canvasHeight = (double)windowHeight;
+		canvasHeight = (double)windowHeight - 60;
 		drawArea.setHeight(canvasHeight);
 		
 		gc = drawArea.getGraphicsContext2D();
