@@ -18,7 +18,7 @@ public class MenuBox extends Pane{
 		
 		// make the pane
 		container = new GridPane();
-		createPane(container, "darkgrey");
+		createPane(container, "#E2E4E0");
 		container.setMinHeight(30);
 		
 		// make the buttons

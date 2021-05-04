@@ -1,8 +1,8 @@
 .button {
     -fx-background-color: 
         #596E89;
-    -fx-background-insets: 0,1,2,3;
-    -fx-background-radius: 3,2,2,2;
+    /*-fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;*/
     -fx-padding: 6 15 6 15;
     -fx-text-fill: white;
     -fx-font-size: 14px;
