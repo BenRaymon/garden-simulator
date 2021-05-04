@@ -39,7 +39,7 @@ public class CompPlantsView extends View {
 	// private TableView table;
 	private ListView<String> list;
 	private ObservableList<String> items;
-	GridPane base;
+	BorderPane base;
 	// For bar graph ----------
 	// ** x and y axis for the bar graph. Can be whatever axis the bar graph needs.
 	private CategoryAxis xAxis;
@@ -57,6 +57,7 @@ public class CompPlantsView extends View {
 	
 	//Hbox holds plant data
 	HBox plantDataHbox;
+	GridPane center = new GridPane();
 
 	// --------------------------
 
@@ -67,15 +68,16 @@ public class CompPlantsView extends View {
 	 */
 	public CompPlantsView(Stage stage, Controller c) {
 		this.controller = c;
-		base = new GridPane();
-		base.setHgap(10);
-		base.setVgap(10);
-		base.setAlignment(Pos.CENTER);
+		
+		base = new BorderPane();
+		center.setHgap(10);
+		center.setVgap(10);
+		center.setAlignment(Pos.CENTER);
 
 		// button to go back to the garden editor
-		toGardenEditor = new Button("Garden Editor");
-		toGardenEditor.setOnMouseClicked(controller.getToGardenOnClickHandler2());
-		base.add(toGardenEditor, 0, 10);
+//		toGardenEditor = new Button("Garden Editor");
+//		toGardenEditor.setOnMouseClicked(controller.getToGardenOnClickHandler2());
+//		base.add(toGardenEditor, 0, 10);
 
 		// Creating table
 		items = FXCollections.observableArrayList("General Info", "Lep Compare", "Radius Compare", "Size Compare");
@@ -102,20 +104,23 @@ public class CompPlantsView extends View {
 		rightPlantButton.setOnMouseClicked(c.RightPlantButtonClickedHandler());
 		leftPlantButton.setOnMouseClicked(c.LeftPlantButtonClickedHandler());
 
-		GridPane center = new GridPane();
-
-		base.add(plantSummaryA, 0, 0, 1, 1);
+		//GridPane center = new GridPane();
+		MenuBox menu = new MenuBox(c);
+		
+		//center.add(menu, 0, 0, 1, 1);
+		center.add(plantSummaryA, 0, 0, 1, 1);
 		// base.add(list,0,0,1,1);
-		base.add(plantSummaryB, 1, 0, 1, 1);
-		base.add(leftPlantButton, 0, 1, 1, 1);
-		base.add(rightPlantButton, 1, 1, 1, 1);
-		base.add(plantNameInput, 0, 2, 1, 1);
-		base.add(list, 0, 3, 1, 1);
+		center.add(plantSummaryB, 1, 0, 1, 1);
+		center.add(leftPlantButton, 0, 1, 1, 1);
+		center.add(rightPlantButton, 1, 1, 1, 1);
+		center.add(plantNameInput, 0, 2, 1, 1);
+		center.add(list, 0, 3, 1, 1);
 		// base.add(bc,0,4,1,1);
 		
 		// get button styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
-		
+		base.setCenter(center);
+		base.setTop(menu);
 		// create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.getStylesheets().add(buttonStyle);
@@ -189,8 +194,8 @@ public class CompPlantsView extends View {
 	 */
 	public void setLepCompare(String plantAName, String plantBName, int plantALeps, int plantBLeps) {
 
-		base.getChildren().remove(bc);
-		base.getChildren().remove(plantDataHbox);
+		center.getChildren().remove(bc);
+		center.getChildren().remove(plantDataHbox);
 
 		xAxis = new CategoryAxis();
 		yAxis = new NumberAxis();
@@ -204,7 +209,7 @@ public class CompPlantsView extends View {
 		bc = new BarChart<String, Number>(xAxis, yAxis);
 		bc.setTitle("Leps Supported");
 		bc.getData().addAll(series1);
-		base.add(bc, 0, 4, 1, 1);
+		center.add(bc, 0, 4, 1, 1);
 
 	}
 
@@ -219,8 +224,8 @@ public class CompPlantsView extends View {
 	 */
 	public void setRadiusCompare(String plantAName, String plantBName, double plantASpreadLower,
 			double plantASpreadUpper, double plantBSpreadLower, double plantBSpreadUpper) {
-		base.getChildren().remove(bc);
-		base.getChildren().remove(plantDataHbox);
+		center.getChildren().remove(bc);
+		center.getChildren().remove(plantDataHbox);
 
 		xAxis = new CategoryAxis();
 		yAxis = new NumberAxis();
@@ -241,7 +246,7 @@ public class CompPlantsView extends View {
 		bc = new BarChart<String, Number>(xAxis, yAxis);
 		bc.setTitle("Plant Spread");
 		bc.getData().addAll(series1, series2);
-		base.add(bc, 0, 4, 1, 1);
+		center.add(bc, 0, 4, 1, 1);
 
 	}
 
@@ -256,8 +261,8 @@ public class CompPlantsView extends View {
 	 */
 	public void setSizeCompare(String plantAName, String plantBName, double plantASizeLower, double plantASizeUpper,
 			double plantBSizeLower, double plantBSizeUpper) {
-		base.getChildren().remove(bc);
-		base.getChildren().remove(plantDataHbox);
+		center.getChildren().remove(bc);
+		center.getChildren().remove(plantDataHbox);
 		
 		xAxis = new CategoryAxis();
 		yAxis = new NumberAxis();
@@ -278,7 +283,7 @@ public class CompPlantsView extends View {
 		bc = new BarChart<String, Number>(xAxis, yAxis);
 		bc.setTitle("Plant Size");
 		bc.getData().addAll(series1, series2);
-		base.add(bc, 0, 4, 1, 1);
+		center.add(bc, 0, 4, 1, 1);
 
 	}
 	
@@ -289,8 +294,8 @@ public class CompPlantsView extends View {
 	 */
 	public void setGeneralInfoComapre(String aDescription, String bDescription) {
 		System.out.println("Inside general info compare");
-		base.getChildren().remove(bc);
-		base.getChildren().remove(plantDataHbox);
+		center.getChildren().remove(bc);
+		center.getChildren().remove(plantDataHbox);
 		
 		plantDataHbox = new HBox();
 		plantDataHbox.setSpacing(10);
@@ -301,7 +306,7 @@ public class CompPlantsView extends View {
 		plantDataHbox.getChildren().addAll(plantInfoA,plantInfoLabel,plantInfoB);
 		
 		
-		base.add(plantDataHbox,0,4,1,1);
+		center.add(plantDataHbox,0,4,1,1);
 		
 	}
 

@@ -29,6 +29,7 @@ public class MenuBox extends Pane{
 		shopping_l = new Button("Shopping List");
 		comp_p = new Button("Compare Plants");
 		
+		load.setOnMouseClicked(controller.getLoadGardenViewOnClickHandler());
 		plot_d.setOnMouseClicked(controller.getNewGardenOnClickHandler());
 		editor.setOnMouseClicked(controller.getToGardenOnClickHandler2());
 		shopping_l.setOnMouseClicked(controller.getToShoppingListOnClickHandler());
