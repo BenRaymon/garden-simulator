@@ -399,7 +399,7 @@ public class GardenEditorView extends View {
 	 */
 	public void createRight() {
 		right = new GridPane();
-		createPane(right, "darkseagreen");
+		createPane(right, "#678B5E");
 		right.setMinWidth(RIGHTBAR);
 		right.setAlignment(Pos.CENTER);
 		//right.setGridLinesVisible(true);
@@ -411,10 +411,10 @@ public class GardenEditorView extends View {
 	 */
 	public void createLeft() {
 		leftBase = new VBox();
-		leftBase.setStyle("-fx-background-color:darkseagreen");
+		leftBase.setStyle("-fx-background-color: #678B5E");
 		left  = new GridPane();
 		plantBox = new VBox();
-		createPane(left, "darkseagreen");
+		createPane(left, "#678B5E");
 		left.setAlignment(Pos.TOP_CENTER);
 		left.setMinWidth(LEFTBAR);
 		left.setMaxWidth(LEFTBAR);

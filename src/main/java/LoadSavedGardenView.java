@@ -82,7 +82,7 @@ public class LoadSavedGardenView extends View {
 		base.setTop(menu);
 		base.setCenter(listView);
 		base.setRight(buttonBox);
-		base.setStyle("-fx-background-color: BEIGE");
+		base.setStyle("-fx-background-color: #678B5E");
 		
 		// get the button styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
@@ -109,7 +109,7 @@ public class LoadSavedGardenView extends View {
 		Insets inset = new Insets(5, 5, 5, 50);
 		vbox_g.setPadding(inset);
 		vbox_g.getChildren().addAll(label, listView);
-		vbox_g.setStyle("-fx-background-color: BEIGE");
+		vbox_g.setStyle("-fx-background-color: #678B5E");
 		return vbox_g;
 	}
 	

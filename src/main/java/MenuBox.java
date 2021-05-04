@@ -22,7 +22,7 @@ public class MenuBox extends Pane{
 		container.setMinHeight(30);
 		
 		// make the buttons
-		load = new Button("Load");
+		load = new Button("Load Menu");
 		plot_d = new Button("Plot Designer");
 		editor = new Button("Garden Editor");
 		report = new Button("Report");

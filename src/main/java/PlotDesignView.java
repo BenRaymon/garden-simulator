@@ -264,7 +264,7 @@ public class PlotDesignView extends View {
 	public void createLeftGrid() {
 		left_grid = new GridPane();
 		left_grid.setAlignment(Pos.CENTER);
-		left_grid.setStyle("-fx-background-color: darkseagreen");
+		left_grid.setStyle("-fx-background-color: #678B5E");
 		left_grid.setMinWidth(LEFTBAR);
 		left_grid.setHgap(SPACING);
 		left_grid.setVgap(SPACING);
