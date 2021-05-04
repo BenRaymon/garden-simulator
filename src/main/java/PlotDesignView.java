@@ -102,6 +102,8 @@ public class PlotDesignView extends View {
 		// get text styles
 		String textStyle = getClass().getResource("labels.css").toExternalForm();
 		
+		MenuBox menu = new MenuBox();
+		
 		// create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.setOnDragDetected(controller.getDrawPlotDragDetected());

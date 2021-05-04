@@ -19,6 +19,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
@@ -41,6 +43,7 @@ public class StartView extends View {
 	private Button loadGarden;
 	private Scene scene;
 	private VBox base;
+	private VBox menuBox;
 	private Controller controller;
 	private final double SPACING = 10;
 	private final double BUTTON_H = 50;
@@ -104,7 +107,6 @@ public class StartView extends View {
 		pictureBox.setStyle("-fx-background-color: darkseagreen");
 		base.getChildren().add(pictureBox);
 		base.getChildren().add(buttons);
-		
 		
 		// get the button styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();

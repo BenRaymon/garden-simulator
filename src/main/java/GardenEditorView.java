@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -28,7 +29,10 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.DataFormat;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -106,10 +110,12 @@ public class GardenEditorView extends View {
 		
 		// get button styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
+		String scrollBarStyle = getClass().getResource("scrollbars.css").toExternalForm();
 		
 		//create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.getStylesheets().add(buttonStyle);
+		scene.getStylesheets().add(scrollBarStyle);
 		stage.setScene(scene);
         stage.show();
 	}

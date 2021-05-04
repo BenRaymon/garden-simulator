@@ -7,6 +7,9 @@
 }
 
 .slider .track {
+	-fx-text-fill: white;
+    -fx-font-size: 18px;
+	-fx-font-family: sans-serif;
 	-fx-pref-height:10;
 }
 
