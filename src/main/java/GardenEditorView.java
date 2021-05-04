@@ -21,8 +21,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -84,7 +87,6 @@ public class GardenEditorView extends View {
 		setPlantInfo(null);
 		GridPane bottom = createBottom();
 		addPageButtons(bottom);
-		createComboBox();
 	
 		// get button styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
@@ -117,7 +119,8 @@ public class GardenEditorView extends View {
 		}
 		
 		((CheckBox) plotSelectors.getChildren().get(1)).setSelected(true);
-		plantBox.getChildren().add(plotSelectors);
+		//plantBox.getChildren().add(plotSelectors);
+		right.add(plotSelectors, 0, 1);
 	}
 
 	
@@ -152,32 +155,37 @@ public class GardenEditorView extends View {
 			gc.setFill(Color.SANDYBROWN);
 	}
 	
+	
 	/**
-	 * Create the combobox to hold options for sort criteria
+	 * Add the plot selector and sortby components to the right side bar
 	 */
-	public void createComboBox() {
-		sortBy = new ComboBox();
+	public void createSort() {
+		plotSelectors = new VBox();
+		right.add(plotSelectors, 0, 1); //checkbox for plots to show recommended plants for
+		VBox sort = new VBox();
+		ComboBox sortBy = new ComboBox();
+		Text sortLabel = new Text("Sort Recommended Plants By: ");
 		sortBy.valueProperty().addListener(controller.getSortByHandler());
 		sortBy.getItems().addAll("Butterfly Count", "Plant Size");
-		left.add(sortBy, 0, 10);
+		sort.getChildren().add(sortLabel);
+		sort.getChildren().add(sortBy);
+		right.add(sort, 0, 2); //dropdown for sorting criteria
 	}
-	
 	
 	/**
 	 * Creates and sets the budget text in right panel
-	 * @return none
 	 */
 	public void createBudgetText(){
 		Text budgetLabel = new Text("Remaining Budget");
 		budgetLabel.setFont(Font.font(20));
 		GridPane.setHalignment(budgetLabel, HPos.CENTER);
-		right.add(budgetLabel, 0, 0);
+		right.add(budgetLabel, 0, 4);
 		
 		
 		budgetText.setText(String.valueOf(budgetLeft));
 		budgetText.setFont(Font.font(32));
 		GridPane.setHalignment(budgetText, HPos.CENTER);
-		right.add(budgetText, 0, 1);
+		right.add(budgetText, 0, 5);
 	}
 	
 	/**
@@ -187,11 +195,11 @@ public class GardenEditorView extends View {
 		Text plantLabel = new Text("Number of Plants");
 		plantLabel.setFont(Font.font(20));
 		GridPane.setHalignment(plantLabel, HPos.CENTER);
-		right.add(plantLabel, 0, 2);
+		right.add(plantLabel, 0, 6);
 		
 		plantCount.setFont(Font.font(32));
 		GridPane.setHalignment(plantCount, HPos.CENTER);
-		right.add(plantCount, 0, 3);
+		right.add(plantCount, 0, 7);
 	}
 	
 	/**
@@ -201,11 +209,11 @@ public class GardenEditorView extends View {
 		Text lepLabel = new Text("Number of Lep");
 		lepLabel.setFont(Font.font(20));
 		GridPane.setHalignment(lepLabel, HPos.CENTER);
-		right.add(lepLabel, 0, 4);
+		right.add(lepLabel, 0, 8);
 		
 		lepCount.setFont(Font.font(32));
 		GridPane.setHalignment(lepCount, HPos.CENTER);
-		right.add(lepCount, 0, 5);
+		right.add(lepCount, 0, 9);
 	}
 	
 	/**
@@ -234,6 +242,7 @@ public class GardenEditorView extends View {
 				String name = it.next();
 				Image image = allImages.get(name);
 				recommendedPlantImages.put(image, name);
+				
 				
 				Circle circ = new Circle(50);
 		        circ.setFill(new ImagePattern(image));
@@ -273,7 +282,7 @@ public class GardenEditorView extends View {
 			addSize(plant);
 			addCost(plant);
 			addColor(plant);
-			left.add(sortBy,0,10);
+			//left.add(sortBy,0,10);
 		}
 	}
 	
@@ -284,8 +293,9 @@ public class GardenEditorView extends View {
 	 */
 	public void setPlantInfoImage(Image plantImg) {
 
-		if(plantBox.getChildren().size() > 1)
-			plantBox.getChildren().remove(1);
+		if(plantBox.getChildren().size() > 0 && plantBox.getChildren().get(0) instanceof ImageView) {
+			plantBox.getChildren().remove(0);
+		}
 
 		ImageView plantIV = new ImageView();
 		plantIV.setImage(plantImg);
@@ -394,8 +404,46 @@ public class GardenEditorView extends View {
 		right = new GridPane();
 		createPane(right, "darkseagreen");
 		right.setMinWidth(RIGHTBAR);
-		right.setAlignment(Pos.CENTER);
+		right.setAlignment(Pos.TOP_CENTER);
 		base.setRight(right);
+
+		RowConstraints row00 = new RowConstraints();
+	    row00.setPercentHeight(5);
+		RowConstraints row0 = new RowConstraints();
+	    row0.setPercentHeight(20);
+		RowConstraints row1 = new RowConstraints();
+	    row1.setPercentHeight(5);
+	    RowConstraints row2 = new RowConstraints();
+	    row2.setPercentHeight(10);
+	    RowConstraints row3 = new RowConstraints();
+	    row3.setPercentHeight(5);
+	    RowConstraints row4 = new RowConstraints();
+	    row4.setPercentHeight(5);
+	    RowConstraints row5 = new RowConstraints();
+	    row5.setPercentHeight(5);
+	    RowConstraints row6 = new RowConstraints();
+	    row6.setPercentHeight(5);
+	    RowConstraints row7 = new RowConstraints();
+	    row7.setPercentHeight(5);
+	    RowConstraints row8 = new RowConstraints();
+	    row8.setPercentHeight(5);
+	    RowConstraints row9 = new RowConstraints();
+	    row9.setPercentHeight(5);
+	    //RowConstraints row10 = new RowConstraints();
+	    //row10.setPercentHeight(20);
+	    right.getRowConstraints().addAll(row00,row0,row1,row2,row3,row4,row5,row6,row7,row8,row9);
+	    right.setMaxHeight(CANVAS_HEIGHT);
+	    
+	    for(RowConstraints row: right.getRowConstraints()) {
+	    	row.setVgrow(Priority.ALWAYS);
+	    }
+		
+	    AnchorPane.setTopAnchor(right, 0.0);
+        AnchorPane.setBottomAnchor(right, 0.0);
+        AnchorPane.setLeftAnchor(right, 0.0);
+        AnchorPane.setRightAnchor(right, 0.0);
+
+		createSort();
 		createRightText();
 	}
 	
