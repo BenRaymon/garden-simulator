@@ -87,7 +87,7 @@ public class StartView extends View {
 		buttons.setMinHeight(BOTTOM_BAR);
 		buttons.setAlignment(Pos.BASELINE_CENTER);
 		buttons.setSpacing(100);
-		buttons.setStyle("-fx-background-color: darkseagreen");
+		buttons.setStyle("-fx-background-color: #678B5E");
 		newGarden = new Button("Create New Garden");
 		newGarden.setMinHeight(BUTTON_H);
 		newGarden.setMinWidth(BUTTON_W);
@@ -104,7 +104,7 @@ public class StartView extends View {
 		VBox pictureBox = new VBox();
 		pictureBox.setAlignment(Pos.CENTER);
 		pictureBox.getChildren().add(butterflyView);
-		pictureBox.setStyle("-fx-background-color: darkseagreen");
+		pictureBox.setStyle("-fx-background-color: #678B5E");
 		base.getChildren().add(pictureBox);
 		base.getChildren().add(buttons);
 		
