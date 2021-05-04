@@ -1,5 +1,3 @@
-import javafx.scene.control.TextField;
-
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Paths;
@@ -21,8 +19,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
@@ -111,11 +107,18 @@ public class GardenEditorView extends View {
 		// get button styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
 		String scrollBarStyle = getClass().getResource("scrollbars.css").toExternalForm();
+		String menuStyle = getClass().getResource("menu.css").toExternalForm();
+		
+		Menu test = new Menu("test");
+		MenuBar menu = new MenuBar(test);
+		
+		base.setTop(menu);
 		
 		//create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.getStylesheets().add(buttonStyle);
 		scene.getStylesheets().add(scrollBarStyle);
+		scene.getStylesheets().add(menuStyle);
 		stage.setScene(scene);
         stage.show();
 	}

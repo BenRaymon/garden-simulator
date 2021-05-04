@@ -14,6 +14,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -21,6 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -98,11 +102,15 @@ public class PlotDesignView extends View {
 		
 		//get slider styles
 		String sliderStyle = getClass().getResource("sliders.css").toExternalForm();
-		
+		String menuStyle = getClass().getResource("menu.css").toExternalForm();
 		// get text styles
 		String textStyle = getClass().getResource("labels.css").toExternalForm();
 		
-		MenuBox menu = new MenuBox();
+		//MenuBox menu = new MenuBox();
+		Menu test = new Menu("test");
+		MenuBar menu = new MenuBar(test);
+		
+		base.setTop(menu);
 		
 		// create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -113,6 +121,7 @@ public class PlotDesignView extends View {
 		scene.getStylesheets().add(buttonStyle);
 		scene.getStylesheets().add(sliderStyle);
 		scene.getStylesheets().add(textStyle);
+		scene.getStylesheets().add(menuStyle);
 		stage.setScene(scene);
 		stage.show();
 	
