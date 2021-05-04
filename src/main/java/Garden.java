@@ -16,6 +16,7 @@ public class Garden implements Serializable {
 	private ArrayList<Plot> plots;
 	private int lepsSupported;
 	private ArrayList<Plant> plantsInGarden;
+	private HashMap<String, Plant> recommendedPlants;
 	private static ConcurrentHashMap<String, Plant> allPlants = new ConcurrentHashMap<String, Plant>();
 	private double pixelsPerFoot ;
 	
@@ -29,6 +30,7 @@ public class Garden implements Serializable {
 		lepsSupported = 0;
 		plantsInGarden = new ArrayList<Plant>();
 		plots = new ArrayList<Plot>();
+		recommendedPlants = new HashMap<String, Plant>();
 		pixelsPerFoot = 0;
 	}
 	
@@ -150,10 +152,27 @@ public class Garden implements Serializable {
 
 	/**
 	 * Get how many leps the garden supports
-	 * @return none
+	 * @return number of leps supported by the garden
 	 */
 	public int getLepsSupported() {
 		return lepsSupported;
+	}
+	
+	/**
+	 * Set the recommended plants list
+	 * @param rec the hash map to set as the new recommended plants list
+	 * @return none
+	 */
+	public void setRecommendedPlants(HashMap<String, Plant> rec) {
+		this.recommendedPlants = rec;
+	}
+
+	/**
+	 * Get the current list of recommended plants
+	 * @return recommended plants hashmap
+	 */
+	public HashMap<String, Plant> getRecommendedPlants() {
+		return recommendedPlants;
 	}
 	
 	/**

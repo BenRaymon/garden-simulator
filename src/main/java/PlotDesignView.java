@@ -14,6 +14,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -21,6 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -28,6 +32,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 public class PlotDesignView extends View {
 
@@ -87,13 +92,22 @@ public class PlotDesignView extends View {
 		// add the drawplot button
 		drawPlot = new Button("Draw Plot");
 		drawPlot.setOnMouseClicked(controller.getDrawPlotHandler());
-		left_grid.add(drawPlot, 0, 4);
+		left_grid.add(drawPlot, 0, 3);
 		toGarden = new Button("To Garden");
 		toGarden.setOnMouseClicked(controller.getToGardenOnClickHandler());
-		left_grid.add(toGarden, 0, 5);
+		left_grid.add(toGarden, 0, 4);
 		
 		// get button styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
+		
+		//get slider styles
+		String sliderStyle = getClass().getResource("sliders.css").toExternalForm();
+
+		// get text styles
+		String textStyle = getClass().getResource("labels.css").toExternalForm();
+		
+		MenuBox menu = new MenuBox(c);
+		base.setTop(menu);
 		
 		// create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -102,6 +116,8 @@ public class PlotDesignView extends View {
 		scene.setOnMouseDragReleased(controller.getOnDrawPlotDone());
 		scene.setOnMouseReleased(controller.getOnDrawPlotDone());
 		scene.getStylesheets().add(buttonStyle);
+		scene.getStylesheets().add(sliderStyle);
+		scene.getStylesheets().add(textStyle);
 		stage.setScene(scene);
 		stage.show();
 	
@@ -111,7 +127,7 @@ public class PlotDesignView extends View {
 	
 	public void heightChanged(Object windowHeight) {
 		WINDOW_HEIGHT = (double) windowHeight;
-		canvasHeight = (double)windowHeight;
+		canvasHeight = (double)windowHeight - 60;
 		drawArea.setHeight(canvasHeight);
 		
 		gc = drawArea.getGraphicsContext2D();
@@ -179,7 +195,7 @@ public class PlotDesignView extends View {
 		budget.setMargin(budgetInput, margin);
 
 		left_grid.add(dimensions, 0, 0);
-		left_grid.add(budget, 0, 2);
+		left_grid.add(budget, 0, 1);
 	}
 	
 	
@@ -248,7 +264,7 @@ public class PlotDesignView extends View {
 	public void createLeftGrid() {
 		left_grid = new GridPane();
 		left_grid.setAlignment(Pos.CENTER);
-		left_grid.setStyle("-fx-background-color: darkseagreen");
+		left_grid.setStyle("-fx-background-color: #678B5E");
 		left_grid.setMinWidth(LEFTBAR);
 		left_grid.setHgap(SPACING);
 		left_grid.setVgap(SPACING);
@@ -257,24 +273,18 @@ public class PlotDesignView extends View {
 		createSliders();
 		
 		RowConstraints row1 = new RowConstraints();
-	    row1.setPercentHeight(25);
-	    RowConstraints row151 = new RowConstraints();
-	    row151.setPercentHeight(5);
-	    RowConstraints row15 = new RowConstraints();
-	    row15.setPercentHeight(10);
+	    row1.setPercentHeight(35);
 	    RowConstraints row2 = new RowConstraints();
-	    row2.setPercentHeight(25);
+	    row2.setPercentHeight(10);
 	    RowConstraints row3 = new RowConstraints();
-	    row3.setPercentHeight(5);
+	    row3.setPercentHeight(35);
 	    RowConstraints row4 = new RowConstraints();
 	    row4.setPercentHeight(5);
 	    RowConstraints row5 = new RowConstraints();
 	    row5.setPercentHeight(5);
 	    RowConstraints row6 = new RowConstraints();
-	    row6.setPercentHeight(5);
-	    RowConstraints row7 = new RowConstraints();
-	    row7.setPercentHeight(20);
-	    left_grid.getRowConstraints().addAll(row1,row151,row15,row2,row3,row4,row5,row6);
+	    row6.setPercentHeight(10);
+	    left_grid.getRowConstraints().addAll(row1,row2,row3,row4,row5,row6);
 		
 		base.setLeft(left_grid);
 	}
@@ -290,9 +300,33 @@ public class PlotDesignView extends View {
 		sliderStandards(soilType);
 		sliderStandards(moisture);
 		
-		Text sunlightText = new Text("Sunlight Level");
-		Text soilTypeText = new Text("Soil Type");
-		Text moistureText = new Text("Moisture Level");
+		// makes the soiltype slider display Clay Loam and Sand instead of 1 2 and 3
+        soilType.setLabelFormatter(new StringConverter<Double>() {
+            @Override
+            public String toString(Double n) {
+                if (n < 2) return "Clay";
+                if (n < 3) return "Loam";
+
+                return "Sand";
+            }
+
+            @Override
+            public Double fromString(String s) {
+                switch (s) {
+                    case "Clay":
+                        return 0d;
+                    case "Loam":
+                        return 1d;
+
+                    default:
+                        return 3d;
+                }
+            }
+        });
+        
+		Label sunlightText = new Label("Sunlight Level");
+		Label soilTypeText = new Label("Soil Type");
+		Label moistureText = new Label("Moisture Level");
 		
 		VBox sliders = new VBox();
 		sliders.getChildren().add(sunlightText);
@@ -308,7 +342,7 @@ public class PlotDesignView extends View {
 			sliders.setMargin(it.next(), margin);
 		}
 		
-		left_grid.add(sliders, 0, 3);
+		left_grid.add(sliders, 0, 2);
 	}
 	
 	/**

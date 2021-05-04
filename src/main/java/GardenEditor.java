@@ -38,6 +38,30 @@ public class GardenEditor {
 	}
 	
 	/**
+	 * Creates a list of sorted plant names based on a recommended plant list and sort criteria
+	 * @param recommendedPlants the original map of all the recommended plants that should be shown
+	 * @param sortCriteria a string representing how the plants should be shorted
+	 * @return the list of sorted plant names
+	 */
+	public static ArrayList<String> sortRecommendedPlants(HashMap<String, Plant> recommendedPlants, String sortCriteria) {
+		//If the users chooses to sort by butterflies
+		if(sortCriteria.equals("Butterfly Count")) {
+			//make an array of plants from the recommended vales
+			Plant[] plants = recommendedPlants.values().toArray(new Plant[0]);
+			//sort by descending butterfly count by using the ButterflyComparator
+			Arrays.sort(plants, Plant.ButterflyComparator);
+			//blank list of plant names
+			ArrayList<String> plantNames = new ArrayList<String>();
+			//add the names of the sorted list into the list of plant names
+			for (Plant p : plants) {
+				plantNames.add(p.getScientificName());
+			}
+			return plantNames;
+		}
+		return null;
+	}
+	
+	/**
 	 * Transform a plot to fit in the desired canvas. Transform includes
 	 * scaling a plot up and smoothing the edges of a rough shape
 	 * 

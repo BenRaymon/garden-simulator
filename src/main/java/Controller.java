@@ -13,6 +13,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -165,14 +166,11 @@ public class Controller extends Application{
 	 * @return change listener
 	 */
 	public ChangeListener<Object> getPDHeightChangeListener() {
-		return new ChangeListener<Object>() {
-			public void changed(ObservableValue observable,
-					Object oldValue, Object newValue) {
+		return ((observable, oldValue, newValue) -> {
 				plotDesignView.heightChanged(newValue);
 				double pixelsPerFoot = plotDesignView.drawGrid();
 				garden.setScale(pixelsPerFoot);
-			}
-		};
+		});
 	}
 	
 
@@ -181,14 +179,11 @@ public class Controller extends Application{
 	 * @return change listener
 	 */
 	public ChangeListener<Object> getPDWidthChangeListener() {
-		return new ChangeListener<Object>() {
-			public void changed(ObservableValue observable,
-					Object oldValue, Object newValue) {
+		return ((observable, oldValue, newValue) -> {
 				plotDesignView.widthChanged(newValue);
 				double pixelsPerFoot = plotDesignView.drawGrid();
 				garden.setScale(pixelsPerFoot);
-			}
-		};
+		});
 	}
 
 	/**
@@ -263,28 +258,45 @@ public class Controller extends Application{
 	 */
 	public EventHandler getToGardenOnClickHandler() {
 		return (event -> {
+			//set the budget in the garden to the current budget in the plotdesignview
 			garden.setBudget(plotDesignView.getBudget());
+			//set new scene to gardeneditorview
 			stage.setScene(gardenEditorView.getScene());
+			//update budget in the view
 			gardenEditorView.setBudget(garden.getBudget());
+			
+			//create list of plots for recommended plant list selection
+			gardenEditorView.setPlotBoxes(garden.getPlots());
+			
+			//get the current canvas size
 			double h = gardenEditorView.getCanvasHeight();
 			double w = gardenEditorView.getCanvasWidth();
-			double t = gardenEditorView.getTopHeight();
+			//transform plots to and calculate scale 
 			double pixelsPerFoot = GardenEditor.transformPlots(garden.getPlots(), w, h, garden.getScale());
+			//set the new scale in both the model and the view
 			garden.setScale(pixelsPerFoot);
 			gardenEditorView.setScale(pixelsPerFoot);
+			//smooth the plots in the model and fill them based on soil type
 			for (Plot p : garden.getPlots()) {
 				p.setCoordinates(p.filterCoords(5));
 				p.setCoordinates(GardenEditor.smooth(p.getCoordinates(), 0.3, 20));
 				gardenEditorView.setFillColor(p.getOptions());
 				gardenEditorView.drawPlot(p.getCoordinates());
 			}
+			//update leps supported
 			gardenEditorView.updatePlantLepNums(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
 			
 			//Recommended plant list stuff
 			if(garden.getPlots().get(0).getRecommendedPlants() == null) {
+				//create recommended list for the first plot
 				garden.getPlots().get(0).createRecommendedPlants();
 				HashMap<String, Plant> recommendedPlants  = garden.getPlots().get(0).getRecommendedPlants();
-				gardenEditorView.setPlantImages(recommendedPlants.keySet());
+				garden.setRecommendedPlants(recommendedPlants);
+				//make an array list of all the plant names for the view
+				ArrayList<String> recommendedPlantNames = new ArrayList<String>();
+				recommendedPlantNames.addAll(recommendedPlants.keySet());
+				//set plant images based on list of plant names
+				gardenEditorView.setPlantImages(recommendedPlantNames);
 			}
 			
 		});
@@ -304,13 +316,9 @@ public class Controller extends Application{
 	public EventHandler getOnImageClickedInfo() {
 		return (event-> {
 			System.out.println("In Image Clicked on Handler");
-			Circle plantCirc = (Circle)event.getSource();
-			Image plantImage = ((ImagePattern)plantCirc.getFill()).getImage();
-			gardenEditorView.setPlantInfoImage(plantImage);
-			String plant = gardenEditorView.getPlantName(plantImage);
-			Plant selectedPlant = garden.getPlant(plant);
+			String plantName = gardenEditorView.getPlantName(event);
+			Plant selectedPlant = garden.getPlant(plantName);
 			gardenEditorView.setPlantInfo(selectedPlant);
-			
 		});
 	}
 	
@@ -418,6 +426,53 @@ public class Controller extends Application{
 
 			drag.setDropCompleted(true);
 			drag.consume();
+		});
+	}
+	
+	/**
+	 * Returns event handler for changing selection of plots in the checkbox
+	 * This method updates the recommended plants list in the view based on which boxes are checked
+	 * @return event handler
+	 */
+	public EventHandler getSelectPlotCheckboxHander() {
+		return (event -> {
+			int plotIndex = gardenEditorView.getPlotIndex(event);
+			ArrayList<Integer> plotSelections = gardenEditorView.getSelections();
+			//Construct the recommended plant list if this plot does not have one already
+			if(garden.getPlots().get(plotIndex).getRecommendedPlants() == null) {
+				garden.getPlots().get(plotIndex).createRecommendedPlants();
+			}
+			//new blank recommendedPlant list
+			HashMap<String, Plant> recommendedPlants = new HashMap<String, Plant>();
+			int index = 0; //index of plot as it iterates thru them
+			for(Integer selection : plotSelections) {
+				//if the checkbox is checked, add the recommended plants for this plot to the list
+				if (selection == 1)
+					recommendedPlants.putAll(garden.getPlots().get(index).getRecommendedPlants());
+				index++;
+			}
+			//set the recommended plant list for the garden
+			garden.setRecommendedPlants(recommendedPlants);
+			//set the final list of recommended plants in the view based on the selected checkboxes
+			ArrayList<String> plantNames = new ArrayList<String>();
+			plantNames.addAll(recommendedPlants.keySet());
+			gardenEditorView.setPlantImages(plantNames);
+		});
+	}
+	
+	/**
+	 * Returns the change listener that activates when an item is selected in the sort by dropdown
+	 * This method sorts the recommended plants based on the selected option
+	 * @return ChangeListener
+	 */
+	public ChangeListener getSortByHandler() {
+		return ((ov, t, t1) -> {
+			//get the hashmap of recommended plants from the model
+			HashMap<String, Plant> recommendedPlants = garden.getRecommendedPlants();
+			//sort the plans based on the chosen option, returns the list of sorted names
+			ArrayList<String> recommendedPlantNames = GardenEditor.sortRecommendedPlants(recommendedPlants, (String)t1);
+			//use the list of sorted names to display the newly sorted list of recommended plants
+			gardenEditorView.setPlantImages(recommendedPlantNames);
 		});
 	}
 	
@@ -557,7 +612,7 @@ public class Controller extends Application{
 				ArrayList<Plot> tmp_plots = garden.getPlots();
 				ArrayList<Plant> tmp_plants = garden.getPlantsInGarden();
 				
-				if(name_g == "" || name_g == garden.getName()) {
+				if(name_g == "") {
 					//System.out.println("empty name");
 					Garden tmp_g = new Garden(garden.getName(), tmp_spent, tmp_budget, tmp_plots, tmp_leps, tmp_plants, tmp_scale);
 					savedGardens.add(tmp_g);
@@ -568,6 +623,18 @@ public class Controller extends Application{
 					Garden tmp_g = new Garden(name_g, tmp_spent, tmp_budget, tmp_plots, tmp_leps, tmp_plants, tmp_scale);
 					savedGardens.add(tmp_g);
 					gardenSaverLoader.saveGarden(savedGardens);
+				}
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			try {
+				savedGardens = gardenSaverLoader.loadGardenList();
+				for(Garden g : savedGardens) {
+					System.out.println(g.getName());
+					for(Plant p : g.getPlantsInGarden())
+						System.out.println(p.getScientificName());
 				}
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -585,7 +652,7 @@ public class Controller extends Application{
 	 * */
 	public EventHandler getLoadGardenViewOnClickHandler() {
 		return (event -> {
-			System.out.println("Load Screen button clicked");
+			loadSavedGardenView = new LoadSavedGardenView(stage, savedGardens, this);
 		
 			stage.setScene(loadSavedGardenView.getScene());
 		});
@@ -609,7 +676,7 @@ public class Controller extends Application{
 			System.out.println(garden.getPlots());
 			double h = gardenEditorView.getCanvasHeight();
 			double w = gardenEditorView.getCanvasWidth();
-			double t = gardenEditorView.getTopHeight();
+			double t = gardenEditorView.getTopBar();
 			double pixelsPerFoot = GardenEditor.transformPlots(garden.getPlots(), w, h, garden.getScale());
 			garden.setScale(pixelsPerFoot);
 			gardenEditorView.setScale(pixelsPerFoot);
@@ -650,7 +717,9 @@ public class Controller extends Application{
 			}
 			
 			HashMap<String, Plant> recommendedPlants  = garden.getPlots().get(0).getRecommendedPlants();
-			gardenEditorView.setPlantImages(recommendedPlants.keySet());
+			ArrayList<String> recommendedPlantNames = new ArrayList<String>();
+			recommendedPlantNames.addAll(recommendedPlants.keySet());
+			gardenEditorView.setPlantImages(recommendedPlantNames);
 			
 		});
 	}

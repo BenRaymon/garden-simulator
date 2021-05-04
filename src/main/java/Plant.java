@@ -1,8 +1,8 @@
 import java.util.ArrayList;
-
+import java.util.Comparator;
 import java.io.Serializable;
 
-public class Plant implements Serializable {
+public class Plant implements Serializable, Comparable<Plant>{
 	
 	
 	private Point position;
@@ -394,6 +394,20 @@ public class Plant implements Serializable {
 	@Override
 	public int hashCode() {
 		return (int)(this.getPosition().getX());
+	}
+
+	
+	public static Comparator<Plant> ButterflyComparator = new Comparator<Plant>() {
+		
+		public int compare(Plant p1, Plant p2) {
+			return p2.getLepsSupported() - p1.getLepsSupported();
+		}
+	};
+
+	@Override
+	public int compareTo(Plant o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	
