@@ -25,7 +25,8 @@ public class ShoppingListView extends View{
 	private Scene scene;
 	private Controller controller;
 	//private GridPane base;
-	private GridPane base;
+	private BorderPane base;
+	private GridPane item_container;
 	private HBox center;
 	private VBox leftVBox;
 	private VBox rightVBox;
@@ -39,11 +40,12 @@ public class ShoppingListView extends View{
 	public ShoppingListView(Stage stage, Controller c) {
 		controller = c;
 		
-		base = new GridPane();
+		base = new BorderPane();
+		item_container = new GridPane();
 		//base = new BorderPane();
-		base.setHgap(10);
-		base.setVgap(10);
-		base.setAlignment(Pos.CENTER);
+		item_container.setHgap(10);
+		item_container.setVgap(10);
+		item_container.setAlignment(Pos.CENTER);
 		
 		center = new HBox();
 		//base.setCenter(center);
@@ -57,11 +59,16 @@ public class ShoppingListView extends View{
 		//center_of_hbox.getChildren().add(rightVBox);
 		//center.getChildren().add(center_of_hbox);
 		
-		base.add(center, 0, 10);
+		item_container.add(center, 0, 10);
 		//addPlaceHolderText();
 		
 		// get button styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
+		
+		MenuBox menu = new MenuBox(c);
+		
+		base.setCenter(item_container);
+		base.setTop(menu);
 		
 		//create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -151,7 +158,7 @@ public class ShoppingListView extends View{
 		//bottom_vbox.setStyle("-fx-background-color: aqua");
 		bottom_vbox.setMinWidth(WINDOW_WIDTH / 2);
 		//center.getChildren().add(bottom_vbox);
-		base.add(bottom_vbox, 0, 15);
+		item_container.add(bottom_vbox, 0, 15);
 		//base.setBottom(bottom_vbox);
 		return bottom_vbox;
 	

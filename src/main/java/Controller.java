@@ -548,7 +548,7 @@ public class Controller extends Application{
 				ArrayList<Plot> tmp_plots = garden.getPlots();
 				ArrayList<Plant> tmp_plants = garden.getPlantsInGarden();
 				
-				if(name_g == "" || name_g == garden.getName()) {
+				if(name_g == "") {
 					//System.out.println("empty name");
 					Garden tmp_g = new Garden(garden.getName(), tmp_spent, tmp_budget, tmp_plots, tmp_leps, tmp_plants, tmp_scale);
 					savedGardens.add(tmp_g);
@@ -559,6 +559,18 @@ public class Controller extends Application{
 					Garden tmp_g = new Garden(name_g, tmp_spent, tmp_budget, tmp_plots, tmp_leps, tmp_plants, tmp_scale);
 					savedGardens.add(tmp_g);
 					gardenSaverLoader.saveGarden(savedGardens);
+				}
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			try {
+				savedGardens = gardenSaverLoader.loadGardenList();
+				for(Garden g : savedGardens) {
+					System.out.println(g.getName());
+					for(Plant p : g.getPlantsInGarden())
+						System.out.println(p.getScientificName());
 				}
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -576,7 +588,7 @@ public class Controller extends Application{
 	 * */
 	public EventHandler getLoadGardenViewOnClickHandler() {
 		return (event -> {
-			System.out.println("Load Screen button clicked");
+			loadSavedGardenView = new LoadSavedGardenView(stage, savedGardens, this);
 		
 			stage.setScene(loadSavedGardenView.getScene());
 		});

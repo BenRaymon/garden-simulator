@@ -14,6 +14,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -21,6 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -28,6 +32,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 public class PlotDesignView extends View {
 
@@ -95,6 +100,15 @@ public class PlotDesignView extends View {
 		// get button styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
 		
+		//get slider styles
+		String sliderStyle = getClass().getResource("sliders.css").toExternalForm();
+
+		// get text styles
+		String textStyle = getClass().getResource("labels.css").toExternalForm();
+		
+		MenuBox menu = new MenuBox(c);
+		base.setTop(menu);
+		
 		// create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.setOnDragDetected(controller.getDrawPlotDragDetected());
@@ -102,6 +116,8 @@ public class PlotDesignView extends View {
 		scene.setOnMouseDragReleased(controller.getOnDrawPlotDone());
 		scene.setOnMouseReleased(controller.getOnDrawPlotDone());
 		scene.getStylesheets().add(buttonStyle);
+		scene.getStylesheets().add(sliderStyle);
+		scene.getStylesheets().add(textStyle);
 		stage.setScene(scene);
 		stage.show();
 	
@@ -111,7 +127,7 @@ public class PlotDesignView extends View {
 	
 	public void heightChanged(Object windowHeight) {
 		WINDOW_HEIGHT = (double) windowHeight;
-		canvasHeight = (double)windowHeight;
+		canvasHeight = (double)windowHeight - 60;
 		drawArea.setHeight(canvasHeight);
 		
 		gc = drawArea.getGraphicsContext2D();
@@ -248,7 +264,7 @@ public class PlotDesignView extends View {
 	public void createLeftGrid() {
 		left_grid = new GridPane();
 		left_grid.setAlignment(Pos.CENTER);
-		left_grid.setStyle("-fx-background-color: darkseagreen");
+		left_grid.setStyle("-fx-background-color: #678B5E");
 		left_grid.setMinWidth(LEFTBAR);
 		left_grid.setHgap(SPACING);
 		left_grid.setVgap(SPACING);
@@ -257,7 +273,7 @@ public class PlotDesignView extends View {
 		createSliders();
 		
 		RowConstraints row1 = new RowConstraints();
-	    row1.setPercentHeight(25);
+	    row1.setPercentHeight(35);
 	    RowConstraints row151 = new RowConstraints();
 	    row151.setPercentHeight(5);
 	    RowConstraints row15 = new RowConstraints();
@@ -290,9 +306,33 @@ public class PlotDesignView extends View {
 		sliderStandards(soilType);
 		sliderStandards(moisture);
 		
-		Text sunlightText = new Text("Sunlight Level");
-		Text soilTypeText = new Text("Soil Type");
-		Text moistureText = new Text("Moisture Level");
+		// makes the soiltype slider display Clay Loam and Sand instead of 1 2 and 3
+        soilType.setLabelFormatter(new StringConverter<Double>() {
+            @Override
+            public String toString(Double n) {
+                if (n < 2) return "Clay";
+                if (n < 3) return "Loam";
+
+                return "Sand";
+            }
+
+            @Override
+            public Double fromString(String s) {
+                switch (s) {
+                    case "Clay":
+                        return 0d;
+                    case "Loam":
+                        return 1d;
+
+                    default:
+                        return 3d;
+                }
+            }
+        });
+        
+		Label sunlightText = new Label("Sunlight Level");
+		Label soilTypeText = new Label("Soil Type");
+		Label moistureText = new Label("Moisture Level");
 		
 		VBox sliders = new VBox();
 		sliders.getChildren().add(sunlightText);
