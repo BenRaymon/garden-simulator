@@ -78,7 +78,7 @@ public class LoadSavedGardenView extends View {
 		// add the menu to the top of the screen
 //		Menu test = new Menu("test");
 //		MenuBar menu = new MenuBar(test);
-		MenuBox menu = new MenuBox();
+		MenuBox menu = new MenuBox(c);
 		base.setTop(menu);
 		base.setCenter(listView);
 		base.setRight(buttonBox);

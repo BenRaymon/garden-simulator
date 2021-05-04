@@ -12,7 +12,7 @@ public class MenuBox extends Pane{
 	Button comp_p;
 	GridPane container;
 	
-	public MenuBox() {
+	public MenuBox(Controller controller) {
 		
 		// make the pane
 		container = new GridPane();
@@ -26,6 +26,13 @@ public class MenuBox extends Pane{
 		report = new Button("Report");
 		shopping_l = new Button("Shopping List");
 		comp_p = new Button("Compare Plants");
+		
+		plot_d.setOnMouseClicked(controller.getNewGardenOnClickHandler());
+		editor.setOnMouseClicked(controller.getToGardenOnClickHandler2());
+		shopping_l.setOnMouseClicked(controller.getToShoppingListOnClickHandler());
+		report.setOnMouseClicked(controller.getToReportOnClickHandler());
+		comp_p.setOnMouseClicked(controller.getToCompareOnClickHandler());
+		
 		
 		container.add(load, 0, 0);
 		container.add(plot_d, 1, 0);

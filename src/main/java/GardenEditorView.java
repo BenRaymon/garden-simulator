@@ -101,24 +101,23 @@ public class GardenEditorView extends View {
 		createRightText();
 		createLeft();
 		setPlantInfo();
-		createBottom();
-		addPageButtons();
+		//createBottom();
+		//addPageButtons();
 		
 		// get button styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
 		String scrollBarStyle = getClass().getResource("scrollbars.css").toExternalForm();
-		String menuStyle = getClass().getResource("menu.css").toExternalForm();
+		//String menuStyle = getClass().getResource("menu.css").toExternalForm();
 		
-		Menu test = new Menu("test");
-		MenuBar menu = new MenuBar(test);
+		MenuBox menu = new MenuBox(c);
 		
-		base.setTop(menu);
+		base.setBottom(menu);
 		
 		//create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.getStylesheets().add(buttonStyle);
 		scene.getStylesheets().add(scrollBarStyle);
-		scene.getStylesheets().add(menuStyle);
+		//scene.getStylesheets().add(menuStyle);
 		stage.setScene(scene);
         stage.show();
 	}

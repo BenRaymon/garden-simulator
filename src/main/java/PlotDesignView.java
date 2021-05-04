@@ -102,13 +102,13 @@ public class PlotDesignView extends View {
 		
 		//get slider styles
 		String sliderStyle = getClass().getResource("sliders.css").toExternalForm();
-		String menuStyle = getClass().getResource("menu.css").toExternalForm();
+		//String menuStyle = getClass().getResource("menu.css").toExternalForm();
 		// get text styles
 		String textStyle = getClass().getResource("labels.css").toExternalForm();
 		
-		//MenuBox menu = new MenuBox();
-		Menu test = new Menu("test");
-		MenuBar menu = new MenuBar(test);
+		MenuBox menu = new MenuBox(c);
+		//Menu test = new Menu("test");
+		//MenuBar menu = new MenuBar(test);
 		
 		base.setTop(menu);
 		
@@ -121,7 +121,7 @@ public class PlotDesignView extends View {
 		scene.getStylesheets().add(buttonStyle);
 		scene.getStylesheets().add(sliderStyle);
 		scene.getStylesheets().add(textStyle);
-		scene.getStylesheets().add(menuStyle);
+		//scene.getStylesheets().add(menuStyle);
 		stage.setScene(scene);
 		stage.show();
 	
