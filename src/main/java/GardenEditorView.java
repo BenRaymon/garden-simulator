@@ -60,6 +60,7 @@ public class GardenEditorView extends View {
 	private Text lepCount = new Text("0");
 	private Text plantCount = new Text("0");
 	private Text budgetText = new Text();
+	private VBox container;
 	
 	private double LEFTBAR = 350;
 	private double RIGHTBAR = 200;
@@ -104,17 +105,23 @@ public class GardenEditorView extends View {
 		//createBottom();
 		//addPageButtons();
 		
-		// get button styles
+		// get button and scroll bar styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
 		String scrollBarStyle = getClass().getResource("scrollbars.css").toExternalForm();
-		//String menuStyle = getClass().getResource("menu.css").toExternalForm();
 		
-		MenuBox menugen = new MenuBox(c);
-		MenuBar menu = menugen.createMenuBar();
-		base.setBottom(menu);
+		// add save inputs to menu for the editor, add menu to the container
+		garden_name = new TextField();
+		
+		saveGarden = new Button("Save");
+		saveGarden.setOnMouseClicked(controller.SaveButtonClickedHandler());
+		
+		MenuBox menu = new MenuBox(c);
+		menu.getContainer().add(garden_name, 6, 0);
+		menu.getContainer().add(saveGarden, 7, 0);
+		container = new VBox( menu, base);
 		
 		//create and set scene with base
-		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
+		scene = new Scene(container, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.getStylesheets().add(buttonStyle);
 		scene.getStylesheets().add(scrollBarStyle);
 		//scene.getStylesheets().add(menuStyle);

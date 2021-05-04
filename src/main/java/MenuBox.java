@@ -74,4 +74,8 @@ public class MenuBox extends Pane{
 		
 		return menu;
 	}
+	
+	public GridPane getContainer() {
+		return container;
+	}
 }
