@@ -109,8 +109,8 @@ public class GardenEditorView extends View {
 		String scrollBarStyle = getClass().getResource("scrollbars.css").toExternalForm();
 		//String menuStyle = getClass().getResource("menu.css").toExternalForm();
 		
-		MenuBox menu = new MenuBox(c);
-		
+		MenuBox menugen = new MenuBox(c);
+		MenuBar menu = menugen.createMenuBar();
 		base.setBottom(menu);
 		
 		//create and set scene with base

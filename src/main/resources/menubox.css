@@ -1,11 +1,11 @@
 .button {
     -fx-background-color: 
-        #FF6EFF;
+        black;
     -fx-background-insets: 0,1,2,3;
     -fx-background-radius: 3,2,2,2;
-    -fx-padding: 12 30 12 30;
+    -fx-padding: 6 15 6 15;
     -fx-text-fill: white;
-    -fx-font-size: 18px;
+    -fx-font-size: 14px;
 	-fx-font-family: sans-serif;
 	-fx-font-weight: bold;
 	-fx-effect: dropshadow(gaussian, #000000, 8, 0.0, 0, 0);

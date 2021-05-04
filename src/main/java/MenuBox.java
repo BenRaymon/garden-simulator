@@ -1,5 +1,7 @@
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -55,5 +57,21 @@ public class MenuBox extends Pane{
 		pane.setStyle("-fx-background-color: " + color);
 		pane.setHgap(10);
 		pane.setVgap(10);
+	}
+	
+	public MenuBar createMenuBar() {
+		MenuBar menu;
+		
+		Menu load = new Menu("Load");
+		Menu plot = new Menu("Plot Designer");
+		Menu edit = new Menu("Garden Editor");
+		Menu report = new Menu("Report");
+		Menu shop = new Menu("Shopping List");
+		Menu comp = new Menu("Compare Plants");
+		
+		menu = new MenuBar(load, plot, edit, report, shop, comp);
+		//menu.getStylesheets().add(getClass().getResource("menu.css").toExternalForm());
+		
+		return menu;
 	}
 }

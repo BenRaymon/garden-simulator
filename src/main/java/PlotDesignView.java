@@ -61,6 +61,7 @@ public class PlotDesignView extends View {
 	private double canvasWidth = WINDOW_WIDTH - LEFTBAR;
 	private double canvasHeight = WINDOW_HEIGHT;
 	private int scaleIndex = 50;
+	private VBox container;
 	
 	/**
 	 * Constructor
@@ -107,13 +108,10 @@ public class PlotDesignView extends View {
 		String textStyle = getClass().getResource("labels.css").toExternalForm();
 		
 		MenuBox menu = new MenuBox(c);
-		//Menu test = new Menu("test");
-		//MenuBar menu = new MenuBar(test);
 		
-		base.setTop(menu);
-		
+		container = new VBox(30, menu, base);
 		// create and set scene with base
-		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
+		scene = new Scene(container, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.setOnDragDetected(controller.getDrawPlotDragDetected());
 		scene.setOnMouseDragged(controller.getDrawPlotDragged());
 		scene.setOnMouseDragReleased(controller.getOnDrawPlotDone());
