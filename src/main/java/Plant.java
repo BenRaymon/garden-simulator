@@ -404,6 +404,27 @@ public class Plant implements Serializable, Comparable<Plant>{
 		}
 	};
 
+	public static Comparator<Plant> SpreadComparator = new Comparator<Plant>() {
+		
+		public int compare(Plant p1, Plant p2) {
+			return (int) (p2.getSpreadRadiusLower() - p1.getSpreadRadiusLower());
+		}
+	};
+	
+	public static Comparator<Plant> CostComparator = new Comparator<Plant>() {
+		
+		public int compare(Plant p1, Plant p2) {
+			return (int) (p2.getCost() - p1.getCost());
+		}
+	};
+	
+	public static Comparator<Plant> SizeComparator = new Comparator<Plant>() {
+			
+		public int compare(Plant p1, Plant p2) {
+			return (int) (p2.getSizeLower() - p1.getSizeLower());
+		}
+	};
+	
 	@Override
 	public int compareTo(Plant o) {
 		// TODO Auto-generated method stub

@@ -6,6 +6,7 @@
 .cell {
 	-fx-cell-size: 75;
 	-fx-background-color: #E2E4E0;
+	-fx-font-smoothing-type: lcd;
 	-fx-font-size: 28px;
 	-fx-font-family: sans-serif;
 	-fx-font-weight: bold;

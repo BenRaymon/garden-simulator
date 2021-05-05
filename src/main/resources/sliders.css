@@ -2,6 +2,7 @@
 	-fx-text-fill: white;
     -fx-font-size: 18px;
 	-fx-font-family: sans-serif;
+	-fx-font-smoothing-type: lcd;
 	-fx-click-to-position: true;
 	-fx-control-inner-background: #E2E4E0;
 }
