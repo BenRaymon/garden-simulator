@@ -664,13 +664,19 @@ public class Controller extends Application{
 			garden = gardenSaverLoader.loadPickedGarden(curr_g, savedGardens);
 			
 			stage.setScene(gardenEditorView.getScene());
-			System.out.println(garden.getPlots());
+			
+			//create list of plots for recommended plant list selection
+			gardenEditorView.setPlotBoxes(garden.getPlots());
+			
+			//get the current canvas size
 			double h = gardenEditorView.getCanvasHeight();
 			double w = gardenEditorView.getCanvasWidth();
-			double t = gardenEditorView.getTopBar();
+			//transform plots to and calculate scale 
 			double pixelsPerFoot = GardenEditor.transformPlots(garden.getPlots(), w, h, garden.getScale());
+			//set the new scale in both the model and the view
 			garden.setScale(pixelsPerFoot);
 			gardenEditorView.setScale(pixelsPerFoot);
+			
 			double radius;
 			Point tmp_pos;
 			Image img_v;
@@ -707,11 +713,22 @@ public class Controller extends Application{
 				}
 			}
 			
+			//update leps supported
+			gardenEditorView.updateGardenCounts(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
+			
+			//Recommended plant list stuff
+			if(garden.getPlots().get(0).getRecommendedPlants() == null) {
+				//create recommended list for the first plot
+				garden.getPlots().get(0).createRecommendedPlants();
+			}
+			//get the recommended plant list for plot 0 and set it as the Rec list for the garden
 			HashMap<String, Plant> recommendedPlants  = garden.getPlots().get(0).getRecommendedPlants();
+			garden.setRecommendedPlants(recommendedPlants);
+			//make an array list of all the plant names for the view
 			ArrayList<String> recommendedPlantNames = new ArrayList<String>();
 			recommendedPlantNames.addAll(recommendedPlants.keySet());
+			//set plant images based on list of plant names
 			gardenEditorView.setPlantImages(recommendedPlantNames);
-			
 		});
 	}
 	
