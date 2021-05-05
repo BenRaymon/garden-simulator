@@ -275,7 +275,7 @@ public class Controller extends Application{
 				gardenEditorView.drawPlot(p.getCoordinates());
 			}
 			//update leps supported
-			gardenEditorView.updatePlantLepNums(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
+			gardenEditorView.updateGardenCounts(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
 			
 			//Recommended plant list stuff
 			if(garden.getPlots().get(0).getRecommendedPlants() == null) {
@@ -382,7 +382,7 @@ public class Controller extends Application{
 				Plant plant = GardenEditor.getSelectedPlant();
 				plotNum = GardenEditor.inPlot(plant.getPosition(), garden.getPlots(), gardenEditorView.getTopBar(), gardenEditorView.getLeftBar());
 				garden.removePlantFromPlot(plotNum,plant.getPosition());
-				gardenEditorView.updatePlantLepNums(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
+				gardenEditorView.updateGardenCounts(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
 				drag.consume();
 				return;
 			} 
@@ -412,7 +412,7 @@ public class Controller extends Application{
 				selected.setPosition(new Point(0,0)); //reset the position of the plant in the allPlants list to be 0,0
 				garden.addPlantToPlot(plotNum, pos, newPlant);
 			}
-			gardenEditorView.updatePlantLepNums(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
+			gardenEditorView.updateGardenCounts(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
 			System.out.println(garden.getPlots().get(plotNum).getPlantsInPlot().size());
 
 			drag.setDropCompleted(true);
