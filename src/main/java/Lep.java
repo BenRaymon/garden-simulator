@@ -11,11 +11,10 @@ public class Lep implements Serializable {
 	
 	
 	
-	public Lep(String tempLepFamily, String tempLepName, String tempHostPlant, String tempCountry) {
+	public Lep(String tempLepFamily, String tempLepName, String tempHostPlant) {
 		lepFamily = tempLepFamily;
 		lepName = tempLepName;
 		hostPlant = tempHostPlant;
-		country = tempCountry;
 		
 		
 		
@@ -55,8 +54,8 @@ public class Lep implements Serializable {
 
 
 
-	public void setHostPlant(String hostPlant) {
-		this.hostPlant = hostPlant;
+	public void addHostPlant(String host) {
+		hostPlant = host;
 	}
 
 

@@ -16,6 +16,8 @@ import javafx.stage.Stage;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import java.util.concurrent.ConcurrentHashMap;
+
 
 
 
@@ -56,7 +58,12 @@ public class Controller extends Application{
 	public static void main(String[] args) {
 		// BackgroundLoader loads the data and images in concurrently whilst showing a splash screen
 		// It then goes to the start screen when it is finished
-		BackgroundLoader backgroundLoader = new BackgroundLoader("bkgloader", View.getImages(), Garden.getAllPlants());
+		 
+		
+		BackgroundLoader backgroundLoader = new BackgroundLoader("bkgloader", View.getImages(), Garden.getAllPlants(), Garden.getAllLeps());
+		
+		System.out.println("Printing out all leps as a test");
+		
 		backgroundLoader.start();
 		try {
 			backgroundLoader.join();
@@ -105,6 +112,10 @@ public class Controller extends Application{
 	 */
 	public EventHandler getNewGardenOnClickHandler() {
 		return (event -> {
+			ConcurrentHashMap <String, Set<Lep>> allLeps = Garden.getAllLeps();
+			for(String key : allLeps.keySet()) {
+				System.out.println(allLeps.get(key).toString());
+			}
 			stage.setScene(plotDesignView.getScene());
 		});
 	}

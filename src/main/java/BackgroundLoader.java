@@ -1,4 +1,4 @@
-import java.util.HashMap;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javafx.scene.image.Image;
@@ -8,6 +8,7 @@ public class BackgroundLoader extends Thread {
 	private String threadName;
 	private ConcurrentHashMap<String, Image> plant_images;
 	private ConcurrentHashMap<String, Plant> all_plants;
+	private ConcurrentHashMap<String, Set<Lep>> allLeps;
 	private boolean dataCompleted;
 	private boolean imagesCompleted;
 	
@@ -18,14 +19,16 @@ public class BackgroundLoader extends Thread {
 	 * @param ap static concurrenthashmap for plant data
 	 * @return none
 	 */
-	public BackgroundLoader(String name, ConcurrentHashMap<String, Image> pi, ConcurrentHashMap<String, Plant> ap) {
+	public BackgroundLoader(String name, ConcurrentHashMap<String, Image> pi, ConcurrentHashMap<String, Plant> ap, ConcurrentHashMap<String, Set<Lep>> l) {
 		// Get references to the hashmaps for loading
 		this.threadName = name;
 		this.plant_images = pi;
 		this.all_plants = ap;
+		this.allLeps = l;
 		
 		loadData();
 		loadImages();
+		loadLeps();
 		
 		System.out.println("Background Loading Complete");
 	}
@@ -49,6 +52,7 @@ public class BackgroundLoader extends Thread {
 	public void run() {
 		loadData();
 		loadImages();
+		loadLeps();
 	}
 	
 	/**
@@ -80,6 +84,17 @@ public class BackgroundLoader extends Thread {
 			bil.join();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void loadLeps() {
+		BackgroundDataLoader bdl = new BackgroundDataLoader("Leps Thread", allLeps, 0);
+		bdl.start();
+		
+		try {
+			bdl.join();
+		}catch(InterruptedException e) {
 			e.printStackTrace();
 		}
 	}

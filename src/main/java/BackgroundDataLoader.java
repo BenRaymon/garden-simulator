@@ -4,12 +4,13 @@ import java.io.FileReader;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
-
+import java.util.*;
 public class BackgroundDataLoader extends Thread {
 	private Thread thread;
 	private String threadName;
 	// Reference to our model's plant map
 	private ConcurrentHashMap<String, Plant> all_plants;
+	private ConcurrentHashMap<String, Set<Lep>> allLeps;
 	
 	/**
 	 * Constructor for data loading
@@ -21,6 +22,12 @@ public class BackgroundDataLoader extends Thread {
 		System.out.println("BackgroundDataLoader created with thread name: " + name);
 		this.threadName = name;
 		this.all_plants = all_plants2;
+	}
+	
+	public BackgroundDataLoader(String name, ConcurrentHashMap<String, Set<Lep>> Lep,int i) {
+		System.out.println("BackgroundDataLoader created with thread name: " + name);
+		this.threadName = name;
+		this.allLeps = Lep;
 	}
 	
 	/**
@@ -40,7 +47,12 @@ public class BackgroundDataLoader extends Thread {
 	 * @return none
 	 */
 	public void run() {
+		if(allLeps == null) {
 		LoadPlantData();
+		}
+		else {
+			LoadLepData();
+		}
 	}
 	
 	/**
@@ -68,6 +80,53 @@ public class BackgroundDataLoader extends Thread {
 			System.out.println("All 366 plants loaded sucessfully in the background");
 	}
 	
+	private void LoadLepData() {
+		File plantData = Paths.get("src/main/resources/leps_data_vbon.csv").toFile().getAbsoluteFile();
+		BufferedReader br;
+		int numLines = 0;
+		try {
+			br = new BufferedReader(new FileReader(plantData));
+		    String line;
+		    while ((line = br.readLine()) != null) {
+		        loadLep(line);
+		        numLines++;
+		    }
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+			//System.out.println("All Leps loaded sucessfully in the background");
+	
+
+	}
+	
+	public void loadLep(String line) {
+		//System.out.println("In loadLeps");
+		if(line.contains("Lep ID")) {
+			return;
+		}
+		//split csv line into array of strings.
+		String[] words = line.split(",");
+		//System.out.println("First: " + words[0] + " Second: " + words[1] + " Third: " + words[2] + " Fourth: " + words[3] + " Fifth: " + words[4] + " Sixth: " + words[5]);
+		
+		if(allLeps.get(words[4]) == null) {
+			
+		
+		Lep addLep = new Lep(words[1],words[2],words[3]);
+		Set<Lep> lepSet = new HashSet<Lep>();
+		lepSet.add(addLep);
+		allLeps.put(words[4], lepSet);
+		System.out.println(words[4]);
+		}
+		else {
+			Set<Lep> lepSet = allLeps.get(words[4]);
+			Lep addLep = new Lep(words[1],words[2],words[3]);
+			lepSet.add(addLep);
+			allLeps.put(words[4],lepSet);
+		}
+		
+	}
 	/**
 	 * This function loads the plant data from the csv into a Plant object
 	 * @param line line in the csv file of data
