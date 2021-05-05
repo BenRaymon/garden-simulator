@@ -59,7 +59,7 @@ public class PlotDesignView extends View {
 	private final double LEFTBAR = 325;
 	private final double SPACING = 10;
 	private double canvasWidth = WINDOW_WIDTH - LEFTBAR;
-	private double canvasHeight = WINDOW_HEIGHT;
+	private double canvasHeight = WINDOW_HEIGHT - MenuBox.MENU_HEIGHT;
 	private int scaleIndex = 50;
 	
 	/**
@@ -127,7 +127,7 @@ public class PlotDesignView extends View {
 	
 	public void heightChanged(Object windowHeight) {
 		WINDOW_HEIGHT = (double) windowHeight;
-		canvasHeight = (double)windowHeight - 60;
+		canvasHeight = (double)windowHeight - MenuBox.MENU_HEIGHT;
 		drawArea.setHeight(canvasHeight);
 		
 		gc = drawArea.getGraphicsContext2D();
@@ -405,7 +405,7 @@ public class PlotDesignView extends View {
 		if(canDraw) {
 			//start drawing a plot
 			gc.beginPath();
-			gc.lineTo(me.getX()- LEFTBAR - 5, me.getY());
+			gc.lineTo(me.getX()- LEFTBAR - 5, me.getY()- MenuBox.MENU_HEIGHT);
 			gc.stroke();
 			//add the point to a coordinate list
 			coords.add(new Point(me.getX(), me.getY()));
@@ -421,7 +421,7 @@ public class PlotDesignView extends View {
 		if(canDraw) {
 			//Draw the line as the mouse is dragged
 			gc.setLineWidth(5);
-			gc.lineTo(me.getX()- LEFTBAR - 5, me.getY());
+			gc.lineTo(me.getX()- LEFTBAR - 5, me.getY() - MenuBox.MENU_HEIGHT);
 			gc.stroke();	
 			//add the point to a coordinate list
 			coords.add(new Point(me.getX() , me.getY()));

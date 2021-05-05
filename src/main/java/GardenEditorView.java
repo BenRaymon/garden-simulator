@@ -52,11 +52,11 @@ public class GardenEditorView extends View {
 	
 	private double LEFTBAR = 350;
 	private double RIGHTBAR = 250;
-	private double TOPBAR = 125, BOTTOM = 100;
+	private double TOPBAR = 125;
 	private double SPACING = 10;
 	private double SCALE = 10;
 	private double CANVAS_WIDTH = WINDOW_WIDTH - LEFTBAR - RIGHTBAR;
-	private double CANVAS_HEIGHT = WINDOW_HEIGHT - TOPBAR - BOTTOM;
+	private double CANVAS_HEIGHT = WINDOW_HEIGHT - TOPBAR - MenuBox.MENU_HEIGHT;
 	
 	private double budget;
 	private double budgetLeft;
@@ -74,7 +74,7 @@ public class GardenEditorView extends View {
 		base.setOnDragDropped(controller.getOnDragDroppedHandler());
 		
 		//create canvas with correct dimensions
-		Canvas drawArea = new Canvas(WINDOW_WIDTH - LEFTBAR - RIGHTBAR, WINDOW_HEIGHT - TOPBAR - BOTTOM);
+		Canvas drawArea = new Canvas(WINDOW_WIDTH - LEFTBAR - RIGHTBAR, WINDOW_HEIGHT - TOPBAR - MenuBox.MENU_HEIGHT);
 		gc = drawArea.getGraphicsContext2D();
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(1);

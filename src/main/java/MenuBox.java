@@ -4,13 +4,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
 public class MenuBox extends Pane{
-	Button plot_d;
-	Button editor;
-	Button report;
-	Button shopping_l;
-	Button load;
-	Button comp_p;
-	GridPane container;
+	private Button plot_d;
+	private Button editor;
+	private Button report;
+	private Button shopping_l;
+	private Button load;
+	private Button comp_p;
+	private GridPane container;
+	static int MENU_HEIGHT = 60;
 	
 	/**
 	 * Constructor that makes a MenuBox instance. Appears at the top of every
@@ -24,8 +25,8 @@ public class MenuBox extends Pane{
 		// make the pane
 		container = new GridPane();
 		createPane(container, "#E2E4E0");
-		container.setMinHeight(30);
-		container.setMinWidth(100);
+		container.setMinHeight(60);
+		container.setMinWidth(View.WINDOW_WIDTH);
 		
 		// make the buttons
 		load = new Button("Load Menu");
@@ -41,7 +42,7 @@ public class MenuBox extends Pane{
 		shopping_l.setOnMouseClicked(controller.getToShoppingListOnClickHandler());
 		report.setOnMouseClicked(controller.getToReportOnClickHandler());
 		comp_p.setOnMouseClicked(controller.getToCompareOnClickHandler());
-		
+
 		
 		container.add(load, 0, 0);
 		container.add(plot_d, 1, 0);
@@ -60,7 +61,7 @@ public class MenuBox extends Pane{
 	 * @param color
 	 */
 	public void createPane(GridPane pane, String color) {
-		pane.setAlignment(Pos.TOP_LEFT);
+		pane.setAlignment(Pos.CENTER);
 		pane.setStyle("-fx-background-color: " + color);
 		pane.setHgap(10);
 		pane.setVgap(10);
