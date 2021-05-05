@@ -14,6 +14,13 @@ public class MenuBox extends Pane{
 	Button comp_p;
 	GridPane container;
 	
+	/**
+	 * Constructor that makes a MenuBox instance. Appears at the top of every
+	 * view, has buttons that allow for easy traversal of the views.
+	 * 
+	 * @param controller - the controller to link buttons to appropriate event handlers
+	 * @return none
+	 * */
 	public MenuBox(Controller controller) {
 		
 		// make the pane
@@ -61,22 +68,13 @@ public class MenuBox extends Pane{
 		pane.setVgap(10);
 	}
 	
-	public MenuBar createMenuBar() {
-		MenuBar menu;
-		
-		Menu load = new Menu("Load");
-		Menu plot = new Menu("Plot Designer");
-		Menu edit = new Menu("Garden Editor");
-		Menu report = new Menu("Report");
-		Menu shop = new Menu("Shopping List");
-		Menu comp = new Menu("Compare Plants");
-		
-		menu = new MenuBar(load, plot, edit, report, shop, comp);
-		//menu.getStylesheets().add(getClass().getResource("menu.css").toExternalForm());
-		
-		return menu;
-	}
-	
+	/**
+	 * Getter that returns the container pane that holds the buttons.
+	 * Used to add or take things away from the container.
+	 * 
+	 * @param none
+	 * @return container - the container pane that holds buttons
+	 * */
 	public GridPane getContainer() {
 		return container;
 	}
