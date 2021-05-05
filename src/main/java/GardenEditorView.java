@@ -98,22 +98,23 @@ public class GardenEditorView extends View {
 		// get button and scroll bar styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
 		String scrollBarStyle = getClass().getResource("scrollbars.css").toExternalForm();
-		
+		String textStyle = getClass().getResource("text.css").toExternalForm();
 		// add save inputs to menu for the editor, add menu to the container
 		gardenName = new TextField();
-		
+		gardenName.setPromptText("Name your Garden");
 		Button saveGarden = new Button("Save");
 		saveGarden.setOnMouseClicked(controller.SaveButtonClickedHandler());
 		
 		MenuBox menu = new MenuBox(c);
-		menu.getContainer().add(gardenName, 6, 0);
-		menu.getContainer().add(saveGarden, 7, 0);
+		menu.getContainer().add(gardenName, 9, 0);
+		menu.getContainer().add(saveGarden, 10, 0);
 		container = new VBox( menu, base);
 		
 		//create and set scene with base
 		scene = new Scene(container, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.getStylesheets().add(buttonStyle);
 		scene.getStylesheets().add(scrollBarStyle);
+		scene.getStylesheets().add(textStyle);
 		//scene.getStylesheets().add(menuStyle);
 		stage.setScene(scene);
         stage.show();
@@ -199,6 +200,7 @@ public class GardenEditorView extends View {
 	public void createBudgetText(){
 		Text budgetLabel = new Text("Remaining Budget");
 		budgetLabel.setFont(Font.font(20));
+		budgetLabel.getStyleClass().add("editor-t");
 		GridPane.setHalignment(budgetLabel, HPos.CENTER);
 		right.add(budgetLabel, 0, 4);
 		
@@ -215,6 +217,7 @@ public class GardenEditorView extends View {
 	public void createPlantText() {
 		Text plantLabel = new Text("Number of Plants");
 		plantLabel.setFont(Font.font(20));
+		plantLabel.getStyleClass().add("editor-t");
 		GridPane.setHalignment(plantLabel, HPos.CENTER);
 		right.add(plantLabel, 0, 6);
 		
@@ -229,10 +232,12 @@ public class GardenEditorView extends View {
 	public void createLepText() {
 		Text lepLabel = new Text("Number of Lep");
 		lepLabel.setFont(Font.font(20));
+		lepLabel.getStyleClass().add("editor-t");
 		GridPane.setHalignment(lepLabel, HPos.CENTER);
 		right.add(lepLabel, 0, 8);
 		
 		lepCount.setFont(Font.font(32));
+		lepCount.getStyleClass().add("editor-t");
 		GridPane.setHalignment(lepCount, HPos.CENTER);
 		right.add(lepCount, 0, 9);
 	}
@@ -289,6 +294,7 @@ public class GardenEditorView extends View {
 	public void setPlantInfo(Plant plant) {
 		if (plant == null) {
 			Text t = new Text("Click a Plant to See it's Info");
+			t.getStyleClass().add("editor-t");
 			left.add(t, 0, 0);
 		}
 		else
@@ -335,18 +341,26 @@ public class GardenEditorView extends View {
 	public void addNames(Plant plant){
 		Text commonName = new Text(plant.getCommonName());
 		Text commonText = new Text("Common Name:");
+		commonName.getStyleClass().add("editor-t");
+		commonText.getStyleClass().add("editor-t");
 		left.add(commonText, 0, 1);
 		left.add(commonName, 1, 1);
 		Text scienceText = new Text("Scientific Name:");
 		Text scienceName = new Text(plant.getScientificName());
+		scienceText.getStyleClass().add("editor-t");
+		scienceName.getStyleClass().add("editor-t");
 		left.add(scienceText, 0, 2);
 		left.add(scienceName, 1, 2);
 		Text familyText = new Text("Family:");
 		Text familyName = new Text(plant.getFamily());
+		familyText.getStyleClass().add("editor-t");
+		familyName.getStyleClass().add("editor-t");
 		left.add(familyText, 0, 3);
 		left.add(familyName, 1, 3);
 		Text genusText = new Text("Genus:");
 		Text genusName = new Text(plant.getGenera());
+		genusText.getStyleClass().add("editor-t");
+		genusName.getStyleClass().add("editor-t");
 		left.add(genusText, 0, 4);
 		left.add(genusName, 1, 4);
 		
@@ -359,6 +373,8 @@ public class GardenEditorView extends View {
 	public void addLeps(Plant plant) {
 		Text lepText = new Text("Number of Leps Supported:");
 		Text lepNum = new Text(String.valueOf(plant.getLepsSupported()));
+		lepText.getStyleClass().add("editor-t");
+		lepNum.getStyleClass().add("editor-t");
 		left.add(lepText, 0, 5);
 		left.add(lepNum, 1, 5);
 	}
@@ -378,7 +394,8 @@ public class GardenEditorView extends View {
 			type = "Herbaceous";
 		}
 		Text typeName = new Text(type);
-		
+		typeText.getStyleClass().add("editor-t");
+		typeName.getStyleClass().add("editor-t");
 		left.add(typeText, 0, 6);
 		left.add(typeName, 1, 6);
 	}
@@ -390,6 +407,8 @@ public class GardenEditorView extends View {
 	public void addCost(Plant plant) {
 		Text costText = new Text("Plant Cost:");
 		Text costNum = new Text("$" + String.valueOf(plant.getCost()));
+		costText.getStyleClass().add("editor-t");
+		costNum.getStyleClass().add("editor-t");
 		left.add(costText, 0, 7);
 		left.add(costNum, 1, 7);
 	}
@@ -401,6 +420,8 @@ public class GardenEditorView extends View {
 	public void addSize(Plant plant) {
 		Text sizeText = new Text("Size Range (ft):");
 		Text sizeRange = new Text(String.valueOf(plant.getSizeLower())+ "-" + String.valueOf(plant.getSizeUpper()));
+		sizeText.getStyleClass().add("editor-t");
+		sizeRange.getStyleClass().add("editor-t");
 		left.add(sizeText, 0, 8);
 		left.add(sizeRange, 1, 8);
 	}
@@ -413,6 +434,8 @@ public class GardenEditorView extends View {
 	public void addColor(Plant plant) {
 		Text colorText = new Text("Color:");
 		Text colorStr = new Text(String.valueOf(plant.getColor()));
+		colorText.getStyleClass().add("editor-t");
+		colorStr.getStyleClass().add("editor-t");
 		left.add(colorText, 0, 9);
 		left.add(colorStr, 1, 9);
 	}
