@@ -1,3 +1,10 @@
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,16 +26,18 @@ public class LearnMoreView extends View{
 	private BorderPane base;
 	private int LEFTBAR = 225;
 	private int SPACING = 5;
+	double titleSize = 80;
+	double subtitleSize = 32;
+	double textSize = 18;
 	
 	public LearnMoreView(Stage stage, Controller c) {
 		controller = c;
 		base = new BorderPane();
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
-		Text t = new Text("Hi Mike");
-		base.setCenter(t);
 		createTop();
 		createLeft();
 		createRight();
+		createCenter();
 		stage.setScene(scene);
         stage.show();
 	}
@@ -36,10 +45,10 @@ public class LearnMoreView extends View{
 	public void createTop() {
 		VBox box = new VBox();
 		box.setAlignment(Pos.CENTER);
-		box.setStyle("-fx-background-color: darkseagreen");
+		box.setStyle("-fx-background-color: "+darkGreen);
 		Text t = new Text("Learn More");
 		t.setTextAlignment(TextAlignment.CENTER);
-		t.setFont(Font.font(80));
+		t.setFont(Font.font(titleSize));
 		t.setFill(Color.web(lightBlue));
 		box.getChildren().add(t);
 		base.setTop(box);
@@ -48,7 +57,7 @@ public class LearnMoreView extends View{
 	public void createLeft() {
 		VBox box1 = new VBox();
 		box1.setAlignment(Pos.CENTER);
-		box1.setStyle("-fx-background-color: darkseagreen");
+		box1.setStyle("-fx-background-color: "+darkGreen);
 		box1.setMinWidth(LEFTBAR);
 		VBox box2 = new VBox();
 		box1.getChildren().add(box2);
@@ -62,7 +71,7 @@ public class LearnMoreView extends View{
 	public void createRight() {
 		VBox box1 = new VBox();
 		box1.setAlignment(Pos.CENTER);
-		box1.setStyle("-fx-background-color: darkseagreen");
+		box1.setStyle("-fx-background-color: "+darkGreen);
 		box1.setMinWidth(LEFTBAR);
 		VBox box2 = new VBox();
 		box1.getChildren().add(box2);
@@ -81,7 +90,7 @@ public class LearnMoreView extends View{
 	public void gardenTipsText(VBox box){
 		Text title = new Text("Gardening Tips");
 		title.setTextAlignment(TextAlignment.CENTER);
-		title.setFont(Font.font(32));
+		title.setFont(Font.font(subtitleSize));
 		title.setFill(Color.web(offWhite));
 		box.getChildren().add(createGardenText(""));
 		box.getChildren().add(title);
@@ -96,9 +105,44 @@ public class LearnMoreView extends View{
 	public Text createGardenText(String phrase) {
 		Text t = new Text(phrase);
 		t.setTextAlignment(TextAlignment.CENTER);
-		t.setFont(Font.font(18));
+		t.setFont(Font.font(textSize));
 		t.setFill(Color.web(offWhite));
 		return t;
+	}
+	
+	public void createCenter() {
+		VBox box1 = new VBox();
+		box1.setAlignment(Pos.CENTER);
+		box1.setStyle("-fx-background-color: " + darkGreen);
+		VBox box2 = new VBox();
+		box1.getChildren().add(box2);
+		box2.setBackground(new Background(new BackgroundFill(Color.web(lightBlue), CornerRadii.EMPTY, Insets.EMPTY)));
+		box2.setAlignment(Pos.CENTER);
+		box2.setSpacing(SPACING);
+		box2.setMaxWidth(WINDOW_WIDTH/2);
+		createCenterText(box2);
+		base.setCenter(box1);
+	}
+	
+	public void createCenterText(VBox box){
+		Text title = new Text("Our Mission");
+		title.setFont(Font.font(subtitleSize));
+		title.setFill(Color.web(offWhite));
+		box.getChildren().add(title);
+		try {
+			String content = Files.readString
+					(Path.of("src/main/resources/LearnMoreCenterText.txt"), StandardCharsets.US_ASCII);
+			Text body = new Text(content);
+			body.setFont(Font.font(textSize));
+			body.setFill(Color.web(offWhite));
+			box.getChildren().add(body);
+			Text buffer = new Text("");
+			box.getChildren().add(buffer);
+		} catch (IOException e) {
+			System.out.println("IN CATCH");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

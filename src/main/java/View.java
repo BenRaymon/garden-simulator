@@ -15,6 +15,7 @@ public abstract class View {
 	protected static String darkBlue = "#263C46";
 	protected static String lightBlue = "#596E89";
 	protected static String green = "#ACBC$40";
+	protected static String darkGreen = "#678B5E";
 	protected static String offWhite = "#E2E4E0";
 	
 	
