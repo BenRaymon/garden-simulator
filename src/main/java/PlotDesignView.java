@@ -191,6 +191,7 @@ public class PlotDesignView extends View {
 		while(it.hasNext()) {
 			dimensions.setMargin(it.next(), margin);
 		}
+		dimensions.setMargin(dimensions.getChildren().get(0), new Insets(20,0,5,0)); //give 20 pixel gap
 		budget.setMargin(budgetText, margin);
 		budget.setMargin(budgetInput, margin);
 
@@ -277,14 +278,14 @@ public class PlotDesignView extends View {
 	    RowConstraints row2 = new RowConstraints();
 	    row2.setPercentHeight(10);
 	    RowConstraints row3 = new RowConstraints();
-	    row3.setPercentHeight(35);
+	    row3.setPercentHeight(30);
 	    RowConstraints row4 = new RowConstraints();
-	    row4.setPercentHeight(5);
+	    row4.setPercentHeight(7);
 	    RowConstraints row5 = new RowConstraints();
-	    row5.setPercentHeight(5);
+	    row5.setPercentHeight(7);
 	    RowConstraints row6 = new RowConstraints();
-	    row6.setPercentHeight(10);
-	    left_grid.getRowConstraints().addAll(row1,row2,row3,row4,row5,row6);
+	    row6.setPercentHeight(11);
+	    left_grid.getRowConstraints().addAll(row1,row2,row3,row4,row5, row6);
 		
 		base.setLeft(left_grid);
 	}
