@@ -7,6 +7,14 @@
 	-fx-control-inner-background: #E2E4E0;
 }
 
+.slider .axis {
+	-fx-tick-label-fill: white;
+	/*-fx-tick-label-font-weight: bold;*/
+	-fx-tick-label-font-family: sans-serif;
+	-fx-tick-label-font-smoothing-type: lcd;
+	-fx-tick-label-font-size: 18px;
+}
+
 .slider .track {
 	-fx-text-fill: white;
     -fx-font-size: 18px;

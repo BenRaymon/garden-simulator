@@ -98,7 +98,7 @@ public class GardenEditorView extends View {
 		// get button and scroll bar styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
 		String scrollBarStyle = getClass().getResource("scrollbars.css").toExternalForm();
-		String textStyle = getClass().getResource("text.css").toExternalForm();
+		//String textStyle = getClass().getResource("text.css").toExternalForm();
 		// add save inputs to menu for the editor, add menu to the container
 		gardenName = new TextField();
 		gardenName.setPromptText("Name your Garden");
@@ -114,7 +114,7 @@ public class GardenEditorView extends View {
 		scene = new Scene(container, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.getStylesheets().add(buttonStyle);
 		scene.getStylesheets().add(scrollBarStyle);
-		scene.getStylesheets().add(textStyle);
+		//scene.getStylesheets().add(textStyle);
 		//scene.getStylesheets().add(menuStyle);
 		stage.setScene(scene);
         stage.show();
