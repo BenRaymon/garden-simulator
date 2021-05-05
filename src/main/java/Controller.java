@@ -141,6 +141,47 @@ public class Controller extends Application{
 		});
 	}
 	
+	//TODO: JAAVADOX
+	public void setUpGardenEditor() {
+		//create list of plots for recommended plant list selection
+		gardenEditorView.setPlotBoxes(garden.getPlots());
+		
+		//get the current canvas size
+		double h = gardenEditorView.getCanvasHeight();
+		double w = gardenEditorView.getCanvasWidth();
+		//transform plots to and calculate scale 
+		double pixelsPerFoot = GardenEditor.transformPlots(garden.getPlots(), w, h, garden.getScale());
+		//set the new scale in both the model and the view
+		garden.setScale(pixelsPerFoot);
+		gardenEditorView.setScale(pixelsPerFoot);
+		//smooth the plots in the model and fill them based on soil type
+		for (Plot p : garden.getPlots()) {
+			p.setCoordinates(p.filterCoords(5));
+			p.setCoordinates(GardenEditor.smooth(p.getCoordinates(), 0.3, 20));
+			gardenEditorView.setFillColor(p.getOptions());
+			if (p.getPlantsInPlot().size() == 0) 
+				gardenEditorView.drawPlot(p.getCoordinates(), null);
+			else
+				gardenEditorView.drawPlot(p.getCoordinates(), p.getPlantsInPlot());
+		}
+		//update leps supported
+		gardenEditorView.updateGardenCounts(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
+		
+		//Recommended plant list stuff
+		if(garden.getPlots().get(0).getRecommendedPlants() == null) {
+			//create recommended list for the first plot
+			garden.getPlots().get(0).createRecommendedPlants();
+		}
+		//get the recommended plant list for plot 0 and set it as the Rec list for the garden
+		HashMap<String, Plant> recommendedPlants  = garden.getPlots().get(0).getRecommendedPlants();
+		garden.setRecommendedPlants(recommendedPlants);
+		//make an array list of all the plant names for the view
+		ArrayList<String> recommendedPlantNames = new ArrayList<String>();
+		recommendedPlantNames.addAll(recommendedPlants.keySet());
+		//set plant images based on list of plant names
+		gardenEditorView.setPlantImages(recommendedPlantNames);
+	}
+	
 	/**
 	 * Returns the event handler for set dimensions button clicked
 	 * @return event handler
@@ -256,39 +297,7 @@ public class Controller extends Application{
 			//update budget in the view
 			gardenEditorView.setBudget(garden.getBudget());
 			
-			//create list of plots for recommended plant list selection
-			gardenEditorView.setPlotBoxes(garden.getPlots());
-			
-			//get the current canvas size
-			double h = gardenEditorView.getCanvasHeight();
-			double w = gardenEditorView.getCanvasWidth();
-			//transform plots to and calculate scale 
-			double pixelsPerFoot = GardenEditor.transformPlots(garden.getPlots(), w, h, garden.getScale());
-			//set the new scale in both the model and the view
-			garden.setScale(pixelsPerFoot);
-			gardenEditorView.setScale(pixelsPerFoot);
-			//smooth the plots in the model and fill them based on soil type
-			for (Plot p : garden.getPlots()) {
-				p.setCoordinates(p.filterCoords(5));
-				p.setCoordinates(GardenEditor.smooth(p.getCoordinates(), 0.3, 20));
-				gardenEditorView.setFillColor(p.getOptions());
-				gardenEditorView.drawPlot(p.getCoordinates());
-			}
-			//update leps supported
-			gardenEditorView.updateGardenCounts(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
-			
-			//Recommended plant list stuff
-			if(garden.getPlots().get(0).getRecommendedPlants() == null) {
-				//create recommended list for the first plot
-				garden.getPlots().get(0).createRecommendedPlants();
-				HashMap<String, Plant> recommendedPlants  = garden.getPlots().get(0).getRecommendedPlants();
-				garden.setRecommendedPlants(recommendedPlants);
-				//make an array list of all the plant names for the view
-				ArrayList<String> recommendedPlantNames = new ArrayList<String>();
-				recommendedPlantNames.addAll(recommendedPlants.keySet());
-				//set plant images based on list of plant names
-				gardenEditorView.setPlantImages(recommendedPlantNames);
-			}
+			setUpGardenEditor();
 			
 		});
 	}
@@ -665,70 +674,7 @@ public class Controller extends Application{
 			
 			stage.setScene(gardenEditorView.getScene());
 			
-			//create list of plots for recommended plant list selection
-			gardenEditorView.setPlotBoxes(garden.getPlots());
-			
-			//get the current canvas size
-			double h = gardenEditorView.getCanvasHeight();
-			double w = gardenEditorView.getCanvasWidth();
-			//transform plots to and calculate scale 
-			double pixelsPerFoot = GardenEditor.transformPlots(garden.getPlots(), w, h, garden.getScale());
-			//set the new scale in both the model and the view
-			garden.setScale(pixelsPerFoot);
-			gardenEditorView.setScale(pixelsPerFoot);
-			
-			double radius;
-			Point tmp_pos;
-			Image img_v;
-			
-			Iterator plot_itr = garden.getPlots().iterator();
-			Plot tmp_p;
-			while (plot_itr.hasNext()) {
-				//p.setCoordinates(p.filterCoords(20));
-				//p.setCoordinates(GardenEditor.smooth(p.getCoordinates(), 0.3, 20));
-				tmp_p = (Plot) plot_itr.next();
-				gardenEditorView.setFillColor(tmp_p.getOptions());
-				gardenEditorView.drawPlot(tmp_p.getCoordinates());
-				
-				// iterate over the hashmap of plants from each plot and find the corresponding image
-				// in the background loader. This is a weird way to do this.
-				Iterator plant_itr = tmp_p.getPlantsInPlot().entrySet().iterator();
-				
-				while (plant_itr.hasNext()) {
-					// get a map entry from the plot
-					Map.Entry<Point, Plant> map_element = (Map.Entry<Point, Plant>)plant_itr.next();
-					// used to determine plant image size in the plot
-					radius = map_element.getValue().getSpreadRadiusLower();
-					if(radius == 0) {
-						radius = map_element.getValue().getSizeLower();
-					}
-					// get position of plant
-					tmp_pos = map_element.getValue().getPosition();
-					// the image corresponding to the plot
-					img_v = View.getImages().get(map_element.getValue().getScientificName());
-					// method to add the image to the gardenEdtiorView base panel (draw duh plant)
-					if(gardenEditorView.addPlantImageToBase(tmp_pos, img_v, radius)) {
-						System.out.println("success");
-					}
-				}
-			}
-			
-			//update leps supported
-			gardenEditorView.updateGardenCounts(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
-			
-			//Recommended plant list stuff
-			if(garden.getPlots().get(0).getRecommendedPlants() == null) {
-				//create recommended list for the first plot
-				garden.getPlots().get(0).createRecommendedPlants();
-			}
-			//get the recommended plant list for plot 0 and set it as the Rec list for the garden
-			HashMap<String, Plant> recommendedPlants  = garden.getPlots().get(0).getRecommendedPlants();
-			garden.setRecommendedPlants(recommendedPlants);
-			//make an array list of all the plant names for the view
-			ArrayList<String> recommendedPlantNames = new ArrayList<String>();
-			recommendedPlantNames.addAll(recommendedPlants.keySet());
-			//set plant images based on list of plant names
-			gardenEditorView.setPlantImages(recommendedPlantNames);
+			setUpGardenEditor();
 		});
 	}
 	

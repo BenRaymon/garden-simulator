@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javafx.scene.control.*;
@@ -143,7 +144,7 @@ public class GardenEditorView extends View {
 	 * Draws plots on the canvas
 	 * @param points an array lit of coordinates to draw
 	 */
-	public void drawPlot(ArrayList<Point> points) {
+	public void drawPlot(ArrayList<Point> points, HashMap<Point, Plant> plantsInPlot) {
 		//split the array list of points into two arrays of doubles
 		//(fillPolygon method requires 2 arrays of doubles)
 		double[] xcords = new double[points.size()];
@@ -154,6 +155,25 @@ public class GardenEditorView extends View {
 			ycords[i++] = (p.getY());
 		}
 		gc.fillPolygon(xcords, ycords, i);
+		
+		if(plantsInPlot != null) {
+			for(Map.Entry<Point, Plant> map_element : plantsInPlot.entrySet()) {
+				// used to determine plant image size in the plot
+				double radius = map_element.getValue().getSpreadRadiusLower();
+				if(radius == 0) {
+					radius = map_element.getValue().getSizeLower();
+				}
+				// get position of plant
+				Point tmp_pos = map_element.getValue().getPosition();
+				// the image corresponding to the plot
+				Image plantImage = View.getImages().get(map_element.getValue().getScientificName());
+				// method to add the image to the gardenEdtiorView base panel (draw duh plant)
+				if(addPlantImageToBase(tmp_pos, plantImage, radius)) {
+					System.out.println("success");
+				}
+			}
+		}
+		
 	}
 	
 	/**
