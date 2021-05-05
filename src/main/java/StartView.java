@@ -41,6 +41,7 @@ public class StartView extends View {
 
 	private Button newGarden;
 	private Button loadGarden;
+	private Button learnMore;
 	private Scene scene;
 	private VBox base;
 	private VBox menuBox;
@@ -82,7 +83,7 @@ public class StartView extends View {
 		
 		
 		
-		//Buttons for load and new gardens
+		//Buttons for load, new gardens and learnMore
 		HBox buttons = new HBox();
 		buttons.setMinHeight(BOTTOM_BAR);
 		buttons.setAlignment(Pos.BASELINE_CENTER);
@@ -96,8 +97,13 @@ public class StartView extends View {
 		loadGarden.setMinHeight(BUTTON_H);
 		loadGarden.setMinWidth(BUTTON_W);
 		loadGarden.setOnMouseClicked(controller.getLoadGardenViewOnClickHandler());
+		learnMore = new Button("Learn More");
+		learnMore.setMinHeight(BUTTON_H);
+		learnMore.setMinWidth(BUTTON_W);
+		learnMore.setOnMouseClicked(controller.getLearnMoreOnClickHandler());
 		buttons.getChildren().add(newGarden);
 		buttons.getChildren().add(loadGarden);
+		buttons.getChildren().add(learnMore);
 		
 		Image butterfly = new Image("TitleImage.png",WINDOW_WIDTH,WINDOW_HEIGHT - 75 - BOTTOM_BAR, true, true);
 		ImageView butterflyView = new ImageView(butterfly);

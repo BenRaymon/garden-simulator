@@ -31,6 +31,7 @@ public class Controller extends Application{
 	ShoppingListView shopView;
 	ReportView reportView;
 	LoadSavedGardenView loadSavedGardenView;
+	LearnMoreView learnMoreView;
 	Garden garden;
 	SaveLoadGarden gardenSaverLoader = new SaveLoadGarden();
 	ArrayList<Garden> savedGardens = new ArrayList<Garden>();
@@ -95,10 +96,18 @@ public class Controller extends Application{
 		shopView = new ShoppingListView(stage, this);
 		reportView = new ReportView(stage, this);
 		loadSavedGardenView = new LoadSavedGardenView(stage, savedGardens, this);
+		learnMoreView = new LearnMoreView(stage, this);
 		
 		//set the scene and model to Start
 		stage.setScene(startView.getScene());
 	}
+	
+	public EventHandler getLearnMoreOnClickHandler() {
+		return (event->{
+			stage.setScene(learnMoreView.getScene());
+		});
+	}
+	
 	
 	/**
 	 * Returns the event handler for clicking the new garden button
