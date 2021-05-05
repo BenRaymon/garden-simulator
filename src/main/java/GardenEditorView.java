@@ -188,7 +188,7 @@ public class GardenEditorView extends View {
 		ComboBox sortBy = new ComboBox();
 		Text sortLabel = new Text("Sort Recommended Plants By: ");
 		sortBy.valueProperty().addListener(controller.getSortByHandler());
-		sortBy.getItems().addAll("Butterfly Count", "Plant Size");
+		sortBy.getItems().addAll("Butterfly Count", "Cost", "Spread Radius", "Plant Size");
 		sort.getChildren().add(sortLabel);
 		sort.getChildren().add(sortBy);
 		right.add(sort, 0, 2); //dropdown for sorting criteria

@@ -407,7 +407,16 @@ public class Plant implements Serializable, Comparable<Plant>{
 	public static Comparator<Plant> SpreadComparator = new Comparator<Plant>() {
 		
 		public int compare(Plant p1, Plant p2) {
-			return (int) (p2.getSpreadRadiusLower() - p1.getSpreadRadiusLower());
+			if(p1.getSpreadRadiusLower() == 0 && p2.getSpreadRadiusLower() == 0) {
+				return (int) (p1.getSizeLower() - p2.getSizeLower());
+			}
+			else if (p1.getSpreadRadiusLower() == 0) {
+				return (int) (p1.getSizeLower() - p2.getSpreadRadiusLower());
+			}
+			else if (p2.getSpreadRadiusLower() == 0) {
+				return (int) (p1.getSpreadRadiusLower() - p2.getSizeLower());
+			}
+			return (int) (p1.getSpreadRadiusLower() - p2.getSpreadRadiusLower());
 		}
 	};
 	
@@ -421,7 +430,7 @@ public class Plant implements Serializable, Comparable<Plant>{
 	public static Comparator<Plant> SizeComparator = new Comparator<Plant>() {
 			
 		public int compare(Plant p1, Plant p2) {
-			return (int) (p2.getSizeLower() - p1.getSizeLower());
+			return (int) (p1.getSizeLower() - p2.getSizeLower());
 		}
 	};
 	
