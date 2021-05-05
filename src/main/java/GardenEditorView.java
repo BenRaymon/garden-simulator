@@ -419,6 +419,19 @@ public class GardenEditorView extends View {
 		sizeRange.getStyleClass().add("editor-t");
 		left.add(sizeText, 0, 8);
 		left.add(sizeRange, 1, 8);
+		
+		Text spreadText = new Text("Spread Radius Range (ft):");
+		Text spreadRange = new Text();
+		if(plant.getSpreadRadiusLower() == 0) {
+			spreadRange.setText("unknown");
+		}
+		else {
+			spreadRange.setText(String.valueOf(plant.getSpreadRadiusLower())+ "-" + String.valueOf(plant.getSpreadRadiusUpper()));
+		}
+		spreadText.getStyleClass().add("editor-t");
+		spreadRange.getStyleClass().add("editor-t");
+		left.add(spreadText, 0, 9);
+		left.add(spreadRange, 1, 9);
 	}
 	
 	
@@ -431,8 +444,8 @@ public class GardenEditorView extends View {
 		Text colorStr = new Text(String.valueOf(plant.getColor()));
 		colorText.getStyleClass().add("editor-t");
 		colorStr.getStyleClass().add("editor-t");
-		left.add(colorText, 0, 9);
-		left.add(colorStr, 1, 9);
+		left.add(colorText, 0, 10);
+		left.add(colorStr, 1, 10);
 	}
 
 	

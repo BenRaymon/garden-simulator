@@ -86,7 +86,7 @@ public class GardenEditor {
 		//If the users chooses to sort by size
 		if(sortCriteria.equals("Plant Size")) {
 			//sort by ascending size by using the SizeComparator
-			Arrays.sort(plants, Plant.SpreadComparator);
+			Arrays.sort(plants, Plant.SizeComparator);
 			//add the names of the sorted list into the list of plant names
 			for (Plant p : plants) {
 				plantNames.add(p.getScientificName());
