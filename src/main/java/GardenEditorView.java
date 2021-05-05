@@ -1,9 +1,7 @@
-import java.io.File;
-import java.io.InputStream;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javafx.scene.control.*;
@@ -23,12 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.input.DataFormat;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
@@ -48,11 +41,10 @@ public class GardenEditorView extends View {
 	private GridPane right, left;
 	private ListView<Circle> top;
 	private BorderPane base;
-	private ComboBox sortBy;
 	private Scene scene;
 	private GraphicsContext gc;
 	private TextField gardenName; // name the garden (used to load garden)
-	private VBox plantBox, plotSelectors;
+	private VBox plantImage, plotSelectors;
 	private Text lepCount = new Text("0");
 	private Text plantCount = new Text("0");
 	private Text budgetText = new Text();
@@ -81,30 +73,28 @@ public class GardenEditorView extends View {
 		base.setOnDragOver(controller.getOnDragOverHandler());
 		base.setOnDragDropped(controller.getOnDragDroppedHandler());
 		
+		//create canvas with correct dimensions
 		Canvas drawArea = new Canvas(WINDOW_WIDTH - LEFTBAR - RIGHTBAR, WINDOW_HEIGHT - TOPBAR - BOTTOM);
 		gc = drawArea.getGraphicsContext2D();
-		gc.setFill(Color.GREEN);
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(1);
 		base.setCenter(drawArea);
 		
-		
+		//create the right and left info bars
 		createRight();
 		createLeft();
 		setPlantInfo(null);
-		//createBottom();
-		//addPageButtons();
 		
 		// get button and scroll bar styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
 		String scrollBarStyle = getClass().getResource("scrollbars.css").toExternalForm();
-		//String textStyle = getClass().getResource("text.css").toExternalForm();
+		String textStyle = getClass().getResource("text.css").toExternalForm();
+		
 		// add save inputs to menu for the editor, add menu to the container
 		gardenName = new TextField();
 		gardenName.setPromptText("Name your Garden");
 		Button saveGarden = new Button("Save");
 		saveGarden.setOnMouseClicked(controller.SaveButtonClickedHandler());
-		
 		MenuBox menu = new MenuBox(c);
 		menu.getContainer().add(gardenName, 9, 0);
 		menu.getContainer().add(saveGarden, 10, 0);
@@ -127,31 +117,36 @@ public class GardenEditorView extends View {
 	 */
 	public void setPlotBoxes(ArrayList<Plot> plots) {
 		plotSelectors = new VBox();
+		//margins for elements in the plot selector vbox
 		Insets margins = new Insets(5,5,5,15);
+		//add label to the selectors vbox
 		plotSelectors.getChildren().add(new Text("Select plots"));
 		int index = 1;
+		//iterate through the plots and create a check box for each one
 		for (Plot plot : plots) {
 			CheckBox plotCheck = new CheckBox("Plot " + index++);
 			plotCheck.setOnAction(controller.getSelectPlotCheckboxHander());
 			plotSelectors.getChildren().add(plotCheck);
 		}
 		
+		//set the margins for each checkbox in the plotSelectors
 		for(Node x : plotSelectors.getChildren()) {
 			plotSelectors.setMargin(x, margins);
 		}
 		
+		//default select the first plot
 		((CheckBox) plotSelectors.getChildren().get(1)).setSelected(true);
-		//plantBox.getChildren().add(plotSelectors);
 		right.add(plotSelectors, 0, 1);
 	}
 
 	
 	/**
 	 * Draws plots on the canvas
-	 * @param ArrayList points
+	 * @param points an array lit of coordinates to draw
 	 */
-	public void drawPlot(ArrayList<Point> points) {
-		
+	public void drawPlot(ArrayList<Point> points, HashMap<Point, Plant> plantsInPlot) {
+		//split the array list of points into two arrays of doubles
+		//(fillPolygon method requires 2 arrays of doubles)
 		double[] xcords = new double[points.size()];
 		double[] ycords = new double[points.size()];
 		int i = 0;
@@ -160,12 +155,30 @@ public class GardenEditorView extends View {
 			ycords[i++] = (p.getY());
 		}
 		gc.fillPolygon(xcords, ycords, i);
-		//gc.strokePolygon(xcords, ycords, i);
+		
+		if(plantsInPlot != null) {
+			for(Map.Entry<Point, Plant> map_element : plantsInPlot.entrySet()) {
+				// used to determine plant image size in the plot
+				double radius = map_element.getValue().getSpreadRadiusLower();
+				if(radius == 0) {
+					radius = map_element.getValue().getSizeLower();
+				}
+				// get position of plant
+				Point tmp_pos = map_element.getValue().getPosition();
+				// the image corresponding to the plot
+				Image plantImage = View.getImages().get(map_element.getValue().getScientificName());
+				// method to add the image to the gardenEdtiorView base panel (draw duh plant)
+				if(addPlantImageToBase(tmp_pos, plantImage, radius)) {
+					System.out.println("success");
+				}
+			}
+		}
+		
 	}
 	
 	/**
-	 * Sets the fill color for the plots drawn
-	 * @param Options o 
+	 * Sets the fill color for the plots drawn based on the soil type
+	 * @param o the options of the plot that needs to be filled 
 	 */
 	public void setFillColor(Options o) {
 		int[] soil = o.getSoilTypes();
@@ -179,19 +192,34 @@ public class GardenEditorView extends View {
 	
 	
 	/**
-	 * Add the plot selector and sortby components to the right side bar
+	 * Add the sort dropdown component to the right side bar
 	 */
 	public void createSort() {
-		plotSelectors = new VBox();
-		right.add(plotSelectors, 0, 1); //checkbox for plots to show recommended plants for
+		//create a new vbox for the sorting components
 		VBox sort = new VBox();
+		//combo box for dropdown selection
 		ComboBox sortBy = new ComboBox();
+		//label
 		Text sortLabel = new Text("Sort Recommended Plants By: ");
+		//attach handler
 		sortBy.valueProperty().addListener(controller.getSortByHandler());
-		sortBy.getItems().addAll("Butterfly Count", "Plant Size");
+		//add sort options
+		sortBy.getItems().addAll("Butterfly Count", "Cost", "Spread Radius", "Plant Size");
+		//add components to vbox and add vbox to the right infobar
 		sort.getChildren().add(sortLabel);
 		sort.getChildren().add(sortBy);
-		right.add(sort, 0, 2); //dropdown for sorting criteria
+		right.add(sort, 0, 2);
+	}
+	
+	/**
+	 * Add the plot selector check box component to the right side bar
+	 */
+	public void createPlotSelectors() {
+		//create plot selectors vbox
+		plotSelectors = new VBox();
+		//add component to right info bar
+		right.add(plotSelectors, 0, 1); 
+		//checkboxes are created and added for each plot in the setPlotBoxes method
 	}
 	
 	/**
@@ -203,8 +231,6 @@ public class GardenEditorView extends View {
 		budgetLabel.getStyleClass().add("editor-t");
 		GridPane.setHalignment(budgetLabel, HPos.CENTER);
 		right.add(budgetLabel, 0, 4);
-		
-		
 		budgetText.setText(String.valueOf(budgetLeft));
 		budgetText.setFont(Font.font(32));
 		GridPane.setHalignment(budgetText, HPos.CENTER);
@@ -220,7 +246,6 @@ public class GardenEditorView extends View {
 		plantLabel.getStyleClass().add("editor-t");
 		GridPane.setHalignment(plantLabel, HPos.CENTER);
 		right.add(plantLabel, 0, 6);
-		
 		plantCount.setFont(Font.font(32));
 		GridPane.setHalignment(plantCount, HPos.CENTER);
 		right.add(plantCount, 0, 7);
@@ -235,7 +260,6 @@ public class GardenEditorView extends View {
 		lepLabel.getStyleClass().add("editor-t");
 		GridPane.setHalignment(lepLabel, HPos.CENTER);
 		right.add(lepLabel, 0, 8);
-		
 		lepCount.setFont(Font.font(32));
 		lepCount.getStyleClass().add("editor-t");
 		GridPane.setHalignment(lepCount, HPos.CENTER);
@@ -243,33 +267,23 @@ public class GardenEditorView extends View {
 	}
 	
 	/**
-	 * Creates the entire right text fields
-	 */
-	public void createRightText() {
-		createBudgetText();
-		createPlantText();
-		createLepText();
-	}
-	
-	/**
 	 * Draws images on top grid
 	 * @param plantNames
 	 */
 	public void setPlantImages(ArrayList<String> plantNames){
+		//reset the map of current recommended images
 		recommendedPlantImages = new HashMap<Image, String>();
+		//make a list to hold the circle objects for each plant 
 		ArrayList<Circle> recommendedPlantCircs = new ArrayList<Circle>();
-		
+		//master static list of all images from the abstract view
 		ConcurrentHashMap<String, Image> allImages = View.getImages();
 		
-		Iterator<String> it = plantNames.iterator();
-		
-		while(it.hasNext()) {
+		//iterate through every string in the list of plant names to add
+		for (String name : plantNames) {
 			try {
-				String name = it.next();
+				//create a circle object with the corresponding plant image
 				Image image = allImages.get(name);
 				recommendedPlantImages.put(image, name);
-				
-				
 				Circle circ = new Circle(50);
 		        circ.setFill(new ImagePattern(image));
 		        circ.setOnDragDetected(controller.getOnImageDraggedHandler());
@@ -280,6 +294,8 @@ public class GardenEditorView extends View {
 			}
 		}
 		
+		//convert the array list into a backing list for the list view
+		//add list of recommended plant circles to the listview and add the listview to the base border pane 
 		ObservableList<Circle> backingList = FXCollections.observableArrayList(recommendedPlantCircs);
 		top = new ListView<>(backingList);
 		top.setOrientation(Orientation.HORIZONTAL);
@@ -289,7 +305,7 @@ public class GardenEditorView extends View {
 	
 	/**
 	 * Sets all the plants info on left pane
-	 * @param plant
+	 * @param plant the plant that should be shown in the left info bar
 	 */
 	public void setPlantInfo(Plant plant) {
 		if (plant == null) {
@@ -309,19 +325,18 @@ public class GardenEditorView extends View {
 			addSize(plant);
 			addCost(plant);
 			addColor(plant);
-			//left.add(sortBy,0,10);
 		}
 	}
 	
 	
 	/**
 	 * Sets the plant image on left pane
-	 * @param plantImg
+	 * @param plantImg the image of the plant to show in the left bar
 	 */
 	public void setPlantInfoImage(Image plantImg) {
 
-		if(plantBox.getChildren().size() > 0 && plantBox.getChildren().get(0) instanceof ImageView) {
-			plantBox.getChildren().remove(0);
+		if(plantImage.getChildren().size() > 0 && plantImage.getChildren().get(0) instanceof ImageView) {
+			plantImage.getChildren().remove(0);
 		}
 
 		ImageView plantIV = new ImageView();
@@ -329,8 +344,8 @@ public class GardenEditorView extends View {
 		plantIV.setFitWidth(LEFTBAR);
 		plantIV.setFitHeight(300);
 		plantIV.setPreserveRatio(true);
-		plantBox.setAlignment(Pos.CENTER);
-		plantBox.getChildren().add(plantIV);
+		plantImage.setAlignment(Pos.CENTER);
+		plantImage.getChildren().add(plantIV);
 	}
 	
 	/**
@@ -424,6 +439,19 @@ public class GardenEditorView extends View {
 		sizeRange.getStyleClass().add("editor-t");
 		left.add(sizeText, 0, 8);
 		left.add(sizeRange, 1, 8);
+		
+		Text spreadText = new Text("Spread Radius Range (ft):");
+		Text spreadRange = new Text();
+		if(plant.getSpreadRadiusLower() == 0) {
+			spreadRange.setText("unknown");
+		}
+		else {
+			spreadRange.setText(String.valueOf(plant.getSpreadRadiusLower())+ "-" + String.valueOf(plant.getSpreadRadiusUpper()));
+		}
+		spreadText.getStyleClass().add("editor-t");
+		spreadRange.getStyleClass().add("editor-t");
+		left.add(spreadText, 0, 9);
+		left.add(spreadRange, 1, 9);
 	}
 	
 	
@@ -436,8 +464,8 @@ public class GardenEditorView extends View {
 		Text colorStr = new Text(String.valueOf(plant.getColor()));
 		colorText.getStyleClass().add("editor-t");
 		colorStr.getStyleClass().add("editor-t");
-		left.add(colorText, 0, 9);
-		left.add(colorStr, 1, 9);
+		left.add(colorText, 0, 10);
+		left.add(colorStr, 1, 10);
 	}
 
 	
@@ -451,6 +479,7 @@ public class GardenEditorView extends View {
 		right.setAlignment(Pos.TOP_CENTER);
 		base.setRight(right);
 
+		//set row percentages for alignment
 		RowConstraints row00 = new RowConstraints();
 	    row00.setPercentHeight(5);
 		RowConstraints row0 = new RowConstraints();
@@ -473,8 +502,6 @@ public class GardenEditorView extends View {
 	    row8.setPercentHeight(5);
 	    RowConstraints row9 = new RowConstraints();
 	    row9.setPercentHeight(5);
-	    //RowConstraints row10 = new RowConstraints();
-	    //row10.setPercentHeight(20);
 	    right.getRowConstraints().addAll(row00,row0,row1,row2,row3,row4,row5,row6,row7,row8,row9);
 	    right.setMaxHeight(CANVAS_HEIGHT);
 	    
@@ -482,46 +509,38 @@ public class GardenEditorView extends View {
 	    	row.setVgrow(Priority.ALWAYS);
 	    }
 		
-	    AnchorPane.setTopAnchor(right, 0.0);
-        AnchorPane.setBottomAnchor(right, 0.0);
-        AnchorPane.setLeftAnchor(right, 0.0);
-        AnchorPane.setRightAnchor(right, 0.0);
-
+	    //create sort component, plot selection check boxes, and text components for counts
 		createSort();
-		createRightText();
+		createPlotSelectors();
+		createBudgetText();
+		createPlantText();
+		createLepText();
 	}
 	
 	/**
 	 * Creates the left pane
 	 */
 	public void createLeft() {
+		//vbox to hold plant image and other plant info
 		VBox leftBase = new VBox();
 		leftBase.setStyle("-fx-background-color: #678B5E");
+		//left is the gridpane to hold plant info
 		left  = new GridPane();
-		plantBox = new VBox();
 		createPane(left, "#678B5E");
 		left.setAlignment(Pos.TOP_CENTER);
 		left.setMinWidth(LEFTBAR);
 		left.setMaxWidth(LEFTBAR);
-		leftBase.getChildren().add(plantBox);
+		//vbox to hold the plant image (vbox is used for alignment)
+		plantImage = new VBox();
+		//add both components to the leftBase and add leftBase to the base borderpane
+		leftBase.getChildren().add(plantImage);
 		leftBase.getChildren().add(left);
 		base.setLeft(leftBase);
 	}
 	
 	/**
-	 * Creates the bottom pane
-	 */
-	public GridPane createBottom() {
-		GridPane bottom = new GridPane();
-		createPane(bottom, "darkgrey");
-		bottom.setMinHeight(BOTTOM);
-		base.setBottom(bottom);
-		return bottom;
-	}
-	
-	/**
-	 * Helper method for generally used pane creation
-	 * @param pane
+	 * Helper method for setting default values for a gridpane
+	 * @param pane 
 	 * @param color
 	 */
 	public void createPane(GridPane pane, String color) {
@@ -532,12 +551,12 @@ public class GardenEditorView extends View {
 	}
 	
 	/**
-	 * Updates the budget, leps, and plant numbers
+	 * Updates the budget, leps, and plant numbers in the right bar
 	 * @param leps
 	 * @param plants
 	 * @param spent
 	 */
-	public void updatePlantLepNums(int leps, int plants, double spent){
+	public void updateGardenCounts(int leps, int plants, double spent){
 		lepCount.setText(String.valueOf(leps));
 		plantCount.setText(String.valueOf(plants));
 		budgetLeft = budget - spent;
@@ -551,29 +570,6 @@ public class GardenEditorView extends View {
 		budgetText.setText(String.valueOf(budgetLeft));
 	}
 	
-	/**
-	 * Adds the page buttons
-	 */
-	public void addPageButtons(GridPane bottom) {
-		Button toShoppingList = new Button("Shopping List");
-		toShoppingList.setOnMouseClicked(controller.getToShoppingListOnClickHandler());
-		bottom.add(toShoppingList, 2, 0);
-		
-		Button toReport = new Button("Report");
-		toReport.setOnMouseClicked(controller.getToReportOnClickHandler());
-		bottom.add(toReport, 3, 0);
-		
-		Button toComp = new Button("Compare");
-		toComp.setOnMouseClicked(controller.getToCompareOnClickHandler());
-		bottom.add(toComp, 4, 0);
-		
-		gardenName = new TextField();
-		bottom.add(gardenName, 5, 0);
-		
-		Button saveGarden = new Button("Save");
-		saveGarden.setOnMouseClicked(controller.SaveButtonClickedHandler());
-		bottom.add(saveGarden, 6, 0);
-	}
 	
 	/**
 	 * returns the index of the plot that the checkbox represents
@@ -596,8 +592,8 @@ public class GardenEditorView extends View {
 	public ArrayList<Integer> getSelections() {
 		
 		ArrayList<Integer> selections = new ArrayList<Integer>(); 
-		
-		//box of checkboxes
+		//iterate through the checkboxes
+		//add a 1 to the list if the box is checked, 0 if not
 		for(Node n : plotSelectors.getChildren()) {
 			if (n instanceof CheckBox) {
 				CheckBox chk = (CheckBox) n;
@@ -607,7 +603,6 @@ public class GardenEditorView extends View {
 					selections.add(0);
 			}
 		}
-		
 		return selections;
 	}
 	
@@ -618,7 +613,7 @@ public class GardenEditorView extends View {
 	 */
 	public void setBudgetLeft(double remaining) {
 		budgetLeft = remaining;
-		createRightText();
+		createBudgetText();
 	}
 	
 	/**

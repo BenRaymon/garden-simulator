@@ -44,14 +44,49 @@ public class GardenEditor {
 	 * @return the list of sorted plant names
 	 */
 	public static ArrayList<String> sortRecommendedPlants(HashMap<String, Plant> recommendedPlants, String sortCriteria) {
+		
+		//make an array of plants from the recommended vales
+		Plant[] plants = recommendedPlants.values().toArray(new Plant[0]);
+		//blank list of plant names
+		ArrayList<String> plantNames = new ArrayList<String>();
+		
 		//If the users chooses to sort by butterflies
 		if(sortCriteria.equals("Butterfly Count")) {
-			//make an array of plants from the recommended vales
-			Plant[] plants = recommendedPlants.values().toArray(new Plant[0]);
 			//sort by descending butterfly count by using the ButterflyComparator
 			Arrays.sort(plants, Plant.ButterflyComparator);
-			//blank list of plant names
-			ArrayList<String> plantNames = new ArrayList<String>();
+			//add the names of the sorted list into the list of plant names
+			for (Plant p : plants) {
+				plantNames.add(p.getScientificName());
+			}
+			return plantNames;
+		}
+		
+		//If the users chooses to sort by cost
+		if(sortCriteria.equals("Cost")) {
+			//sort by descending cost by using the CostComparator
+			Arrays.sort(plants, Plant.CostComparator);
+			//add the names of the sorted list into the list of plant names
+			for (Plant p : plants) {
+				plantNames.add(p.getScientificName());
+			}
+			return plantNames;
+		}
+		
+		//If the users chooses to sort by spread radius
+		if(sortCriteria.equals("Spread Radius")) {
+			//sort by ascending spread radius by using the SpreadComparator
+			Arrays.sort(plants, Plant.SpreadComparator);
+			//add the names of the sorted list into the list of plant names
+			for (Plant p : plants) {
+				plantNames.add(p.getScientificName());
+			}
+			return plantNames;
+		}
+		
+		//If the users chooses to sort by size
+		if(sortCriteria.equals("Plant Size")) {
+			//sort by ascending size by using the SizeComparator
+			Arrays.sort(plants, Plant.SizeComparator);
 			//add the names of the sorted list into the list of plant names
 			for (Plant p : plants) {
 				plantNames.add(p.getScientificName());
