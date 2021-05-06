@@ -212,6 +212,13 @@ public class Controller extends Application{
 		return (event->{
 			double pixelsPerFoot = plotDesignView.drawGrid();
 			garden.setScale(pixelsPerFoot);
+			//draw plots if there are any
+			if(garden.getPlots() != null && garden.getPlots().size() > 0) {
+				for (Plot plot : garden.getPlots()) {
+					plotDesignView.setFillColor(plot.getOptions());
+					plotDesignView.drawPlot(plot.getCoordinates());
+				}
+			}
 		});
 	}
 	
