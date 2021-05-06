@@ -116,7 +116,15 @@ public class Controller extends Application{
 			stage.setScene(plotDesignView.getScene());
 			if(garden.getPlots().size() > 0) {
 				for (Plot p : garden.getPlots()) {
-					p.setCoordinates(p.getOriginalCoordinates());
+					//change the coordinates in the current list to reflect the original coordinates
+					//cannot just do p.setCoordinates because the point objects are still the same
+					//need to deep copy the point values to the current list of coordinates
+					ArrayList<Point> origCoords = p.getOriginalCoordinates();
+					ArrayList<Point> currentCoords = new ArrayList<Point>();
+					for(Point point:origCoords) {
+		        		currentCoords.add(new Point(point.getX(), point.getY()));	
+					}
+					p.setCoordinates(currentCoords);
 					plotDesignView.setFillColor(p.getOptions());
 					plotDesignView.drawPlot(p.getOriginalCoordinates());
 				}
@@ -322,7 +330,7 @@ public class Controller extends Application{
 			//i need to clear the garden editor first
 			gardenEditorView.clearCanvas();
 			//
-			
+
 			setUpGardenEditor();
 			
 		});
