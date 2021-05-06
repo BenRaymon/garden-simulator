@@ -622,6 +622,25 @@ public class Controller extends Application{
 			}			
 		});
 	}
+	
+
+	//TODO : javadoc
+	public EventHandler getDisplayGridlinesHandler() {
+		return (event ->{
+			//change the value of showGridLines in plotdesignview
+			plotDesignView.flipShowGridLines();
+			//clear canvas / calculate scale / draw grid lines if applicable
+			plotDesignView.drawGrid();
+			//draw all current plots
+			for (Plot plot : garden.getPlots()) {
+				plotDesignView.setFillColor(plot.getOptions());
+				plotDesignView.drawPlot(plot.getCoordinates());
+			}
+			
+		});
+	}
+	
+	
 	/**
 	 * Called from the Garden Editor View when the user clicks the save button.
 	 * creates a copy of the current garden and if a unique name is given it will save the

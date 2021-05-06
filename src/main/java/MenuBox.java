@@ -77,4 +77,9 @@ public class MenuBox extends Pane{
 	public GridPane getContainer() {
 		return container;
 	}
+	
+	//TODO javadoc
+	public Button getEditorButton() {
+		return editor;
+	}
 }

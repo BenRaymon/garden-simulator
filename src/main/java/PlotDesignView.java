@@ -21,6 +21,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -38,7 +39,8 @@ import javafx.util.StringConverter;
 
 public class PlotDesignView extends View {
 
-	private Button drawPlot;
+	private Image hideImg, showImg;
+	private Button drawPlot, toggleGridLines;
 	private TextField budget;
 	private TextField widthInput;
 	private TextField heightInput;
@@ -63,6 +65,7 @@ public class PlotDesignView extends View {
 	private double CANVAS_WIDTH = WINDOW_WIDTH - LEFTBAR;
 	private double CANVAS_HEIGHT = WINDOW_HEIGHT - MenuBox.MENU_HEIGHT;
 	private int scaleIndex = 50;
+	private boolean showGridLines = true;
 	
 	/**
 	 * Constructor
@@ -109,6 +112,22 @@ public class PlotDesignView extends View {
 		String textStyle = getClass().getResource("labels.css").toExternalForm();
 		
 		MenuBox menu = new MenuBox(c);
+		menu.getEditorButton().setOnMouseClicked(controller.getToGardenOnClickHandler());
+		//make show/hide button
+		toggleGridLines = new Button();
+		toggleGridLines.setOnMouseClicked(controller.getDisplayGridlinesHandler());
+		//eye image for button
+		hideImg = new Image(getClass().getResourceAsStream("hide.png"));
+		showImg = new Image(getClass().getResourceAsStream("show.png"));
+        ImageView imgView = new ImageView(hideImg);
+        imgView.setFitHeight(25);
+        imgView.setFitWidth(25);
+        //make the image white like the rest of the text
+        ColorAdjust whiteout = new ColorAdjust();
+        whiteout.setBrightness(1.0);
+        imgView.setEffect(whiteout);
+        toggleGridLines.setGraphic(imgView);
+        menu.getContainer().add(toggleGridLines, 9, 0);
 		base.setTop(menu);
 		
 		// create and set scene with base
@@ -204,7 +223,6 @@ public class PlotDesignView extends View {
 	
 	/**
 	 * Responsible for drawing the scaling grid lines on the canvas
-	 * @param none
 	 * @return a scale value calculated based on grid lines and pixel distances
 	 */
 	public double drawGrid() {
@@ -241,19 +259,22 @@ public class PlotDesignView extends View {
 		drawArea.setHeight(CANVAS_HEIGHT - heightBorder + 1);
 		double pixelsPerFoot = (double)widthInc / boxWidth;
 		
-		for (double x = 1; x <= CANVAS_WIDTH + widthBorder; x+=widthInc) {
-			gc.moveTo(x, 0);
-			gc.lineTo(x, CANVAS_HEIGHT);
-			gc.stroke();
+		//do all scale calculations but only show if supposed to
+		if(showGridLines) {
+			for (double x = 1; x <= CANVAS_WIDTH + widthBorder; x+=widthInc) {
+				gc.moveTo(x, 0);
+				gc.lineTo(x, CANVAS_HEIGHT);
+				gc.stroke();
+			}
+			
+			for (double y = 0; y <= CANVAS_HEIGHT + heightBorder; y+=heightInc) {
+				gc.moveTo(0,y);
+				gc.lineTo(CANVAS_WIDTH,y);
+				gc.stroke();
+			}
+			gc.closePath();
+			gc.beginPath();
 		}
-		
-		for (double y = 0; y <= CANVAS_HEIGHT + heightBorder; y+=heightInc) {
-			gc.moveTo(0,y);
-			gc.lineTo(CANVAS_WIDTH,y);
-			gc.stroke();
-		}
-		gc.closePath();
-		gc.beginPath();
 		
 		return pixelsPerFoot;
 	}
@@ -534,10 +555,21 @@ public class PlotDesignView extends View {
 	/**
 	 * Returns the canDraw variable
 	 * @param none
-	 * @return none
+	 * @return boolean
 	 */
 	public boolean getCanDraw() {
 		return canDraw;
+	}
+	
+	/**
+	 * Changes the value of the showGridLines variable and changes the image in the menu button 
+	 */
+	public void flipShowGridLines() {
+		showGridLines = !showGridLines;
+		if(showGridLines)
+			((ImageView)toggleGridLines.getGraphic()).setImage(hideImg);
+		else
+			((ImageView)toggleGridLines.getGraphic()).setImage(showImg);
 	}
 	
 	/** 
