@@ -365,11 +365,15 @@ public class GardenEditorView extends View {
 	}
 	
 	public void addLepsInfo(Set<Lep> allLeps) {
-		Text lepInfoText = new Text("Leps supported:");
+		Text lepInfoText = new Text("Some Leps supported:");
 		Text lepsSupported = new Text();
 		String lepInfo = "";
+		int count = 3;
 		for(Lep l :allLeps) {
+			if(count != 0) {
 			lepInfo = lepInfo + l.getLepName() + "\n";
+			count = count -1;
+			}
 		}
 		lepsSupported.setText(lepInfo);
 		left.add(lepInfoText,0,10);
