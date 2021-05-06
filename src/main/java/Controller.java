@@ -255,6 +255,7 @@ public class Controller extends Application{
 			garden.newPlot(o);
 			//allow drawing
 			plotDesignView.allowDrawing();
+			plotDesignView.showRedrawButton();
 		});
 	}
 

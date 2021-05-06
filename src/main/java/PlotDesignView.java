@@ -1,24 +1,13 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.ColorAdjust;
@@ -29,28 +18,22 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 public class PlotDesignView extends View {
 
 	private Image hideImg, showImg;
-	private Button drawPlot, toggleGridLines;
-	private TextField budget;
+	private Button toggleGridLines;
 	private TextField widthInput;
 	private TextField heightInput;
 	private TextField boxHeightInput;
 	private TextField boxWidthInput;
 	private TextField budgetInput;
-	private Label gridSize;
 	private Scene scene;
 	private BorderPane base;
-	private Button toGarden;
 	private Button drawDimensions;
 	private GraphicsContext gc;
 	private Controller controller;
@@ -58,6 +41,7 @@ public class PlotDesignView extends View {
 	private GridPane left_grid;
 	private Canvas drawArea;
 	private VBox box;
+	private HBox drawRedrawPlot;
 	private Slider moisture, soilType, sunlight;
 	private boolean canDraw;
 	private final double LEFTBAR = 325;
@@ -95,22 +79,17 @@ public class PlotDesignView extends View {
 		createLeftGrid();
 		
 		// add the drawplot button
-		HBox drawRedrawPlot = new HBox();
-		drawPlot = new Button("New Plot");
-		//drawPlot.setPrefWidth(LEFTBAR*0.3);
+		drawRedrawPlot = new HBox();
+		Button drawPlot = new Button("Draw Plot");
+		drawPlot.setPrefWidth(LEFTBAR*0.6);
 		drawPlot.setOnMouseClicked(controller.getDrawPlotHandler());
-		Button redrawPlot = new Button("Redraw");
-		//redrawPlot.setPrefWidth(LEFTBAR*0.3);
-		redrawPlot.setOnMouseClicked(controller.getDrawPlotHandler());
 		drawRedrawPlot.getChildren().add(drawPlot);
-		drawRedrawPlot.getChildren().add(redrawPlot);
-		drawRedrawPlot.setMargin(redrawPlot, new Insets(10, 5, 0, 5));
 		drawRedrawPlot.setMargin(drawPlot, new Insets(10, 5, 0, 5));
 		left_grid.add(drawRedrawPlot, 0, 3);
 		
 		VBox toGardenHolder = new VBox(); //need the vbox for alignment
 		toGardenHolder.setAlignment(Pos.CENTER);
-		toGarden = new Button("To Garden");
+		Button toGarden = new Button("To Garden");
 		toGarden.setMinWidth(LEFTBAR*0.6);
 		toGarden.setOnMouseClicked(controller.getToGardenOnClickHandler());
 		toGardenHolder.getChildren().add(toGarden);
@@ -195,7 +174,7 @@ public class PlotDesignView extends View {
 		boxWidthText.setMinWidth(LEFTBAR*0.6);
 		Label budgetText = new Label("Budget");
 		budgetText.setMinWidth(LEFTBAR*0.6);
-		gridSize = new Label("Grid Size");
+		Label gridSize = new Label("Grid Size");
 		widthInput = new TextField();
 		widthInput.setMaxWidth(LEFTBAR*0.6);
 		widthInput.setText("" + 100);
@@ -554,6 +533,20 @@ public class PlotDesignView extends View {
 			gc.setFill(Color.SADDLEBROWN);
 		else if (soil[2] == 1) 
 			gc.setFill(Color.SANDYBROWN);
+	}
+	
+	//TODO javadoc
+	public void showRedrawButton() {
+		if(drawRedrawPlot.getChildren().size() > 1) {
+			return;
+		}
+		Button redrawPlot = new Button("Redraw");
+		redrawPlot.setPrefWidth(LEFTBAR*0.45);
+		redrawPlot.setOnMouseClicked(controller.getDrawPlotHandler());
+		((Button)drawRedrawPlot.getChildren().get(0)).setText("New Plot");
+		((Button)drawRedrawPlot.getChildren().get(0)).setPrefWidth(LEFTBAR*0.45);
+		drawRedrawPlot.getChildren().add(redrawPlot);
+		drawRedrawPlot.setMargin(redrawPlot, new Insets(10, 5, 0, 5));
 	}
 	
 	/**
