@@ -542,7 +542,7 @@ public class PlotDesignView extends View {
 		}
 		Button redrawPlot = new Button("Redraw");
 		redrawPlot.setPrefWidth(LEFTBAR*0.45);
-		redrawPlot.setOnMouseClicked(controller.getDrawPlotHandler());
+		redrawPlot.setOnMouseClicked(controller.getRedrawPlotHandler());
 		((Button)drawRedrawPlot.getChildren().get(0)).setText("New Plot");
 		((Button)drawRedrawPlot.getChildren().get(0)).setPrefWidth(LEFTBAR*0.45);
 		drawRedrawPlot.getChildren().add(redrawPlot);

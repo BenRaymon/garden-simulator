@@ -253,9 +253,35 @@ public class Controller extends Application{
 			Options o = new Options(soiltype, sunlight, moisture);
 			//create a new plot in the garden
 			garden.newPlot(o);
-			//allow drawing
+			//allow drawing and show the redraw button
 			plotDesignView.allowDrawing();
 			plotDesignView.showRedrawButton();
+		});
+	}
+	
+	/**
+	 * TODO 
+	 */
+	public EventHandler getRedrawPlotHandler() {
+		return (event -> {
+			//let the user redraw a plot with whatever options are currently selected
+			double sunlight = plotDesignView.getSunlightSlider();
+			double soiltype = plotDesignView.getSoilSlider();
+			double moisture = plotDesignView.getMoistureSlider();
+			Options o = new Options(soiltype, sunlight, moisture);
+			//don't create a new plot, just reset the coordinates
+			int plotIndex = garden.getNumPlots() - 1;
+			garden.getPlots().get(plotIndex).setCoordinates(new ArrayList<Point>());
+			garden.getPlots().get(plotIndex).setOptions(o);
+			//allow drawing
+			plotDesignView.allowDrawing();
+			
+			//redraw the current plots without the one you want to redraw
+			plotDesignView.drawGrid();
+			for (Plot plot : garden.getPlots()) {
+				plotDesignView.setFillColor(plot.getOptions());
+				plotDesignView.drawPlot(plot.getCoordinates());
+			}
 		});
 	}
 
