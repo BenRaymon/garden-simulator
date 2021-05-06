@@ -615,10 +615,7 @@ public class Controller extends Application{
 				System.out.println("Switching to General Info");
 				String infoStringA = CompPlants.getInfo(compPlantsView.getLeftBody().getText());
 				String infoStringB = CompPlants.getInfo(compPlantsView.getRightBody().getText());
-				compPlantsView.setGeneralInfoComapre(infoStringA,infoStringB);
-				
-
-				
+				compPlantsView.setGeneralInfoComapre(infoStringA,infoStringB);				
 			}			
 		});
 	}
@@ -636,7 +633,6 @@ public class Controller extends Application{
 				plotDesignView.setFillColor(plot.getOptions());
 				plotDesignView.drawPlot(plot.getCoordinates());
 			}
-			
 		});
 	}
 	

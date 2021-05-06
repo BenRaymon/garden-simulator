@@ -95,12 +95,26 @@ public class PlotDesignView extends View {
 		createLeftGrid();
 		
 		// add the drawplot button
-		drawPlot = new Button("Draw Plot");
+		HBox drawRedrawPlot = new HBox();
+		drawPlot = new Button("New Plot");
+		//drawPlot.setPrefWidth(LEFTBAR*0.3);
 		drawPlot.setOnMouseClicked(controller.getDrawPlotHandler());
-		left_grid.add(drawPlot, 0, 3);
+		Button redrawPlot = new Button("Redraw");
+		//redrawPlot.setPrefWidth(LEFTBAR*0.3);
+		redrawPlot.setOnMouseClicked(controller.getDrawPlotHandler());
+		drawRedrawPlot.getChildren().add(drawPlot);
+		drawRedrawPlot.getChildren().add(redrawPlot);
+		drawRedrawPlot.setMargin(redrawPlot, new Insets(10, 5, 0, 5));
+		drawRedrawPlot.setMargin(drawPlot, new Insets(10, 5, 0, 5));
+		left_grid.add(drawRedrawPlot, 0, 3);
+		
+		VBox toGardenHolder = new VBox(); //need the vbox for alignment
+		toGardenHolder.setAlignment(Pos.CENTER);
 		toGarden = new Button("To Garden");
+		toGarden.setMinWidth(LEFTBAR*0.6);
 		toGarden.setOnMouseClicked(controller.getToGardenOnClickHandler());
-		left_grid.add(toGarden, 0, 4);
+		toGardenHolder.getChildren().add(toGarden);
+		left_grid.add(toGardenHolder, 0, 4);
 		
 		// get button styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
@@ -172,19 +186,29 @@ public class PlotDesignView extends View {
 	 */
 	public void inputDimensions() {
 		Label widthText = new Label("Garden width");
+		widthText.setMinWidth(LEFTBAR*0.6);
 		Label heightText = new Label("Garden height");
+		heightText.setMinWidth(LEFTBAR*0.6);
 		Label boxHeightText = new Label("Grid Height");
+		boxHeightText.setMinWidth(LEFTBAR*0.6);
 		Label boxWidthText = new Label("Grid Width");
+		boxWidthText.setMinWidth(LEFTBAR*0.6);
 		Label budgetText = new Label("Budget");
+		budgetText.setMinWidth(LEFTBAR*0.6);
 		gridSize = new Label("Grid Size");
 		widthInput = new TextField();
+		widthInput.setMaxWidth(LEFTBAR*0.6);
 		widthInput.setText("" + 100);
 		heightInput = new TextField();
+		heightInput.setMaxWidth(LEFTBAR*0.6);
 		heightInput.setText("" + 100);
 		boxHeightInput = new TextField();
+		boxHeightInput.setMaxWidth(LEFTBAR*0.6);
 		boxHeightInput.setText("" + 10);
 		boxWidthInput = new TextField();
+		boxWidthInput.setMaxWidth(LEFTBAR*0.6);
 		budgetInput = new TextField();
+		budgetInput.setMaxWidth(LEFTBAR*0.6);
 		budgetInput.setText("0");
 		boxWidthInput.setText("" + 10);
 		
@@ -192,11 +216,13 @@ public class PlotDesignView extends View {
 		drawDimensions.setOnMouseClicked(controller.drawPlotGrid());
 		
 		VBox budget = new VBox();
+		budget.setAlignment(Pos.CENTER);
 		budget.getChildren().add(budgetText);
 		budget.getChildren().add(budgetInput);
 		
 		
 		VBox dimensions = new VBox();
+		dimensions.setAlignment(Pos.CENTER);
 		dimensions.getChildren().add(widthText);
 		dimensions.getChildren().add(widthInput);
 		dimensions.getChildren().add(heightText);
@@ -368,10 +394,14 @@ public class PlotDesignView extends View {
         });
         
 		Label sunlightText = new Label("Sunlight Level");
+		sunlightText.setMinWidth(LEFTBAR*0.6);
 		Label soilTypeText = new Label("Soil Type");
+		soilTypeText.setMinWidth(LEFTBAR*0.6);
 		Label moistureText = new Label("Moisture Level");
+		moistureText.setMinWidth(LEFTBAR*0.6);
 		
 		VBox sliders = new VBox();
+		sliders.setAlignment(Pos.CENTER);
 		sliders.getChildren().add(sunlightText);
 		sliders.getChildren().add(sunlight);
 		sliders.getChildren().add(moistureText);
@@ -398,6 +428,7 @@ public class PlotDesignView extends View {
 		slider.setMajorTickUnit(1);
 		slider.setSnapToTicks(true);
 		slider.setMinorTickCount(0);
+		slider.setMaxWidth(LEFTBAR*0.6);
 		return slider;
 	}
 
