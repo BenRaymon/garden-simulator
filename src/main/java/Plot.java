@@ -6,6 +6,7 @@ public class Plot implements Serializable {
 	private HashMap <Point, Plant> plantsInPlot;
 	private Options options;
 	private ArrayList<Point> coordinates;
+	private ArrayList<Point> originalCoordinates;
 	
 	/**
 	 * Plot constructor with passing options in
@@ -65,6 +66,22 @@ public class Plot implements Serializable {
 	 */
 	public void setCoordinates(ArrayList<Point> points) {
 		this.coordinates = points;
+	}
+	
+	/** TODO JAVADOC
+	 * get the coordinates that house this plot
+	 * @return the coordinate arraylist
+	 */
+	public ArrayList<Point> getOriginalCoordinates() {
+		return originalCoordinates;
+	}
+	/** TODO JAVADOC
+	 * set the coordinate arraylist to specified coords
+	 * @param points the arraylist of coords
+	 * @return none
+	 */
+	public void setOriginalCoordinates(ArrayList<Point> points) {
+		this.originalCoordinates = points;
 	}
 	
 	/**

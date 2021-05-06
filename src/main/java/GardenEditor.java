@@ -172,7 +172,7 @@ public class GardenEditor {
 	 * @param plots all the plots in the garden
 	 * @return none
 	 */
-	private static void scalePlots(ArrayList<Plot> plots) {
+	public static void scalePlots(ArrayList<Plot> plots) {
 		Iterator<Plot> it = plots.iterator();
 		while(it.hasNext()) {
 			ArrayList<Point> points = it.next().getCoordinates();
@@ -405,5 +405,10 @@ public class GardenEditor {
 		}
 		  
 		return newPoints;     
+	}
+	
+	//TODO: javadoc
+	public static void setScale(double s) {
+		scale = s;
 	}
 }

@@ -2,7 +2,6 @@ import java.util.*;
 
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.input.ClipboardContent;
@@ -13,7 +12,6 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -116,6 +114,13 @@ public class Controller extends Application{
 	public EventHandler getNewGardenOnClickHandler() {
 		return (event -> {
 			stage.setScene(plotDesignView.getScene());
+			if(garden.getPlots().size() > 0) {
+				for (Plot p : garden.getPlots()) {
+					p.setCoordinates(p.getOriginalCoordinates());
+					plotDesignView.setFillColor(p.getOptions());
+					plotDesignView.drawPlot(p.getOriginalCoordinates());
+				}
+			}
 		});
 	}
 	
@@ -154,7 +159,7 @@ public class Controller extends Application{
 	public void setUpGardenEditor() {
 		//create list of plots for recommended plant list selection
 		gardenEditorView.setPlotBoxes(garden.getPlots());
-		
+
 		//get the current canvas size
 		double h = gardenEditorView.getCanvasHeight();
 		double w = gardenEditorView.getCanvasWidth();
@@ -282,6 +287,13 @@ public class Controller extends Application{
         	//add coords to the plot in the garden
 			if(plotDesignView.getCanDraw()) {
 	        	garden.addCoordsToPlot(plotDesignView.getCoords());
+	        	//save the coordinates from the plot design view in a new list of original coordinates
+	        	//need to do a deep copy of the point objects in the PDV list to prevent referencing the same object
+	        	ArrayList<Point> origCoords = new ArrayList<Point>();
+	        	for (Point p : plotDesignView.getCoords()) {
+	        		origCoords.add(new Point(p.getX(), p.getY()));
+	        	}
+	        	garden.getPlots().get(garden.getPlots().size()-1).setOriginalCoordinates(origCoords);
 	        	//set fill color based on soil type
 	        	int plotIndex = garden.getNumPlots() - 1;
 	        	plotDesignView.setFillColor(garden.getPlotOptions(plotIndex));
@@ -291,7 +303,7 @@ public class Controller extends Application{
         });
 	}
 	
-	/**
+	/** TODO JAVADOC REWRITE
 	 * Returns the event handler for the to garden button in plotdesignview
 	 * Transform plots to fit in the gardeneditor, set a new scale, smooth the newly scaled plots
 	 * Update information in right bar with garden info and send a recommended plant list based on plot
@@ -303,8 +315,13 @@ public class Controller extends Application{
 			garden.setBudget(plotDesignView.getBudget());
 			//set new scene to gardeneditorview
 			stage.setScene(gardenEditorView.getScene());
+			
 			//update budget in the view
 			gardenEditorView.setBudget(garden.getBudget());
+			
+			//i need to clear the garden editor first
+			gardenEditorView.clearCanvas();
+			//
 			
 			setUpGardenEditor();
 			

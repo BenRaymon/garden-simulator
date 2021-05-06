@@ -111,6 +111,13 @@ public class GardenEditorView extends View {
 	}
 	
 	
+	
+	///TODO javadoc
+	public void clearCanvas() {
+		gc.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+	}
+	
+	
 	/**
 	 * Creates the a vbox of checkboxes for every plot in the garden
 	 * @param plots a list of all the plots in the garden
@@ -142,6 +149,7 @@ public class GardenEditorView extends View {
 	
 	/**
 	 * Draws plots on the canvas
+	 * TODO: 
 	 * @param points an array lit of coordinates to draw
 	 */
 	public void drawPlot(ArrayList<Point> points, HashMap<Point, Plant> plantsInPlot) {

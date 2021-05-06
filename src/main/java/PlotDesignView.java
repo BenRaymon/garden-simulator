@@ -1,6 +1,8 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -58,8 +60,8 @@ public class PlotDesignView extends View {
 	private boolean canDraw;
 	private final double LEFTBAR = 325;
 	private final double SPACING = 10;
-	private double canvasWidth = WINDOW_WIDTH - LEFTBAR;
-	private double canvasHeight = WINDOW_HEIGHT - MenuBox.MENU_HEIGHT;
+	private double CANVAS_WIDTH = WINDOW_WIDTH - LEFTBAR;
+	private double CANVAS_HEIGHT = WINDOW_HEIGHT - MenuBox.MENU_HEIGHT;
 	private int scaleIndex = 50;
 	
 	/**
@@ -77,10 +79,10 @@ public class PlotDesignView extends View {
 		
 		box = new VBox();
 		base.setCenter(box);
-		box.setMinWidth(canvasWidth);
-		box.setMinHeight(canvasHeight);
+		box.setMinWidth(CANVAS_WIDTH);
+		box.setMinHeight(CANVAS_HEIGHT);
 
-		drawArea = new Canvas(canvasWidth, canvasHeight);
+		drawArea = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 		gc = drawArea.getGraphicsContext2D();
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(1);
@@ -127,8 +129,8 @@ public class PlotDesignView extends View {
 	
 	public void heightChanged(Object windowHeight) {
 		WINDOW_HEIGHT = (double) windowHeight;
-		canvasHeight = (double)windowHeight - MenuBox.MENU_HEIGHT;
-		drawArea.setHeight(canvasHeight);
+		CANVAS_HEIGHT = (double)windowHeight - MenuBox.MENU_HEIGHT;
+		drawArea.setHeight(CANVAS_HEIGHT);
 		
 		gc = drawArea.getGraphicsContext2D();
 		//drawGrid();
@@ -136,8 +138,8 @@ public class PlotDesignView extends View {
 	
 	public void widthChanged(Object windowWidth) {
 		WINDOW_WIDTH =(double) windowWidth;
-		canvasWidth = (double)windowWidth - LEFTBAR;
-		drawArea.setWidth(canvasWidth);
+		CANVAS_WIDTH = (double)windowWidth - LEFTBAR;
+		drawArea.setWidth(CANVAS_WIDTH);
 		
 		gc = drawArea.getGraphicsContext2D();
 		//drawGrid();
@@ -208,7 +210,7 @@ public class PlotDesignView extends View {
 	public double drawGrid() {
 		
 		gc.clearRect(0, 0, drawArea.getWidth(), drawArea.getHeight());
-		
+		gc.setLineWidth(1);
 		int width = Integer.parseInt(widthInput.getText());
 		int height = Integer.parseInt(heightInput.getText());
 		int boxHeight = Integer.parseInt(boxHeightInput.getText());
@@ -223,10 +225,10 @@ public class PlotDesignView extends View {
 		}
 		
 		
-		double perciseWidth = canvasWidth/(width/boxWidth);
-		double perciseHeight = canvasHeight/(height/boxHeight);
-		int heightInc = (int)canvasHeight/(height/boxHeight);
-		int widthInc = (int)canvasWidth/(width/boxWidth);
+		double perciseWidth = CANVAS_WIDTH/(width/boxWidth);
+		double perciseHeight = CANVAS_HEIGHT/(height/boxHeight);
+		int heightInc = (int)CANVAS_HEIGHT/(height/boxHeight);
+		int widthInc = (int)CANVAS_WIDTH/(width/boxWidth);
 		
 		double widthBorder = perciseWidth - widthInc;
 		
@@ -235,25 +237,44 @@ public class PlotDesignView extends View {
 		heightBorder *= height/boxHeight;
 		widthBorder *= width/boxWidth;
 		
-		drawArea.setWidth(canvasWidth - widthBorder + 2);
-		drawArea.setHeight(canvasHeight - heightBorder + 1);
+		drawArea.setWidth(CANVAS_WIDTH - widthBorder + 2);
+		drawArea.setHeight(CANVAS_HEIGHT - heightBorder + 1);
 		double pixelsPerFoot = (double)widthInc / boxWidth;
 		
-		for (double x = 1; x <= canvasWidth + widthBorder; x+=widthInc) {
+		for (double x = 1; x <= CANVAS_WIDTH + widthBorder; x+=widthInc) {
 			gc.moveTo(x, 0);
-			gc.lineTo(x, canvasHeight);
+			gc.lineTo(x, CANVAS_HEIGHT);
 			gc.stroke();
 		}
 		
-		for (double y = 0; y <= canvasHeight + heightBorder; y+=heightInc) {
+		for (double y = 0; y <= CANVAS_HEIGHT + heightBorder; y+=heightInc) {
 			gc.moveTo(0,y);
-			gc.lineTo(canvasWidth,y);
+			gc.lineTo(CANVAS_WIDTH,y);
 			gc.stroke();
 		}
 		gc.closePath();
 		gc.beginPath();
 		
 		return pixelsPerFoot;
+	}
+	
+	/**
+	 * Draws plots on the canvas
+	 * TODO: javadoc
+	 * @param points an array lit of coordinates to draw
+	 */
+	public void drawPlot(ArrayList<Point> points) {
+		//split the array list of points into two arrays of doubles
+		//(fillPolygon method requires 2 arrays of doubles)
+		double[] xcords = new double[points.size()];
+		double[] ycords = new double[points.size()];
+		int i = 0;
+		for(Point p : points) {
+			xcords[i] = (p.getX() - LEFTBAR - 5);
+			ycords[i++] = (p.getY() - MenuBox.MENU_HEIGHT);
+		}
+		gc.fillPolygon(xcords, ycords, i);
+		
 	}
 		
 
@@ -366,6 +387,31 @@ public class PlotDesignView extends View {
 	 */
 	public Scene getScene() {
 		return scene;
+	}
+	
+	/**
+	 * Getter for canvas height
+	 * @return canvas height
+	 */
+	public double getCanvasHeight() {
+		return CANVAS_HEIGHT;
+	}
+	
+	/**
+	 * Getter for canvas width
+	 * @return canvas width
+	 */
+	public double getCanvasWidth() {
+		return CANVAS_WIDTH;
+	}
+
+	/**
+	 * TODO javadox
+	 * Getter for canvas height
+	 * @return canvas height
+	 */
+	public double getLeftbarWidth() {
+		return LEFTBAR;
 	}
 	
 
