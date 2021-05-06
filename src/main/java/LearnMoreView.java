@@ -1,4 +1,8 @@
+import java.awt.Desktop;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -8,6 +12,7 @@ import java.nio.file.Paths;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -78,13 +83,65 @@ public class LearnMoreView extends View{
 		box2.setBackground(new Background(new BackgroundFill(Color.web(lightBlue), CornerRadii.EMPTY, Insets.EMPTY)));
 		box2.setAlignment(Pos.CENTER);
 		box2.setSpacing(SPACING);
-		aboutUsText(box2);
+		moreResources(box2);
 		base.setRight(box1);
 	}
 	
-	public void aboutUsText(VBox box) {
-		Text t = new Text("Holder");
-		box.getChildren().add(t);
+	public void moreResources(VBox box) {
+		Text title = new Text("More Resources");
+		title.setFont(Font.font(subtitleSize));
+		title.setFill(Color.web(offWhite));
+		box.getChildren().add(title);
+		Hyperlink link1 = new Hyperlink("Mt. Cuba Center");
+		link1.setTextFill(Color.web(offWhite));
+		link1.setOnMouseClicked(controller.onClickedWebpageHandler());
+		box.getChildren().add(link1);
+		Hyperlink link2 = new Hyperlink("University of Delaware");
+		link2.setTextFill(Color.web(offWhite));
+		link2.setOnMouseClicked(controller.onClickedWebpageHandler());
+		box.getChildren().add(link2);
+		Hyperlink link3 = new Hyperlink("Delaware Native Plant Society");
+		link3.setTextFill(Color.web(offWhite));
+		link3.setOnMouseClicked(controller.onClickedWebpageHandler());
+		box.getChildren().add(link3);
+	}
+	
+	public void launchWebpage(Object source) {
+		Hyperlink link = (Hyperlink) source;
+		Desktop d = Desktop.getDesktop();
+		if (link.getText().equals("Mt. Cuba Center")){
+			try {
+				d.browse(new URI("https://mtcubacenter.org/"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (link.getText().equals("University of Delaware")) {
+			try {
+				d.browse(new URI("https://www.udel.edu/academics/colleges/canr/cooperative-extension/fact-sheets/native-plants-for-delaware-landscapes/"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (link.getText().equals("Delaware Native Plant Society")) {
+			try {
+				d.browse(new URI("https://delawarenativeplants.org/"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public void gardenTipsText(VBox box){

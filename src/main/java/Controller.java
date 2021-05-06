@@ -766,4 +766,13 @@ public class Controller extends Application{
 		});
 		
 	}
+	/**
+	 * Event Handler for opening a webpage from Learn More Hyperlinks
+	 * @return event
+	 */
+	public EventHandler onClickedWebpageHandler() {
+		return (event -> {
+			learnMoreView.launchWebpage(event.getSource());
+		});
+	}
 }
