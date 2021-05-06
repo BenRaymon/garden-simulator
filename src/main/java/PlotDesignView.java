@@ -107,6 +107,7 @@ public class PlotDesignView extends View {
 		String textStyle = getClass().getResource("labels.css").toExternalForm();
 		
 		MenuBox menu = new MenuBox(c);
+		menu.getEditorButton().setDisable(true);
 		base.setTop(menu);
 		
 		// create and set scene with base

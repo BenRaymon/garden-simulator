@@ -72,7 +72,6 @@ public class StartView extends View {
 		pageTitle.minHeight(TEXT);
 		pageTitle.maxHeight(TEXT);
 		
-		
 		//Text titleBox = new VBox(5);
 		//titleBox.setStyle("-fx-background-color: darkseagreen");
 		//titleBox.setAlignment(Pos.CENTER);
@@ -111,6 +110,7 @@ public class StartView extends View {
 		pictureBox.setAlignment(Pos.CENTER);
 		pictureBox.getChildren().add(butterflyView);
 		pictureBox.setStyle("-fx-background-color: #678B5E");
+		pictureBox.setMargin(butterflyView, new Insets(0,0,50,0));
 		base.getChildren().add(pictureBox);
 		base.getChildren().add(buttons);
 		
