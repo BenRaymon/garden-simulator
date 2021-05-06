@@ -19,6 +19,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -107,8 +108,23 @@ public class PlotDesignView extends View {
 		String textStyle = getClass().getResource("labels.css").toExternalForm();
 		
 		MenuBox menu = new MenuBox(c);
-		menu.getEditorButton().setDisable(true);
+		menu.getEditorButton().setOnMouseClicked(controller.getToGardenOnClickHandler());
+		//make show/hide button
+		Button showGrid = new Button();
+		//eye image for button
+		Image img = new Image(getClass().getResourceAsStream("hide.png"));
+        ImageView imgView = new ImageView(img);
+        imgView.setFitHeight(25);
+        imgView.setFitWidth(25);
+        //make the image white like the rest of the text
+        ColorAdjust whiteout = new ColorAdjust();
+        whiteout.setBrightness(1.0);
+        imgView.setEffect(whiteout);
+        showGrid.setGraphic(imgView);
+        menu.getContainer().add(showGrid, 9, 0);
 		base.setTop(menu);
+		
+		
 		
 		// create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -168,7 +184,7 @@ public class PlotDesignView extends View {
 		budgetInput.setText("0");
 		boxWidthInput.setText("" + 10);
 		
-		drawDimensions = new Button("Set Dimensions");
+		Button drawDimensions = new Button("Set Dimensions");
 		drawDimensions.setOnMouseClicked(controller.drawPlotGrid());
 		
 		VBox budget = new VBox();
