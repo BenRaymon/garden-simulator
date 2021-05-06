@@ -364,11 +364,28 @@ public class GardenEditorView extends View {
 		left.add(colorStr, 1, 9);
 	}
 	
+	public void addLepsInfo(Set<Lep> allLeps) {
+		Text lepInfoText = new Text("Leps supported:");
+		Text lepsSupported = new Text();
+		String lepInfo = "";
+		for(Lep l :allLeps) {
+			lepInfo = lepInfo + l.getLepName() + "\n";
+		}
+		lepsSupported.setText(lepInfo);
+		left.add(lepInfoText,0,10);
+		left.add(lepsSupported,1,10);
+		
+		
+		
+		
+		
+	}
+	
 	/**
 	 * Sets all the plants info on left pane
 	 * @param plant
 	 */
-	public void setPlantInfo(Plant plant) {
+	public void setPlantInfo(Plant plant,Set<Lep> allLeps) { // ConcurrentHashap<String, Set<Lep>> allLeps
 		System.out.println("IN SET PLANT INFO");
 		left.getChildren().clear();
 		addNames(plant);
@@ -377,6 +394,7 @@ public class GardenEditorView extends View {
 		addSize(plant);
 		addCost(plant);
 		addColor(plant);
+		addLepsInfo(allLeps);
 	}
 	
 	/**

@@ -114,6 +114,7 @@ public class Controller extends Application{
 		return (event -> {
 			ConcurrentHashMap <String, Set<Lep>> allLeps = Garden.getAllLeps();
 			for(String key : allLeps.keySet()) {
+				System.out.println("Printing key: " + key);
 				System.out.println(allLeps.get(key).toString());
 			}
 			stage.setScene(plotDesignView.getScene());
@@ -311,7 +312,15 @@ public class Controller extends Application{
 			gardenEditorView.setPlantInfoImage(plantImage);
 			String plant = gardenEditorView.getPlantName(plantImage);
 			Plant selectedPlant = garden.getPlant(plant);
-			gardenEditorView.setPlantInfo(selectedPlant);
+			/*
+			ConcurrentHashMap <String, Set<Lep>> allLeps = Garden.getAllLeps();
+			for(String key : allLeps.keySet()) {
+				System.out.println(allLeps.get(key).toString());
+			}
+			*/
+			System.out.println("Printing plant value: " + plant);
+			System.out.println(garden.getAllLeps().get(plant));
+			gardenEditorView.setPlantInfo(selectedPlant,garden.getAllLeps().get(plant));
 			
 		});
 	}
