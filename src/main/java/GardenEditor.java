@@ -107,6 +107,9 @@ public class GardenEditor {
 	 * @return pixels per foot, a value representing the resulting scale of the garden
 	 */
 	public static double transformPlots(ArrayList<Plot> plots, double canvasWidth, double canvasHeight, double ppf) {
+		//reset values for left, right, top and bottom
+		left = canvasWidth; right = 0; top = canvasHeight; bottom = 0;
+		
 		CANVAS_HEIGHT = canvasHeight;
 		CANVAS_WIDTH = canvasWidth;
 		//TOP_HEIGHT = top;
@@ -149,7 +152,6 @@ public class GardenEditor {
 		
 		cx = left + ((right-left)/2);
 		cy = top + ((bottom-top)/2);
-		
 	}
 	
 	/**
