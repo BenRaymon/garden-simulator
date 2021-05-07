@@ -381,7 +381,7 @@ public class Controller extends Application{
 	 * Updates plant info in gardeneditorview
 	 * @return event handler
 	 */
-	public EventHandler getOnImageClickedInfo() {
+	public EventHandler getOnImageEnteredInfo() {
 		return (event-> {
 			System.out.println("In Image Clicked on Handler");
 			String plantName = gardenEditorView.getPlantName(event);

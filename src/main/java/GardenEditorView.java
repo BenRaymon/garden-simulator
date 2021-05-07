@@ -299,7 +299,7 @@ public class GardenEditorView extends View {
 				Circle circ = new Circle(50);
 		        circ.setFill(new ImagePattern(image));
 		        circ.setOnDragDetected(controller.getOnImageDraggedHandler());
-		        circ.setOnMouseClicked(controller.getOnImageClickedInfo());
+		        circ.setOnMouseEntered(controller.getOnImageEnteredInfo());
 		        recommendedPlantCircs.add(circ);
 			} catch (Exception e) {
 				e.printStackTrace();
