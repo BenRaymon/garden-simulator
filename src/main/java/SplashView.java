@@ -31,7 +31,7 @@ public class SplashView extends View {
 		this.controller = c;
 		
 		background = new StackPane();
-		background.setStyle("-fx-background-color: #678B5E");
+		background.setStyle("-fx-background-color: " + darkGreen);
 		Text loading = new Text("LOADING ASSETS");
 		loading.setStyle("-fx-font-size: 50;");
 		loading.setFill(Color.BLACK);
