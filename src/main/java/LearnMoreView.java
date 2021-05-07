@@ -35,6 +35,11 @@ public class LearnMoreView extends View{
 	double subtitleSize = 32;
 	double textSize = 18;
 	
+	/**
+	 * Constructor for LearnMoreView
+	 * @param stage
+	 * @param c
+	 */
 	public LearnMoreView(Stage stage, Controller c) {
 		controller = c;
 		base = new BorderPane();
@@ -46,7 +51,9 @@ public class LearnMoreView extends View{
 		stage.setScene(scene);
         stage.show();
 	}
-	
+	/**
+	 * Creates the top VBox
+	 */
 	public void createTop() {
 		VBox box = new VBox();
 		box.setAlignment(Pos.CENTER);
@@ -59,6 +66,9 @@ public class LearnMoreView extends View{
 		base.setTop(box);
 	}
 	
+	/**
+	 * Creates the left panel VBoxes
+	 */
 	public void createLeft() {
 		VBox box1 = new VBox();
 		box1.setAlignment(Pos.CENTER);
@@ -73,6 +83,9 @@ public class LearnMoreView extends View{
 		base.setLeft(box1);
 	}
 	
+	/**
+	 * Creates right panel VBoxes
+	 */
 	public void createRight() {
 		VBox box1 = new VBox();
 		box1.setAlignment(Pos.CENTER);
@@ -87,6 +100,10 @@ public class LearnMoreView extends View{
 		base.setRight(box1);
 	}
 	
+	/**
+	 * Writes in more resource text
+	 * @param box
+	 */
 	public void moreResources(VBox box) {
 		Text title = new Text("More Resources");
 		title.setFont(Font.font(subtitleSize));
@@ -106,6 +123,9 @@ public class LearnMoreView extends View{
 		box.getChildren().add(link3);
 	}
 	
+	/**
+	 * Launches webpages with resources 
+	 */
 	public void launchWebpage(Object source) {
 		Hyperlink link = (Hyperlink) source;
 		Desktop d = Desktop.getDesktop();
@@ -144,6 +164,10 @@ public class LearnMoreView extends View{
 		}
 	}
 	
+	/**
+	 * Writes garden tips text
+	 * @param box
+	 */
 	public void gardenTipsText(VBox box){
 		Text title = new Text("Gardening Tips");
 		title.setTextAlignment(TextAlignment.CENTER);
@@ -159,6 +183,12 @@ public class LearnMoreView extends View{
 		
 	}
 	
+	
+	/**
+	 * Helper function for creating garden tip text
+	 * @param phrase
+	 * @return
+	 */
 	public Text createGardenText(String phrase) {
 		Text t = new Text(phrase);
 		t.setTextAlignment(TextAlignment.CENTER);
@@ -167,6 +197,9 @@ public class LearnMoreView extends View{
 		return t;
 	}
 	
+	/**
+	 * Creates the center VBoxes
+	 */
 	public void createCenter() {
 		VBox box1 = new VBox();
 		box1.setAlignment(Pos.CENTER);
@@ -181,6 +214,10 @@ public class LearnMoreView extends View{
 		base.setCenter(box1);
 	}
 	
+	/**
+	 * Adds the center panel vbox text
+	 * @param box
+	 */
 	public void createCenterText(VBox box){
 		Text title = new Text("Our Mission");
 		title.setFont(Font.font(subtitleSize));
@@ -201,7 +238,10 @@ public class LearnMoreView extends View{
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * Getter for scene
+	 * @return scene
+	 */
 	@Override
 	public Scene getScene() {
 		return scene;
