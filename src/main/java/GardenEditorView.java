@@ -95,11 +95,10 @@ public class GardenEditorView extends View {
 		gardenName.setPromptText("Name your Garden");
 		Button saveGarden = new Button("Save");
 		saveGarden.setOnMouseClicked(controller.SaveButtonClickedHandler());
-		MenuBox menu = new MenuBox(c);
+		MenuBox menu = new MenuBox(c, "editor");
 		menu.getContainer().add(gardenName, 9, 0);
 		menu.getContainer().add(saveGarden, 10, 0);
 		container = new VBox(menu, base);
-
 		
 		//create and set scene with base
 		scene = new Scene(container, WINDOW_WIDTH, WINDOW_HEIGHT);

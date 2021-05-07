@@ -39,7 +39,10 @@ public class SplashView extends View {
 		loading.setY(400);
 		background.getChildren().add(loading);
 		
+		String style = getClass().getResource("labels.css").toExternalForm();
+		
 		scene = new Scene(background, WINDOW_WIDTH, WINDOW_HEIGHT);
+		scene.getStylesheets().add(style);
         stage.setScene(scene);
         stage.show();
 	}

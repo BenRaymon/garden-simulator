@@ -1,4 +1,5 @@
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -20,7 +21,7 @@ public class MenuBox extends Pane{
 	 * @param controller - the controller to link buttons to appropriate event handlers
 	 * @return none
 	 * */
-	public MenuBox(Controller controller) {
+	public MenuBox(Controller controller, String current_t) {
 		
 		// make the pane
 		container = new GridPane();
@@ -50,6 +51,9 @@ public class MenuBox extends Pane{
 		container.add(report, 3, 0);
 		container.add(shopping_l, 4, 0);
 		container.add(comp_p, 5, 0);
+		
+		enableButtons();
+		disableButton(current_t);
 		
 		getChildren().add(container);
 		getStylesheets().add(getClass().getResource("menubox.css").toExternalForm());
@@ -81,5 +85,49 @@ public class MenuBox extends Pane{
 	//TODO javadoc
 	public Button getEditorButton() {
 		return editor;
+	}
+	
+	/**
+	 * disable buttons
+	 * @param s - name of the button
+	 * @return non
+	 * */
+	public void disableButton(String s) {
+		switch(s) {
+		case "load":
+			load.setDisable(true);
+			break;
+		case "plot_d":
+			plot_d.setDisable(true);
+			break;
+		case "editor":
+			editor.setDisable(true);
+			break;
+		case "report":
+			report.setDisable(true);
+			break;
+		case "shopping_l":
+			shopping_l.setDisable(true);
+			break;
+		case "comp_p":
+			comp_p.setDisable(true);
+			break;
+		default:
+			System.out.println("i");
+		}
+	}
+	
+	/**
+	 * enable buttons
+	 * @param none
+	 * @return non
+	 * */
+	public void enableButtons() {
+		for(Node n : container.getChildren()) {
+			if(n instanceof Button) {	
+				Button b = (Button) n;
+				b.setDisable(false);
+			}
+		}
 	}
 }

@@ -104,7 +104,7 @@ public class PlotDesignView extends View {
 		// get text styles
 		String textStyle = getClass().getResource("labels.css").toExternalForm();
 		
-		MenuBox menu = new MenuBox(c);
+		MenuBox menu = new MenuBox(c, "plot_d");
 		menu.getEditorButton().setOnMouseClicked(controller.getToGardenOnClickHandler());
 		//make show/hide button
 		toggleGridLines = new Button();
@@ -122,7 +122,6 @@ public class PlotDesignView extends View {
         toggleGridLines.setGraphic(imgView);
         menu.getContainer().add(toggleGridLines, 9, 0);
 		base.setTop(menu);
-		
 		
 		
 		// create and set scene with base
@@ -604,5 +603,33 @@ public class PlotDesignView extends View {
 	 */
 	public double getBudget() {
 		return Double.parseDouble(budgetInput.getText());
+	}
+	
+	/**
+	 * disable buttons
+	 * @param none
+	 * @return non
+	 * */
+	public void disableButtons() {
+		for(Node n : drawRedrawPlot.getChildren()) {
+			if(n instanceof Button) {	
+				Button b = (Button) n;
+				b.setDisable(true);
+			}
+		}
+	}
+	
+	/**
+	 * enable buttons
+	 * @param none
+	 * @return non
+	 * */
+	public void enableButtons() {
+		for(Node n : drawRedrawPlot.getChildren()) {
+			if(n instanceof Button) {	
+				Button b = (Button) n;
+				b.setDisable(false);
+			}
+		}
 	}
 }

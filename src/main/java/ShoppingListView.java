@@ -65,11 +65,10 @@ public class ShoppingListView extends View{
 		// get button styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
 		
-		MenuBox menu = new MenuBox(c);
+		MenuBox menu = new MenuBox(c, "shopping_l");
 		
 		base.setCenter(item_container);
 		base.setTop(menu);
-		
 		//create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
         scene.getStylesheets().add(buttonStyle);

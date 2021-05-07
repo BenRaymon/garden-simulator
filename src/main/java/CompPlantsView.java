@@ -105,8 +105,7 @@ public class CompPlantsView extends View {
 		leftPlantButton.setOnMouseClicked(c.LeftPlantButtonClickedHandler());
 
 		//GridPane center = new GridPane();
-		MenuBox menu = new MenuBox(c);
-		
+		MenuBox menu = new MenuBox(c, "comp_p");
 		//center.add(menu, 0, 0, 1, 1);
 		center.add(plantSummaryA, 0, 0, 1, 1);
 		// base.add(list,0,0,1,1);
