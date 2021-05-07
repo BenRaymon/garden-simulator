@@ -1,22 +1,13 @@
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.ColorAdjust;
@@ -27,27 +18,22 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 public class PlotDesignView extends View {
 
-	private Button drawPlot;
-	private TextField budget;
+	private Image hideImg, showImg;
+	private Button toggleGridLines;
 	private TextField widthInput;
 	private TextField heightInput;
 	private TextField boxHeightInput;
 	private TextField boxWidthInput;
 	private TextField budgetInput;
-	private Label gridSize;
 	private Scene scene;
 	private BorderPane base;
-	private Button toGarden;
 	private Button drawDimensions;
 	private GraphicsContext gc;
 	private Controller controller;
@@ -55,13 +41,15 @@ public class PlotDesignView extends View {
 	private GridPane left_grid;
 	private Canvas drawArea;
 	private VBox box;
+	private HBox drawRedrawPlot;
 	private Slider moisture, soilType, sunlight;
 	private boolean canDraw;
 	private final double LEFTBAR = 325;
 	private final double SPACING = 10;
-	private double canvasWidth = WINDOW_WIDTH - LEFTBAR;
-	private double canvasHeight = WINDOW_HEIGHT - MenuBox.MENU_HEIGHT;
+	private double CANVAS_WIDTH = WINDOW_WIDTH - LEFTBAR;
+	private double CANVAS_HEIGHT = WINDOW_HEIGHT - MenuBox.MENU_HEIGHT;
 	private int scaleIndex = 50;
+	private boolean showGridLines = true;
 	
 	/**
 	 * Constructor
@@ -78,10 +66,10 @@ public class PlotDesignView extends View {
 		
 		box = new VBox();
 		base.setCenter(box);
-		box.setMinWidth(canvasWidth);
-		box.setMinHeight(canvasHeight);
+		box.setMinWidth(CANVAS_WIDTH);
+		box.setMinHeight(CANVAS_HEIGHT);
 
-		drawArea = new Canvas(canvasWidth, canvasHeight);
+		drawArea = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 		gc = drawArea.getGraphicsContext2D();
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(1);
@@ -91,12 +79,21 @@ public class PlotDesignView extends View {
 		createLeftGrid();
 		
 		// add the drawplot button
-		drawPlot = new Button("Draw Plot");
+		drawRedrawPlot = new HBox();
+		Button drawPlot = new Button("Draw Plot");
+		drawPlot.setPrefWidth(LEFTBAR*0.6);
 		drawPlot.setOnMouseClicked(controller.getDrawPlotHandler());
-		left_grid.add(drawPlot, 0, 3);
-		toGarden = new Button("To Garden");
+		drawRedrawPlot.getChildren().add(drawPlot);
+		drawRedrawPlot.setMargin(drawPlot, new Insets(10, 5, 0, 5));
+		left_grid.add(drawRedrawPlot, 0, 3);
+		
+		VBox toGardenHolder = new VBox(); //need the vbox for alignment
+		toGardenHolder.setAlignment(Pos.CENTER);
+		Button toGarden = new Button("To Garden");
+		toGarden.setMinWidth(LEFTBAR*0.6);
 		toGarden.setOnMouseClicked(controller.getToGardenOnClickHandler());
-		left_grid.add(toGarden, 0, 4);
+		toGardenHolder.getChildren().add(toGarden);
+		left_grid.add(toGardenHolder, 0, 4);
 		
 		// get button styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
@@ -110,18 +107,20 @@ public class PlotDesignView extends View {
 		MenuBox menu = new MenuBox(c);
 		menu.getEditorButton().setOnMouseClicked(controller.getToGardenOnClickHandler());
 		//make show/hide button
-		Button showGrid = new Button();
+		toggleGridLines = new Button();
+		toggleGridLines.setOnMouseClicked(controller.getDisplayGridlinesHandler());
 		//eye image for button
-		Image img = new Image(getClass().getResourceAsStream("hide.png"));
-        ImageView imgView = new ImageView(img);
+		hideImg = new Image(getClass().getResourceAsStream("hide.png"));
+		showImg = new Image(getClass().getResourceAsStream("show.png"));
+        ImageView imgView = new ImageView(hideImg);
         imgView.setFitHeight(25);
         imgView.setFitWidth(25);
         //make the image white like the rest of the text
         ColorAdjust whiteout = new ColorAdjust();
         whiteout.setBrightness(1.0);
         imgView.setEffect(whiteout);
-        showGrid.setGraphic(imgView);
-        menu.getContainer().add(showGrid, 9, 0);
+        toggleGridLines.setGraphic(imgView);
+        menu.getContainer().add(toggleGridLines, 9, 0);
 		base.setTop(menu);
 		
 		
@@ -144,8 +143,8 @@ public class PlotDesignView extends View {
 	
 	public void heightChanged(Object windowHeight) {
 		WINDOW_HEIGHT = (double) windowHeight;
-		canvasHeight = (double)windowHeight - MenuBox.MENU_HEIGHT;
-		drawArea.setHeight(canvasHeight);
+		CANVAS_HEIGHT = (double)windowHeight - MenuBox.MENU_HEIGHT;
+		drawArea.setHeight(CANVAS_HEIGHT);
 		
 		gc = drawArea.getGraphicsContext2D();
 		//drawGrid();
@@ -153,8 +152,8 @@ public class PlotDesignView extends View {
 	
 	public void widthChanged(Object windowWidth) {
 		WINDOW_WIDTH =(double) windowWidth;
-		canvasWidth = (double)windowWidth - LEFTBAR;
-		drawArea.setWidth(canvasWidth);
+		CANVAS_WIDTH = (double)windowWidth - LEFTBAR;
+		drawArea.setWidth(CANVAS_WIDTH);
 		
 		gc = drawArea.getGraphicsContext2D();
 		//drawGrid();
@@ -168,19 +167,29 @@ public class PlotDesignView extends View {
 	 */
 	public void inputDimensions() {
 		Label widthText = new Label("Garden width");
+		widthText.setMinWidth(LEFTBAR*0.6);
 		Label heightText = new Label("Garden height");
+		heightText.setMinWidth(LEFTBAR*0.6);
 		Label boxHeightText = new Label("Grid Height");
+		boxHeightText.setMinWidth(LEFTBAR*0.6);
 		Label boxWidthText = new Label("Grid Width");
+		boxWidthText.setMinWidth(LEFTBAR*0.6);
 		Label budgetText = new Label("Budget");
-		gridSize = new Label("Grid Size");
+		budgetText.setMinWidth(LEFTBAR*0.6);
+		Label gridSize = new Label("Grid Size");
 		widthInput = new TextField();
+		widthInput.setMaxWidth(LEFTBAR*0.6);
 		widthInput.setText("" + 100);
 		heightInput = new TextField();
+		heightInput.setMaxWidth(LEFTBAR*0.6);
 		heightInput.setText("" + 100);
 		boxHeightInput = new TextField();
+		boxHeightInput.setMaxWidth(LEFTBAR*0.6);
 		boxHeightInput.setText("" + 10);
 		boxWidthInput = new TextField();
+		boxWidthInput.setMaxWidth(LEFTBAR*0.6);
 		budgetInput = new TextField();
+		budgetInput.setMaxWidth(LEFTBAR*0.6);
 		budgetInput.setText("0");
 		boxWidthInput.setText("" + 10);
 		
@@ -188,11 +197,13 @@ public class PlotDesignView extends View {
 		drawDimensions.setOnMouseClicked(controller.drawPlotGrid());
 		
 		VBox budget = new VBox();
+		budget.setAlignment(Pos.CENTER);
 		budget.getChildren().add(budgetText);
 		budget.getChildren().add(budgetInput);
 		
 		
 		VBox dimensions = new VBox();
+		dimensions.setAlignment(Pos.CENTER);
 		dimensions.getChildren().add(widthText);
 		dimensions.getChildren().add(widthInput);
 		dimensions.getChildren().add(heightText);
@@ -219,13 +230,12 @@ public class PlotDesignView extends View {
 	
 	/**
 	 * Responsible for drawing the scaling grid lines on the canvas
-	 * @param none
 	 * @return a scale value calculated based on grid lines and pixel distances
 	 */
 	public double drawGrid() {
 		
 		gc.clearRect(0, 0, drawArea.getWidth(), drawArea.getHeight());
-		
+		gc.setLineWidth(1);
 		int width = Integer.parseInt(widthInput.getText());
 		int height = Integer.parseInt(heightInput.getText());
 		int boxHeight = Integer.parseInt(boxHeightInput.getText());
@@ -240,10 +250,10 @@ public class PlotDesignView extends View {
 		}
 		
 		
-		double perciseWidth = canvasWidth/(width/boxWidth);
-		double perciseHeight = canvasHeight/(height/boxHeight);
-		int heightInc = (int)canvasHeight/(height/boxHeight);
-		int widthInc = (int)canvasWidth/(width/boxWidth);
+		double perciseWidth = CANVAS_WIDTH/(width/boxWidth);
+		double perciseHeight = CANVAS_HEIGHT/(height/boxHeight);
+		int heightInc = (int)CANVAS_HEIGHT/(height/boxHeight);
+		int widthInc = (int)CANVAS_WIDTH/(width/boxWidth);
 		
 		double widthBorder = perciseWidth - widthInc;
 		
@@ -252,25 +262,47 @@ public class PlotDesignView extends View {
 		heightBorder *= height/boxHeight;
 		widthBorder *= width/boxWidth;
 		
-		drawArea.setWidth(canvasWidth - widthBorder + 2);
-		drawArea.setHeight(canvasHeight - heightBorder + 1);
+		drawArea.setWidth(CANVAS_WIDTH - widthBorder + 2);
+		drawArea.setHeight(CANVAS_HEIGHT - heightBorder + 1);
 		double pixelsPerFoot = (double)widthInc / boxWidth;
 		
-		for (double x = 1; x <= canvasWidth + widthBorder; x+=widthInc) {
-			gc.moveTo(x, 0);
-			gc.lineTo(x, canvasHeight);
-			gc.stroke();
+		//do all scale calculations but only show if supposed to
+		if(showGridLines) {
+			for (double x = 1; x <= CANVAS_WIDTH + widthBorder; x+=widthInc) {
+				gc.moveTo(x, 0);
+				gc.lineTo(x, CANVAS_HEIGHT);
+				gc.stroke();
+			}
+			
+			for (double y = 0; y <= CANVAS_HEIGHT + heightBorder; y+=heightInc) {
+				gc.moveTo(0,y);
+				gc.lineTo(CANVAS_WIDTH,y);
+				gc.stroke();
+			}
+			gc.closePath();
+			gc.beginPath();
 		}
-		
-		for (double y = 0; y <= canvasHeight + heightBorder; y+=heightInc) {
-			gc.moveTo(0,y);
-			gc.lineTo(canvasWidth,y);
-			gc.stroke();
-		}
-		gc.closePath();
-		gc.beginPath();
 		
 		return pixelsPerFoot;
+	}
+	
+	/**
+	 * Draws plots on the canvas
+	 * TODO: javadoc
+	 * @param points an array lit of coordinates to draw
+	 */
+	public void drawPlot(ArrayList<Point> points) {
+		//split the array list of points into two arrays of doubles
+		//(fillPolygon method requires 2 arrays of doubles)
+		double[] xcords = new double[points.size()];
+		double[] ycords = new double[points.size()];
+		int i = 0;
+		for(Point p : points) {
+			xcords[i] = (p.getX() - LEFTBAR - 5);
+			ycords[i++] = (p.getY() - MenuBox.MENU_HEIGHT);
+		}
+		gc.fillPolygon(xcords, ycords, i);
+		
 	}
 		
 
@@ -343,10 +375,14 @@ public class PlotDesignView extends View {
         });
         
 		Label sunlightText = new Label("Sunlight Level");
+		sunlightText.setMinWidth(LEFTBAR*0.6);
 		Label soilTypeText = new Label("Soil Type");
+		soilTypeText.setMinWidth(LEFTBAR*0.6);
 		Label moistureText = new Label("Moisture Level");
+		moistureText.setMinWidth(LEFTBAR*0.6);
 		
 		VBox sliders = new VBox();
+		sliders.setAlignment(Pos.CENTER);
 		sliders.getChildren().add(sunlightText);
 		sliders.getChildren().add(sunlight);
 		sliders.getChildren().add(moistureText);
@@ -373,6 +409,7 @@ public class PlotDesignView extends View {
 		slider.setMajorTickUnit(1);
 		slider.setSnapToTicks(true);
 		slider.setMinorTickCount(0);
+		slider.setMaxWidth(LEFTBAR*0.6);
 		return slider;
 	}
 
@@ -383,6 +420,31 @@ public class PlotDesignView extends View {
 	 */
 	public Scene getScene() {
 		return scene;
+	}
+	
+	/**
+	 * Getter for canvas height
+	 * @return canvas height
+	 */
+	public double getCanvasHeight() {
+		return CANVAS_HEIGHT;
+	}
+	
+	/**
+	 * Getter for canvas width
+	 * @return canvas width
+	 */
+	public double getCanvasWidth() {
+		return CANVAS_WIDTH;
+	}
+
+	/**
+	 * TODO javadox
+	 * Getter for canvas height
+	 * @return canvas height
+	 */
+	public double getLeftbarWidth() {
+		return LEFTBAR;
 	}
 	
 
@@ -475,6 +537,20 @@ public class PlotDesignView extends View {
 			gc.setFill(Color.SANDYBROWN);
 	}
 	
+	//TODO javadoc
+	public void showRedrawButton() {
+		if(drawRedrawPlot.getChildren().size() > 1) {
+			return;
+		}
+		Button redrawPlot = new Button("Redraw");
+		redrawPlot.setPrefWidth(LEFTBAR*0.45);
+		redrawPlot.setOnMouseClicked(controller.getRedrawPlotHandler());
+		((Button)drawRedrawPlot.getChildren().get(0)).setText("New Plot");
+		((Button)drawRedrawPlot.getChildren().get(0)).setPrefWidth(LEFTBAR*0.45);
+		drawRedrawPlot.getChildren().add(redrawPlot);
+		drawRedrawPlot.setMargin(redrawPlot, new Insets(10, 5, 0, 5));
+	}
+	
 	/**
 	 * Returns the coordinates drawn on to the canvas 
 	 * @param none
@@ -505,10 +581,21 @@ public class PlotDesignView extends View {
 	/**
 	 * Returns the canDraw variable
 	 * @param none
-	 * @return none
+	 * @return boolean
 	 */
 	public boolean getCanDraw() {
 		return canDraw;
+	}
+	
+	/**
+	 * Changes the value of the showGridLines variable and changes the image in the menu button 
+	 */
+	public void flipShowGridLines() {
+		showGridLines = !showGridLines;
+		if(showGridLines)
+			((ImageView)toggleGridLines.getGraphic()).setImage(hideImg);
+		else
+			((ImageView)toggleGridLines.getGraphic()).setImage(showImg);
 	}
 	
 	/** 

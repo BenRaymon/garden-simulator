@@ -2,7 +2,6 @@ import java.util.*;
 
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.input.ClipboardContent;
@@ -13,7 +12,6 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -116,6 +114,21 @@ public class Controller extends Application{
 	public EventHandler getNewGardenOnClickHandler() {
 		return (event -> {
 			stage.setScene(plotDesignView.getScene());
+			if(garden.getPlots().size() > 0) {
+				for (Plot p : garden.getPlots()) {
+					//change the coordinates in the current list to reflect the original coordinates
+					//cannot just do p.setCoordinates because the point objects are still the same
+					//need to deep copy the point values to the current list of coordinates
+					ArrayList<Point> origCoords = p.getOriginalCoordinates();
+					ArrayList<Point> currentCoords = new ArrayList<Point>();
+					for(Point point:origCoords) {
+		        		currentCoords.add(new Point(point.getX(), point.getY()));	
+					}
+					p.setCoordinates(currentCoords);
+					plotDesignView.setFillColor(p.getOptions());
+					plotDesignView.drawPlot(p.getOriginalCoordinates());
+				}
+			}
 		});
 	}
 	
@@ -154,7 +167,7 @@ public class Controller extends Application{
 	public void setUpGardenEditor() {
 		//create list of plots for recommended plant list selection
 		gardenEditorView.setPlotBoxes(garden.getPlots());
-		
+
 		//get the current canvas size
 		double h = gardenEditorView.getCanvasHeight();
 		double w = gardenEditorView.getCanvasWidth();
@@ -199,6 +212,13 @@ public class Controller extends Application{
 		return (event->{
 			double pixelsPerFoot = plotDesignView.drawGrid();
 			garden.setScale(pixelsPerFoot);
+			//draw plots if there are any
+			if(garden.getPlots() != null && garden.getPlots().size() > 0) {
+				for (Plot plot : garden.getPlots()) {
+					plotDesignView.setFillColor(plot.getOptions());
+					plotDesignView.drawPlot(plot.getCoordinates());
+				}
+			}
 		});
 	}
 	
@@ -240,8 +260,35 @@ public class Controller extends Application{
 			Options o = new Options(soiltype, sunlight, moisture);
 			//create a new plot in the garden
 			garden.newPlot(o);
+			//allow drawing and show the redraw button
+			plotDesignView.allowDrawing();
+			plotDesignView.showRedrawButton();
+		});
+	}
+	
+	/**
+	 * TODO 
+	 */
+	public EventHandler getRedrawPlotHandler() {
+		return (event -> {
+			//let the user redraw a plot with whatever options are currently selected
+			double sunlight = plotDesignView.getSunlightSlider();
+			double soiltype = plotDesignView.getSoilSlider();
+			double moisture = plotDesignView.getMoistureSlider();
+			Options o = new Options(soiltype, sunlight, moisture);
+			//don't create a new plot, just reset the coordinates
+			int plotIndex = garden.getNumPlots() - 1;
+			garden.getPlots().get(plotIndex).setCoordinates(new ArrayList<Point>());
+			garden.getPlots().get(plotIndex).setOptions(o);
 			//allow drawing
 			plotDesignView.allowDrawing();
+			
+			//redraw the current plots without the one you want to redraw
+			plotDesignView.drawGrid();
+			for (Plot plot : garden.getPlots()) {
+				plotDesignView.setFillColor(plot.getOptions());
+				plotDesignView.drawPlot(plot.getCoordinates());
+			}
 		});
 	}
 
@@ -282,6 +329,13 @@ public class Controller extends Application{
         	//add coords to the plot in the garden
 			if(plotDesignView.getCanDraw()) {
 	        	garden.addCoordsToPlot(plotDesignView.getCoords());
+	        	//save the coordinates from the plot design view in a new list of original coordinates
+	        	//need to do a deep copy of the point objects in the PDV list to prevent referencing the same object
+	        	ArrayList<Point> origCoords = new ArrayList<Point>();
+	        	for (Point p : plotDesignView.getCoords()) {
+	        		origCoords.add(new Point(p.getX(), p.getY()));
+	        	}
+	        	garden.getPlots().get(garden.getPlots().size()-1).setOriginalCoordinates(origCoords);
 	        	//set fill color based on soil type
 	        	int plotIndex = garden.getNumPlots() - 1;
 	        	plotDesignView.setFillColor(garden.getPlotOptions(plotIndex));
@@ -291,7 +345,7 @@ public class Controller extends Application{
         });
 	}
 	
-	/**
+	/** TODO JAVADOC REWRITE
 	 * Returns the event handler for the to garden button in plotdesignview
 	 * Transform plots to fit in the gardeneditor, set a new scale, smooth the newly scaled plots
 	 * Update information in right bar with garden info and send a recommended plant list based on plot
@@ -303,9 +357,14 @@ public class Controller extends Application{
 			garden.setBudget(plotDesignView.getBudget());
 			//set new scene to gardeneditorview
 			stage.setScene(gardenEditorView.getScene());
+			
 			//update budget in the view
 			gardenEditorView.setBudget(garden.getBudget());
 			
+			//i need to clear the garden editor first
+			gardenEditorView.clearCanvas();
+			//
+
 			setUpGardenEditor();
 			
 		});
@@ -590,13 +649,28 @@ public class Controller extends Application{
 				System.out.println("Switching to General Info");
 				String infoStringA = CompPlants.getInfo(compPlantsView.getLeftBody().getText());
 				String infoStringB = CompPlants.getInfo(compPlantsView.getRightBody().getText());
-				compPlantsView.setGeneralInfoComapre(infoStringA,infoStringB);
-				
-
-				
+				compPlantsView.setGeneralInfoComapre(infoStringA,infoStringB);				
 			}			
 		});
 	}
+	
+
+	//TODO : javadoc
+	public EventHandler getDisplayGridlinesHandler() {
+		return (event ->{
+			//change the value of showGridLines in plotdesignview
+			plotDesignView.flipShowGridLines();
+			//clear canvas / calculate scale / draw grid lines if applicable
+			plotDesignView.drawGrid();
+			//draw all current plots
+			for (Plot plot : garden.getPlots()) {
+				plotDesignView.setFillColor(plot.getOptions());
+				plotDesignView.drawPlot(plot.getCoordinates());
+			}
+		});
+	}
+	
+	
 	/**
 	 * Called from the Garden Editor View when the user clicks the save button.
 	 * creates a copy of the current garden and if a unique name is given it will save the

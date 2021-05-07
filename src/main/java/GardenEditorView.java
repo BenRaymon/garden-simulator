@@ -98,7 +98,8 @@ public class GardenEditorView extends View {
 		MenuBox menu = new MenuBox(c);
 		menu.getContainer().add(gardenName, 9, 0);
 		menu.getContainer().add(saveGarden, 10, 0);
-		container = new VBox( menu, base);
+		container = new VBox(menu, base);
+
 		
 		//create and set scene with base
 		scene = new Scene(container, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -108,6 +109,16 @@ public class GardenEditorView extends View {
 		//scene.getStylesheets().add(menuStyle);
 		stage.setScene(scene);
         stage.show();
+        
+       
+        
+	}
+	
+	
+	
+	///TODO javadoc
+	public void clearCanvas() {
+		gc.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 	}
 	
 	
@@ -142,6 +153,7 @@ public class GardenEditorView extends View {
 	
 	/**
 	 * Draws plots on the canvas
+	 * TODO: 
 	 * @param points an array lit of coordinates to draw
 	 */
 	public void drawPlot(ArrayList<Point> points, HashMap<Point, Plant> plantsInPlot) {
@@ -301,6 +313,7 @@ public class GardenEditorView extends View {
 		top.setOrientation(Orientation.HORIZONTAL);
 		top.setMaxHeight(TOPBAR);
 		base.setTop(top);
+		
 	}
 	
 	/**
