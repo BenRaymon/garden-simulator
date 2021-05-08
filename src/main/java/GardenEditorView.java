@@ -31,6 +31,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class GardenEditorView extends View {
@@ -39,7 +40,7 @@ public class GardenEditorView extends View {
 	private HashMap<Image, String> recommendedPlantImages;
 	private Image selectedPlant;
 	private GridPane right, left;
-	private ListView<Circle> top;
+	private ListView<VBox> top;
 	private BorderPane base;
 	private Scene scene;
 	private GraphicsContext gc;
@@ -52,7 +53,7 @@ public class GardenEditorView extends View {
 	
 	private double LEFTBAR = 350;
 	private double RIGHTBAR = 250;
-	private double TOPBAR = 125;
+	private double TOPBAR = 150;
 	private double SPACING = 10;
 	private double SCALE = 10;
 	private double CANVAS_WIDTH = WINDOW_WIDTH - LEFTBAR - RIGHTBAR;
@@ -286,7 +287,7 @@ public class GardenEditorView extends View {
 		//reset the map of current recommended images
 		recommendedPlantImages = new HashMap<Image, String>();
 		//make a list to hold the circle objects for each plant 
-		ArrayList<Circle> recommendedPlantCircs = new ArrayList<Circle>();
+		ArrayList<VBox> recommendedPlantCircs = new ArrayList<VBox>();
 		//master static list of all images from the abstract view
 		ConcurrentHashMap<String, Image> allImages = View.getImages();
 		
@@ -297,10 +298,16 @@ public class GardenEditorView extends View {
 				Image image = allImages.get(name);
 				recommendedPlantImages.put(image, name);
 				Circle circ = new Circle(50);
+				VBox holder = new VBox();
 		        circ.setFill(new ImagePattern(image));
 		        circ.setOnDragDetected(controller.getOnImageDraggedHandler());
 		        circ.setOnMouseEntered(controller.getOnImageEnteredInfo());
-		        recommendedPlantCircs.add(circ);
+		        holder.setAlignment(Pos.CENTER);
+		        holder.getChildren().add(circ);
+		        Text nameText = new Text(name);
+		        nameText.setTextAlignment(TextAlignment.CENTER);
+		        holder.getChildren().add(nameText);
+		        recommendedPlantCircs.add(holder);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -308,7 +315,7 @@ public class GardenEditorView extends View {
 		
 		//convert the array list into a backing list for the list view
 		//add list of recommended plant circles to the listview and add the listview to the base border pane 
-		ObservableList<Circle> backingList = FXCollections.observableArrayList(recommendedPlantCircs);
+		ObservableList<VBox> backingList = FXCollections.observableArrayList(recommendedPlantCircs);
 		top = new ListView<>(backingList);
 		top.setOrientation(Orientation.HORIZONTAL);
 		top.setMaxHeight(TOPBAR);
