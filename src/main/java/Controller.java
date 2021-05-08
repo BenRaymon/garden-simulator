@@ -478,7 +478,7 @@ public class Controller extends Application{
 			gardenEditorView.createNewImageInBase(drag,db, radius);
 			
 			//Check if the selected plant was from the recommended bar or if it was in a plot
-			if(garden.isPlantInPlot(plotNum, selected)) {
+			if(garden.isPlantInPlot(plotNumOfSelected, selected)) {
 				//plants in plot are removed and added back
 				garden.removePlantFromPlot(plotNumOfSelected, selected.getPosition());
 				//add plant to plot ultimately also updates the position of selected to the new pos
