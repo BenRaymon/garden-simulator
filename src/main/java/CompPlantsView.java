@@ -3,6 +3,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -24,6 +25,9 @@ public class CompPlantsView extends View {
 
 	private Image plantImageA;
 	private Image plantImageB;
+	
+	private ImageView imageViewA;
+	private ImageView imageViewB;
 	private Text plantSummaryA;
 	private Text plantSummaryB;
 
@@ -116,6 +120,13 @@ public class CompPlantsView extends View {
 		//GridPane center = new GridPane();
 		MenuBox menu = new MenuBox(c);
 		
+		imageViewA = new ImageView();
+		imageViewB = new ImageView();
+		Image tempImg = getImages().get("Cuminum");
+		imageViewA.setImage(tempImg);
+		
+		center.add(imageViewA,0,0,1,1);
+		center.add(imageViewB,1,0,1,1);
 		//center.add(menu, 0, 0, 1, 1);
 		center.add(plantSummaryA, 0, 0, 1, 1);
 		// base.add(list,0,0,1,1);
@@ -248,7 +259,7 @@ public class CompPlantsView extends View {
 		xAxis = new CategoryAxis();
 		yAxis = new NumberAxis();
 		xAxis.setLabel("Plant names");
-		yAxis.setLabel("Plant Spread (in *put units here*)");
+		yAxis.setLabel("Plant Spread (in feet)");
 
 		series1 = new XYChart.Series();
 		series2 = new XYChart.Series();
@@ -286,7 +297,7 @@ public class CompPlantsView extends View {
 		xAxis = new CategoryAxis();
 		yAxis = new NumberAxis();
 		xAxis.setLabel("Plant names");
-		yAxis.setLabel("Plant Size (in *put units here*)");
+		yAxis.setLabel("Plant Size (in feet)");
 
 		series1 = new XYChart.Series();
 		series2 = new XYChart.Series();
