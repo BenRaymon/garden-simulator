@@ -105,6 +105,9 @@ public class Controller extends Application{
 		
 		//set the scene and model to Start
 		stage.setScene(startView.getScene());
+		
+		//Populates reportView Plants List
+		
 	}
 	
 	public EventHandler getLearnMoreOnClickHandler() {
@@ -172,6 +175,11 @@ public class Controller extends Application{
 	public EventHandler getToCompareOnClickHandler() {
 		return (event -> {
 			stage.setScene(compPlantsView.getScene());
+			
+			compPlantsView.clearPlantList();
+			for(String key: garden.getAllPlants().keySet()) {
+				compPlantsView.setPlantList(garden.getAllPlants().get(key).getScientificName());
+			}
 		});
 	}
 	
@@ -578,13 +586,13 @@ public class Controller extends Application{
 		return (event ->{
 			
 			//compPlantsView.setBLeps(compPlants.getLeps());
-			
-			TextField temp = compPlantsView.getTextBox();
+			ListView<String> tempList = compPlantsView.getplantList();
+			//TextField temp = compPlantsView.getTextBox();
 			String plantInfo = "Plant A\n";		
-			plantInfo = plantInfo + CompPlants.getInfo(temp.getText());
+			plantInfo = plantInfo + CompPlants.getInfo(tempList.getSelectionModel().getSelectedItem());
 			Text tempText = compPlantsView.getRightBody();
 			//tempText.setText(plantInfo);
-			tempText.setText(temp.getText());
+			tempText.setText(tempList.getSelectionModel().getSelectedItem());
 			//Setting plant A variables in compPlantView to plantInfo
 			
 			//compPlantsView.setALeps(CompPlants.getLepInfo(temp.getText()));
@@ -602,13 +610,14 @@ public class Controller extends Application{
 	 */
 	public EventHandler LeftPlantButtonClickedHandler() {
 		return (event ->{
-			TextField temp = compPlantsView.getTextBox();
+			ListView<String> tempList = compPlantsView.getplantList();
+			//TextField temp = compPlantsView.getTextBox();
 			String plantInfo = "Plant B\n";		
-			plantInfo = plantInfo + CompPlants.getInfo(temp.getText());
+			plantInfo = plantInfo + CompPlants.getInfo(tempList.getSelectionModel().getSelectedItem());
 			//String plantInfo = CompPlants.getInfo(temp.getText());
 			Text tempText = compPlantsView.getLeftBody();
 			//tempText.setText(plantInfo);
-			tempText.setText(temp.getText());
+			tempText.setText(tempList.getSelectionModel().getSelectedItem());
 
 			//Setting plant B variables in compPlantView to plantInfo
 			
@@ -764,6 +773,7 @@ public class Controller extends Application{
 			stage.setScene(loadSavedGardenView.getScene());
 		});
 	}
+	
 	
 	/**
 	 * Loads the garden picked by the user on the load menu. Uses the string highlighted
