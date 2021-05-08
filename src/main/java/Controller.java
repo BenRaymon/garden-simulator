@@ -465,6 +465,8 @@ public class Controller extends Application{
 			} 
 			
 			Plant selected = GardenEditor.getSelectedPlant();
+			Point posOfSelectedPlant = selected.getPosition();
+			int plotNumOfSelected = GardenEditor.inPlot(posOfSelectedPlant, garden.getPlots(), gardenEditorView.getTopBar(), gardenEditorView.getLeftBar());
 			
 			//get spread radius of the currently selected plant
 			double radius = selected.getSpreadRadiusLower();
@@ -478,7 +480,7 @@ public class Controller extends Application{
 			//Check if the selected plant was from the recommended bar or if it was in a plot
 			if(garden.isPlantInPlot(plotNum, selected)) {
 				//plants in plot are removed and added back
-				garden.removePlantFromPlot(plotNum, selected.getPosition());
+				garden.removePlantFromPlot(plotNumOfSelected, selected.getPosition());
 				//add plant to plot ultimately also updates the position of selected to the new pos
 				garden.addPlantToPlot(plotNum, pos, selected);
 				
@@ -490,7 +492,7 @@ public class Controller extends Application{
 				garden.addPlantToPlot(plotNum, pos, newPlant);
 			}
 			gardenEditorView.updateGardenCounts(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
-			System.out.println(garden.getPlots().get(plotNum).getPlantsInPlot().size());
+			System.out.println("Size of plot: " + garden.getPlots().get(plotNum).getPlantsInPlot().size());
 
 			drag.setDropCompleted(true);
 			drag.consume();
