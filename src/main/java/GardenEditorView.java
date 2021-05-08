@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -491,18 +492,23 @@ public class GardenEditorView extends View {
 	
 	public void addLepsInfo(Set<Lep> allLeps) {
 		Text lepInfoText = new Text("Some Leps supported:");
+		VBox lepHolder = new VBox();
 		Text lepsSupported = new Text();
-		String lepInfo = "";
+		Set<String> usedLeps = new HashSet<String>(); 
 		int count = 3;
 		for(Lep l :allLeps) {
 			if(count != 0) {
-			lepInfo = lepInfo + l.getLepName() + "\n";
-			count = count -1;
+				if (!usedLeps.contains(l.getLepName())){
+					Text lepName = new Text(l.getLepName());
+					lepHolder.getChildren().add(lepName);
+					usedLeps.add(l.getLepName());
+					count = count -1;
+				}
+			
 			}
 		}
-		lepsSupported.setText(lepInfo);
 		left.add(lepInfoText,0,11);
-		left.add(lepsSupported,1,11);
+		left.add(lepHolder,1,11);
 		
 		
 		
