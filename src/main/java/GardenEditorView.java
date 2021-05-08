@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javafx.scene.control.*;
@@ -479,6 +480,43 @@ public class GardenEditorView extends View {
 		colorStr.getStyleClass().add("editor-t");
 		left.add(colorText, 0, 10);
 		left.add(colorStr, 1, 10);
+	}
+	
+	public void addLepsInfo(Set<Lep> allLeps) {
+		Text lepInfoText = new Text("Some Leps supported:");
+		Text lepsSupported = new Text();
+		String lepInfo = "";
+		int count = 3;
+		for(Lep l :allLeps) {
+			if(count != 0) {
+			lepInfo = lepInfo + l.getLepName() + "\n";
+			count = count -1;
+			}
+		}
+		lepsSupported.setText(lepInfo);
+		left.add(lepInfoText,0,11);
+		left.add(lepsSupported,1,11);
+		
+		
+		
+		
+		
+	}
+	
+	/**
+	 * Sets all the plants info on left pane
+	 * @param plant
+	 */
+	public void setPlantInfo(Plant plant,Set<Lep> allLeps) { // ConcurrentHashap<String, Set<Lep>> allLeps
+		System.out.println("IN SET PLANT INFO");
+		left.getChildren().clear();
+		addNames(plant);
+		addLeps(plant);
+		addType(plant);
+		addSize(plant);
+		addCost(plant);
+		addColor(plant);
+		addLepsInfo(allLeps);
 	}
 
 	

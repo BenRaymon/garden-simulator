@@ -122,6 +122,7 @@ public class Controller extends Application{
 		return (event -> {
 			ConcurrentHashMap <String, Set<Lep>> allLeps = Garden.getAllLeps();
 			for(String key : allLeps.keySet()) {
+				System.out.println("Printing key: " + key);
 				System.out.println(allLeps.get(key).toString());
 			}
 			stage.setScene(plotDesignView.getScene());
@@ -395,9 +396,21 @@ public class Controller extends Application{
 	public EventHandler getOnImageClickedInfo() {
 		return (event-> {
 			System.out.println("In Image Clicked on Handler");
-			String plantName = gardenEditorView.getPlantName(event);
-			Plant selectedPlant = garden.getPlant(plantName);
-			gardenEditorView.setPlantInfo(selectedPlant);
+			Circle plantCirc = (Circle)event.getSource();
+			Image plantImage = ((ImagePattern)plantCirc.getFill()).getImage();
+			gardenEditorView.setPlantInfoImage(plantImage);
+			String plant = gardenEditorView.getPlantName(plantImage);
+			Plant selectedPlant = garden.getPlant(plant);
+			/*
+			ConcurrentHashMap <String, Set<Lep>> allLeps = Garden.getAllLeps();
+			for(String key : allLeps.keySet()) {
+				System.out.println(allLeps.get(key).toString());
+			}
+			*/
+			System.out.println("Printing plant value: " + plant);
+			System.out.println(garden.getAllLeps().get(plant));
+			gardenEditorView.setPlantInfo(selectedPlant,garden.getAllLeps().get(plant));
+			
 		});
 	}
 	
