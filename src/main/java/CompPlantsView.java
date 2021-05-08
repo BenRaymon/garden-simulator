@@ -3,6 +3,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -24,6 +25,9 @@ public class CompPlantsView extends View {
 
 	private Image plantImageA;
 	private Image plantImageB;
+	
+	private ImageView imageViewA;
+	private ImageView imageViewB;
 	private Text plantSummaryA;
 	private Text plantSummaryB;
 
@@ -116,14 +120,41 @@ public class CompPlantsView extends View {
 		//GridPane center = new GridPane();
 		MenuBox menu = new MenuBox(c);
 		
-		//center.add(menu, 0, 0, 1, 1);
-		center.add(plantSummaryA, 0, 0, 1, 1);
-		// base.add(list,0,0,1,1);
-		center.add(plantSummaryB, 1, 0, 1, 1);
-		center.add(leftPlantButton, 0, 1, 1, 1);
-		center.add(rightPlantButton, 1, 1, 1, 1);
-		center.add(plantsListView, 0, 2, 1, 1);
-		center.add(list, 0, 3, 1, 1);
+		imageViewA = new ImageView();
+		imageViewB = new ImageView();
+		
+		imageViewA.setFitHeight(200);
+		imageViewA.setFitWidth(200);
+		imageViewA.setPreserveRatio(true);
+		
+		imageViewB.setFitHeight(200);
+		imageViewB.setFitWidth(200);
+		imageViewB.setPreserveRatio(true);
+		
+		
+		//Test image
+		
+		/*
+		Image tempImg = getImages().get("Carya Alba");
+		imageViewA.setImage(tempImg);
+		*/
+		
+		
+		//Adds image Views
+		center.add(imageViewA,0,0,1,1);
+		center.add(imageViewB,2,0,1,1);
+		
+		
+		//Adds plant names
+		center.add(plantSummaryA, 0, 1, 1, 1);
+		center.add(plantSummaryB, 2, 1, 1, 1);
+		//Adds plant buttons
+		center.add(leftPlantButton, 0, 2, 1, 1);
+		center.add(rightPlantButton, 2, 2, 1, 1);
+		
+		//Adds Lists
+		center.add(plantsListView, 1, 2, 1, 1);
+		center.add(list, 1, 3, 1, 1);
 		// base.add(bc,0,4,1,1);
 
 		// get button styles
@@ -226,7 +257,7 @@ public class CompPlantsView extends View {
 		bc = new BarChart<String, Number>(xAxis, yAxis);
 		bc.setTitle("Leps Supported");
 		bc.getData().addAll(series1);
-		center.add(bc, 0, 4, 1, 1);
+		center.add(bc, 1, 5, 1, 1);
 
 	}
 
@@ -248,7 +279,7 @@ public class CompPlantsView extends View {
 		xAxis = new CategoryAxis();
 		yAxis = new NumberAxis();
 		xAxis.setLabel("Plant names");
-		yAxis.setLabel("Plant Spread (in *put units here*)");
+		yAxis.setLabel("Plant Spread (in feet)");
 
 		series1 = new XYChart.Series();
 		series2 = new XYChart.Series();
@@ -264,7 +295,7 @@ public class CompPlantsView extends View {
 		bc = new BarChart<String, Number>(xAxis, yAxis);
 		bc.setTitle("Plant Spread");
 		bc.getData().addAll(series1, series2);
-		center.add(bc, 0, 4, 1, 1);
+		center.add(bc, 1, 5, 1, 1);
 
 	}
 
@@ -286,7 +317,7 @@ public class CompPlantsView extends View {
 		xAxis = new CategoryAxis();
 		yAxis = new NumberAxis();
 		xAxis.setLabel("Plant names");
-		yAxis.setLabel("Plant Size (in *put units here*)");
+		yAxis.setLabel("Plant Size (in feet)");
 
 		series1 = new XYChart.Series();
 		series2 = new XYChart.Series();
@@ -302,7 +333,7 @@ public class CompPlantsView extends View {
 		bc = new BarChart<String, Number>(xAxis, yAxis);
 		bc.setTitle("Plant Size");
 		bc.getData().addAll(series1, series2);
-		center.add(bc, 0, 4, 1, 1);
+		center.add(bc, 1, 5, 1, 1);
 
 	}
 
@@ -326,7 +357,7 @@ public class CompPlantsView extends View {
 		Text plantInfoB = new Text(bDescription);
 		plantDataHbox.getChildren().addAll(plantInfoA, plantInfoLabel, plantInfoB);
 
-		center.add(plantDataHbox, 0, 4, 1, 1);
+		center.add(plantDataHbox, 1, 5, 1, 1);
 
 	}
 
@@ -357,5 +388,15 @@ public class CompPlantsView extends View {
 	}
 	public ListView<String> getplantList() {
 		return plantsListView;
+	}
+	
+	public void setLeftImage(String s) {
+		Image tempImg = getImages().get(s);
+		imageViewA.setImage(tempImg);
+	}
+	
+	public void setRightImage(String s) {
+		Image tempImg = getImages().get(s);
+		imageViewB.setImage(tempImg);
 	}
 }

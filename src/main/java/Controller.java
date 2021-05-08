@@ -593,6 +593,9 @@ public class Controller extends Application{
 			Text tempText = compPlantsView.getRightBody();
 			//tempText.setText(plantInfo);
 			tempText.setText(tempList.getSelectionModel().getSelectedItem());
+			
+			//Sets right image
+			compPlantsView.setRightImage(tempList.getSelectionModel().getSelectedItem());
 			//Setting plant A variables in compPlantView to plantInfo
 			
 			//compPlantsView.setALeps(CompPlants.getLepInfo(temp.getText()));
@@ -618,6 +621,8 @@ public class Controller extends Application{
 			Text tempText = compPlantsView.getLeftBody();
 			//tempText.setText(plantInfo);
 			tempText.setText(tempList.getSelectionModel().getSelectedItem());
+			//Sets left image
+			compPlantsView.setLeftImage(tempList.getSelectionModel().getSelectedItem());
 
 			//Setting plant B variables in compPlantView to plantInfo
 			
