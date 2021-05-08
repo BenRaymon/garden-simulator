@@ -31,6 +31,7 @@ public class LearnMoreView extends View{
 	private Controller controller;
 	private BorderPane base;
 	private GridPane container;
+	private VBox menu_con;
 	private int LEFTBAR = 225;
 	private int SPACING = 5;
 	double titleSize = 80;
@@ -39,9 +40,15 @@ public class LearnMoreView extends View{
 	
 	public LearnMoreView(Stage stage, Controller c) {
 		controller = c;
+		menu_con = new VBox();
 		container = new GridPane();
+		container.setStyle("-fx-background-color: "+darkGreen);
+		container.setHgap(10);
+		container.setVgap(20);
 		base = new BorderPane();
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
+		MenuBox menu = new MenuBox(controller, "learn");
+		menu_con.getChildren().add(menu);
 		createTop();
 		createLeft();
 		createRight();
@@ -59,7 +66,8 @@ public class LearnMoreView extends View{
 		t.setFont(Font.font(titleSize));
 		t.setFill(Color.web(offWhite));
 		box.getChildren().add(t);
-		base.setTop(box);
+		menu_con.getChildren().add(box);
+		base.setTop(menu_con);
 	}
 	
 	public void createLeft() {
@@ -74,7 +82,7 @@ public class LearnMoreView extends View{
 		box2.setSpacing(SPACING);
 		gardenTipsText(box2);
 		//base.setLeft(box1);
-		container.getChildren().add(box1);
+		container.add(box1, 60, 7);
 	}
 	
 	public void createRight() {
@@ -89,7 +97,7 @@ public class LearnMoreView extends View{
 		box2.setSpacing(SPACING);
 		moreResources(box2);
 		//base.setRight(box1);
-		container.getChildren().add(box1);
+		container.add(box1, 60, 6);
 	}
 	
 	public void moreResources(VBox box) {
@@ -183,6 +191,7 @@ public class LearnMoreView extends View{
 		box2.setSpacing(SPACING);
 		box2.setMaxWidth(WINDOW_WIDTH/2);
 		createCenterText(box2);
+		container.add(box2, 60, 5);
 		base.setCenter(container);
 	}
 	

@@ -11,6 +11,7 @@ public class MenuBox extends Pane {
 	private Button shopping_l;
 	private Button load;
 	private Button comp_p;
+	private Button learn;
 	private GridPane container;
 	static int MENU_HEIGHT = 60;
 	
@@ -36,6 +37,7 @@ public class MenuBox extends Pane {
 		report = new Button("Report");
 		shopping_l = new Button("Shopping List");
 		comp_p = new Button("Compare Plants");
+		learn = new Button("Learn More");
 		
 		load.setOnMouseClicked(controller.getLoadGardenViewOnClickHandler());
 		plot_d.setOnMouseClicked(controller.getNewGardenOnClickHandler());
@@ -43,7 +45,7 @@ public class MenuBox extends Pane {
 		shopping_l.setOnMouseClicked(controller.getToShoppingListOnClickHandler());
 		report.setOnMouseClicked(controller.getToReportOnClickHandler());
 		comp_p.setOnMouseClicked(controller.getToCompareOnClickHandler());
-
+		learn.setOnMouseClicked(controller.getLearnMoreOnClickHandler());
 		
 		container.add(load, 0, 0);
 		container.add(plot_d, 1, 0);
@@ -51,6 +53,7 @@ public class MenuBox extends Pane {
 		container.add(report, 3, 0);
 		container.add(shopping_l, 4, 0);
 		container.add(comp_p, 5, 0);
+		container.add(learn, 6, 0);
 		
 		enableButtons();
 		disableButton(current_t);
@@ -111,6 +114,9 @@ public class MenuBox extends Pane {
 			break;
 		case "comp_p":
 			comp_p.setDisable(true);
+			break;
+		case "learn":
+			learn.setDisable(true);
 			break;
 		default:
 			System.out.println("i");
