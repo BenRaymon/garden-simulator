@@ -401,7 +401,7 @@ public class Controller extends Application{
 	 * Updates plant info in gardeneditorview
 	 * @return event handler
 	 */
-	public EventHandler getOnImageClickedInfo() {
+	public EventHandler getOnImageEnteredInfo() {
 		return (event-> {
 			System.out.println("In Image Clicked on Handler");
 			Circle plantCirc = (Circle)event.getSource();
