@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,6 +18,7 @@ public class Garden implements Serializable {
 	private ArrayList<Plant> plantsInGarden;
 	private HashMap<String, Plant> recommendedPlants;
 	private static ConcurrentHashMap<String, Plant> allPlants = new ConcurrentHashMap<String, Plant>();
+	private static ConcurrentHashMap<String, Set<Lep>> allLeps = new ConcurrentHashMap<String, Set<Lep>>();
 	private double pixelsPerFoot ;
 	
 	/**
@@ -294,5 +295,14 @@ public class Garden implements Serializable {
 	 */
 	public static Plant getPlant(String name) {
 		return allPlants.get(name);
+	}
+	
+	
+	public static Set<Lep> getLep(String name) {
+		return allLeps.get(name);
+	}
+	
+	public static ConcurrentHashMap<String, Set<Lep>> getAllLeps(){
+		return allLeps;
 	}
 }
