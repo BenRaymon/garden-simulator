@@ -4,7 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
-public class MenuBox extends Pane{
+public class MenuBox extends Pane {
 	private Button plot_d;
 	private Button editor;
 	private Button report;
