@@ -888,4 +888,16 @@ public class Controller extends Application{
 			learnMoreView.launchWebpage(event.getSource());
 		});
 	}
+	
+	public EventHandler lepPopUpHandler() {
+		return (event->{
+			gardenEditorView.createLepPopUp();
+		});
+	}
+	
+	public EventHandler closePopUp() {
+		return (event->{
+			gardenEditorView.closeLepWindow();
+		});
+	}
 }

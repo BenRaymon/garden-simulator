@@ -34,6 +34,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 public class GardenEditorView extends View {
@@ -52,6 +53,8 @@ public class GardenEditorView extends View {
 	private Text plantCount = new Text("0");
 	private Text budgetText = new Text();
 	private VBox container;
+	private Stage Pristage;
+	private Popup lepPopUp;
 	
 	private double LEFTBAR = 350;
 	private double RIGHTBAR = 250;
@@ -110,6 +113,7 @@ public class GardenEditorView extends View {
 		scene.getStylesheets().add(scrollBarStyle);
 		//scene.getStylesheets().add(textStyle);
 		//scene.getStylesheets().add(menuStyle);
+		Pristage = stage;
 		stage.setScene(scene);
         stage.show();
         
@@ -499,8 +503,10 @@ public class GardenEditorView extends View {
 		for(Lep l :allLeps) {
 			if(count != 0) {
 				if (!usedLeps.contains(l.getLepName())){
-					Text lepName = new Text(l.getLepName());
+					Hyperlink lepName = new Hyperlink(l.getLepName());
 					lepHolder.getChildren().add(lepName);
+					lepName.setOnMouseClicked(controller.lepPopUpHandler());
+					System.out.println(l.getLepName());
 					usedLeps.add(l.getLepName());
 					count = count -1;
 				}
@@ -509,11 +515,28 @@ public class GardenEditorView extends View {
 		}
 		left.add(lepInfoText,0,11);
 		left.add(lepHolder,1,11);
+	}
+	
+	public void createLepPopUp() {
+		System.out.println("In Lep Pop Up");
+		lepPopUp = new Popup();
+		lepPopUp.setX(WINDOW_WIDTH/2);
+		lepPopUp.setY(WINDOW_HEIGHT/2);
+		VBox pop = new VBox();
+		pop.setStyle("-fx-background-color: red");
+		Text t = new Text("Lep picture Here");
+		Button quit = new Button("Close");
+		quit.setOnMouseClicked(controller.closePopUp());
+		pop.getChildren().add(t);
+		pop.getChildren().add(quit);
+		lepPopUp.getContent().add(pop);
+		lepPopUp.centerOnScreen();
+		lepPopUp.show(Pristage);
 		
-		
-		
-		
-		
+	}
+	
+	public void closeLepWindow() {
+		lepPopUp.hide();
 	}
 	
 	/**
