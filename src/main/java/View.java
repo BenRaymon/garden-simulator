@@ -10,6 +10,7 @@ import javafx.scene.text.Text;
 public abstract class View {
 
 	private static ConcurrentHashMap<String, Image> plantImages = new ConcurrentHashMap<String, Image>();
+	private static ConcurrentHashMap<String, Image> lepImages = new ConcurrentHashMap<String, Image>();
 	protected static double WINDOW_WIDTH = 0;
 	protected static double WINDOW_HEIGHT = 0;
 	protected static String darkBlue = "#263C46";
@@ -38,6 +39,10 @@ public abstract class View {
 	 */
 	public static ConcurrentHashMap<String, Image> getImages() {
 		return plantImages;
+	}
+	
+	public static ConcurrentHashMap<String, Image> getLepImages() {
+		return lepImages;
 	}
 	
 	/**

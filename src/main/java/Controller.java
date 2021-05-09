@@ -60,7 +60,7 @@ public class Controller extends Application{
 		// It then goes to the start screen when it is finished
 		 
 		
-		BackgroundLoader backgroundLoader = new BackgroundLoader("bkgloader", View.getImages(), Garden.getAllPlants(), Garden.getAllLeps());
+		BackgroundLoader backgroundLoader = new BackgroundLoader("bkgloader", View.getImages(),View.getLepImages(), Garden.getAllPlants(), Garden.getAllLeps());
 		
 		System.out.println("Printing out all leps as a test");
 		
@@ -123,11 +123,6 @@ public class Controller extends Application{
 	 */
 	public EventHandler getNewGardenOnClickHandler() {
 		return (event -> {
-			ConcurrentHashMap <String, Set<Lep>> allLeps = Garden.getAllLeps();
-			for(String key : allLeps.keySet()) {
-				System.out.println("Printing key: " + key);
-				System.out.println(allLeps.get(key).toString());
-			}
 			stage.setScene(plotDesignView.getScene());
 			if(garden.getPlots().size() > 0) {
 				for (Plot p : garden.getPlots()) {
