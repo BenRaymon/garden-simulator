@@ -97,6 +97,7 @@ public class BackgroundImageLoader extends Thread {
 				synchronized(lep_images) {
 					lep_images.put(name, image);
 				}
+				System.out.println(name);
 			}
 		}
 		System.out.println(lep_images.size());

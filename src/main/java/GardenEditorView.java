@@ -500,12 +500,20 @@ public class GardenEditorView extends View {
 		Text lepsSupported = new Text();
 		Set<String> usedLeps = new HashSet<String>(); 
 		int count = 3;
+		System.out.println("HASH SIZE");
+		System.out.println(View.getLepImages().size());
 		for(Lep l :allLeps) {
 			if(count != 0) {
 				if (!usedLeps.contains(l.getLepName())){
-					Hyperlink lepName = new Hyperlink(l.getLepName());
-					lepHolder.getChildren().add(lepName);
-					lepName.setOnMouseClicked(controller.lepPopUpHandler());
+					if  (View.getLepImages().containsKey(l.getLepName())) {
+						Hyperlink lepName = new Hyperlink(l.getLepName());
+						lepHolder.getChildren().add(lepName);
+						lepName.setOnMouseClicked(controller.lepPopUpHandler());
+					}
+					else {
+						Text lepName = new Text(l.getLepName());
+						lepHolder.getChildren().add(lepName);
+					}
 					System.out.println(l.getLepName());
 					usedLeps.add(l.getLepName());
 					count = count -1;
