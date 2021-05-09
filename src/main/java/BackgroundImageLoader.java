@@ -22,6 +22,7 @@ public class BackgroundImageLoader extends Thread {
 	private Thread thread;
 	private String threadName;
 	private ConcurrentHashMap<String, Image> plant_images;
+	private ConcurrentHashMap<String, Image> lep_images;
 	
 	/**
 	 * Constructor for data loading
@@ -29,9 +30,10 @@ public class BackgroundImageLoader extends Thread {
 	 * @param pi static concurrenthashmap from the view to load plant images to
 	 * @return none
 	 */
-	public BackgroundImageLoader(String name, ConcurrentHashMap<String, Image> pi) {
+	public BackgroundImageLoader(String name, ConcurrentHashMap<String, Image> pi, ConcurrentHashMap<String, Image> li) {
 		this.threadName = name;
 		this.plant_images = pi;
+		this.lep_images = li;
 	}
 	
 	/**
@@ -52,6 +54,7 @@ public class BackgroundImageLoader extends Thread {
 	 */
 	public void run() {
 		LoadImages();
+		LoadLepImages();
 	}
 	
 	/**
@@ -81,5 +84,21 @@ public class BackgroundImageLoader extends Thread {
 			}
 		}
 		System.out.println(plant_images.size());
+	}
+	
+	public void LoadLepImages() {
+		File dir = Paths.get("src/main/resources/lepImages").toFile().getAbsoluteFile();
+		File[] directoryListing = dir.listFiles();
+		int x = 0;
+		if (directoryListing != null) {
+			for (File child : directoryListing) {
+				Image image = new Image(getFile(child.getName()));
+				String name = child.getName().replace(".jpg", "");
+				synchronized(lep_images) {
+					lep_images.put(name, image);
+				}
+			}
+		}
+		System.out.println(lep_images.size());
 	}
 }

@@ -7,6 +7,7 @@ public class BackgroundLoader extends Thread {
 	private Thread thread;
 	private String threadName;
 	private ConcurrentHashMap<String, Image> plant_images;
+	private ConcurrentHashMap<String, Image> lep_images;
 	private ConcurrentHashMap<String, Plant> all_plants;
 	private ConcurrentHashMap<String, Set<Lep>> allLeps;
 	private boolean dataCompleted;
@@ -19,16 +20,18 @@ public class BackgroundLoader extends Thread {
 	 * @param ap static concurrenthashmap for plant data
 	 * @return none
 	 */
-	public BackgroundLoader(String name, ConcurrentHashMap<String, Image> pi, ConcurrentHashMap<String, Plant> ap, ConcurrentHashMap<String, Set<Lep>> l) {
+	public BackgroundLoader(String name, ConcurrentHashMap<String, Image> pi,ConcurrentHashMap<String, Image> li, ConcurrentHashMap<String, Plant> ap, ConcurrentHashMap<String, Set<Lep>> l) {
 		// Get references to the hashmaps for loading
 		this.threadName = name;
 		this.plant_images = pi;
+		this.lep_images = li;
 		this.all_plants = ap;
 		this.allLeps = l;
 		
 		loadData();
 		loadImages();
 		loadLeps();
+		
 		
 		System.out.println("Background Loading Complete");
 	}
@@ -77,7 +80,7 @@ public class BackgroundLoader extends Thread {
 	 * @return none
 	 */
 	public void loadImages() {
-		BackgroundImageLoader bil = new BackgroundImageLoader("ImageThread", plant_images);
+		BackgroundImageLoader bil = new BackgroundImageLoader("ImageThread", plant_images, lep_images);
 		bil.start();
 		// When it finishes, set the dataCompleted flag to true
 		try {
