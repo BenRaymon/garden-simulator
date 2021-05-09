@@ -59,7 +59,7 @@ public class SaveLoadGardenTest {
 		Garden tmp = null;
 		tmp = slg.loadPickedGarden("test", gardenList);
 		System.out.println(tmp.getName());
-		assertEquals(tmp.getName(), "test3");
+		assertEquals(tmp.getName(), "test");
 	}
 
 }

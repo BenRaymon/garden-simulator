@@ -25,6 +25,6 @@ public class BackgroundLoaderTest {
 	
 	@Test
 	public void testBackgroundImageLoaderOutput() {
-		assertEquals(367, View.getImages().size());
+		assertEquals(368, View.getImages().size());
 	}
 }

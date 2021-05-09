@@ -13,6 +13,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -53,6 +54,10 @@ public class LearnMoreView extends View{
 		createLeft();
 		createRight();
 		createCenter();
+		
+		String textStyle = getClass().getResource("labels.css").toExternalForm();
+		scene.getStylesheets().add(textStyle);
+		
 		stage.setScene(scene);
         stage.show();
 	}
