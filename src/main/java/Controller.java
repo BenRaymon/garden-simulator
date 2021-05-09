@@ -886,7 +886,7 @@ public class Controller extends Application{
 	
 	public EventHandler lepPopUpHandler() {
 		return (event->{
-			gardenEditorView.createLepPopUp();
+			gardenEditorView.createLepPopUp(event.getSource());
 		});
 	}
 	

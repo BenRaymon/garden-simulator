@@ -508,6 +508,7 @@ public class GardenEditorView extends View {
 					if  (View.getLepImages().containsKey(l.getLepName())) {
 						Hyperlink lepName = new Hyperlink(l.getLepName());
 						lepHolder.getChildren().add(lepName);
+						lepName.setTextFill(Color.web(offWhite));
 						lepName.setOnMouseClicked(controller.lepPopUpHandler());
 					}
 					else {
@@ -525,17 +526,23 @@ public class GardenEditorView extends View {
 		left.add(lepHolder,1,11);
 	}
 	
-	public void createLepPopUp() {
+	public void createLepPopUp(Object object) {
 		System.out.println("In Lep Pop Up");
 		lepPopUp = new Popup();
 		lepPopUp.setX(WINDOW_WIDTH/2);
 		lepPopUp.setY(WINDOW_HEIGHT/2);
+		
+		Hyperlink link = (Hyperlink)object;
+		String name = link.getText();
+		
+		ImageView lepImage = new ImageView(View.getLepImages().get(name));
 		VBox pop = new VBox();
-		pop.setStyle("-fx-background-color: red");
-		Text t = new Text("Lep picture Here");
+		pop.setAlignment(Pos.CENTER);
+		pop.setStyle("-fx-background-color: " + darkGreen);
 		Button quit = new Button("Close");
+		quit.setAlignment(Pos.CENTER);
 		quit.setOnMouseClicked(controller.closePopUp());
-		pop.getChildren().add(t);
+		pop.getChildren().add(lepImage);
 		pop.getChildren().add(quit);
 		lepPopUp.getContent().add(pop);
 		lepPopUp.centerOnScreen();
