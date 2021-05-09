@@ -66,6 +66,9 @@ public class BackgroundImageLoader extends Thread {
 		return BackgroundImageLoader.class.getResourceAsStream("images/"+fileName);
 	}
 	
+	public InputStream getLepFile(String fileName) {
+		return BackgroundImageLoader.class.getResourceAsStream("lepImages/"+fileName);
+	}
 	/**
 	 * This opens all the images and loads them into the map
 	 * @return none
@@ -87,12 +90,15 @@ public class BackgroundImageLoader extends Thread {
 	}
 	
 	public void LoadLepImages() {
+		//System.out.println("Inside LoadLepImages");
 		File dir = Paths.get("src/main/resources/lepImages").toFile().getAbsoluteFile();
 		File[] directoryListing = dir.listFiles();
 		int x = 0;
 		if (directoryListing != null) {
 			for (File child : directoryListing) {
-				Image image = new Image(getFile(child.getName()));
+				//System.out.println("In for loop");
+				//System.out.println("Printing childName: " + child.getName());
+				Image image = new Image(getLepFile(child.getName()));
 				String name = child.getName().replace(".jpg", "");
 				synchronized(lep_images) {
 					lep_images.put(name, image);
