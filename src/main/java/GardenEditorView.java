@@ -526,6 +526,10 @@ public class GardenEditorView extends View {
 		left.add(lepHolder,1,11);
 	}
 	
+	/**
+	 * Creates the lep image pop up window
+	 * @param Hyperlink of event source
+	 */
 	public void createLepPopUp(Object object) {
 		System.out.println("In Lep Pop Up");
 		lepPopUp = new Popup();
@@ -550,9 +554,13 @@ public class GardenEditorView extends View {
 		
 	}
 	
+	/**
+	 * Closes the lep image pop up window
+	 */
 	public void closeLepWindow() {
 		lepPopUp.hide();
 	}
+	
 	
 	/**
 	 * Sets all the plants info on left pane
