@@ -65,7 +65,7 @@ public class GardenEditorView extends View {
 	private double SPACING = 10;
 	private double SCALE = 10;
 	private double CANVAS_WIDTH = WINDOW_WIDTH - LEFTBAR - RIGHTBAR;
-	private double CANVAS_HEIGHT = WINDOW_HEIGHT - TOPBAR - 2*MenuBox.MENU_HEIGHT;
+	private double CANVAS_HEIGHT = WINDOW_HEIGHT - TOPBAR - MenuBox.MENU_HEIGHT;
 	
 	private double budget;
 	private double budgetLeft;

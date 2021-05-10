@@ -152,6 +152,7 @@ public class GardenEditor {
 		
 		cx = left + ((right-left)/2);
 		cy = top + ((bottom-top)/2);
+		
 	}
 	
 	/**
@@ -197,14 +198,14 @@ public class GardenEditor {
 		left = (left-cx)*scale + cx;
 		top = (top-cy)*scale + cy;
 		bottom = (bottom-cy)*scale + cy;
-		
+				
 		double xDist=0,yDist=0;
 		
-		if(cx != CANVAS_WIDTH / 2) 
-			xDist += (CANVAS_WIDTH / 2 - cx);
+		if(cx != (CANVAS_WIDTH ) / 2) 
+			xDist += ((CANVAS_WIDTH )/ 2 - cx);
 		
-		if(cy != CANVAS_HEIGHT / 2) 
-			yDist += (CANVAS_HEIGHT / 2 - cy);
+		if(cy != (CANVAS_HEIGHT - SCALE_BUFFER) / 2) 
+			yDist += ((CANVAS_HEIGHT - SCALE_BUFFER) / 2 - cy);
 		
 
 		Iterator<Plot> it = plots.iterator();
