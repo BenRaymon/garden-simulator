@@ -385,9 +385,9 @@ public class PlotDesignView extends View {
             @Override
             public Double fromString(String s) {
                 switch (s) {
-                    case "Mostly Shade":
+                    case "Shade":
                         return 0d;
-                    case "Some Shade":
+                    case "Part Sun":
                         return 1d;
 
                     default:
