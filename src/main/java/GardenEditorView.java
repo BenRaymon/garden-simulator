@@ -139,6 +139,10 @@ public class GardenEditorView extends View {
 	 */
 	public void setPlotBoxes(ArrayList<Plot> plots) {
 		plotSelectors = new VBox();
+		//
+		ComboBox plotSelection = new ComboBox();
+		plotSelection.setPromptText("Select a plot");
+		plotSelection.valueProperty().addListener(controller.getPlotSelectHandler());
 		//margins for elements in the plot selector vbox
 		Insets margins = new Insets(5,5,5,15);
 		//add label to the selectors vbox
@@ -146,9 +150,7 @@ public class GardenEditorView extends View {
 		int index = 1;
 		//iterate through the plots and create a check box for each one
 		for (Plot plot : plots) {
-			CheckBox plotCheck = new CheckBox("Plot " + index++);
-			plotCheck.setOnAction(controller.getSelectPlotCheckboxHander());
-			plotSelectors.getChildren().add(plotCheck);
+			plotSelection.getItems().add("Plot" + index++);
 		}
 		
 		//set the margins for each checkbox in the plotSelectors
@@ -156,8 +158,8 @@ public class GardenEditorView extends View {
 			plotSelectors.setMargin(x, margins);
 		}
 		
-		//default select the first plot
-		((CheckBox) plotSelectors.getChildren().get(1)).setSelected(true);
+		plotSelection.setValue("Plot 1");
+		plotSelectors.getChildren().add(plotSelection);
 		right.add(plotSelectors, 0, 1);
 	}
 
@@ -565,6 +567,7 @@ public class GardenEditorView extends View {
 	//TODO javadox
 	public void lepPopUp(ActionEvent event, ConcurrentHashMap<String, Lep> allLeps) {
 		Stage lepPopup = new Stage();
+		lepPopup.setMaximized(false);
         lepPopup.initModality(Modality.WINDOW_MODAL);
       
         Hyperlink link = (Hyperlink)event.getSource();

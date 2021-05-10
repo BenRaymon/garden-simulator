@@ -527,37 +527,6 @@ public class Controller extends Application{
 	}
 	
 	/**
-	 * Returns event handler for changing selection of plots in the checkbox
-	 * This method updates the recommended plants list in the view based on which boxes are checked
-	 * @return event handler
-	 */
-	public EventHandler getSelectPlotCheckboxHander() {
-		return (event -> {
-			int plotIndex = gardenEditorView.getPlotIndex(event);
-			ArrayList<Integer> plotSelections = gardenEditorView.getSelections();
-			//Construct the recommended plant list if this plot does not have one already
-			if(garden.getPlots().get(plotIndex).getRecommendedPlants() == null) {
-				garden.getPlots().get(plotIndex).createRecommendedPlants();
-			}
-			//new blank recommendedPlant list
-			HashMap<String, Plant> recommendedPlants = new HashMap<String, Plant>();
-			int index = 0; //index of plot as it iterates thru them
-			for(Integer selection : plotSelections) {
-				//if the checkbox is checked, add the recommended plants for this plot to the list
-				if (selection == 1)
-					recommendedPlants.putAll(garden.getPlots().get(index).getRecommendedPlants());
-				index++;
-			}
-			//set the recommended plant list for the garden
-			garden.setRecommendedPlants(recommendedPlants);
-			//set the final list of recommended plants in the view based on the selected checkboxes
-			ArrayList<String> plantNames = new ArrayList<String>();
-			plantNames.addAll(recommendedPlants.keySet());
-			gardenEditorView.setPlantImages(plantNames);
-		});
-	}
-	
-	/**
 	 * Returns the change listener that activates when an item is selected in the sort by dropdown
 	 * This method sorts the recommended plants based on the selected option
 	 * @return ChangeListener
@@ -570,6 +539,26 @@ public class Controller extends Application{
 			ArrayList<String> recommendedPlantNames = GardenEditor.sortRecommendedPlants(recommendedPlants, (String)t1);
 			//use the list of sorted names to display the newly sorted list of recommended plants
 			gardenEditorView.setPlantImages(recommendedPlantNames);
+		});
+	}
+	
+	//TODO
+	public ChangeListener getPlotSelectHandler() {
+		return ((ov, t, t1) -> {
+			int plotIndex = Integer.parseInt("" + t1.toString().charAt(t1.toString().length() - 1)) - 1;
+			ArrayList<Integer> plotSelections = gardenEditorView.getSelections();
+			//Construct the recommended plant list if this plot does not have one already
+			if(garden.getPlots().get(plotIndex).getRecommendedPlants() == null) {
+				garden.getPlots().get(plotIndex).createRecommendedPlants();
+			}
+			//recommended plant list of the selected plot
+			HashMap<String, Plant> recommendedPlants = garden.getPlots().get(plotIndex).getRecommendedPlants();
+			//set the recommended plant list for the garden
+			garden.setRecommendedPlants(recommendedPlants);
+			//set the final list of recommended plants in the view based on the selected plot
+			ArrayList<String> plantNames = new ArrayList<String>();
+			plantNames.addAll(recommendedPlants.keySet());
+			gardenEditorView.setPlantImages(plantNames);
 		});
 	}
 	
