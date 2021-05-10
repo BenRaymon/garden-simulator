@@ -18,7 +18,7 @@ public abstract class View {
 	protected static String green = "#ACBC$40";
 	protected static String darkGreen = "#678B5E";
 	protected static String offWhite = "#E2E4E0";
-	
+	protected static String darkgrey = "#4d4c4f";
 	
 	
 	//TEMPORARY FOR CHANGING PAGES IN PRE-ALPHA

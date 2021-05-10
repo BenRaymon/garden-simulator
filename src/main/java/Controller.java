@@ -871,15 +871,7 @@ public class Controller extends Application{
 		});
 	}
 	
-	/**
-	 * Event handler to call the view function responsible for creating the lep image pop up window
-	 * @return
-	 */
-	public EventHandler lepPopUpHandler() {
-		return (event->{
-			gardenEditorView.createLepPopUp(event.getSource());
-		});
-	}
+	
 	//TODO
 	public EventHandler lepPopUpHandler2() {
 		return (event->{

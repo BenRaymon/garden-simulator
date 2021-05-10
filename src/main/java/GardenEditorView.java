@@ -535,33 +535,6 @@ public class GardenEditorView extends View {
 		left.add(lepHolder,1,11);
 	}
 	
-	/**
-	 * Creates the lep image pop up window
-	 * @param Hyperlink of event source
-	 */
-	public void createLepPopUp(Object object) {
-		System.out.println("In Lep Pop Up");
-		lepPopUp = new Popup();
-		lepPopUp.setX(WINDOW_WIDTH/2);
-		lepPopUp.setY(WINDOW_HEIGHT/2);
-		
-		Hyperlink link = (Hyperlink)object;
-		String name = link.getText();
-		
-		ImageView lepImage = new ImageView(View.getLepImages().get(name));
-		VBox pop = new VBox();
-		pop.setAlignment(Pos.CENTER);
-		pop.setStyle("-fx-background-color: " + darkGreen);
-		Button quit = new Button("Close");
-		quit.setAlignment(Pos.CENTER);
-		quit.setOnMouseClicked(controller.closePopUp());
-		pop.getChildren().add(lepImage);
-		pop.getChildren().add(quit);
-		lepPopUp.getContent().add(pop);
-		lepPopUp.centerOnScreen();
-		lepPopUp.show(Pristage);
-		
-	}
 	
 	//TODO javadox
 	public void lepPopUp(ActionEvent event, ConcurrentHashMap<String, Lep> allLeps) {
@@ -622,7 +595,7 @@ public class GardenEditorView extends View {
 		plantNames.getChildren().add(pnVal);
 		
 		VBox pop = new VBox();
-		pop.setStyle("-fx-background-color: " + darkGreen);
+		pop.setStyle("-fx-background-color: " + darkgrey);
 		pop.getChildren().add(lepImage);
 		pop.getChildren().add(name);
 		pop.getChildren().add(family);
