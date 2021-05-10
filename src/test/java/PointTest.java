@@ -57,4 +57,13 @@ public class PointTest {
 		Point a = new Point(1,2);
 		assertEquals(a.toString(), "(1.0, 2.0)");
 	}
+	
+	@Test
+	public void testEquals() {
+		Point test_p = new Point(2.0, 2.0);
+		Point test_p2 = new Point(2.0, 2.0);
+		String test_s = new String();
+		assertEquals(test_p.equals(test_p2), true);
+		assertEquals(test_p.equals(test_s), false);
+	}
 }

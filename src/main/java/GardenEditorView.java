@@ -65,7 +65,7 @@ public class GardenEditorView extends View {
 	private double SPACING = 10;
 	private double SCALE = 10;
 	private double CANVAS_WIDTH = WINDOW_WIDTH - LEFTBAR - RIGHTBAR;
-	private double CANVAS_HEIGHT = WINDOW_HEIGHT - TOPBAR - MenuBox.MENU_HEIGHT;
+	private double CANVAS_HEIGHT = WINDOW_HEIGHT - TOPBAR - 2*MenuBox.MENU_HEIGHT;
 	
 	private double budget;
 	private double budgetLeft;
@@ -78,12 +78,13 @@ public class GardenEditorView extends View {
 	 */
 	public GardenEditorView(Stage stage, Controller c) {
 		controller = c;
+		container = new VBox();
 		base = new BorderPane();
 		base.setOnDragOver(controller.getOnDragOverHandler());
 		base.setOnDragDropped(controller.getOnDragDroppedHandler());
 		
 		//create canvas with correct dimensions
-		Canvas drawArea = new Canvas(WINDOW_WIDTH - LEFTBAR - RIGHTBAR, WINDOW_HEIGHT - TOPBAR - MenuBox.MENU_HEIGHT);
+		Canvas drawArea = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 		gc = drawArea.getGraphicsContext2D();
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(1);
@@ -97,26 +98,26 @@ public class GardenEditorView extends View {
 		// get button and scroll bar styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
 		String scrollBarStyle = getClass().getResource("scrollbars.css").toExternalForm();
-		String textStyle = getClass().getResource("text.css").toExternalForm();
+		String checkStyle = getClass().getResource("checkbox.css").toExternalForm();
+		String labelStyle = getClass().getResource("labels.css").toExternalForm();
 		
 		// add save inputs to menu for the editor, add menu to the container
 		gardenName = new TextField();
 		gardenName.setPromptText("Name your Garden");
 		Button saveGarden = new Button("Save");
 		saveGarden.setOnMouseClicked(controller.SaveButtonClickedHandler());
-		MenuBox menu = new MenuBox(c);
+		MenuBox menu = new MenuBox(c, "editor");
 		menu.getContainer().add(gardenName, 9, 0);
 		menu.getContainer().add(saveGarden, 10, 0);
-		container = new VBox(menu, base);
-
+		container.getChildren().add(menu);
+		base.setTop(container);
 		
 		//create and set scene with base
-		scene = new Scene(container, WINDOW_WIDTH, WINDOW_HEIGHT);
+		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.getStylesheets().add(buttonStyle);
 		scene.getStylesheets().add(scrollBarStyle);
-		//scene.getStylesheets().add(textStyle);
-		//scene.getStylesheets().add(menuStyle);
-		Pristage = stage;
+		scene.getStylesheets().add(checkStyle);
+		scene.getStylesheets().add(labelStyle);
 		stage.setScene(scene);
         stage.show();
         
@@ -141,7 +142,7 @@ public class GardenEditorView extends View {
 		//margins for elements in the plot selector vbox
 		Insets margins = new Insets(5,5,5,15);
 		//add label to the selectors vbox
-		plotSelectors.getChildren().add(new Text("Select plots"));
+		plotSelectors.getChildren().add(new Label("Select plots"));
 		int index = 1;
 		//iterate through the plots and create a check box for each one
 		for (Plot plot : plots) {
@@ -221,8 +222,9 @@ public class GardenEditorView extends View {
 		VBox sort = new VBox();
 		//combo box for dropdown selection
 		ComboBox sortBy = new ComboBox();
+		sortBy.setPromptText("Select");
 		//label
-		Text sortLabel = new Text("Sort Recommended Plants By: ");
+		Label sortLabel = new Label("Sort Plants By: ");
 		//attach handler
 		sortBy.valueProperty().addListener(controller.getSortByHandler());
 		//add sort options
@@ -325,10 +327,12 @@ public class GardenEditorView extends View {
 		//convert the array list into a backing list for the list view
 		//add list of recommended plant circles to the listview and add the listview to the base border pane 
 		ObservableList<VBox> backingList = FXCollections.observableArrayList(recommendedPlantCircs);
+		if(container.getChildren().contains(top))
+			container.getChildren().remove(top);
 		top = new ListView<>(backingList);
 		top.setOrientation(Orientation.HORIZONTAL);
 		top.setMaxHeight(TOPBAR);
-		base.setTop(top);
+		container.getChildren().add(top);
 		
 	}
 	

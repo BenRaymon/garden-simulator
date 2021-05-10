@@ -1,6 +1,6 @@
 .slider {
 	-fx-text-fill: white;
-    -fx-font-size: 18px;
+    -fx-font-size: 16px;
 	-fx-font-family: sans-serif;
 	-fx-font-smoothing-type: lcd;
 	-fx-click-to-position: true;
@@ -12,12 +12,12 @@
 	/*-fx-tick-label-font-weight: bold;*/
 	-fx-tick-label-font-family: sans-serif;
 	-fx-tick-label-font-smoothing-type: lcd;
-	-fx-tick-label-font-size: 18px;
+	-fx-tick-label-font-size: 16px;
 }
 
 .slider .track {
 	-fx-text-fill: white;
-    -fx-font-size: 18px;
+    -fx-font-size: 16px;
 	-fx-font-family: sans-serif;
 	-fx-pref-height:10;
 }

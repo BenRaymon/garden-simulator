@@ -77,7 +77,7 @@ public class LoadSavedGardenView extends View {
 		right.setStyle("-fx-background-color: #678B5E");
 
 		// add the menu to the top of the screen
-		MenuBox menu = new MenuBox(c);
+		MenuBox menu = new MenuBox(c, "load");
 		base.setTop(menu);
 		base.setCenter(listView);
 		base.setLeft(right);

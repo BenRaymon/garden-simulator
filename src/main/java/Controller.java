@@ -104,7 +104,6 @@ public class Controller extends Application{
 		reportView = new ReportView(stage, this);
 		loadSavedGardenView = new LoadSavedGardenView(stage, savedGardens, this);
 		learnMoreView = new LearnMoreView(stage, this);
-		
 		//set the scene and model to Start
 		stage.setScene(startView.getScene());
 		
@@ -126,6 +125,7 @@ public class Controller extends Application{
 	public EventHandler getNewGardenOnClickHandler() {
 		return (event -> {
 			stage.setScene(plotDesignView.getScene());
+			
 			if(garden.getPlots().size() > 0) {
 				for (Plot p : garden.getPlots()) {
 					//change the coordinates in the current list to reflect the original coordinates
@@ -152,6 +152,7 @@ public class Controller extends Application{
 		return (event -> {
 			stage.setScene(shopView.getScene());
 			shopView.setShoppingListData(garden.generateShoppingListData(), garden.getBudget());
+			
 		});
 	}
 	
@@ -162,6 +163,7 @@ public class Controller extends Application{
 	public EventHandler getToReportOnClickHandler() {
 		return (event -> {
 			stage.setScene(reportView.getScene());
+			
 		});
 	}
 	
@@ -270,6 +272,8 @@ public class Controller extends Application{
 	 */
 	public EventHandler getDrawPlotHandler() {
 		return (event -> {
+			// disable buttons
+			plotDesignView.disableButtons();
 			//get Options values and create a new plot with these options
 			double sunlight = plotDesignView.getSunlightSlider();
 			double soiltype = plotDesignView.getSoilSlider();
@@ -288,6 +292,8 @@ public class Controller extends Application{
 	 */
 	public EventHandler getRedrawPlotHandler() {
 		return (event -> {
+			// turn off the buttons
+			plotDesignView.disableButtons();
 			//let the user redraw a plot with whatever options are currently selected
 			double sunlight = plotDesignView.getSunlightSlider();
 			double soiltype = plotDesignView.getSoilSlider();
@@ -359,6 +365,7 @@ public class Controller extends Application{
 	        	//fill the plot
 	        	plotDesignView.fillPlot(me);
 			}
+			plotDesignView.enableButtons();
         });
 	}
 	
@@ -374,7 +381,7 @@ public class Controller extends Application{
 			garden.setBudget(plotDesignView.getBudget());
 			//set new scene to gardeneditorview
 			stage.setScene(gardenEditorView.getScene());
-			
+
 			//update budget in the view
 			gardenEditorView.setBudget(garden.getBudget());
 			
@@ -764,8 +771,9 @@ public class Controller extends Application{
 	public EventHandler getLoadGardenViewOnClickHandler() {
 		return (event -> {
 			loadSavedGardenView = new LoadSavedGardenView(stage, savedGardens, this);
-		
+			
 			stage.setScene(loadSavedGardenView.getScene());
+			
 		});
 	}
 	

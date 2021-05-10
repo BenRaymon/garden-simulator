@@ -104,7 +104,7 @@ public class PlotDesignView extends View {
 		// get text styles
 		String textStyle = getClass().getResource("labels.css").toExternalForm();
 		
-		MenuBox menu = new MenuBox(c);
+		MenuBox menu = new MenuBox(c, "plot_d");
 		menu.getEditorButton().setOnMouseClicked(controller.getToGardenOnClickHandler());
 		//make show/hide button
 		toggleGridLines = new Button();
@@ -122,7 +122,6 @@ public class PlotDesignView extends View {
         toggleGridLines.setGraphic(imgView);
         menu.getContainer().add(toggleGridLines, 9, 0);
 		base.setTop(menu);
-		
 		
 		
 		// create and set scene with base
@@ -374,6 +373,52 @@ public class PlotDesignView extends View {
             }
         });
         
+        sunlight.setLabelFormatter(new StringConverter<Double>() {
+            @Override
+            public String toString(Double n) {
+                if (n < 2) return "Shade";
+                if (n < 3) return "Part Sun";
+
+                return "Full Sun";
+            }
+
+            @Override
+            public Double fromString(String s) {
+                switch (s) {
+                    case "Shade":
+                        return 0d;
+                    case "Part Sun":
+                        return 1d;
+
+                    default:
+                        return 3d;
+                }
+            }
+        });
+        
+        moisture.setLabelFormatter(new StringConverter<Double>() {
+            @Override
+            public String toString(Double n) {
+                if (n < 2) return "Dry";
+                if (n < 3) return "Moist";
+
+                return "Wet";
+            }
+
+            @Override
+            public Double fromString(String s) {
+                switch (s) {
+                    case "Dry":
+                        return 0d;
+                    case "Moist":
+                        return 1d;
+
+                    default:
+                        return 3d;
+                }
+            }
+        });
+        
 		Label sunlightText = new Label("Sunlight Level");
 		sunlightText.setMinWidth(LEFTBAR*0.6);
 		Label soilTypeText = new Label("Soil Type");
@@ -604,5 +649,33 @@ public class PlotDesignView extends View {
 	 */
 	public double getBudget() {
 		return Double.parseDouble(budgetInput.getText());
+	}
+	
+	/**
+	 * disable buttons
+	 * @param none
+	 * @return non
+	 * */
+	public void disableButtons() {
+		for(Node n : drawRedrawPlot.getChildren()) {
+			if(n instanceof Button) {	
+				Button b = (Button) n;
+				b.setDisable(true);
+			}
+		}
+	}
+	
+	/**
+	 * enable buttons
+	 * @param none
+	 * @return non
+	 * */
+	public void enableButtons() {
+		for(Node n : drawRedrawPlot.getChildren()) {
+			if(n instanceof Button) {	
+				Button b = (Button) n;
+				b.setDisable(false);
+			}
+		}
 	}
 }
