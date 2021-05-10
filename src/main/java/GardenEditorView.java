@@ -549,59 +549,40 @@ public class GardenEditorView extends View {
 		
         ImageView lepImage = new ImageView(View.getLepImages().get(lepName));
         
-        HBox name = new HBox();
-        name.setMinWidth(lepImage.getImage().getWidth() + 100);
+        GridPane lepInfo = new GridPane();
+        lepInfo.setMinWidth(lepImage.getImage().getWidth());
+        lepInfo.setAlignment(Pos.CENTER);
+
         Text nameVal = new Text(lep.getLepName());
 		Text nameText = new Text("Butterfly Name:");
 		nameVal.getStyleClass().add("editor-t");
 		nameText.getStyleClass().add("editor-t");
-		name.getChildren().add(nameText);
-		name.getChildren().add(nameVal);
-		
-		HBox family = new HBox();
-        family.setMinWidth(lepImage.getImage().getWidth() + 100);
+		lepInfo.add(nameText, 0, 0);
+		lepInfo.add(nameVal, 1, 0);
+
         Text famVal = new Text(lep.getLepFamily());
 		Text famText = new Text("Butterfly Family:");
 		famVal.getStyleClass().add("editor-t");
 		famText.getStyleClass().add("editor-t");
-		family.getChildren().add(famText);
-		family.getChildren().add(famVal);
-		
-		HBox country = new HBox();
-        family.setMinWidth(lepImage.getImage().getWidth() + 100);
+		lepInfo.add(famText, 0, 1);
+		lepInfo.add(famVal, 1, 1);
+
         Text countryVal = new Text(lep.getCountries().toString());
 		Text countryText = new Text("Country of Origin:");
 		countryVal.getStyleClass().add("editor-t");
 		countryText.getStyleClass().add("editor-t");
-		country.getChildren().add(countryText);
-		country.getChildren().add(countryVal);
-		
-		HBox plantFamilies = new HBox();
-		plantFamilies.setMinWidth(lepImage.getImage().getWidth() + 100);
-        Text pfVal = new Text(lep.getFamilies().size() + "");
-		Text pfText = new Text("Supported by (number of families):");
-		pfVal.getStyleClass().add("editor-t");
+		lepInfo.add(countryText, 0, 2);
+		lepInfo.add(countryVal, 1, 2);
+
+		Text pfText = new Text("Feeds off of " + lep.getNames().size() + " plants from " + lep.getFamilies().size() + " different families");
 		pfText.getStyleClass().add("editor-t");
-		plantFamilies.getChildren().add(pfText);
-		plantFamilies.getChildren().add(pfVal);
-        
-		HBox plantNames = new HBox();
-		plantNames.setMinWidth(lepImage.getImage().getWidth() + 100);
-        Text pnVal = new Text(lep.getNames().size() + "");
-		Text pnText = new Text("Supported by (number of plants):");
-		pnVal.getStyleClass().add("editor-t");
-		pnText.getStyleClass().add("editor-t");
-		plantNames.getChildren().add(pnText);
-		plantNames.getChildren().add(pnVal);
+
 		
 		VBox pop = new VBox();
 		pop.setStyle("-fx-background-color: " + darkgrey);
 		pop.getChildren().add(lepImage);
-		pop.getChildren().add(name);
-		pop.getChildren().add(family);
-		pop.getChildren().add(country);
-		pop.getChildren().add(plantFamilies);
-		pop.getChildren().add(plantNames);
+		pop.getChildren().add(lepInfo);
+		pop.getChildren().add(pfText);
 		pop.setAlignment(Pos.CENTER);
 		
         Scene myDialogScene = new Scene(pop, lepImage.getImage().getWidth() + 100, lepImage.getImage().getHeight() + 100);
