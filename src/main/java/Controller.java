@@ -185,6 +185,14 @@ public class Controller extends Application{
 				gardenEditorView.drawPlot(p.getCoordinates(), null);
 			else
 				gardenEditorView.drawPlot(p.getCoordinates(), p.getPlantsInPlot());
+			// Calculate the plot boundaries for later use
+			p.calculatePlotBoundaries();
+			System.out.println("Plot Left: " + p.getLeft());
+			System.out.println("Plot Right: " + p.getRight());
+			System.out.println("Plot Top: " + p.getTop());
+			System.out.println("Plot Bottom: " + p.getBottom());
+			System.out.println("Plot Cx: " + p.getCx());
+			System.out.println("Plot Cy: " + p.getCy());
 		}
 		//update leps supported
 		gardenEditorView.updateGardenCounts(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
@@ -479,17 +487,24 @@ public class Controller extends Application{
 			
 			//Check if the selected plant was from the recommended bar or if it was in a plot
 			if(garden.isPlantInPlot(plotNumOfSelected, selected)) {
-				//plants in plot are removed and added back
-				garden.removePlantFromPlot(plotNumOfSelected, selected.getPosition());
-				//add plant to plot ultimately also updates the position of selected to the new pos
-				garden.addPlantToPlot(plotNum, pos, selected);
-				
+				if (GardenEditor.isPlantWithinPlot(radius, garden.getPlots().get(plotNum))) {
+					//plants in plot are removed and added back
+					garden.removePlantFromPlot(plotNumOfSelected, selected.getPosition());
+					//add plant to plot ultimately also updates the position of selected to the new pos
+					garden.addPlantToPlot(plotNum, pos, selected);
+				} else {
+					System.out.println("Plant cannot fit into this plot, too large");
+				}
 			} else {
-				//plants from the recommended bar are cloned 
-				//selected plant is the plant in the static allPlants hashmap
-				Plant newPlant = selected.clone(); 
-				selected.setPosition(new Point(0,0)); //reset the position of the plant in the allPlants list to be 0,0
-				garden.addPlantToPlot(plotNum, pos, newPlant);
+				if (GardenEditor.isPlantWithinPlot(radius, garden.getPlots().get(plotNum))) {
+					//plants from the recommended bar are cloned 
+					//selected plant is the plant in the static allPlants hashmap
+					Plant newPlant = selected.clone(); 
+					selected.setPosition(new Point(0,0)); //reset the position of the plant in the allPlants list to be 0,0
+					garden.addPlantToPlot(plotNum, pos, newPlant);
+				} else {
+					System.out.println("Plant cannot fit into this plot, too large");
+				}	
 			}
 			gardenEditorView.updateGardenCounts(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
 			System.out.println("Size of plot: " + garden.getPlots().get(plotNum).getPlantsInPlot().size());

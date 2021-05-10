@@ -18,7 +18,7 @@ public class Garden implements Serializable {
 	private ArrayList<Plant> plantsInGarden;
 	private HashMap<String, Plant> recommendedPlants;
 	private static ConcurrentHashMap<String, Plant> allPlants = new ConcurrentHashMap<String, Plant>();
-	private double pixelsPerFoot ;
+	private double pixelsPerFoot;
 	
 	/**
 	 * No-arg constructor for Garden
@@ -221,6 +221,7 @@ public class Garden implements Serializable {
 		try {
 			return plots.get(index).getPlantsInPlot().containsValue(p);
 		} catch (Exception e) {
+			System.out.println("Plant is not in plot");
 			e.printStackTrace();
 		}
 		return false;
