@@ -405,15 +405,8 @@ public class Controller extends Application{
 			gardenEditorView.setPlantInfoImage(plantImage);
 			String plant = gardenEditorView.getPlantName(plantImage);
 			Plant selectedPlant = Garden.getPlant(plant);
-			/*
-			ConcurrentHashMap <String, Set<Lep>> allLeps = Garden.getAllLeps();
-			for(String key : allLeps.keySet()) {
-				System.out.println(allLeps.get(key).toString());
-			}
-			*/
-			System.out.println("Printing plant value: " + plant);
-			System.out.println(Garden.getLepsByPlant().get(selectedPlant.getFamily()).size());
-			gardenEditorView.setPlantInfo(selectedPlant,Garden.getLepsByPlant().get(selectedPlant.getFamily()));
+			
+			gardenEditorView.setPlantInfo(selectedPlant,Garden.getLepsByPlant().get(plant));
 			
 		});
 	}

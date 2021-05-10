@@ -1,13 +1,14 @@
 import java.util.ArrayList;
-
+import java.util.HashSet;
+import java.util.Set;
 import java.io.Serializable;
 
 public class Lep implements Serializable {
 	
 	private String lepFamily;
 	private String lepName;
-	private String hostPlantFamily;
-	private String hostPlantName;
+	private Set<String> hostPlantFamily;
+	private Set<String> hostPlantName;
 	private String country;
 	
 	
@@ -15,14 +16,20 @@ public class Lep implements Serializable {
 	public Lep(String tempLepFamily, String tempLepName, String tempHostPlantF, String tempHostPlantN, String tempCountry) {
 		lepFamily = tempLepFamily;
 		lepName = tempLepName;
-		hostPlantFamily = tempHostPlantF;
-		hostPlantName = tempHostPlantN;
+		hostPlantFamily = new HashSet<String>();
+		hostPlantFamily.add(tempHostPlantF);
+		hostPlantName = new HashSet<String>();
+		hostPlantName.add(tempHostPlantN);
 		country = tempCountry;
 	}
 
 	
-	
-
+	public void addHostFamily(String family) {
+		hostPlantFamily.add(family);
+	}
+	public void addHostName(String name) {
+		hostPlantName.add(name);
+	}
 
 	public String getLepFamily() {
 		return lepFamily;
@@ -44,28 +51,6 @@ public class Lep implements Serializable {
 
 	public void setLepName(String lepName) {
 		this.lepName = lepName;
-	}
-
-
-
-	public String getHostPlantFamily() {
-		return hostPlantFamily;
-	}
-
-
-
-	public void setHostPlantFamily(String host) {
-		hostPlantFamily = host;
-	}
-
-
-	public String getHostPlantName() {
-		return hostPlantName;
-	}
-
-
-	public void setHostPlantName(String host) {
-		hostPlantName = host;
 	}
 
 	public String getCountry() {

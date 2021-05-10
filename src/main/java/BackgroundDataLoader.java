@@ -109,23 +109,39 @@ public class BackgroundDataLoader extends Thread {
 		}
 		//split csv line into array of strings.
 		String[] words = line.split(",");
+		//System.out.println("First: " + words[0] + " Second: " + words[1] + " Third: " + words[2] + " Fourth: " + words[3] + " Fifth: " + words[4] + " Sixth: " + words[5]);
 		
-		Lep addLep = new Lep(words[1],words[2],words[3], words[4], words[5]);
+		
+		Lep addLep = null;
+		//check if the lep has already been seen
+		if(allLeps.containsKey(words[2])) {
+			//add the family and name to the sets of families/names that this lep feeds off of
+			Lep currLep = allLeps.get(words[2]);
+			currLep.addHostFamily(words[3]);
+			currLep.addHostName(words[4]);
+			addLep = currLep;
+		}
+		else {
+			//make a new lep and add it to the master list
+			Lep newLep = new Lep(words[1],words[2],words[3], words[4], words[5]);
+			allLeps.put(words[2], newLep);
+			addLep = newLep;
+		}
+		
 		//if the set of leps for this plant does not exist yet, make one
-		if(lepsByPlant.get(words[3]) == null) {
+		if(lepsByPlant.get(words[4]) == null) {
 			Set<Lep> lepSet = new HashSet<Lep>();
 			lepSet.add(addLep);
-			lepsByPlant.put(words[3], lepSet);
-			System.out.println(words[3]);
+			lepsByPlant.put(words[4], lepSet);
+			System.out.println(words[4]);
 		}
 		//if the set has been made already, add the new lep to the set
 		else {
-			Set<Lep> lepSet = lepsByPlant.get(words[3]);
+			Set<Lep> lepSet = lepsByPlant.get(words[4]);
 			lepSet.add(addLep);
-			lepsByPlant.put(words[3],lepSet);
+			lepsByPlant.put(words[4],lepSet);
 		}
-		//add the lep to the map of all leps
-		allLeps.put(words[2], addLep);
+		
 		
 		
 	}
