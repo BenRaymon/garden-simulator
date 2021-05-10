@@ -93,7 +93,7 @@ public class GardenEditorView extends View {
 		//create the right and left info bars
 		createRight();
 		createLeft();
-		setPlantInfo(null);
+		//setPlantInfo(null);
 		
 		// get button and scroll bar styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
@@ -336,31 +336,6 @@ public class GardenEditorView extends View {
 		top.setMaxHeight(TOPBAR);
 		container.getChildren().add(top);
 		
-	}
-	
-	/**
-	 * Sets all the plants info on left pane
-	 * @param plant the plant that should be shown in the left info bar
-	 */
-	public void setPlantInfo(Plant plant) {
-		if (plant == null) {
-			Text t = new Text("Click a Plant to See it's Info");
-			t.getStyleClass().add("editor-t");
-			left.add(t, 0, 0);
-		}
-		else
-		{
-			//clear current children
-			left.getChildren().clear();
-			Image plantImage = View.getImages().get(plant.getScientificName());
-			setPlantInfoImage(plantImage);
-			addNames(plant);
-			addLeps(plant);
-			addType(plant);
-			addSize(plant);
-			addCost(plant);
-			addColor(plant);
-		}
 	}
 	
 	
@@ -671,12 +646,17 @@ public class GardenEditorView extends View {
 	
 	
 	/**
+	 * TODO update javadox
 	 * Sets all the plants info on left pane
 	 * @param plant
 	 */
-	public void setPlantInfo(Plant plant,Set<Lep> supportedLeps) { // ConcurrentHashap<String, Set<Lep>> allLeps
+	public void setPlantInfo(Plant plant, Set<Lep> supportedLeps, Event event) { // ConcurrentHashap<String, Set<Lep>> allLeps
 		System.out.println("IN SET PLANT INFO");
 		left.getChildren().clear();
+		
+		Circle plantCirc = (Circle)event.getSource();
+		Image plantImage = ((ImagePattern)plantCirc.getFill()).getImage();
+		setPlantInfoImage(plantImage);
 		addNames(plant);
 		addLeps(plant);
 		addType(plant);

@@ -13,11 +13,9 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 
@@ -408,13 +406,10 @@ public class Controller extends Application{
 	public EventHandler getOnImageEnteredInfo() {
 		return (event-> {
 			System.out.println("In Image Clicked on Handler");
-			Circle plantCirc = (Circle)event.getSource();
-			Image plantImage = ((ImagePattern)plantCirc.getFill()).getImage();
-			gardenEditorView.setPlantInfoImage(plantImage);
-			String plant = gardenEditorView.getPlantName(plantImage);
+			String plant = gardenEditorView.getPlantName(event);
 			Plant selectedPlant = Garden.getPlant(plant);
 			
-			gardenEditorView.setPlantInfo(selectedPlant,Garden.getLepsByPlant().get(plant));
+			gardenEditorView.setPlantInfo(selectedPlant,Garden.getLepsByPlant().get(plant), event);
 			
 		});
 	}
