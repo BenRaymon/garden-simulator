@@ -477,11 +477,11 @@ public class Controller extends Application{
 			
 			//check for valid placement (right now only checks if in a plot)
 			Point pos = new Point(drag.getX(), drag.getY());
-			int plotNum = GardenEditor.inPlot(pos, garden.getPlots(), gardenEditorView.getTopBar(), gardenEditorView.getLeftBar());
+			int plotNum = GardenEditor.inPlot(pos, garden.getPlots(), gardenEditorView.getTopBar() + MenuBox.MENU_HEIGHT, gardenEditorView.getLeftBar());
 			if(plotNum == -1) { 
 				
 				Plant plant = GardenEditor.getSelectedPlant();
-				plotNum = GardenEditor.inPlot(plant.getPosition(), garden.getPlots(), gardenEditorView.getTopBar(), gardenEditorView.getLeftBar());
+				plotNum = GardenEditor.inPlot(plant.getPosition(), garden.getPlots(), gardenEditorView.getTopBar() + MenuBox.MENU_HEIGHT, gardenEditorView.getLeftBar());
 				garden.removePlantFromPlot(plotNum,plant.getPosition());
 				gardenEditorView.updateGardenCounts(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
 				drag.consume();
