@@ -7,6 +7,7 @@ import org.junit.Test;
 
 public class SaveLoadGardenTest {
 	public static ArrayList<Garden> gardenList = new ArrayList<Garden>();
+	public static ArrayList<Garden> deleteCheck = new ArrayList<Garden>();
 	public SaveLoadGarden slg = new SaveLoadGarden();
 	
 	@BeforeClass
@@ -15,9 +16,16 @@ public class SaveLoadGardenTest {
 		Garden g = new Garden("test", 100.0, 200.0, new ArrayList<Plot>(), 5, new ArrayList<Plant>(), 5.0);
 		Garden g2 = new Garden("test2", 101.0, 201.0, new ArrayList<Plot>(), 6, new ArrayList<Plant>(), 6.0);
 		Garden g3 = new Garden("test3", 102.0, 202.0, new ArrayList<Plot>(), 7, new ArrayList<Plant>(), 7.0);
+		Garden g4 = new Garden("deleteTest", 105.0, 205.0, new ArrayList<Plot>(), 9, new ArrayList<Plant>(), 9.0);
+		
 		gardenList.add(g);
 		gardenList.add(g2);
 		gardenList.add(g3);
+		
+		deleteCheck.add(g);
+		deleteCheck.add(g2);
+		deleteCheck.add(g3);
+		deleteCheck.add(g4);
 	}
 	
 	@Test
@@ -48,18 +56,17 @@ public class SaveLoadGardenTest {
 	}
 	
 	@Test
-	public void testDeleteGarden() {
-		assertEquals(gardenList.size(), 3);
-		slg.deleteGarden("test3", gardenList);
-		assertEquals(gardenList.size(), 2);
+	public void testLoadPickedGarden() {
+		Garden tmp = slg.loadPickedGarden("test", gardenList);
+		Garden tmp2 = slg.loadPickedGarden("deleteTest", deleteCheck);
+		assertEquals(tmp, gardenList.get(0));
+		assertEquals(tmp2, deleteCheck.get(3));
 	}
 	
 	@Test
-	public void testLoadPickedGarden() {
-		Garden tmp = null;
-		tmp = slg.loadPickedGarden("test", gardenList);
-		System.out.println(tmp.getName());
-		assertEquals(tmp.getName(), "test");
+	public void testDeleteGarden() {
+		deleteCheck = slg.deleteGarden("deleteTest", deleteCheck);
+		assertEquals(deleteCheck, gardenList);
 	}
 
 }

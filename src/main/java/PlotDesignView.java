@@ -373,6 +373,52 @@ public class PlotDesignView extends View {
             }
         });
         
+        sunlight.setLabelFormatter(new StringConverter<Double>() {
+            @Override
+            public String toString(Double n) {
+                if (n < 2) return "Shade";
+                if (n < 3) return "Part Sun";
+
+                return "Full Sun";
+            }
+
+            @Override
+            public Double fromString(String s) {
+                switch (s) {
+                    case "Mostly Shade":
+                        return 0d;
+                    case "Some Shade":
+                        return 1d;
+
+                    default:
+                        return 3d;
+                }
+            }
+        });
+        
+        moisture.setLabelFormatter(new StringConverter<Double>() {
+            @Override
+            public String toString(Double n) {
+                if (n < 2) return "Dry";
+                if (n < 3) return "Moist";
+
+                return "Wet";
+            }
+
+            @Override
+            public Double fromString(String s) {
+                switch (s) {
+                    case "Dry":
+                        return 0d;
+                    case "Moist":
+                        return 1d;
+
+                    default:
+                        return 3d;
+                }
+            }
+        });
+        
 		Label sunlightText = new Label("Sunlight Level");
 		sunlightText.setMinWidth(LEFTBAR*0.6);
 		Label soilTypeText = new Label("Soil Type");
