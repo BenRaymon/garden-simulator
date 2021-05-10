@@ -425,8 +425,8 @@ public class GardenEditorView extends View {
 		Text lepNum = new Text(String.valueOf(plant.getLepsSupported()));
 		lepText.getStyleClass().add("editor-t");
 		lepNum.getStyleClass().add("editor-t");
-		left.add(lepText, 0, 5);
-		left.add(lepNum, 1, 5);
+		left.add(lepText, 0, 10);
+		left.add(lepNum, 1, 10);
 	}
 	
 	/**
@@ -499,8 +499,8 @@ public class GardenEditorView extends View {
 		Text colorStr = new Text(String.valueOf(plant.getColor()));
 		colorText.getStyleClass().add("editor-t");
 		colorStr.getStyleClass().add("editor-t");
-		left.add(colorText, 0, 10);
-		left.add(colorStr, 1, 10);
+		left.add(colorText, 0, 5);
+		left.add(colorStr, 1, 5);
 	}
 	
 	//TODO javadoc
@@ -684,8 +684,9 @@ public class GardenEditorView extends View {
 		addCost(plant);
 		addColor(plant);
 		addOptionsInfo(plant);
-
-		addLepsInfo(supportedLeps);
+		if(supportedLeps != null) {
+			addLepsInfo(supportedLeps);	
+		}
 	}
 
 	
