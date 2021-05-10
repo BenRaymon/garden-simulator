@@ -18,7 +18,8 @@ public class Garden implements Serializable {
 	private ArrayList<Plant> plantsInGarden;
 	private HashMap<String, Plant> recommendedPlants;
 	private static ConcurrentHashMap<String, Plant> allPlants = new ConcurrentHashMap<String, Plant>();
-	private static ConcurrentHashMap<String, Set<Lep>> allLeps = new ConcurrentHashMap<String, Set<Lep>>();
+	private static ConcurrentHashMap<String, Lep> allLeps = new ConcurrentHashMap<String, Lep>();
+	private static ConcurrentHashMap<String, Set<Lep>> lepsByPlant = new ConcurrentHashMap<String, Set<Lep>>();
 	private double pixelsPerFoot ;
 	
 	/**
@@ -298,11 +299,10 @@ public class Garden implements Serializable {
 	}
 	
 	
-	public static Set<Lep> getLep(String name) {
-		return allLeps.get(name);
+	public static ConcurrentHashMap<String, Set<Lep>> getLepsByPlant(){
+		return lepsByPlant;
 	}
-	
-	public static ConcurrentHashMap<String, Set<Lep>> getAllLeps(){
+	public static ConcurrentHashMap<String, Lep> getAllLeps(){
 		return allLeps;
 	}
 }

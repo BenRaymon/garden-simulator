@@ -6,10 +6,11 @@ import javafx.scene.image.Image;
 public class BackgroundLoader extends Thread {
 	private Thread thread;
 	private String threadName;
-	private ConcurrentHashMap<String, Image> plant_images;
-	private ConcurrentHashMap<String, Image> lep_images;
-	private ConcurrentHashMap<String, Plant> all_plants;
-	private ConcurrentHashMap<String, Set<Lep>> allLeps;
+	private ConcurrentHashMap<String, Image> plantImages;
+	private ConcurrentHashMap<String, Image> lepImages;
+	private ConcurrentHashMap<String, Plant> allPlants;
+	private ConcurrentHashMap<String, Lep> allLeps;
+	private ConcurrentHashMap<String, Set<Lep>> lepsByPlant;
 	private boolean dataCompleted;
 	private boolean imagesCompleted;
 	
@@ -20,14 +21,14 @@ public class BackgroundLoader extends Thread {
 	 * @param ap static concurrenthashmap for plant data
 	 * @return none
 	 */
-	public BackgroundLoader(String name, ConcurrentHashMap<String, Image> pi,ConcurrentHashMap<String, Image> li, ConcurrentHashMap<String, Plant> ap, ConcurrentHashMap<String, Set<Lep>> l) {
+	public BackgroundLoader(String name, ConcurrentHashMap<String, Image> pi,ConcurrentHashMap<String, Image> li, ConcurrentHashMap<String, Plant> ap, ConcurrentHashMap<String, Set<Lep>> l, ConcurrentHashMap<String, Lep> al) {
 		// Get references to the hashmaps for loading
 		this.threadName = name;
-		this.plant_images = pi;
-		this.lep_images = li;
-		this.all_plants = ap;
-		this.allLeps = l;
-		
+		this.plantImages = pi;
+		this.lepImages = li;
+		this.allPlants = ap;
+		this.lepsByPlant = l;
+		this.allLeps = al;
 		loadData();
 		loadImages();
 		loadLeps();
@@ -63,7 +64,7 @@ public class BackgroundLoader extends Thread {
 	 * @return none
 	 */
 	public void loadData() {
-		BackgroundDataLoader bdl = new BackgroundDataLoader("DataThread", all_plants);
+		BackgroundDataLoader bdl = new BackgroundDataLoader("DataThread", allPlants);
 		// Start the data thread
 		bdl.start();
 		// When it finishes, set the dataCompleted flag to true
@@ -80,7 +81,7 @@ public class BackgroundLoader extends Thread {
 	 * @return none
 	 */
 	public void loadImages() {
-		BackgroundImageLoader bil = new BackgroundImageLoader("ImageThread", plant_images, lep_images);
+		BackgroundImageLoader bil = new BackgroundImageLoader("ImageThread", plantImages, lepImages);
 		bil.start();
 		// When it finishes, set the dataCompleted flag to true
 		try {
@@ -92,7 +93,7 @@ public class BackgroundLoader extends Thread {
 	}
 	
 	public void loadLeps() {
-		BackgroundDataLoader bdl = new BackgroundDataLoader("Leps Thread", allLeps, 0);
+		BackgroundDataLoader bdl = new BackgroundDataLoader("Leps Thread", lepsByPlant, allLeps, 0);
 		bdl.start();
 		
 		try {

@@ -2,6 +2,7 @@ import java.util.*;
 
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.input.ClipboardContent;
@@ -60,7 +61,7 @@ public class Controller extends Application{
 		// It then goes to the start screen when it is finished
 		 
 		
-		BackgroundLoader backgroundLoader = new BackgroundLoader("bkgloader", View.getImages(),View.getLepImages(), Garden.getAllPlants(), Garden.getAllLeps());
+		BackgroundLoader backgroundLoader = new BackgroundLoader("bkgloader", View.getImages(),View.getLepImages(), Garden.getAllPlants(), Garden.getLepsByPlant(), Garden.getAllLeps());
 		
 		System.out.println("Printing out all leps as a test");
 		
@@ -403,7 +404,7 @@ public class Controller extends Application{
 			Image plantImage = ((ImagePattern)plantCirc.getFill()).getImage();
 			gardenEditorView.setPlantInfoImage(plantImage);
 			String plant = gardenEditorView.getPlantName(plantImage);
-			Plant selectedPlant = garden.getPlant(plant);
+			Plant selectedPlant = Garden.getPlant(plant);
 			/*
 			ConcurrentHashMap <String, Set<Lep>> allLeps = Garden.getAllLeps();
 			for(String key : allLeps.keySet()) {
@@ -411,8 +412,8 @@ public class Controller extends Application{
 			}
 			*/
 			System.out.println("Printing plant value: " + plant);
-			System.out.println(garden.getAllLeps().get(plant));
-			gardenEditorView.setPlantInfo(selectedPlant,garden.getAllLeps().get(plant));
+			System.out.println(Garden.getLepsByPlant().get(selectedPlant.getFamily()).size());
+			gardenEditorView.setPlantInfo(selectedPlant,Garden.getLepsByPlant().get(selectedPlant.getFamily()));
 			
 		});
 	}
@@ -894,6 +895,11 @@ public class Controller extends Application{
 		});
 	}
 	
+	public EventHandler lepPopUpHandler2() {
+		return (event->{
+			gardenEditorView.lepPopUp((ActionEvent)event);
+		});
+	}
 	/**
 	 * Event Handler called to close the pop up window
 	 * @return

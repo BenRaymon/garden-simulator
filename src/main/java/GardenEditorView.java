@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -34,6 +35,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 
@@ -58,7 +60,7 @@ public class GardenEditorView extends View {
 	
 	private double LEFTBAR = 350;
 	private double RIGHTBAR = 250;
-	private double TOPBAR = 150;
+	private double TOPBAR = 125;
 	private double SPACING = 10;
 	private double SCALE = 10;
 	private double CANVAS_WIDTH = WINDOW_WIDTH - LEFTBAR - RIGHTBAR;
@@ -303,7 +305,7 @@ public class GardenEditorView extends View {
 				//create a circle object with the corresponding plant image
 				Image image = allImages.get(name);
 				recommendedPlantImages.put(image, name);
-				Circle circ = new Circle(50);
+				Circle circ = new Circle(40);
 				VBox holder = new VBox();
 		        circ.setFill(new ImagePattern(image));
 		        circ.setOnDragDetected(controller.getOnImageDraggedHandler());
@@ -494,7 +496,8 @@ public class GardenEditorView extends View {
 		left.add(colorStr, 1, 10);
 	}
 	
-	public void addLepsInfo(Set<Lep> allLeps) {
+	//TODO javadoc
+	public void addLepsInfo(Set<Lep> supportedLeps) {
 		Text lepInfoText = new Text("Some Leps supported:");
 		VBox lepHolder = new VBox();
 		Text lepsSupported = new Text();
@@ -502,14 +505,14 @@ public class GardenEditorView extends View {
 		int count = 3;
 		System.out.println("HASH SIZE");
 		System.out.println(View.getLepImages().size());
-		for(Lep l :allLeps) {
+		for(Lep l :supportedLeps) {
 			if(count != 0) {
 				if (!usedLeps.contains(l.getLepName())){
 					if  (View.getLepImages().containsKey(l.getLepName())) {
 						Hyperlink lepName = new Hyperlink(l.getLepName());
 						lepHolder.getChildren().add(lepName);
 						lepName.setTextFill(Color.web(offWhite));
-						lepName.setOnMouseClicked(controller.lepPopUpHandler());
+						lepName.setOnAction(controller.lepPopUpHandler2());
 					}
 					else {
 						Text lepName = new Text(l.getLepName());
@@ -554,6 +557,27 @@ public class GardenEditorView extends View {
 		
 	}
 	
+	//TODO javadox
+	public void lepPopUp(ActionEvent event) {
+		Stage lepPopup = new Stage();
+        lepPopup.initModality(Modality.WINDOW_MODAL);
+      
+        Hyperlink link = (Hyperlink)event.getSource();
+		String name = link.getText();
+		
+		
+        ImageView lepImage = new ImageView(View.getLepImages().get(name));
+		VBox pop = new VBox();
+		pop.setStyle("-fx-background-color: " + darkGreen);
+		pop.getChildren().add(lepImage);
+		pop.setAlignment(Pos.CENTER);
+		
+        Scene myDialogScene = new Scene(pop, lepImage.getImage().getWidth() + 100, lepImage.getImage().getHeight() + 100);
+      
+        lepPopup.setScene(myDialogScene);
+        lepPopup.show();
+	}
+	
 	/**
 	 * Closes the lep image pop up window
 	 */
@@ -566,7 +590,7 @@ public class GardenEditorView extends View {
 	 * Sets all the plants info on left pane
 	 * @param plant
 	 */
-	public void setPlantInfo(Plant plant,Set<Lep> allLeps) { // ConcurrentHashap<String, Set<Lep>> allLeps
+	public void setPlantInfo(Plant plant,Set<Lep> supportedLeps) { // ConcurrentHashap<String, Set<Lep>> allLeps
 		System.out.println("IN SET PLANT INFO");
 		left.getChildren().clear();
 		addNames(plant);
@@ -575,7 +599,7 @@ public class GardenEditorView extends View {
 		addSize(plant);
 		addCost(plant);
 		addColor(plant);
-		addLepsInfo(allLeps);
+		addLepsInfo(supportedLeps);
 	}
 
 	

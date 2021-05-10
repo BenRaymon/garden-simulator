@@ -6,18 +6,18 @@ public class Lep implements Serializable {
 	
 	private String lepFamily;
 	private String lepName;
-	private String hostPlant;
+	private String hostPlantFamily;
+	private String hostPlantName;
 	private String country;
 	
 	
 	
-	public Lep(String tempLepFamily, String tempLepName, String tempHostPlant) {
+	public Lep(String tempLepFamily, String tempLepName, String tempHostPlantF, String tempHostPlantN, String tempCountry) {
 		lepFamily = tempLepFamily;
 		lepName = tempLepName;
-		hostPlant = tempHostPlant;
-		
-		
-		
+		hostPlantFamily = tempHostPlantF;
+		hostPlantName = tempHostPlantN;
+		country = tempCountry;
 	}
 
 	
@@ -48,17 +48,25 @@ public class Lep implements Serializable {
 
 
 
-	public String getHostPlant() {
-		return hostPlant;
+	public String getHostPlantFamily() {
+		return hostPlantFamily;
 	}
 
 
 
-	public void addHostPlant(String host) {
-		hostPlant = host;
+	public void setHostPlantFamily(String host) {
+		hostPlantFamily = host;
 	}
 
 
+	public String getHostPlantName() {
+		return hostPlantName;
+	}
+
+
+	public void setHostPlantName(String host) {
+		hostPlantName = host;
+	}
 
 	public String getCountry() {
 		return country;
