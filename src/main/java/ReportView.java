@@ -80,8 +80,7 @@ public class ReportView extends View{
 		
 		// get button styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
-		MenuBox menu = new MenuBox(c);
-		
+		MenuBox menu = new MenuBox(c, "report");
 		base.setTop(menu);
 		//create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);

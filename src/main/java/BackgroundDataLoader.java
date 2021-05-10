@@ -9,25 +9,27 @@ public class BackgroundDataLoader extends Thread {
 	private Thread thread;
 	private String threadName;
 	// Reference to our model's plant map
-	private ConcurrentHashMap<String, Plant> all_plants;
-	private ConcurrentHashMap<String, Set<Lep>> allLeps;
+	private ConcurrentHashMap<String, Plant> allPlants;
+	private ConcurrentHashMap<String, Set<Lep>> lepsByPlant;
+	private ConcurrentHashMap<String, Lep> allLeps;
 	
 	/**
 	 * Constructor for data loading
 	 * @param name name of the thread
-	 * @param all_plants2 static concurrenthashmap from the model to load plant data to
+	 * @param allPlants static concurrenthashmap from the model to load plant data to
 	 * @return none
 	 */
-	public BackgroundDataLoader(String name, ConcurrentHashMap<String, Plant> all_plants2) {
+	public BackgroundDataLoader(String name, ConcurrentHashMap<String, Plant> allPlants) {
 		System.out.println("BackgroundDataLoader created with thread name: " + name);
 		this.threadName = name;
-		this.all_plants = all_plants2;
+		this.allPlants = allPlants;
 	}
 	
-	public BackgroundDataLoader(String name, ConcurrentHashMap<String, Set<Lep>> Lep,int i) {
+	public BackgroundDataLoader(String name, ConcurrentHashMap<String, Set<Lep>> lepsByPlant, ConcurrentHashMap<String, Lep> allLeps, int i) {
 		System.out.println("BackgroundDataLoader created with thread name: " + name);
 		this.threadName = name;
-		this.allLeps = Lep;
+		this.lepsByPlant = lepsByPlant;
+		this.allLeps = allLeps;
 	}
 	
 	/**
@@ -47,7 +49,7 @@ public class BackgroundDataLoader extends Thread {
 	 * @return none
 	 */
 	public void run() {
-		if(allLeps == null) {
+		if(lepsByPlant == null) {
 		LoadPlantData();
 		}
 		else {
@@ -76,7 +78,7 @@ public class BackgroundDataLoader extends Thread {
 			e.printStackTrace();
 		}
 	    
-		if (all_plants.size() == 366)
+		if (allPlants.size() == 366)
 			System.out.println("All 366 plants loaded sucessfully in the background");
 	}
 	
@@ -102,7 +104,6 @@ public class BackgroundDataLoader extends Thread {
 	}
 	
 	public void loadLep(String line) {
-		//System.out.println("In loadLeps");
 		if(line.contains("Lep ID")) {
 			return;
 		}
@@ -110,21 +111,39 @@ public class BackgroundDataLoader extends Thread {
 		String[] words = line.split(",");
 		//System.out.println("First: " + words[0] + " Second: " + words[1] + " Third: " + words[2] + " Fourth: " + words[3] + " Fifth: " + words[4] + " Sixth: " + words[5]);
 		
-		if(allLeps.get(words[4]) == null) {
-			
 		
-		Lep addLep = new Lep(words[1],words[2],words[3]);
-		Set<Lep> lepSet = new HashSet<Lep>();
-		lepSet.add(addLep);
-		allLeps.put(words[4], lepSet);
-		System.out.println(words[4]);
+		Lep addLep = null;
+		//check if the lep has already been seen
+		if(allLeps.containsKey(words[2])) {
+			//add the family and name to the sets of families/names that this lep feeds off of
+			Lep currLep = allLeps.get(words[2]);
+			currLep.addHostFamily(words[3]);
+			currLep.addHostName(words[4]);
+			currLep.addCountry(words[5]);
+			addLep = currLep;
 		}
 		else {
-			Set<Lep> lepSet = allLeps.get(words[4]);
-			Lep addLep = new Lep(words[1],words[2],words[3]);
-			lepSet.add(addLep);
-			allLeps.put(words[4],lepSet);
+			//make a new lep and add it to the master list
+			Lep newLep = new Lep(words[1],words[2],words[3], words[4], words[5]);
+			allLeps.put(words[2], newLep);
+			addLep = newLep;
 		}
+		
+		//if the set of leps for this plant does not exist yet, make one
+		if(lepsByPlant.get(words[4]) == null) {
+			Set<Lep> lepSet = new HashSet<Lep>();
+			lepSet.add(addLep);
+			lepsByPlant.put(words[4], lepSet);
+			System.out.println(words[4]);
+		}
+		//if the set has been made already, add the new lep to the set
+		else {
+			Set<Lep> lepSet = lepsByPlant.get(words[4]);
+			lepSet.add(addLep);
+			lepsByPlant.put(words[4],lepSet);
+		}
+		
+		
 		
 	}
 	/**
@@ -184,13 +203,13 @@ public class BackgroundDataLoader extends Thread {
 							Double.parseDouble(words[7]), Double.parseDouble(words[8]),op, Double.parseDouble(words[9]), Integer.parseInt(words[10]), 
 							words[11].charAt(0));
 		//add plant to the static hashmap
-		synchronized(all_plants) {
-			all_plants.put(addPlant.getScientificName(), addPlant);	
+		synchronized(allPlants) {
+			allPlants.put(addPlant.getScientificName(), addPlant);	
 		}
 		
 		
 		//DEBUG
 		System.out.println(addPlant.toString() + "||" + op.toString());
-		System.out.println(all_plants.size());
+		System.out.println(allPlants.size());
 	}
 }

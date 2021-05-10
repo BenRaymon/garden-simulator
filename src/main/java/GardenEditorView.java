@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -25,6 +26,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
@@ -34,6 +36,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 public class GardenEditorView extends View {
@@ -52,10 +56,12 @@ public class GardenEditorView extends View {
 	private Text plantCount = new Text("0");
 	private Text budgetText = new Text();
 	private VBox container;
+	private Stage Pristage;
+	private Popup lepPopUp;
 	
 	private double LEFTBAR = 350;
 	private double RIGHTBAR = 250;
-	private double TOPBAR = 150;
+	private double TOPBAR = 125;
 	private double SPACING = 10;
 	private double SCALE = 10;
 	private double CANVAS_WIDTH = WINDOW_WIDTH - LEFTBAR - RIGHTBAR;
@@ -72,12 +78,13 @@ public class GardenEditorView extends View {
 	 */
 	public GardenEditorView(Stage stage, Controller c) {
 		controller = c;
+		container = new VBox();
 		base = new BorderPane();
 		base.setOnDragOver(controller.getOnDragOverHandler());
 		base.setOnDragDropped(controller.getOnDragDroppedHandler());
 		
 		//create canvas with correct dimensions
-		Canvas drawArea = new Canvas(WINDOW_WIDTH - LEFTBAR - RIGHTBAR, WINDOW_HEIGHT - TOPBAR - MenuBox.MENU_HEIGHT);
+		Canvas drawArea = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 		gc = drawArea.getGraphicsContext2D();
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(1);
@@ -91,25 +98,26 @@ public class GardenEditorView extends View {
 		// get button and scroll bar styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
 		String scrollBarStyle = getClass().getResource("scrollbars.css").toExternalForm();
-		String textStyle = getClass().getResource("text.css").toExternalForm();
+		String checkStyle = getClass().getResource("checkbox.css").toExternalForm();
+		String labelStyle = getClass().getResource("labels.css").toExternalForm();
 		
 		// add save inputs to menu for the editor, add menu to the container
 		gardenName = new TextField();
 		gardenName.setPromptText("Name your Garden");
 		Button saveGarden = new Button("Save");
 		saveGarden.setOnMouseClicked(controller.SaveButtonClickedHandler());
-		MenuBox menu = new MenuBox(c);
+		MenuBox menu = new MenuBox(c, "editor");
 		menu.getContainer().add(gardenName, 9, 0);
 		menu.getContainer().add(saveGarden, 10, 0);
-		container = new VBox(menu, base);
-
+		container.getChildren().add(menu);
+		base.setTop(container);
 		
 		//create and set scene with base
-		scene = new Scene(container, WINDOW_WIDTH, WINDOW_HEIGHT);
+		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.getStylesheets().add(buttonStyle);
 		scene.getStylesheets().add(scrollBarStyle);
-		//scene.getStylesheets().add(textStyle);
-		//scene.getStylesheets().add(menuStyle);
+		scene.getStylesheets().add(checkStyle);
+		scene.getStylesheets().add(labelStyle);
 		stage.setScene(scene);
         stage.show();
         
@@ -131,16 +139,18 @@ public class GardenEditorView extends View {
 	 */
 	public void setPlotBoxes(ArrayList<Plot> plots) {
 		plotSelectors = new VBox();
+		//
+		ComboBox plotSelection = new ComboBox();
+		plotSelection.setPromptText("Select a plot");
+		plotSelection.valueProperty().addListener(controller.getPlotSelectHandler());
 		//margins for elements in the plot selector vbox
 		Insets margins = new Insets(5,5,5,15);
 		//add label to the selectors vbox
-		plotSelectors.getChildren().add(new Text("Select plots"));
+		plotSelectors.getChildren().add(new Label("Select plots"));
 		int index = 1;
 		//iterate through the plots and create a check box for each one
 		for (Plot plot : plots) {
-			CheckBox plotCheck = new CheckBox("Plot " + index++);
-			plotCheck.setOnAction(controller.getSelectPlotCheckboxHander());
-			plotSelectors.getChildren().add(plotCheck);
+			plotSelection.getItems().add("Plot" + index++);
 		}
 		
 		//set the margins for each checkbox in the plotSelectors
@@ -148,8 +158,8 @@ public class GardenEditorView extends View {
 			plotSelectors.setMargin(x, margins);
 		}
 		
-		//default select the first plot
-		((CheckBox) plotSelectors.getChildren().get(1)).setSelected(true);
+		plotSelection.setValue("Plot 1");
+		plotSelectors.getChildren().add(plotSelection);
 		right.add(plotSelectors, 0, 1);
 	}
 
@@ -214,8 +224,9 @@ public class GardenEditorView extends View {
 		VBox sort = new VBox();
 		//combo box for dropdown selection
 		ComboBox sortBy = new ComboBox();
+		sortBy.setPromptText("Select");
 		//label
-		Text sortLabel = new Text("Sort Recommended Plants By: ");
+		Label sortLabel = new Label("Sort Plants By: ");
 		//attach handler
 		sortBy.valueProperty().addListener(controller.getSortByHandler());
 		//add sort options
@@ -299,7 +310,7 @@ public class GardenEditorView extends View {
 				//create a circle object with the corresponding plant image
 				Image image = allImages.get(name);
 				recommendedPlantImages.put(image, name);
-				Circle circ = new Circle(50);
+				Circle circ = new Circle(40);
 				VBox holder = new VBox();
 		        circ.setFill(new ImagePattern(image));
 		        circ.setOnDragDetected(controller.getOnImageDraggedHandler());
@@ -318,10 +329,12 @@ public class GardenEditorView extends View {
 		//convert the array list into a backing list for the list view
 		//add list of recommended plant circles to the listview and add the listview to the base border pane 
 		ObservableList<VBox> backingList = FXCollections.observableArrayList(recommendedPlantCircs);
+		if(container.getChildren().contains(top))
+			container.getChildren().remove(top);
 		top = new ListView<>(backingList);
 		top.setOrientation(Orientation.HORIZONTAL);
 		top.setMaxHeight(TOPBAR);
-		base.setTop(top);
+		container.getChildren().add(top);
 		
 	}
 	
@@ -490,17 +503,29 @@ public class GardenEditorView extends View {
 		left.add(colorStr, 1, 10);
 	}
 	
-	public void addLepsInfo(Set<Lep> allLeps) {
+	//TODO javadoc
+	public void addLepsInfo(Set<Lep> supportedLeps) {
 		Text lepInfoText = new Text("Some Leps supported:");
 		VBox lepHolder = new VBox();
 		Text lepsSupported = new Text();
 		Set<String> usedLeps = new HashSet<String>(); 
 		int count = 3;
-		for(Lep l :allLeps) {
+		System.out.println("HASH SIZE");
+		System.out.println(View.getLepImages().size());
+		for(Lep l :supportedLeps) {
 			if(count != 0) {
 				if (!usedLeps.contains(l.getLepName())){
-					Text lepName = new Text(l.getLepName());
-					lepHolder.getChildren().add(lepName);
+					if  (View.getLepImages().containsKey(l.getLepName())) {
+						Hyperlink lepName = new Hyperlink(l.getLepName());
+						lepHolder.getChildren().add(lepName);
+						lepName.setTextFill(Color.web(offWhite));
+						lepName.setOnAction(controller.lepPopUpHandler2());
+					}
+					else {
+						Text lepName = new Text(l.getLepName());
+						lepHolder.getChildren().add(lepName);
+					}
+					System.out.println(l.getLepName());
 					usedLeps.add(l.getLepName());
 					count = count -1;
 				}
@@ -509,18 +534,123 @@ public class GardenEditorView extends View {
 		}
 		left.add(lepInfoText,0,11);
 		left.add(lepHolder,1,11);
+	}
+	
+	/**
+	 * Creates the lep image pop up window
+	 * @param Hyperlink of event source
+	 */
+	public void createLepPopUp(Object object) {
+		System.out.println("In Lep Pop Up");
+		lepPopUp = new Popup();
+		lepPopUp.setX(WINDOW_WIDTH/2);
+		lepPopUp.setY(WINDOW_HEIGHT/2);
 		
+		Hyperlink link = (Hyperlink)object;
+		String name = link.getText();
 		
-		
-		
+		ImageView lepImage = new ImageView(View.getLepImages().get(name));
+		VBox pop = new VBox();
+		pop.setAlignment(Pos.CENTER);
+		pop.setStyle("-fx-background-color: " + darkGreen);
+		Button quit = new Button("Close");
+		quit.setAlignment(Pos.CENTER);
+		quit.setOnMouseClicked(controller.closePopUp());
+		pop.getChildren().add(lepImage);
+		pop.getChildren().add(quit);
+		lepPopUp.getContent().add(pop);
+		lepPopUp.centerOnScreen();
+		lepPopUp.show(Pristage);
 		
 	}
+	
+	//TODO javadox
+	public void lepPopUp(ActionEvent event, ConcurrentHashMap<String, Lep> allLeps) {
+		Stage lepPopup = new Stage();
+		lepPopup.setMaximized(false);
+        lepPopup.initModality(Modality.WINDOW_MODAL);
+      
+        Hyperlink link = (Hyperlink)event.getSource();
+		String lepName = link.getText();
+		Lep lep = allLeps.get(lepName);
+		
+		
+        ImageView lepImage = new ImageView(View.getLepImages().get(lepName));
+        
+        HBox name = new HBox();
+        name.setMinWidth(lepImage.getImage().getWidth() + 100);
+        Text nameVal = new Text(lep.getLepName());
+		Text nameText = new Text("Butterfly Name:");
+		nameVal.getStyleClass().add("editor-t");
+		nameText.getStyleClass().add("editor-t");
+		name.getChildren().add(nameText);
+		name.getChildren().add(nameVal);
+		
+		HBox family = new HBox();
+        family.setMinWidth(lepImage.getImage().getWidth() + 100);
+        Text famVal = new Text(lep.getLepFamily());
+		Text famText = new Text("Butterfly Family:");
+		famVal.getStyleClass().add("editor-t");
+		famText.getStyleClass().add("editor-t");
+		family.getChildren().add(famText);
+		family.getChildren().add(famVal);
+		
+		HBox country = new HBox();
+        family.setMinWidth(lepImage.getImage().getWidth() + 100);
+        Text countryVal = new Text(lep.getCountries().toString());
+		Text countryText = new Text("Country of Origin:");
+		countryVal.getStyleClass().add("editor-t");
+		countryText.getStyleClass().add("editor-t");
+		country.getChildren().add(countryText);
+		country.getChildren().add(countryVal);
+		
+		HBox plantFamilies = new HBox();
+		plantFamilies.setMinWidth(lepImage.getImage().getWidth() + 100);
+        Text pfVal = new Text(lep.getFamilies().size() + "");
+		Text pfText = new Text("Supported by (number of families):");
+		pfVal.getStyleClass().add("editor-t");
+		pfText.getStyleClass().add("editor-t");
+		plantFamilies.getChildren().add(pfText);
+		plantFamilies.getChildren().add(pfVal);
+        
+		HBox plantNames = new HBox();
+		plantNames.setMinWidth(lepImage.getImage().getWidth() + 100);
+        Text pnVal = new Text(lep.getNames().size() + "");
+		Text pnText = new Text("Supported by (number of plants):");
+		pnVal.getStyleClass().add("editor-t");
+		pnText.getStyleClass().add("editor-t");
+		plantNames.getChildren().add(pnText);
+		plantNames.getChildren().add(pnVal);
+		
+		VBox pop = new VBox();
+		pop.setStyle("-fx-background-color: " + darkGreen);
+		pop.getChildren().add(lepImage);
+		pop.getChildren().add(name);
+		pop.getChildren().add(family);
+		pop.getChildren().add(country);
+		pop.getChildren().add(plantFamilies);
+		pop.getChildren().add(plantNames);
+		pop.setAlignment(Pos.CENTER);
+		
+        Scene myDialogScene = new Scene(pop, lepImage.getImage().getWidth() + 100, lepImage.getImage().getHeight() + 100);
+      
+        lepPopup.setScene(myDialogScene);
+        lepPopup.show();
+	}
+	
+	/**
+	 * Closes the lep image pop up window
+	 */
+	public void closeLepWindow() {
+		lepPopUp.hide();
+	}
+	
 	
 	/**
 	 * Sets all the plants info on left pane
 	 * @param plant
 	 */
-	public void setPlantInfo(Plant plant,Set<Lep> allLeps) { // ConcurrentHashap<String, Set<Lep>> allLeps
+	public void setPlantInfo(Plant plant,Set<Lep> supportedLeps) { // ConcurrentHashap<String, Set<Lep>> allLeps
 		System.out.println("IN SET PLANT INFO");
 		left.getChildren().clear();
 		addNames(plant);
@@ -529,7 +659,7 @@ public class GardenEditorView extends View {
 		addSize(plant);
 		addCost(plant);
 		addColor(plant);
-		addLepsInfo(allLeps);
+		addLepsInfo(supportedLeps);
 	}
 
 	

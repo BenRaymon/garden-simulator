@@ -190,4 +190,13 @@ public class GardenTest {
 		Garden.getAllPlants().put("TEST", new Plant());
 		assertEquals(Garden.getPlant("TEST").getClass(), Plant.class);
 	}
+	
+	@Test
+	public void testSetRecommendedPlants() {
+		HashMap<String, Plant> newMap = new HashMap<String, Plant>();
+		newMap.put("test", new Plant());
+		
+		testGarden.setRecommendedPlants(newMap);
+		assertEquals(testGarden.getRecommendedPlants(), newMap);
+	}
 }

@@ -13,10 +13,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -29,6 +31,8 @@ public class LearnMoreView extends View{
 	private Scene scene;
 	private Controller controller;
 	private BorderPane base;
+	private GridPane container;
+	private VBox menu_con;
 	private int LEFTBAR = 225;
 	private int SPACING = 5;
 	double titleSize = 80;
@@ -42,12 +46,23 @@ public class LearnMoreView extends View{
 	 */
 	public LearnMoreView(Stage stage, Controller c) {
 		controller = c;
+		menu_con = new VBox();
+		container = new GridPane();
+		container.setStyle("-fx-background-color: "+darkGreen);
+		container.setHgap(10);
+		container.setVgap(20);
 		base = new BorderPane();
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
+		MenuBox menu = new MenuBox(controller, "learn");
+		menu_con.getChildren().add(menu);
 		createTop();
 		createLeft();
 		createRight();
 		createCenter();
+		
+		String textStyle = getClass().getResource("labels.css").toExternalForm();
+		scene.getStylesheets().add(textStyle);
+		
 		stage.setScene(scene);
         stage.show();
 	}
@@ -61,9 +76,10 @@ public class LearnMoreView extends View{
 		Text t = new Text("Learn More");
 		t.setTextAlignment(TextAlignment.CENTER);
 		t.setFont(Font.font(titleSize));
-		t.setFill(Color.web(lightBlue));
+		t.setFill(Color.web(offWhite));
 		box.getChildren().add(t);
-		base.setTop(box);
+		menu_con.getChildren().add(box);
+		base.setTop(menu_con);
 	}
 	
 	/**
@@ -80,7 +96,8 @@ public class LearnMoreView extends View{
 		box2.setAlignment(Pos.CENTER);
 		box2.setSpacing(SPACING);
 		gardenTipsText(box2);
-		base.setLeft(box1);
+		//base.setLeft(box1);
+		container.add(box1, 60, 7);
 	}
 	
 	/**
@@ -97,7 +114,8 @@ public class LearnMoreView extends View{
 		box2.setAlignment(Pos.CENTER);
 		box2.setSpacing(SPACING);
 		moreResources(box2);
-		base.setRight(box1);
+		//base.setRight(box1);
+		container.add(box1, 60, 6);
 	}
 	
 	/**
@@ -211,7 +229,8 @@ public class LearnMoreView extends View{
 		box2.setSpacing(SPACING);
 		box2.setMaxWidth(WINDOW_WIDTH/2);
 		createCenterText(box2);
-		base.setCenter(box1);
+		container.add(box2, 60, 5);
+		base.setCenter(container);
 	}
 	
 	/**

@@ -2,6 +2,7 @@ import java.util.*;
 
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.input.ClipboardContent;
@@ -12,6 +13,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -60,7 +62,7 @@ public class Controller extends Application{
 		// It then goes to the start screen when it is finished
 		 
 		
-		BackgroundLoader backgroundLoader = new BackgroundLoader("bkgloader", View.getImages(), Garden.getAllPlants(), Garden.getAllLeps());
+		BackgroundLoader backgroundLoader = new BackgroundLoader("bkgloader", View.getImages(),View.getLepImages(), Garden.getAllPlants(), Garden.getLepsByPlant(), Garden.getAllLeps());
 		
 		System.out.println("Printing out all leps as a test");
 		
@@ -102,7 +104,6 @@ public class Controller extends Application{
 		reportView = new ReportView(stage, this);
 		loadSavedGardenView = new LoadSavedGardenView(stage, savedGardens, this);
 		learnMoreView = new LearnMoreView(stage, this);
-		
 		//set the scene and model to Start
 		stage.setScene(startView.getScene());
 		
@@ -123,12 +124,8 @@ public class Controller extends Application{
 	 */
 	public EventHandler getNewGardenOnClickHandler() {
 		return (event -> {
-			ConcurrentHashMap <String, Set<Lep>> allLeps = Garden.getAllLeps();
-			for(String key : allLeps.keySet()) {
-				System.out.println("Printing key: " + key);
-				System.out.println(allLeps.get(key).toString());
-			}
 			stage.setScene(plotDesignView.getScene());
+			
 			if(garden.getPlots().size() > 0) {
 				for (Plot p : garden.getPlots()) {
 					//change the coordinates in the current list to reflect the original coordinates
@@ -155,6 +152,7 @@ public class Controller extends Application{
 		return (event -> {
 			stage.setScene(shopView.getScene());
 			shopView.setShoppingListData(garden.generateShoppingListData(), garden.getBudget());
+			
 		});
 	}
 	
@@ -165,6 +163,7 @@ public class Controller extends Application{
 	public EventHandler getToReportOnClickHandler() {
 		return (event -> {
 			stage.setScene(reportView.getScene());
+			
 		});
 	}
 	
@@ -273,6 +272,8 @@ public class Controller extends Application{
 	 */
 	public EventHandler getDrawPlotHandler() {
 		return (event -> {
+			// disable buttons
+			plotDesignView.disableButtons();
 			//get Options values and create a new plot with these options
 			double sunlight = plotDesignView.getSunlightSlider();
 			double soiltype = plotDesignView.getSoilSlider();
@@ -291,6 +292,8 @@ public class Controller extends Application{
 	 */
 	public EventHandler getRedrawPlotHandler() {
 		return (event -> {
+			// turn off the buttons
+			plotDesignView.disableButtons();
 			//let the user redraw a plot with whatever options are currently selected
 			double sunlight = plotDesignView.getSunlightSlider();
 			double soiltype = plotDesignView.getSoilSlider();
@@ -362,6 +365,7 @@ public class Controller extends Application{
 	        	//fill the plot
 	        	plotDesignView.fillPlot(me);
 			}
+			plotDesignView.enableButtons();
         });
 	}
 	
@@ -377,7 +381,7 @@ public class Controller extends Application{
 			garden.setBudget(plotDesignView.getBudget());
 			//set new scene to gardeneditorview
 			stage.setScene(gardenEditorView.getScene());
-			
+
 			//update budget in the view
 			gardenEditorView.setBudget(garden.getBudget());
 			
@@ -408,16 +412,9 @@ public class Controller extends Application{
 			Image plantImage = ((ImagePattern)plantCirc.getFill()).getImage();
 			gardenEditorView.setPlantInfoImage(plantImage);
 			String plant = gardenEditorView.getPlantName(plantImage);
-			Plant selectedPlant = garden.getPlant(plant);
-			/*
-			ConcurrentHashMap <String, Set<Lep>> allLeps = Garden.getAllLeps();
-			for(String key : allLeps.keySet()) {
-				System.out.println(allLeps.get(key).toString());
-			}
-			*/
-			System.out.println("Printing plant value: " + plant);
-			System.out.println(garden.getAllLeps().get(plant));
-			gardenEditorView.setPlantInfo(selectedPlant,garden.getAllLeps().get(plant));
+			Plant selectedPlant = Garden.getPlant(plant);
+			
+			gardenEditorView.setPlantInfo(selectedPlant,Garden.getLepsByPlant().get(plant));
 			
 		});
 	}
@@ -530,37 +527,6 @@ public class Controller extends Application{
 	}
 	
 	/**
-	 * Returns event handler for changing selection of plots in the checkbox
-	 * This method updates the recommended plants list in the view based on which boxes are checked
-	 * @return event handler
-	 */
-	public EventHandler getSelectPlotCheckboxHander() {
-		return (event -> {
-			int plotIndex = gardenEditorView.getPlotIndex(event);
-			ArrayList<Integer> plotSelections = gardenEditorView.getSelections();
-			//Construct the recommended plant list if this plot does not have one already
-			if(garden.getPlots().get(plotIndex).getRecommendedPlants() == null) {
-				garden.getPlots().get(plotIndex).createRecommendedPlants();
-			}
-			//new blank recommendedPlant list
-			HashMap<String, Plant> recommendedPlants = new HashMap<String, Plant>();
-			int index = 0; //index of plot as it iterates thru them
-			for(Integer selection : plotSelections) {
-				//if the checkbox is checked, add the recommended plants for this plot to the list
-				if (selection == 1)
-					recommendedPlants.putAll(garden.getPlots().get(index).getRecommendedPlants());
-				index++;
-			}
-			//set the recommended plant list for the garden
-			garden.setRecommendedPlants(recommendedPlants);
-			//set the final list of recommended plants in the view based on the selected checkboxes
-			ArrayList<String> plantNames = new ArrayList<String>();
-			plantNames.addAll(recommendedPlants.keySet());
-			gardenEditorView.setPlantImages(plantNames);
-		});
-	}
-	
-	/**
 	 * Returns the change listener that activates when an item is selected in the sort by dropdown
 	 * This method sorts the recommended plants based on the selected option
 	 * @return ChangeListener
@@ -573,6 +539,26 @@ public class Controller extends Application{
 			ArrayList<String> recommendedPlantNames = GardenEditor.sortRecommendedPlants(recommendedPlants, (String)t1);
 			//use the list of sorted names to display the newly sorted list of recommended plants
 			gardenEditorView.setPlantImages(recommendedPlantNames);
+		});
+	}
+	
+	//TODO
+	public ChangeListener getPlotSelectHandler() {
+		return ((ov, t, t1) -> {
+			int plotIndex = Integer.parseInt("" + t1.toString().charAt(t1.toString().length() - 1)) - 1;
+			ArrayList<Integer> plotSelections = gardenEditorView.getSelections();
+			//Construct the recommended plant list if this plot does not have one already
+			if(garden.getPlots().get(plotIndex).getRecommendedPlants() == null) {
+				garden.getPlots().get(plotIndex).createRecommendedPlants();
+			}
+			//recommended plant list of the selected plot
+			HashMap<String, Plant> recommendedPlants = garden.getPlots().get(plotIndex).getRecommendedPlants();
+			//set the recommended plant list for the garden
+			garden.setRecommendedPlants(recommendedPlants);
+			//set the final list of recommended plants in the view based on the selected plot
+			ArrayList<String> plantNames = new ArrayList<String>();
+			plantNames.addAll(recommendedPlants.keySet());
+			gardenEditorView.setPlantImages(plantNames);
 		});
 	}
 	
@@ -774,8 +760,9 @@ public class Controller extends Application{
 	public EventHandler getLoadGardenViewOnClickHandler() {
 		return (event -> {
 			loadSavedGardenView = new LoadSavedGardenView(stage, savedGardens, this);
-		
+			
 			stage.setScene(loadSavedGardenView.getScene());
+			
 		});
 	}
 	
@@ -886,6 +873,33 @@ public class Controller extends Application{
 	public EventHandler onClickedWebpageHandler() {
 		return (event -> {
 			learnMoreView.launchWebpage(event.getSource());
+		});
+	}
+	
+	/**
+	 * Event handler to call the view function responsible for creating the lep image pop up window
+	 * @return
+	 */
+	public EventHandler lepPopUpHandler() {
+		return (event->{
+			gardenEditorView.createLepPopUp(event.getSource());
+		});
+	}
+	//TODO
+	public EventHandler lepPopUpHandler2() {
+		return (event->{
+			gardenEditorView.lepPopUp((ActionEvent)event, Garden.getAllLeps());
+		});
+	}
+	
+	
+	/**
+	 * Event Handler called to close the pop up window
+	 * @return
+	 */
+	public EventHandler closePopUp() {
+		return (event->{
+			gardenEditorView.closeLepWindow();
 		});
 	}
 }

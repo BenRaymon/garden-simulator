@@ -118,7 +118,7 @@ public class CompPlantsView extends View {
 		leftPlantButton.setOnMouseClicked(c.LeftPlantButtonClickedHandler());
 
 		//GridPane center = new GridPane();
-		MenuBox menu = new MenuBox(c);
+		//MenuBox menu = new MenuBox(c);
 		
 		imageViewA = new ImageView();
 		imageViewB = new ImageView();
@@ -138,6 +138,16 @@ public class CompPlantsView extends View {
 		Image tempImg = getImages().get("Carya Alba");
 		imageViewA.setImage(tempImg);
 		*/
+		MenuBox menu = new MenuBox(c, "comp_p");
+		//center.add(menu, 0, 0, 1, 1);
+		center.add(plantSummaryA, 0, 0, 1, 1);
+		// base.add(list,0,0,1,1);
+		center.add(plantSummaryB, 1, 0, 1, 1);
+		center.add(leftPlantButton, 0, 1, 1, 1);
+		center.add(rightPlantButton, 1, 1, 1, 1);
+		center.add(plantNameInput, 0, 2, 1, 1);
+		center.add(list, 0, 3, 1, 1);
+		// base.add(bc,0,4,1,1);
 		
 		
 		//Adds image Views
@@ -146,15 +156,15 @@ public class CompPlantsView extends View {
 		
 		
 		//Adds plant names
-		center.add(plantSummaryA, 0, 1, 1, 1);
-		center.add(plantSummaryB, 2, 1, 1, 1);
+		//center.add(plantSummaryA, 0, 1, 1, 1);
+		//center.add(plantSummaryB, 2, 1, 1, 1);
 		//Adds plant buttons
-		center.add(leftPlantButton, 0, 2, 1, 1);
-		center.add(rightPlantButton, 2, 2, 1, 1);
+		//center.add(leftPlantButton, 0, 2, 1, 1);
+		//center.add(rightPlantButton, 2, 2, 1, 1);
 		
 		//Adds Lists
 		center.add(plantsListView, 1, 2, 1, 1);
-		center.add(list, 1, 3, 1, 1);
+		//center.add(list, 1, 3, 1, 1);
 		// base.add(bc,0,4,1,1);
 
 		// get button styles
