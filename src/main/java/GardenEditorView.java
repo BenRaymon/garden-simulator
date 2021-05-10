@@ -504,6 +504,30 @@ public class GardenEditorView extends View {
 	}
 	
 	//TODO javadoc
+	public void addOptionsInfo(Plant plant) {
+		Text soilText = new Text("Soil Types Supported:");
+		Text soilStr = new Text(plant.getSoilTypes());
+		soilText.getStyleClass().add("editor-t");
+		soilStr.getStyleClass().add("editor-t");
+		left.add(soilText, 0, 12);
+		left.add(soilStr, 1, 12);
+		
+		Text sunText = new Text("Sunlight Levels Supported:");
+		Text sunlStr = new Text(plant.getSunlightLevels());
+		sunText.getStyleClass().add("editor-t");
+		sunlStr.getStyleClass().add("editor-t");
+		left.add(sunText, 0, 13);
+		left.add(sunlStr, 1, 13);
+		
+		Text moistureText = new Text("Moisture Levels Supported:");
+		Text moistureStr = new Text(plant.getMoistures());
+		moistureText.getStyleClass().add("editor-t");
+		moistureStr.getStyleClass().add("editor-t");
+		left.add(moistureText, 0, 14);
+		left.add(moistureStr, 1, 14);
+	}
+	
+	//TODO javadoc
 	public void addLepsInfo(Set<Lep> supportedLeps) {
 		Text lepInfoText = new Text("Some Leps supported:");
 		VBox lepHolder = new VBox();
@@ -659,6 +683,8 @@ public class GardenEditorView extends View {
 		addSize(plant);
 		addCost(plant);
 		addColor(plant);
+		addOptionsInfo(plant);
+
 		addLepsInfo(supportedLeps);
 	}
 

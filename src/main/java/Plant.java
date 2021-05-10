@@ -302,6 +302,56 @@ public class Plant implements Serializable, Comparable<Plant>{
 		return options;
 	}
 
+	//TODO
+	public String getSoilTypes() {
+		String soils = "";
+		int[] soilTypes = options.getSoilTypes();
+		if (soilTypes[0] == 1) {
+			soils += "Clay, ";
+		} 
+		if (soilTypes[1] == 1) {
+			soils += "Loam, ";
+		}
+		if (soilTypes[2] == 1) {
+			soils += "Sand, ";
+		}
+		soils = soils.substring(0, soils.length() - 2);
+		return soils;
+	}
+	
+	//TODO
+	public String getSunlightLevels() {
+		String sunlight = "";
+		int[] sunlevels = options.getSunLevels();
+		if (sunlevels[0] == 1) {
+			sunlight += "Shade, ";
+		} 
+		if (sunlevels[1] == 1) {
+			sunlight += "Partial Sun, ";
+		}
+		if (sunlevels[2] == 1) {
+			sunlight += "Full Sun, ";
+		}
+		sunlight = sunlight.substring(0, sunlight.length() - 2);
+		return sunlight;
+	}
+		
+	//TODO
+	public String getMoistures() {
+		String moistures = "";
+		int[] moistureLevels = options.getSoilTypes();
+		if (moistureLevels[0] == 1) {
+			moistures += "Dry, ";
+		} 
+		if (moistureLevels[1] == 1) {
+			moistures += "Moist, ";
+		}
+		if (moistureLevels[2] == 1) {
+			moistures += "Wet, ";
+		}
+		moistures = moistures.substring(0, moistures.length() - 2);
+		return moistures;
+	}
 
 
 	/**
