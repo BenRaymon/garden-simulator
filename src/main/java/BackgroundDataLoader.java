@@ -119,6 +119,7 @@ public class BackgroundDataLoader extends Thread {
 			Lep currLep = allLeps.get(words[2]);
 			currLep.addHostFamily(words[3]);
 			currLep.addHostName(words[4]);
+			currLep.addCountry(words[5]);
 			addLep = currLep;
 		}
 		else {

@@ -26,6 +26,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
@@ -558,18 +559,70 @@ public class GardenEditorView extends View {
 	}
 	
 	//TODO javadox
-	public void lepPopUp(ActionEvent event) {
+	public void lepPopUp(ActionEvent event, ConcurrentHashMap<String, Lep> allLeps) {
 		Stage lepPopup = new Stage();
         lepPopup.initModality(Modality.WINDOW_MODAL);
       
         Hyperlink link = (Hyperlink)event.getSource();
-		String name = link.getText();
+		String lepName = link.getText();
+		Lep lep = allLeps.get(lepName);
 		
 		
-        ImageView lepImage = new ImageView(View.getLepImages().get(name));
+        ImageView lepImage = new ImageView(View.getLepImages().get(lepName));
+        
+        HBox name = new HBox();
+        name.setMinWidth(lepImage.getImage().getWidth() + 100);
+        Text nameVal = new Text(lep.getLepName());
+		Text nameText = new Text("Butterfly Name:");
+		nameVal.getStyleClass().add("editor-t");
+		nameText.getStyleClass().add("editor-t");
+		name.getChildren().add(nameText);
+		name.getChildren().add(nameVal);
+		
+		HBox family = new HBox();
+        family.setMinWidth(lepImage.getImage().getWidth() + 100);
+        Text famVal = new Text(lep.getLepFamily());
+		Text famText = new Text("Butterfly Family:");
+		famVal.getStyleClass().add("editor-t");
+		famText.getStyleClass().add("editor-t");
+		family.getChildren().add(famText);
+		family.getChildren().add(famVal);
+		
+		HBox country = new HBox();
+        family.setMinWidth(lepImage.getImage().getWidth() + 100);
+        Text countryVal = new Text(lep.getCountries().toString());
+		Text countryText = new Text("Country of Origin:");
+		countryVal.getStyleClass().add("editor-t");
+		countryText.getStyleClass().add("editor-t");
+		country.getChildren().add(countryText);
+		country.getChildren().add(countryVal);
+		
+		HBox plantFamilies = new HBox();
+		plantFamilies.setMinWidth(lepImage.getImage().getWidth() + 100);
+        Text pfVal = new Text(lep.getFamilies().size() + "");
+		Text pfText = new Text("Supported by (number of families):");
+		pfVal.getStyleClass().add("editor-t");
+		pfText.getStyleClass().add("editor-t");
+		plantFamilies.getChildren().add(pfText);
+		plantFamilies.getChildren().add(pfVal);
+        
+		HBox plantNames = new HBox();
+		plantNames.setMinWidth(lepImage.getImage().getWidth() + 100);
+        Text pnVal = new Text(lep.getNames().size() + "");
+		Text pnText = new Text("Supported by (number of plants):");
+		pnVal.getStyleClass().add("editor-t");
+		pnText.getStyleClass().add("editor-t");
+		plantNames.getChildren().add(pnText);
+		plantNames.getChildren().add(pnVal);
+		
 		VBox pop = new VBox();
 		pop.setStyle("-fx-background-color: " + darkGreen);
 		pop.getChildren().add(lepImage);
+		pop.getChildren().add(name);
+		pop.getChildren().add(family);
+		pop.getChildren().add(country);
+		pop.getChildren().add(plantFamilies);
+		pop.getChildren().add(plantNames);
 		pop.setAlignment(Pos.CENTER);
 		
         Scene myDialogScene = new Scene(pop, lepImage.getImage().getWidth() + 100, lepImage.getImage().getHeight() + 100);

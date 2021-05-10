@@ -9,7 +9,7 @@ public class Lep implements Serializable {
 	private String lepName;
 	private Set<String> hostPlantFamily;
 	private Set<String> hostPlantName;
-	private String country;
+	private Set<String> countries;
 	
 	
 	
@@ -20,7 +20,8 @@ public class Lep implements Serializable {
 		hostPlantFamily.add(tempHostPlantF);
 		hostPlantName = new HashSet<String>();
 		hostPlantName.add(tempHostPlantN);
-		country = tempCountry;
+		countries = new HashSet<String>();
+		countries.add(tempCountry);
 	}
 
 	
@@ -53,14 +54,20 @@ public class Lep implements Serializable {
 		this.lepName = lepName;
 	}
 
-	public String getCountry() {
-		return country;
+	public Set<String> getCountries() {
+		return countries;
 	}
 
 
 
-	public void setCountry(String country) {
-		this.country = country;
+	public void addCountry(String country) {
+		countries.add(country);
 	}
 	
+	public Set<String> getFamilies(){
+		return hostPlantFamily;
+	}
+	public Set<String> getNames(){
+		return hostPlantName;
+	}
 }
