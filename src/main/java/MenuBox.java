@@ -5,12 +5,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
 public class MenuBox extends Pane {
-	private Button plot_d;
+	private Button plotD;
 	private Button editor;
 	private Button report;
-	private Button shopping_l;
+	private Button shoppingL;
 	private Button load;
-	private Button comp_p;
+	private Button compP;
 	private Button learn;
 	private GridPane container;
 	static int MENU_HEIGHT = 60;
@@ -32,27 +32,27 @@ public class MenuBox extends Pane {
 		
 		// make the buttons
 		load = new Button("Load Menu");
-		plot_d = new Button("Plot Designer");
+		plotD = new Button("Plot Designer");
 		editor = new Button("Garden Editor");
 		report = new Button("Report");
-		shopping_l = new Button("Shopping List");
-		comp_p = new Button("Compare Plants");
+		shoppingL = new Button("Shopping List");
+		compP = new Button("Compare Plants");
 		learn = new Button("Learn More");
 		
 		load.setOnMouseClicked(controller.getLoadGardenViewOnClickHandler());
-		plot_d.setOnMouseClicked(controller.getNewGardenOnClickHandler());
+		plotD.setOnMouseClicked(controller.getNewGardenOnClickHandler());
 		editor.setOnMouseClicked(controller.getToGardenOnClickHandler2());
-		shopping_l.setOnMouseClicked(controller.getToShoppingListOnClickHandler());
+		shoppingL.setOnMouseClicked(controller.getToShoppingListOnClickHandler());
 		report.setOnMouseClicked(controller.getToReportOnClickHandler());
-		comp_p.setOnMouseClicked(controller.getToCompareOnClickHandler());
+		compP.setOnMouseClicked(controller.getToCompareOnClickHandler());
 		learn.setOnMouseClicked(controller.getLearnMoreOnClickHandler());
 		
 		container.add(load, 0, 0);
-		container.add(plot_d, 1, 0);
+		container.add(plotD, 1, 0);
 		container.add(editor, 2, 0);
 		container.add(report, 3, 0);
-		container.add(shopping_l, 4, 0);
-		container.add(comp_p, 5, 0);
+		container.add(shoppingL, 4, 0);
+		container.add(compP, 5, 0);
 		container.add(learn, 6, 0);
 		
 		enableButtons();
@@ -101,7 +101,7 @@ public class MenuBox extends Pane {
 			load.setDisable(true);
 			break;
 		case "plot_d":
-			plot_d.setDisable(true);
+			plotD.setDisable(true);
 			break;
 		case "editor":
 			editor.setDisable(true);
@@ -110,10 +110,10 @@ public class MenuBox extends Pane {
 			report.setDisable(true);
 			break;
 		case "shopping_l":
-			shopping_l.setDisable(true);
+			shoppingL.setDisable(true);
 			break;
 		case "comp_p":
-			comp_p.setDisable(true);
+			compP.setDisable(true);
 			break;
 		case "learn":
 			learn.setDisable(true);
