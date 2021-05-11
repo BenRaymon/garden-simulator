@@ -448,16 +448,12 @@ public class GardenEditor {
 			Plant plant = entry.getValue();
 			//skip to next iteration if the plant is the same
 			if(plant.getPosition().equals(originalPosition)) {
-				System.out.println("SAME PLANT");
 				continue;
 			}
 			double secondRadius = plant.getSpreadRadiusLower();
 			if (secondRadius == 0)
 				secondRadius = plant.getSizeLower();
-			System.out.println("Distance: " + (pos.distance(posOfSelectedPlant)));
-			System.out.println("Rad + scale: " + (radius * scale));
-			System.out.println("2nd Rad + scale: " + (secondRadius * scale));
-			System.out.println("R1 + R2: " + (radius * scale + secondRadius * scale));
+
 			if (radius * scale + secondRadius * scale > pos.distance(posOfSelectedPlant)) {
 				return false;
 			}

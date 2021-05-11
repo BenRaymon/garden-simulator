@@ -82,12 +82,8 @@ public class Controller extends Application{
 	public void loadStartScreen() {
 		try {
 			savedGardens = gardenSaverLoader.loadGardenList();
-			System.out.println("Load success");		
-			for(Garden g : savedGardens) {
-				System.out.println(g.getName());
-			}
+			System.out.println("Load success");
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -254,12 +250,6 @@ public class Controller extends Application{
 				gardenEditorView.drawPlot(p.getCoordinates(), p.getPlantsInPlot());
 			// Calculate the plot boundaries for later use
 			p.calculatePlotBoundaries();
-			System.out.println("Plot Left: " + p.getLeft());
-			System.out.println("Plot Right: " + p.getRight());
-			System.out.println("Plot Top: " + p.getTop());
-			System.out.println("Plot Bottom: " + p.getBottom());
-			System.out.println("Plot Cx: " + p.getCx());
-			System.out.println("Plot Cy: " + p.getCy());
 		}
 		//update leps supported
 		gardenEditorView.updateGardenCounts(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
@@ -567,7 +557,7 @@ public class Controller extends Application{
 						//place the plant in the garden in the view
 						gardenEditorView.createNewImageInBase(drag,db, radius);
 					} else {
-						System.out.println("1: Plant is too close to another");
+						System.out.println("Plant is too close to another");
 						gardenEditorView.plantRadiusOverlapPopUp();
 						//clear canvas and draw the plants again
 						gardenEditorView.clearCanvas();
@@ -590,7 +580,7 @@ public class Controller extends Application{
 						//place the plant in the garden in the view
 						gardenEditorView.createNewImageInBase(drag,db, radius);
 					} else {
-						System.out.println("2: Plant is too close to another");
+						System.out.println("Plant is too close to another");
 						gardenEditorView.plantRadiusOverlapPopUp();
 					}
 				} else {
@@ -770,7 +760,6 @@ public class Controller extends Application{
 				ArrayList<Plant> tmp_plants = garden.getPlantsInGarden();
 				
 				if(name_g == "") {
-					//System.out.println("empty name");
 					Garden tmp_g = new Garden(garden.getName(), tmp_spent, tmp_budget, tmp_plots, tmp_leps, tmp_plants, tmp_scale);
 					savedGardens.add(tmp_g);
 					gardenSaverLoader.deleteGarden(garden.getName(), savedGardens);
@@ -782,7 +771,6 @@ public class Controller extends Application{
 					gardenSaverLoader.saveGarden(savedGardens);
 				}
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -794,7 +782,6 @@ public class Controller extends Application{
 						System.out.println(p.getScientificName());
 				}
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
@@ -858,7 +845,6 @@ public class Controller extends Application{
 			try {
 				gardenSaverLoader.saveGarden(savedGardens);
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -897,17 +883,6 @@ public class Controller extends Application{
 			System.out.println("Generate report button pushed");
 			
 			reportView.showReport();
-
-			
-			//Gets vlaues of checkboxes
-			//boolean perennialDiversityOptionFlag = reportView.getPerennialDiversityOption().isSelected();
-			//boolean budgetFlag = reportView.getBudgetOption().isSelected();
-			//boolean lepListFlag = reportView.getLepListOption().isSelected();
-			//boolean plantListFlag = true;
-			//boolean tableFlag = reportView.get
-			
-			
-			//Perenial Diversity
 			
 			HashMap<String, PlantShoppingListData> tempGardenData = garden.generateShoppingListData();
 			
@@ -920,47 +895,39 @@ public class Controller extends Application{
 			}
 			
 			reportView.addGardenPieGraph();
-			//---------------------------------
-			
-			
+
 			//Garden Budget
-				reportView.addBudgetBox(garden.getSpent(),garden.getBudget());
-			//-----------------------
-			
+			reportView.addBudgetBox(garden.getSpent(),garden.getBudget());
+
 			//Lep List
-				tempGardenData = garden.generateShoppingListData();
-				ConcurrentHashMap<String, Set<Lep>> tempLeps =  garden.getLepsByPlant();
-				tempGardenData.forEach((key,val) ->{
-					System.out.println("In for each");
-					String scientific = val.getScientificName();
-					Set<Lep> leps = tempLeps.get(scientific);
-					if(leps != null) {
-					for(Lep l: leps) {
-						System.out.println("In nested forEach");
-						reportView.addLep(l.getLepName());
-					}
-					}
-				});
-				reportView.addLepList();
+			tempGardenData = garden.generateShoppingListData();
+			ConcurrentHashMap<String, Set<Lep>> tempLeps =  garden.getLepsByPlant();
+			tempGardenData.forEach((key,val) ->{
+				System.out.println("In for each");
+				String scientific = val.getScientificName();
+				Set<Lep> leps = tempLeps.get(scientific);
+				if(leps != null) {
+				for(Lep l: leps) {
+					System.out.println("In nested forEach");
+					reportView.addLep(l.getLepName());
+				}
+				}
+			});
+			reportView.addLepList();
 				
-				
-			//------------------------------
-			
 			//Plant List
-				tempGardenData = garden.generateShoppingListData();
-				tempGardenData.forEach((key,val) ->{
-					String scientific = val.getScientificName();
-					reportView.addPlant(scientific);
-				});
-				reportView.addPlantList();
-			
-			//-------------
-				
-			//Draw
-			
+			tempGardenData = garden.generateShoppingListData();
+			tempGardenData.forEach((key,val) ->{
+				String scientific = val.getScientificName();
+				reportView.addPlant(scientific);
+			});
+			reportView.addPlantList();
+
 		});
 		
 	}
+	
+	
 	/**
 	 * Returns the event handler for opening a webpage from Learn More Hyperlinks
 	 * When activated this method will launch the hyperlink that was clicked on
@@ -984,7 +951,6 @@ public class Controller extends Application{
 		});
 	}
 	
-	
 	/**
 	 * Event Handler called to close the pop up window
 	 * @return
@@ -997,7 +963,6 @@ public class Controller extends Application{
 	
 	public EventHandler plantListClicked() {
 		return(event ->{
-			//System.out.println("In controller");
 			reportView.openPlantListPopUp((MouseEvent)event, Garden.getAllPlants());
 			});
 	}

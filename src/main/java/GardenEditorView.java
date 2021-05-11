@@ -51,13 +51,12 @@ public class GardenEditorView extends View {
 	private BorderPane base;
 	private Scene scene;
 	private GraphicsContext gc;
-	private TextField gardenName; // name the garden (used to load garden)
+	private TextField gardenName;
 	private VBox plantImage, plotSelectors;
 	private Text lepCount = new Text("0");
 	private Text plantCount = new Text("0");
 	private Text budgetText = new Text();
 	private VBox container;
-	private Stage Pristage;
 	private Popup lepPopUp;
 	private Canvas drawArea;
 	
@@ -95,7 +94,6 @@ public class GardenEditorView extends View {
 		//create the right and left info bars
 		createRight();
 		createLeft();
-		//setPlantInfo(null);
 		
 		// get button and scroll bar styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
@@ -122,12 +120,7 @@ public class GardenEditorView extends View {
 		scene.getStylesheets().add(labelStyle);
 		stage.setScene(scene);
         stage.show();
-        
-       
-        
 	}
-	
-	
 	
 	///TODO javadoc
 	public void clearCanvas() {
@@ -149,7 +142,6 @@ public class GardenEditorView extends View {
 	 */
 	public void setPlotBoxes(ArrayList<Plot> plots) {
 		plotSelectors = new VBox();
-		//
 		ComboBox plotSelection = new ComboBox();
 		plotSelection.setPromptText("Select a plot");
 		plotSelection.valueProperty().addListener(controller.getPlotSelectHandler());
@@ -162,12 +154,10 @@ public class GardenEditorView extends View {
 		for (Plot plot : plots) {
 			plotSelection.getItems().add("Plot" + index++);
 		}
-		
 		//set the margins for each checkbox in the plotSelectors
 		for(Node x : plotSelectors.getChildren()) {
 			plotSelectors.setMargin(x, margins);
 		}
-		
 		plotSelection.setValue("Plot 1");
 		plotSelectors.getChildren().add(plotSelection);
 		right.add(plotSelectors, 0, 1);
@@ -206,10 +196,9 @@ public class GardenEditorView extends View {
 				addPlantImageToBase(tmp_pos, new ImagePattern(plantImage), radius);
 			}
 		}
-		
 	}
 	
-	//draw plants
+	//TODO
 	public void drawPlants(HashMap<Point, Plant> plantsInPlot) {
 		if(plantsInPlot != null) {
 			for(Map.Entry<Point, Plant> map_element : plantsInPlot.entrySet()) {
@@ -272,7 +261,6 @@ public class GardenEditorView extends View {
 		plotSelectors = new VBox();
 		//add component to right info bar
 		right.add(plotSelectors, 0, 1); 
-		//checkboxes are created and added for each plot in the setPlotBoxes method
 	}
 	
 	/**
@@ -438,7 +426,6 @@ public class GardenEditorView extends View {
 	public void addType(Plant plant) {
 		Text typeText = new Text("Type:");
 		String type = "HOLD";
-		System.out.println(plant.getType());
 		if (plant.getType() ==  'w'){
 			type = "Woody";
 		}
@@ -536,8 +523,6 @@ public class GardenEditorView extends View {
 		Text lepsSupported = new Text();
 		Set<String> usedLeps = new HashSet<String>(); 
 		int count = 3;
-		System.out.println("HASH SIZE");
-		System.out.println(View.getLepImages().size());
 		for(Lep l :supportedLeps) {
 			if(count != 0) {
 				if (!usedLeps.contains(l.getLepName())){
@@ -551,7 +536,6 @@ public class GardenEditorView extends View {
 						Text lepName = new Text(l.getLepName());
 						lepHolder.getChildren().add(lepName);
 					}
-					System.out.println(l.getLepName());
 					usedLeps.add(l.getLepName());
 					count = count -1;
 				}
@@ -668,7 +652,6 @@ public class GardenEditorView extends View {
 	 * @param plant
 	 */
 	public void setPlantInfo(Plant plant, Set<Lep> supportedLeps, Event event) { // ConcurrentHashap<String, Set<Lep>> allLeps
-		System.out.println("IN SET PLANT INFO");
 		left.getChildren().clear();
 		
 		Circle plantCirc = (Circle)event.getSource();
@@ -836,7 +819,6 @@ public class GardenEditorView extends View {
 	 * @param radius
 	 */
 	public void createNewImageInBase(DragEvent event, Dragboard db, double radius) {
-		System.out.println("Creating new gardeneditorview image");
 		Circle circ = new Circle(event.getX(), event.getY(), radius*SCALE);
         circ.setFill(new ImagePattern(selectedPlant));
         circ.setOnDragDetected(controller.getOnImageDraggedHandler());

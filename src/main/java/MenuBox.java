@@ -119,7 +119,7 @@ public class MenuBox extends Pane {
 			learn.setDisable(true);
 			break;
 		default:
-			System.out.println("i");
+			break;
 		}
 	}
 	

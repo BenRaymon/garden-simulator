@@ -34,7 +34,6 @@ public class PlotDesignView extends View {
 	private TextField budgetInput;
 	private Scene scene;
 	private BorderPane base;
-	private Button drawDimensions;
 	private GraphicsContext gc;
 	private Controller controller;
 	private ArrayList<Point> coords;
@@ -48,7 +47,6 @@ public class PlotDesignView extends View {
 	private final double SPACING = 10;
 	private double CANVAS_WIDTH = WINDOW_WIDTH - LEFTBAR;
 	private double CANVAS_HEIGHT = WINDOW_HEIGHT - MenuBox.MENU_HEIGHT;
-	private int scaleIndex = 50;
 	private boolean showGridLines = true;
 	
 	/**
@@ -146,7 +144,6 @@ public class PlotDesignView extends View {
 		drawArea.setHeight(CANVAS_HEIGHT);
 		
 		gc = drawArea.getGraphicsContext2D();
-		//drawGrid();
 	}
 	
 	public void widthChanged(Object windowWidth) {
@@ -155,7 +152,6 @@ public class PlotDesignView extends View {
 		drawArea.setWidth(CANVAS_WIDTH);
 		
 		gc = drawArea.getGraphicsContext2D();
-		//drawGrid();
 	}
 	
 	

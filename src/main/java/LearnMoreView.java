@@ -66,6 +66,7 @@ public class LearnMoreView extends View{
 		stage.setScene(scene);
         stage.show();
 	}
+	
 	/**
 	 * Creates the top VBox
 	 */
@@ -96,7 +97,6 @@ public class LearnMoreView extends View{
 		box2.setAlignment(Pos.CENTER);
 		box2.setSpacing(SPACING);
 		gardenTipsText(box2);
-		//base.setLeft(box1);
 		container.add(box1, 60, 7);
 	}
 	
@@ -114,7 +114,6 @@ public class LearnMoreView extends View{
 		box2.setAlignment(Pos.CENTER);
 		box2.setSpacing(SPACING);
 		moreResources(box2);
-		//base.setRight(box1);
 		container.add(box1, 60, 6);
 	}
 	
@@ -151,10 +150,8 @@ public class LearnMoreView extends View{
 			try {
 				d.browse(new URI("https://mtcubacenter.org/"));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (URISyntaxException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -162,10 +159,8 @@ public class LearnMoreView extends View{
 			try {
 				d.browse(new URI("https://www.udel.edu/academics/colleges/canr/cooperative-extension/fact-sheets/native-plants-for-delaware-landscapes/"));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (URISyntaxException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -173,10 +168,8 @@ public class LearnMoreView extends View{
 			try {
 				d.browse(new URI("https://delawarenativeplants.org/"));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (URISyntaxException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -252,8 +245,6 @@ public class LearnMoreView extends View{
 			Text buffer = new Text("");
 			box.getChildren().add(buffer);
 		} catch (IOException e) {
-			System.out.println("IN CATCH");
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

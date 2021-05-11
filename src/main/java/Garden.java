@@ -224,7 +224,6 @@ public class Garden implements Serializable {
 			return plots.get(index).getPlantsInPlot().containsValue(p);
 		} catch (Exception e) {
 			System.out.println("Plant is not in plot");
-			//e.printStackTrace();
 		}
 		return false;
 	}
@@ -299,10 +298,11 @@ public class Garden implements Serializable {
 		return allPlants.get(name);
 	}
 	
-	
+	//TODO
 	public static ConcurrentHashMap<String, Set<Lep>> getLepsByPlant(){
 		return lepsByPlant;
 	}
+	//TODO
 	public static ConcurrentHashMap<String, Lep> getAllLeps(){
 		return allLeps;
 	}
