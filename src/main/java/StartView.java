@@ -19,6 +19,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
@@ -43,9 +44,10 @@ public class StartView extends View {
 	private Button loadGarden;
 	private Button learnMore;
 	private Scene scene;
-	private VBox base;
-	private VBox menuBox;
+	private BorderPane base;
+	private VBox container;
 	private Controller controller;
+	private GridPane titleContainer;
 	private final double SPACING = 10;
 	private final double BUTTON_H = 50;
 	private final double BUTTON_W = 150;
@@ -62,23 +64,20 @@ public class StartView extends View {
 	 */
 	public StartView(Stage stage, Controller c) {
 		controller = c;
-		base = new VBox();
+		base = new BorderPane();
+		container = new VBox();
+		titleContainer = new GridPane();
 		base.setStyle("-fx-background-color: " + darkGreen);
 		
+		Label title = new Label("OkBloomer");
 		
-		
-		pageTitle = new Text("OkBloomer");
-		pageTitle.setFont(Font.font(TEXT));
-		pageTitle.minHeight(TEXT);
-		pageTitle.maxHeight(TEXT);
-		
-		//Text titleBox = new VBox(5);
-		//titleBox.setStyle("-fx-background-color: darkseagreen");
-		//titleBox.setAlignment(Pos.CENTER);
-		//titleBox.getChildren().add(pageTitle);
-		base.getChildren().add(pageTitle);
-		base.setAlignment(Pos.CENTER);
-		base.setMargin(pageTitle, new Insets(50,0,0,0));
+		titleContainer.setMinHeight(100);
+		titleContainer.setHgap(10);
+		titleContainer.setVgap(10);
+		titleContainer.add(title, 80, 2);
+		base.setTop(titleContainer);
+		base.setCenter(container);
+		container.setMargin(title, new Insets(50,0,0,0));
 		
 		
 		
@@ -111,15 +110,17 @@ public class StartView extends View {
 		pictureBox.getChildren().add(butterflyView);
 		pictureBox.setStyle("-fx-background-color: " + darkGreen);
 		pictureBox.setMargin(butterflyView, new Insets(0,0,50,0));
-		base.getChildren().add(pictureBox);
-		base.getChildren().add(buttons);
+		container.getChildren().add(pictureBox);
+		container.getChildren().add(buttons);
 		
 		// get the button styles
+		String labelStyle = getClass().getResource("startview.css").toExternalForm();
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
 		
 		//create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.getStylesheets().add(buttonStyle);
+		scene.getStylesheets().add(labelStyle);
         stage.setScene(scene);
         stage.show();
 	}

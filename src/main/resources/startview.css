@@ -1,0 +1,14 @@
+.label {
+    -fx-text-fill: #E2E4E0;
+    -fx-font-size: 76px;
+	-fx-font-family: monospace;
+	-fx-font-weight: bold;
+	-fx-font-smoothing-type: lcd;
+}
+
+.textfield {
+    -fx-text-fill: white;
+    -fx-font-size: 76px;
+	-fx-font-family: sans-serif;
+	-fx-font-weight: bold;
+}
