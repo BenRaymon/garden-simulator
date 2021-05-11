@@ -51,13 +51,12 @@ public class GardenEditorView extends View {
 	private BorderPane base;
 	private Scene scene;
 	private GraphicsContext gc;
-	private TextField gardenName; // name the garden (used to load garden)
+	private TextField gardenName;
 	private VBox plantImage, plotSelectors;
 	private Text lepCount = new Text("0");
 	private Text plantCount = new Text("0");
 	private Text budgetText = new Text();
 	private VBox container;
-	private Stage Pristage;
 	private Popup lepPopUp;
 	private Canvas drawArea;
 	
@@ -95,7 +94,6 @@ public class GardenEditorView extends View {
 		//create the right and left info bars
 		createRight();
 		createLeft();
-		//setPlantInfo(null);
 		
 		// get button and scroll bar styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
@@ -121,10 +119,8 @@ public class GardenEditorView extends View {
 		scene.getStylesheets().add(checkStyle);
 		scene.getStylesheets().add(labelStyle);
 		stage.setScene(scene);
-        stage.show(); 
+        stage.show();
 	}
-	
-	
 	
 	///TODO javadoc
 	public void clearCanvas() {
@@ -146,7 +142,6 @@ public class GardenEditorView extends View {
 	 */
 	public void setPlotBoxes(ArrayList<Plot> plots) {
 		plotSelectors = new VBox();
-		//
 		ComboBox plotSelection = new ComboBox();
 		plotSelection.setPromptText("Select a plot");
 		plotSelection.valueProperty().addListener(controller.getPlotSelectHandler());
@@ -159,12 +154,10 @@ public class GardenEditorView extends View {
 		for (Plot plot : plots) {
 			plotSelection.getItems().add("Plot" + index++);
 		}
-		
 		//set the margins for each checkbox in the plotSelectors
 		for(Node x : plotSelectors.getChildren()) {
 			plotSelectors.setMargin(x, margins);
 		}
-		
 		plotSelection.setValue("Plot 1");
 		plotSelectors.getChildren().add(plotSelection);
 		right.add(plotSelectors, 0, 1);
@@ -203,10 +196,9 @@ public class GardenEditorView extends View {
 				addPlantImageToBase(tmp_pos, new ImagePattern(plantImage), radius);
 			}
 		}
-		
 	}
 	
-	//draw plants
+	//TODO
 	public void drawPlants(HashMap<Point, Plant> plantsInPlot) {
 		if(plantsInPlot != null) {
 			for(Map.Entry<Point, Plant> map_element : plantsInPlot.entrySet()) {
@@ -269,7 +261,6 @@ public class GardenEditorView extends View {
 		plotSelectors = new VBox();
 		//add component to right info bar
 		right.add(plotSelectors, 0, 1); 
-		//checkboxes are created and added for each plot in the setPlotBoxes method
 	}
 	
 	/**
@@ -435,7 +426,6 @@ public class GardenEditorView extends View {
 	public void addType(Plant plant) {
 		Text typeText = new Text("Type:");
 		String type = "HOLD";
-		System.out.println(plant.getType());
 		if (plant.getType() ==  'w'){
 			type = "Woody";
 		}
@@ -533,8 +523,6 @@ public class GardenEditorView extends View {
 		Text lepsSupported = new Text();
 		Set<String> usedLeps = new HashSet<String>(); 
 		int count = 3;
-		System.out.println("HASH SIZE");
-		System.out.println(View.getLepImages().size());
 		for(Lep l :supportedLeps) {
 			if(count != 0) {
 				if (!usedLeps.contains(l.getLepName())){
@@ -548,7 +536,6 @@ public class GardenEditorView extends View {
 						Text lepName = new Text(l.getLepName());
 						lepHolder.getChildren().add(lepName);
 					}
-					System.out.println(l.getLepName());
 					usedLeps.add(l.getLepName());
 					count = count -1;
 				}
@@ -577,29 +564,29 @@ public class GardenEditorView extends View {
         lepInfo.setMinWidth(lepImage.getImage().getWidth());
         lepInfo.setAlignment(Pos.CENTER);
 
-        Text nameVal = new Text(lep.getLepName());
-		Text nameText = new Text("Butterfly Name:");
-		nameVal.getStyleClass().add("editor-t");
-		nameText.getStyleClass().add("editor-t");
+        Label nameVal = new Label(lep.getLepName());
+		Label nameText = new Label("Butterfly Name:");
+		nameVal.getStyleClass().add("popup");
+		nameText.getStyleClass().add("popup");
 		lepInfo.add(nameText, 0, 0);
 		lepInfo.add(nameVal, 1, 0);
 
-        Text famVal = new Text(lep.getLepFamily());
-		Text famText = new Text("Butterfly Family:");
-		famVal.getStyleClass().add("editor-t");
-		famText.getStyleClass().add("editor-t");
+        Label famVal = new Label(lep.getLepFamily());
+		Label famText = new Label("Butterfly Family:");
+		famVal.getStyleClass().add("popup");
+		famText.getStyleClass().add("popup");
 		lepInfo.add(famText, 0, 1);
 		lepInfo.add(famVal, 1, 1);
 
-        Text countryVal = new Text(lep.getCountries().toString());
-		Text countryText = new Text("Country of Origin:");
-		countryVal.getStyleClass().add("editor-t");
-		countryText.getStyleClass().add("editor-t");
+        Label countryVal = new Label(lep.getCountries().toString());
+		Label countryText = new Label("Country of Origin: ");
+		countryVal.getStyleClass().add("popup");
+		countryText.getStyleClass().add("popup");
 		lepInfo.add(countryText, 0, 2);
 		lepInfo.add(countryVal, 1, 2);
 
-		Text pfText = new Text("Feeds off of " + lep.getNames().size() + " plants from " + lep.getFamilies().size() + " different families");
-		pfText.getStyleClass().add("editor-t");
+		Label pfText = new Label("Feeds off of " + lep.getNames().size() + " plants from " + lep.getFamilies().size() + " different families");
+		pfText.getStyleClass().add("popup");
 
 		
 		VBox pop = new VBox();
@@ -610,7 +597,8 @@ public class GardenEditorView extends View {
 		pop.setAlignment(Pos.CENTER);
 		
         Scene myDialogScene = new Scene(pop, lepImage.getImage().getWidth() + 100, lepImage.getImage().getHeight() + 100);
-      
+        String labelStyle = getClass().getResource("labels.css").toExternalForm();
+        myDialogScene.getStylesheets().add(labelStyle);
         lepPopup.setScene(myDialogScene);
         lepPopup.show();
 	}
@@ -624,6 +612,7 @@ public class GardenEditorView extends View {
 		box.setAlignment(Pos.CENTER);
 		box.setStyle("-fx-background-color: " + darkgrey);
 		Label message = new Label("Plant radius is too large for your plot");
+		message.getStyleClass().add("popup");
 		
 		box.getChildren().add(message);
         Scene myDialogScene = new Scene(box, 350, 75);
@@ -642,9 +631,12 @@ public class GardenEditorView extends View {
 		box.setAlignment(Pos.CENTER);
 		box.setStyle("-fx-background-color: " + darkgrey);
 		Label message = new Label("Plant radius overlaps with another plant's radius");
+		message.getStyleClass().add("popup");
+		message.setWrapText(true);
+		message.setPadding(new Insets(0,0,0,20));
 		
 		box.getChildren().add(message);
-        Scene myDialogScene = new Scene(box, 350, 75);
+        Scene myDialogScene = new Scene(box, 400, 75);
         String textStyle = getClass().getResource("labels.css").toExternalForm();
         myDialogScene.getStylesheets().add(textStyle);
         popup.setScene(myDialogScene);
@@ -665,7 +657,6 @@ public class GardenEditorView extends View {
 	 * @param plant
 	 */
 	public void setPlantInfo(Plant plant, Set<Lep> supportedLeps, Event event) { // ConcurrentHashap<String, Set<Lep>> allLeps
-		System.out.println("IN SET PLANT INFO");
 		left.getChildren().clear();
 		
 		Circle plantCirc = (Circle)event.getSource();
@@ -833,7 +824,6 @@ public class GardenEditorView extends View {
 	 * @param radius
 	 */
 	public void createNewImageInBase(DragEvent event, Dragboard db, double radius) {
-		System.out.println("Creating new gardeneditorview image");
 		Circle circ = new Circle(event.getX(), event.getY(), radius*SCALE);
         circ.setFill(new ImagePattern(selectedPlant));
         circ.setOnDragDetected(controller.getOnImageDraggedHandler());

@@ -34,7 +34,6 @@ public class PlotDesignView extends View {
 	private TextField budgetInput;
 	private Scene scene;
 	private BorderPane base;
-	private Button drawDimensions;
 	private GraphicsContext gc;
 	private Controller controller;
 	private ArrayList<Point> coords;
@@ -48,7 +47,6 @@ public class PlotDesignView extends View {
 	private final double SPACING = 10;
 	private double CANVAS_WIDTH = WINDOW_WIDTH - LEFTBAR;
 	private double CANVAS_HEIGHT = WINDOW_HEIGHT - MenuBox.MENU_HEIGHT;
-	private int scaleIndex = 50;
 	private boolean showGridLines = true;
 	
 	/**
@@ -89,7 +87,7 @@ public class PlotDesignView extends View {
 		
 		VBox toGardenHolder = new VBox(); //need the vbox for alignment
 		toGardenHolder.setAlignment(Pos.CENTER);
-		Button toGarden = new Button("To Garden");
+		Button toGarden = new Button("Fill Garden");
 		toGarden.setMinWidth(LEFTBAR*0.6);
 		toGarden.setOnMouseClicked(controller.getToGardenOnClickHandler());
 		toGardenHolder.getChildren().add(toGarden);
@@ -140,22 +138,23 @@ public class PlotDesignView extends View {
 		scene.heightProperty().addListener(controller.getPDHeightChangeListener());
 	}
 	
+	//TODO
 	public void heightChanged(Object windowHeight) {
 		WINDOW_HEIGHT = (double) windowHeight;
 		CANVAS_HEIGHT = (double)windowHeight - MenuBox.MENU_HEIGHT;
 		drawArea.setHeight(CANVAS_HEIGHT);
 		
 		gc = drawArea.getGraphicsContext2D();
-		//drawGrid();
 	}
 	
+	
+	//TODO
 	public void widthChanged(Object windowWidth) {
 		WINDOW_WIDTH =(double) windowWidth;
 		CANVAS_WIDTH = (double)windowWidth - LEFTBAR;
 		drawArea.setWidth(CANVAS_WIDTH);
 		
 		gc = drawArea.getGraphicsContext2D();
-		//drawGrid();
 	}
 	
 	
@@ -165,13 +164,13 @@ public class PlotDesignView extends View {
 	 * @return none
 	 */
 	public void inputDimensions() {
-		Label widthText = new Label("Garden width");
+		Label widthText = new Label("Garden width (ft)");
 		widthText.setMinWidth(LEFTBAR*0.6);
-		Label heightText = new Label("Garden height");
+		Label heightText = new Label("Garden height (ft)");
 		heightText.setMinWidth(LEFTBAR*0.6);
-		Label boxHeightText = new Label("Grid Height");
+		Label boxHeightText = new Label("Grid Height (ft)");
 		boxHeightText.setMinWidth(LEFTBAR*0.6);
-		Label boxWidthText = new Label("Grid Width");
+		Label boxWidthText = new Label("Grid Width (ft)");
 		boxWidthText.setMinWidth(LEFTBAR*0.6);
 		Label budgetText = new Label("Budget");
 		budgetText.setMinWidth(LEFTBAR*0.6);

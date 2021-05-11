@@ -60,23 +60,13 @@ public class CompPlantsView extends View {
 		center.setVgap(10);
 		center.setAlignment(Pos.CENTER);
 
-		// button to go back to the garden editor
-//		toGardenEditor = new Button("Garden Editor");
-//		toGardenEditor.setOnMouseClicked(controller.getToGardenOnClickHandler2());
-//		base.add(toGardenEditor, 0, 10);
 
 		// Creating table
 		items = FXCollections.observableArrayList("General Info", "Lep Compare", "Radius Compare", "Size Compare");
 		list = new ListView<String>();
-		// list.setOn
 		list.setItems(items);
 		list.setPrefHeight(70);
 		list.setOnMouseClicked(controller.listClickedHandler());
-
-		// TableColumn plantACol = new TableColumn("Plant A");
-		// TableColumn plantInfoCol = new TableColumn("Plant Info");
-		// TableColumn plantBCol = new TableColumn("Plant B");
-		// table.getColumns().addAll(plantACol, plantInfoCol, plantBCol);
 
 		// Setting plant Summary Values
 		plantSummaryA = new Text("Plant summary A");
@@ -93,9 +83,6 @@ public class CompPlantsView extends View {
 		rightPlantButton.setOnMouseClicked(c.RightPlantButtonClickedHandler());
 		leftPlantButton.setOnMouseClicked(c.LeftPlantButtonClickedHandler());
 
-		//GridPane center = new GridPane();
-		//MenuBox menu = new MenuBox(c);
-		
 		imageViewA = new ImageView();
 		imageViewB = new ImageView();
 		
@@ -108,40 +95,19 @@ public class CompPlantsView extends View {
 		imageViewB.setPreserveRatio(true);
 		
 		
-		//Test image
-		
-		/*
-		Image tempImg = getImages().get("Carya Alba");
-		imageViewA.setImage(tempImg);
-		*/
 		MenuBox menu = new MenuBox(c, "comp_p");
-		//center.add(menu, 0, 0, 1, 1);
 		center.add(plantSummaryA, 0, 1, 1, 1);
-		// base.add(list,0,0,1,1);
 		center.add(plantSummaryB, 2, 1, 1, 1);
 		center.add(leftPlantButton, 0, 2, 1, 1);
 		center.add(rightPlantButton, 2, 2, 1, 1);
-		//center.add(plantNameInput, 0, 2, 1, 1);
 		center.add(list, 1, 3, 1, 1);
-		// base.add(bc,0,4,1,1);
-		
 		
 		//Adds image Views
 		center.add(imageViewA,0,0,1,1);
 		center.add(imageViewB,2,0,1,1);
 		
-		
-		//Adds plant names
-		//center.add(plantSummaryA, 0, 1, 1, 1);
-		//center.add(plantSummaryB, 2, 1, 1, 1);
-		//Adds plant buttons
-		//center.add(leftPlantButton, 0, 2, 1, 1);
-		//center.add(rightPlantButton, 2, 2, 1, 1);
-		
 		//Adds Lists
 		center.add(plantsListView, 1, 2, 1, 1);
-		//center.add(list, 1, 3, 1, 1);
-		// base.add(bc,0,4,1,1);
 
 		// get button styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
@@ -164,43 +130,42 @@ public class CompPlantsView extends View {
 		return scene;
 	}
 
-
-	/**
-	 * RightTextBox (plantSummaryB) setter.
-	 * 
-	 * @param String s
-	 */
-	public void setRightTextBox(String s) {
-		plantSummaryB.setText(s);
-	}
-
 	/**
 	 * RightTextBox (plantSummaryB) getter.
 	 * 
-	 * @return Text plantSummaryB
+	 * @return String plantSummaryB text
 	 */
-	public Text getRightBody() {
-		return plantSummaryB;
+	public String getRightBody() {
+		return plantSummaryB.getText();
 	}
 
 	/**
 	 * LeftTextBox (plantSummaryA) getter.
 	 * 
-	 * @return Text plantSummrayA
+	 * @return String plantSummrayA text
 	 */
-	public Text getLeftBody() {
-		return plantSummaryA;
+	public String getLeftBody() {
+		return plantSummaryA.getText();
 	}
 
 	/**
-	 * ObservableList getter.
+	 * RightTextBox (plantSummaryB) setter.
 	 * 
-	 * @return ObservableList<String> items
+	 * @param s string to set text of 
 	 */
-	public ObservableList<String> getObservableList() {
-		return items;
+	public void setRightBody(String s) {
+		plantSummaryB.setText(s);
 	}
 
+	/**
+	 * LeftTextBox (plantSummaryA) setter.
+	 * 
+	 * @param s string to set text of
+	 */
+	public void setLeftBody(String s) {
+		plantSummaryA.setText(s);
+	}
+	
 	/**
 	 * ListView getter.
 	 * 
@@ -213,82 +178,68 @@ public class CompPlantsView extends View {
 	/**
 	 * LepCompare setter.
 	 * 
-	 * @param plantAName
-	 * @param plantBName
-	 * @param plantALeps
-	 * @param plantBLeps
+	 * @param plantA
+	 * @param plantB
 	 */
-	public void setLepCompare(String plantAName, String plantBName, int plantALeps, int plantBLeps) {
-
+	public void setLepCompare(Plant plantA, Plant plantB) {
 		center.getChildren().remove(bc);
 		center.getChildren().remove(plantDataHbox);
-
+		
+		
 		xAxis = new CategoryAxis();
 		yAxis = new NumberAxis();
 		xAxis.setLabel("Plant names");
 		yAxis.setLabel("# of Leps");
-
+		
 		series1 = new XYChart.Series();
-		// series2 = new XYChart.Series();
-		series1.getData().add(new XYChart.Data(plantAName, plantALeps));
-		series1.getData().add(new XYChart.Data(plantBName, plantBLeps));
+		series1.getData().add(new XYChart.Data(plantA.getScientificName(), plantA.getLepsSupported()));
+		series1.getData().add(new XYChart.Data(plantB.getScientificName(), plantB.getLepsSupported()));
+		
 		bc = new BarChart<String, Number>(xAxis, yAxis);
 		bc.setTitle("Leps Supported");
 		bc.getData().addAll(series1);
 		center.add(bc, 1, 5, 1, 1);
-
 	}
 
 	/**
 	 * RadiusCompare setter.
 	 * 
-	 * @param plantAName
-	 * @param plantBName
-	 * @param plantASpreadLower
-	 * @param plantASpreadUpper
-	 * @param plantBSpreadLower
-	 * @param plantBSpreadUpper
+	 * @param plantA
+	 * @param plantB
 	 */
-	public void setRadiusCompare(String plantAName, String plantBName, double plantASpreadLower,
-			double plantASpreadUpper, double plantBSpreadLower, double plantBSpreadUpper) {
+	public void setRadiusCompare(Plant plantA, Plant plantB) {
 		center.getChildren().remove(bc);
 		center.getChildren().remove(plantDataHbox);
-
+		
 		xAxis = new CategoryAxis();
 		yAxis = new NumberAxis();
 		xAxis.setLabel("Plant names");
 		yAxis.setLabel("Plant Spread (in feet)");
-
+	
 		series1 = new XYChart.Series();
 		series2 = new XYChart.Series();
 		series1.setName("Spread (Lower Bound)");
 		series2.setName("Spread (Upper Bound)");
-
-		series1.getData().add(new XYChart.Data(plantAName, plantASpreadLower));
-		series1.getData().add(new XYChart.Data(plantBName, plantBSpreadLower));
-
-		series2.getData().add(new XYChart.Data(plantAName, plantASpreadUpper));
-		series2.getData().add(new XYChart.Data(plantBName, plantBSpreadUpper));
-
+	
+		series1.getData().add(new XYChart.Data(plantA.getScientificName(), plantA.getSpreadRadiusLower()));
+		series1.getData().add(new XYChart.Data(plantB.getScientificName(), plantB.getSpreadRadiusLower()));
+	
+		series2.getData().add(new XYChart.Data(plantA.getScientificName(), plantA.getSpreadRadiusUpper()));
+		series2.getData().add(new XYChart.Data(plantB.getScientificName(), plantB.getSpreadRadiusUpper()));
+	
 		bc = new BarChart<String, Number>(xAxis, yAxis);
 		bc.setTitle("Plant Spread");
 		bc.getData().addAll(series1, series2);
 		center.add(bc, 1, 5, 1, 1);
-
 	}
 
 	/**
 	 * SizeCompare Setter.
 	 * 
-	 * @param plantAName
-	 * @param plantBName
-	 * @param plantASizeLower
-	 * @param plantASizeUpper
-	 * @param plantBSizeLower
-	 * @param plantBSizeUpper
+	 * @param plantA
+	 * @param plantB
 	 */
-	public void setSizeCompare(String plantAName, String plantBName, double plantASizeLower, double plantASizeUpper,
-			double plantBSizeLower, double plantBSizeUpper) {
+	public void setSizeCompare(Plant plantA, Plant plantB) {
 		center.getChildren().remove(bc);
 		center.getChildren().remove(plantDataHbox);
 
@@ -302,26 +253,25 @@ public class CompPlantsView extends View {
 		series1.setName("Size (Lower Bound)");
 		series2.setName("Size (Upper Bound)");
 
-		series1.getData().add(new XYChart.Data(plantAName, plantASizeLower));
-		series1.getData().add(new XYChart.Data(plantBName, plantBSizeLower));
-
-		series2.getData().add(new XYChart.Data(plantAName, plantASizeUpper));
-		series2.getData().add(new XYChart.Data(plantBName, plantBSizeUpper));
+		series1.getData().add(new XYChart.Data(plantA.getScientificName(), plantA.getSizeLower()));
+		series1.getData().add(new XYChart.Data(plantB.getScientificName(), plantB.getSizeLower()));
+	
+		series2.getData().add(new XYChart.Data(plantA.getScientificName(), plantA.getSizeUpper()));
+		series2.getData().add(new XYChart.Data(plantB.getScientificName(), plantB.getSizeUpper()));
 
 		bc = new BarChart<String, Number>(xAxis, yAxis);
 		bc.setTitle("Plant Size");
 		bc.getData().addAll(series1, series2);
 		center.add(bc, 1, 5, 1, 1);
-
 	}
 
 	/**
 	 * GeneralInfoCompare setter.
 	 * 
-	 * @param aDescription
-	 * @param bDescription
+	 * @param plantA
+	 * @param plantB
 	 */
-	public void setGeneralInfoComapre(String aDescription, String bDescription) {
+	public void setGeneralInfoComapre(Plant plantA, Plant plantB) {
 		System.out.println("Inside general info compare");
 		center.getChildren().remove(bc);
 		center.getChildren().remove(plantDataHbox);
@@ -331,30 +281,54 @@ public class CompPlantsView extends View {
 		Text plantInfoLabel = new Text(
 				"--Common Name--\n--Scientific Name--\n--Family--\n--Color--\n--Lower Size(In feet)--\n--Upper Size(In feet)--\n--Lower Radius(In feet)--\n--Upper Radius(In feet)--");
 
-		Text plantInfoA = new Text(aDescription);
-		Text plantInfoB = new Text(bDescription);
+		Text plantInfoA = new Text(plantA.toString());
+		Text plantInfoB = new Text(plantB.toString());
 		plantDataHbox.getChildren().addAll(plantInfoA, plantInfoLabel, plantInfoB);
 
 		center.add(plantDataHbox, 1, 5, 1, 1);
 
 	}
 
+	/**
+	 * add plant to plant list
+	 * 
+	 * @param s string for plant name
+	 */
 	public void setPlantList(String p) {
 		plantsList.add(p);
 	}
 
+	/**
+	 * clears the list of plants
+	 */
 	public void clearPlantList() {
 		plantsList.clear();
 	}
+	
+	/**
+	 * plant list getter
+	 * 
+	 * @return plantsListView
+	 */
 	public ListView<String> getplantList() {
 		return plantsListView;
 	}
 	
+	/**
+	 * left plant image setter.
+	 * 
+	 * @param s string for plant name
+	 */
 	public void setLeftImage(String s) {
 		Image tempImg = getImages().get(s);
 		imageViewA.setImage(tempImg);
 	}
 	
+	/**
+	 * right plant image setter.
+	 * 
+	 * @param s string for plant name
+	 */
 	public void setRightImage(String s) {
 		Image tempImg = getImages().get(s);
 		imageViewB.setImage(tempImg);

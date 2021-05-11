@@ -88,11 +88,15 @@ public class Plant implements Serializable, Comparable<Plant>{
 	 * @return String toString
 	 */
 	public String toString() {
-		
-		String str = commonName +"|"+scientificName+"|"+family+"|"+color+"|"+sizeLower+"|"+sizeUpper+"|"+
-				spreadRadiusLower+"|"+spreadRadiusUpper+"|"+cost+"|"+lepsSupported+"|"+type;
-		
-		return str;
+		String temp = commonName + "\n";
+		temp = temp + scientificName + "\n";
+		temp = temp + family + "\n";
+		temp = temp + color + "\n";
+		temp = temp + sizeLower + "\n";
+		temp = temp + sizeUpper + "\n";
+		temp = temp + spreadRadiusLower + "\n";
+		temp = temp + spreadRadiusUpper + "\n";
+		return temp;
 	}
 
 

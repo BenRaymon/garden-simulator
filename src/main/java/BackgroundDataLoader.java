@@ -20,7 +20,6 @@ public class BackgroundDataLoader extends Thread {
 	 * @return none
 	 */
 	public BackgroundDataLoader(String name, ConcurrentHashMap<String, Plant> allPlants) {
-		System.out.println("BackgroundDataLoader created with thread name: " + name);
 		this.threadName = name;
 		this.allPlants = allPlants;
 	}
@@ -33,7 +32,6 @@ public class BackgroundDataLoader extends Thread {
 	 * @return none
 	 */
 	public BackgroundDataLoader(String name, ConcurrentHashMap<String, Set<Lep>> lepsByPlant, ConcurrentHashMap<String, Lep> allLeps) {
-		System.out.println("BackgroundDataLoader created with thread name: " + name);
 		this.threadName = name;
 		this.lepsByPlant = lepsByPlant;
 		this.allLeps = allLeps;
@@ -44,7 +42,6 @@ public class BackgroundDataLoader extends Thread {
 	 * @return none
 	 */
 	public void start() {
-		System.out.println("Starting background load process");
 		if (thread == null) {
 			thread = new Thread(this, threadName);
 			thread.start();
