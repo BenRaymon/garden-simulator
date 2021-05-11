@@ -20,11 +20,14 @@ public class CompPlantsTest {
 		assertEquals(CompPlants.getInfo("testPlant").getClass(), String.class);
 	}
 	
-	/*@Test
-	public void testmoreLeps() {
-		assertEquals(CompPlants.moreLeps(testPlant2, testPlant1), String.class);
+	@Test
+	public void testGetLepInfo() {
+		Plant testLepInfo = new Plant();
+		testLepInfo.setLepsSupported(100);
+		Garden.getAllPlants().put("testLepInfo", testLepInfo);
+		assertEquals(CompPlants.getLepInfo("testLepInfo"), 100);
 	}
-	*/
+	
 	
 	@Test
 	public void testLowerRadius() {
@@ -57,5 +60,11 @@ public class CompPlantsTest {
 		testPlant1.setLepsSupported(10);
 		testPlant2.setLepsSupported(5);
 		assertEquals(CompPlants.moreLeps(testPlant1,testPlant2),"plantA");
+		
+		testPlant1.setLepsSupported(3);
+		assertEquals(CompPlants.moreLeps(testPlant1, testPlant2), "plantB");
+		
+		testPlant1.setLepsSupported(5);
+		assertEquals(CompPlants.moreLeps(testPlant1, testPlant2), "Equal");
 	}
 }

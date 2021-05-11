@@ -119,7 +119,9 @@ public class BackgroundDataLoader extends Thread {
 			Lep currLep = allLeps.get(words[2]);
 			currLep.addHostFamily(words[3]);
 			currLep.addHostName(words[4]);
-			currLep.addCountry(words[5]);
+			if(words.length > 5)
+				currLep.addCountry(words[5]);
+			
 			addLep = currLep;
 		}
 		else {
@@ -134,7 +136,7 @@ public class BackgroundDataLoader extends Thread {
 			Set<Lep> lepSet = new HashSet<Lep>();
 			lepSet.add(addLep);
 			lepsByPlant.put(words[4], lepSet);
-			System.out.println(words[4]);
+			//System.out.println(words[4]);
 		}
 		//if the set has been made already, add the new lep to the set
 		else {

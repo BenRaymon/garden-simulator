@@ -129,7 +129,10 @@ public class GardenEditorView extends View {
 	
 	///TODO javadoc
 	public void clearCanvas() {
-		gc.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+		//gc.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+		Canvas drawArea = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+		gc = drawArea.getGraphicsContext2D();
+
 	}
 	
 	

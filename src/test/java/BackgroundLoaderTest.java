@@ -8,7 +8,7 @@ public class BackgroundLoaderTest {
 	static BackgroundLoader bl = null;
 	@BeforeClass
 	public static void SetupandRunLoaders() {
-		bl = new BackgroundLoader("test", View.getImages(), Garden.getAllPlants());
+		bl = new BackgroundLoader("test", View.getImages(),View.getLepImages(), Garden.getAllPlants(), Garden.getLepsByPlant(), Garden.getAllLeps());
 		try {
 			Thread.sleep(8000);
 		} catch (InterruptedException e) {
@@ -26,5 +26,16 @@ public class BackgroundLoaderTest {
 	@Test
 	public void testBackgroundImageLoaderOutput() {
 		assertEquals(368, View.getImages().size());
+	}
+	
+	@Test
+	public void testStartandRun() {
+		bl.start();
+		try {
+			bl.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

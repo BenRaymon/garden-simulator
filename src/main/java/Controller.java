@@ -860,7 +860,7 @@ public class Controller extends Application{
 			ListView<String> tmp = loadSavedGardenView.getListView();
 			String curr_g = tmp.getSelectionModel().getSelectedItem();
 			garden = gardenSaverLoader.loadPickedGarden(curr_g, savedGardens);
-			
+			gardenEditorView.clearCanvas();
 			stage.setScene(gardenEditorView.getScene());
 			
 			setUpGardenEditor();
