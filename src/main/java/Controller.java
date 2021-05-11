@@ -560,7 +560,7 @@ public class Controller extends Application{
 			//Check if the selected plant was from the recommended bar or if it was in a plot
 			if(garden.isPlantInPlot(plotNumOfSelected, selected)) {
 				if (GardenEditor.isPlantWithinPlot(radius, garden.getScale(), garden.getPlots().get(plotNum))) {
-					if (GardenEditor.canPlantBePlaced(garden.getScale(), pos, radius, garden.getPlots().get(plotNum))) {
+					if (GardenEditor.canPlantBePlaced(garden.getScale(), pos, posOfSelectedPlant, radius, garden.getPlots().get(plotNum))) {
 						//plants in plot are removed and added back
 						garden.removePlantFromPlot(plotNumOfSelected, selected.getPosition());
 						//add plant to plot ultimately also updates the position of selected to the new pos
@@ -583,7 +583,7 @@ public class Controller extends Application{
 				}
 			} else {
 				if (GardenEditor.isPlantWithinPlot(radius, garden.getScale(), garden.getPlots().get(plotNum))) {
-					if (GardenEditor.canPlantBePlaced(garden.getScale(), pos, radius, garden.getPlots().get(plotNum))) {
+					if (GardenEditor.canPlantBePlaced(garden.getScale(), pos, null, radius, garden.getPlots().get(plotNum))) {
 						//plants from the recommended bar are cloned 
 						//selected plant is the plant in the static allPlants hashmap
 						Plant newPlant = selected.clone(); 
