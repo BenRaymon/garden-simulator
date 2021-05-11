@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 
@@ -978,8 +979,6 @@ public class Controller extends Application{
 			gardenEditorView.lepPopUp((ActionEvent)event, Garden.getAllLeps());
 		});
 	}
-<<<<<<< HEAD
-=======
 	
 	
 	/**
@@ -1004,5 +1003,5 @@ public class Controller extends Application{
 			reportView.openLepListPopUp((MouseEvent)event, Garden.getAllLeps());
 		});
 	}
->>>>>>> release_reportView
+
 }
