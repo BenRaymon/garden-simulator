@@ -297,11 +297,17 @@ public class Garden implements Serializable {
 		return allPlants.get(name);
 	}
 	
-	//TODO
+	/**
+	 * Getter for LepsByPlant
+	 * @return lepsByPlant
+	 */
 	public static ConcurrentHashMap<String, Set<Lep>> getLepsByPlant(){
 		return lepsByPlant;
 	}
-	//TODO
+	/**
+	 * Getter for allLeps
+	 * @return allLeps
+	 */
 	public static ConcurrentHashMap<String, Lep> getAllLeps(){
 		return allLeps;
 	}
