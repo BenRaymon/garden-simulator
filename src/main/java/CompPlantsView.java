@@ -23,51 +23,29 @@ import javafx.scene.chart.XYChart;
 
 public class CompPlantsView extends View {
 
-	private Image plantImageA;
-	private Image plantImageB;
-	
+
 	private ImageView imageViewA;
 	private ImageView imageViewB;
 	private Text plantSummaryA;
 	private Text plantSummaryB;
-
-	private int plantALeps;
-	private int plantBLeps;
-	private String plantAName;
-	private String plantBName;
-
 	private Scene scene;
 	private Controller controller;
-	private TextField plantNameInput;
-	private Button toGardenEditor;
-	// private TableView table;
 	private ListView<String> list;
 	private ObservableList<String> items;
-	BorderPane base;
-	// For bar graph ----------
-	// ** x and y axis for the bar graph. Can be whatever axis the bar graph needs.
+	private BorderPane base;
 	private CategoryAxis xAxis;
 	private NumberAxis yAxis;
-	// *** Can be used to represent whatever information needs to be seen on bar
-	// graph
-	private int dataZone1;
-	private int dataZone2;
-	// ** Holds the physical Data
 	private XYChart.Series series1;
 	private XYChart.Series series2;
-
-	// Actual barChart
 	private BarChart<String, Number> bc;
 
 	// Hbox holds plant data
-	HBox plantDataHbox;
-	GridPane center = new GridPane();
-
+	private HBox plantDataHbox;
+	private GridPane center = new GridPane();
 	private ObservableList<String> plantsList;
 	private ListView<String> plantsListView;
 
-	// --------------------------
-
+	
 	/**
 	 * Creates the compPlantsView.
 	 * 
@@ -106,8 +84,6 @@ public class CompPlantsView extends View {
 
 		Button leftPlantButton = new Button("Left Plant");
 		Button rightPlantButton = new Button("Right Plant");
-
-		plantNameInput = new TextField();
 
 		plantsList = FXCollections.observableArrayList("Test Plant A", "Test Plant B", "Test Plant C");
 		plantsListView = new ListView<String>();
@@ -188,14 +164,6 @@ public class CompPlantsView extends View {
 		return scene;
 	}
 
-	/**
-	 * TextBox getter.
-	 * 
-	 * @return TextField plantNameInput
-	 */
-	public TextField getTextBox() {
-		return plantNameInput;
-	}
 
 	/**
 	 * RightTextBox (plantSummaryB) setter.
@@ -369,24 +337,6 @@ public class CompPlantsView extends View {
 
 		center.add(plantDataHbox, 1, 5, 1, 1);
 
-	}
-
-	/**
-	 * AName Setter.
-	 * 
-	 * @param String n
-	 */
-	public void setAName(String n) {
-		plantAName = n;
-	}
-
-	/**
-	 * BName Setter.
-	 * 
-	 * @param String n
-	 */
-	public void setBName(String n) {
-		plantBName = n;
 	}
 
 	public void setPlantList(String p) {

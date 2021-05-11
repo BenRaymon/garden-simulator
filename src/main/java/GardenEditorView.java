@@ -204,7 +204,6 @@ public class GardenEditorView extends View {
 				Image plantImage = View.getImages().get(map_element.getValue().getScientificName());
 				// method to fill the image
 				addPlantImageToBase(tmp_pos, new ImagePattern(plantImage), radius);
-				
 			}
 		}
 		
