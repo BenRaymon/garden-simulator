@@ -652,23 +652,13 @@ public class Controller extends Application{
 	 */
 	public EventHandler RightPlantButtonClickedHandler() {
 		return (event ->{
-			
-			//compPlantsView.setBLeps(compPlants.getLeps());
 			ListView<String> tempList = compPlantsView.getplantList();
-			//TextField temp = compPlantsView.getTextBox();
+			
 			String plantInfo = "Plant A\n";		
 			plantInfo = plantInfo + CompPlants.getInfo(tempList.getSelectionModel().getSelectedItem());
-			Text tempText = compPlantsView.getRightBody();
-			//tempText.setText(plantInfo);
-			tempText.setText(tempList.getSelectionModel().getSelectedItem());
-			
-			//Sets right image
-			compPlantsView.setRightImage(tempList.getSelectionModel().getSelectedItem());
-			//Setting plant A variables in compPlantView to plantInfo
-			
-			//compPlantsView.setALeps(CompPlants.getLepInfo(temp.getText()));
-			//compPlantsView.setAName(temp.getText());
 
+			compPlantsView.setRightBody(tempList.getSelectionModel().getSelectedItem());
+			compPlantsView.setRightImage(tempList.getSelectionModel().getSelectedItem());
 		});
 		
 	}
@@ -680,20 +670,12 @@ public class Controller extends Application{
 	public EventHandler LeftPlantButtonClickedHandler() {
 		return (event ->{
 			ListView<String> tempList = compPlantsView.getplantList();
-			//TextField temp = compPlantsView.getTextBox();
+
 			String plantInfo = "Plant B\n";		
 			plantInfo = plantInfo + CompPlants.getInfo(tempList.getSelectionModel().getSelectedItem());
-			//String plantInfo = CompPlants.getInfo(temp.getText());
-			Text tempText = compPlantsView.getLeftBody();
-			//tempText.setText(plantInfo);
-			tempText.setText(tempList.getSelectionModel().getSelectedItem());
-			//Sets left image
-			compPlantsView.setLeftImage(tempList.getSelectionModel().getSelectedItem());
 
-			//Setting plant B variables in compPlantView to plantInfo
-			
-			//compPlantsView.setBLeps(CompPlants.getLepInfo(temp.getText()));
-			//compPlantsView.setBName(temp.getText());
+			compPlantsView.setLeftBody(tempList.getSelectionModel().getSelectedItem());
+			compPlantsView.setLeftImage(tempList.getSelectionModel().getSelectedItem());
 		});
 		
 	}
@@ -713,46 +695,32 @@ public class Controller extends Application{
 			
 			if(currentItem == "Lep Compare") {
 				System.out.println("Switching to Lep Compare");
+				String tempPlantAName = compPlantsView.getLeftBody();
+				String tempPlantBName = compPlantsView.getRightBody();
 				
-				String tempPlantAName = compPlantsView.getLeftBody().getText();
-				int tempPlantALeps = CompPlants.getLepInfo(tempPlantAName);
-				String tempPlantBName = compPlantsView.getRightBody().getText();
-				int tempPlantBLeps = CompPlants.getLepInfo(tempPlantBName);
-				//Creates graph
-				compPlantsView.setLepCompare(tempPlantAName,tempPlantBName,tempPlantALeps,tempPlantBLeps);
-				//compPlantsView.setLepCompare("plant a","plant b",5,10);
+				compPlantsView.setLepCompare(Garden.getPlant(tempPlantAName), Garden.getPlant(tempPlantBName));
 			}
 			else if(currentItem == "Radius Compare") {
 				System.out.println("Switching to Radius Compare");
 				
-				String tempPlantAName = compPlantsView.getLeftBody().getText();
-				double tempPlantALowerRadius = CompPlants.getLowerRadius(tempPlantAName);
-				double tempPlantAUpperRadius = CompPlants.getUpperRadius(tempPlantAName);
+				String tempPlantAName = compPlantsView.getLeftBody();
+				String tempPlantBName = compPlantsView.getRightBody();
 				
-				String tempPlantBName = compPlantsView.getRightBody().getText();
-				double tempPlantBLowerRadius = CompPlants.getLowerRadius(tempPlantBName);
-				double tempPlantBUpperRadius = CompPlants.getUpperRadius(tempPlantBName);
-				
-				compPlantsView.setRadiusCompare(tempPlantAName, tempPlantBName, tempPlantALowerRadius, tempPlantAUpperRadius, tempPlantBLowerRadius, tempPlantBUpperRadius);
+				compPlantsView.setRadiusCompare(Garden.getPlant(tempPlantAName), Garden.getPlant(tempPlantBName));
 			}
 			else if(currentItem == "Size Compare") {
 				System.out.println("Switching to Size Compare");
-				String tempPlantAName = compPlantsView.getLeftBody().getText();
-				double tempPlantALowerSize = CompPlants.getLowerSize(tempPlantAName);
-				double tempPlantAUpperSize = CompPlants.getUpperSize(tempPlantAName);
+				String tempPlantAName = compPlantsView.getLeftBody();
+				String tempPlantBName = compPlantsView.getRightBody();
 				
-				String tempPlantBName = compPlantsView.getRightBody().getText();
-				double tempPlantBLowerSize = CompPlants.getLowerSize(tempPlantBName);
-				double tempPlantBUpperSize = CompPlants.getUpperSize(tempPlantBName);
-				
-				compPlantsView.setSizeCompare(tempPlantAName, tempPlantBName, tempPlantALowerSize, tempPlantAUpperSize, tempPlantBLowerSize, tempPlantBUpperSize);
+				compPlantsView.setSizeCompare(Garden.getPlant(tempPlantAName), Garden.getPlant(tempPlantBName));
 
 			}
 			else if(currentItem == "General Info") {
 				System.out.println("Switching to General Info");
-				String infoStringA = CompPlants.getInfo(compPlantsView.getLeftBody().getText());
-				String infoStringB = CompPlants.getInfo(compPlantsView.getRightBody().getText());
-				compPlantsView.setGeneralInfoComapre(infoStringA,infoStringB);				
+				String plantAName = compPlantsView.getLeftBody();
+				String plantBName = compPlantsView.getRightBody();
+				compPlantsView.setGeneralInfoComapre(Garden.getPlant(plantAName),Garden.getPlant(plantBName));				
 			}			
 		});
 	}
