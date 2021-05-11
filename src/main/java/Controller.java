@@ -939,4 +939,11 @@ public class Controller extends Application{
 			gardenEditorView.closeLepWindow();
 		});
 	}
+	
+	public EventHandler plantListClicked() {
+		return(event ->{
+			//System.out.println("In controller");
+			reportView.openPlantListPopUp((MouseEvent)event, Garden.getAllPlants());
+			});
+	}
 }
