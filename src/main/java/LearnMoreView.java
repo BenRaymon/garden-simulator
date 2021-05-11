@@ -61,7 +61,9 @@ public class LearnMoreView extends View{
 		createCenter();
 		
 		String textStyle = getClass().getResource("learnmore.css").toExternalForm();
+		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
 		scene.getStylesheets().add(textStyle);
+		scene.getStylesheets().add(buttonStyle);
 		
 		stage.setScene(scene);
         stage.show();

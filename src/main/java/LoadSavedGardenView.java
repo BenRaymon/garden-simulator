@@ -71,9 +71,10 @@ public class LoadSavedGardenView extends View {
 		
 		right.setHgap(10);
 		right.setVgap(10);
-		right.add(to_garden_editor, 0, 3);
-		right.add(delete_garden, 0, 8);
-		right.add(to_home, 0, 13);
+		right.add(to_garden_editor, 2, 3);
+		right.add(delete_garden, 2, 8);
+		right.add(to_home, 2, 13);
+		right.setMinWidth(200);
 		right.setStyle("-fx-background-color: #678B5E");
 
 		// add the menu to the top of the screen
