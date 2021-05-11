@@ -268,8 +268,8 @@ public class CompPlantsView extends View {
 	/**
 	 * GeneralInfoCompare setter.
 	 * 
-	 * @param aDescription
-	 * @param bDescription
+	 * @param plantA
+	 * @param plantB
 	 */
 	public void setGeneralInfoComapre(Plant plantA, Plant plantB) {
 		System.out.println("Inside general info compare");
@@ -289,23 +289,46 @@ public class CompPlantsView extends View {
 
 	}
 
-	//TODO
+	/**
+	 * add plant to plant list
+	 * 
+	 * @param s string for plant name
+	 */
 	public void setPlantList(String p) {
 		plantsList.add(p);
 	}
 
+	/**
+	 * clears the list of plants
+	 */
 	public void clearPlantList() {
 		plantsList.clear();
 	}
+	
+	/**
+	 * plant list getter
+	 * 
+	 * @return plantsListView
+	 */
 	public ListView<String> getplantList() {
 		return plantsListView;
 	}
 	
+	/**
+	 * left plant image setter.
+	 * 
+	 * @param s string for plant name
+	 */
 	public void setLeftImage(String s) {
 		Image tempImg = getImages().get(s);
 		imageViewA.setImage(tempImg);
 	}
 	
+	/**
+	 * right plant image setter.
+	 * 
+	 * @param s string for plant name
+	 */
 	public void setRightImage(String s) {
 		Image tempImg = getImages().get(s);
 		imageViewB.setImage(tempImg);
