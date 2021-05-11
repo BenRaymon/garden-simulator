@@ -70,18 +70,7 @@ public class ReportView extends View {
 		// Instantiates pieChart
 		ObservableList<PieChart.Data> plantsInGardenPieChartData = FXCollections.observableArrayList();
 		ObservableList<Plant> plantsInGardenTableData = FXCollections.observableArrayList();
-
-		// Sets up checkboxes
-		//Text optionTitle = new Text("Report Options");
-		//reportGrid.add(optionTitle, 0, 0);
-		//perennialDiversityOption = new CheckBox("Perennial Diversity");
-		//reportGrid.add(perennialDiversityOption, 0, 1);
-		//budgetOption = new CheckBox("Budget");
-		//reportGrid.add(budgetOption, 0, 2);
-		//tableOption = new CheckBox("List Supported Plants");
-		//lepListOption = new CheckBox("List Supported Leps");
-		//reportGrid.add(lepListOption, 0, 3);
-		 //reportGrid.add(tableOption,0,3);
+		
 		generateButton = new Button("Generate Report");
 
 		// Sets event Handler
@@ -156,7 +145,6 @@ public class ReportView extends View {
 
 		budgetGrid.add(budgetText, 0, 0);
 		budgetGrid.add(spentText, 1, 0);
-		// budgetGrid.setHgap(10);
 		plantData.add(budgetGrid, 1, 0);
 	}
 
@@ -172,26 +160,29 @@ public class ReportView extends View {
 		plantsInGardenPieChartData.add(new PieChart.Data(plantName, plantNum));
 	}
 
+	//TODO
 	public void addLep(String lepName) {
 		if (!lepsInGarden.contains(lepName)) {
 			lepsInGarden.add(lepName);
 		}
 	}
 
+	//TODO
 	public void addLepList() {
 		lepList = new ListView<String>();
 		lepList.setItems(lepsInGarden);
-		System.out.println("Adding lepList to plantData");
 		Text lepText = new Text("Leps in Garden");
 		lepList.setOnMouseClicked(controller.lepListClicked());
 		plantData.add(lepText, 2, 2);
 		plantData.add(lepList, 2, 3);
 	}
 
+	//TODO
 	public void addPlant(String plant) {
 		plantsInGarden.add(plant);
 	}
 
+	//TODO
 	public void addPlantList() {
 		plantList = new ListView<String>();
 		plantList.setItems(plantsInGarden);
@@ -228,30 +219,31 @@ public class ReportView extends View {
 		return budgetOption;
 	}
 
+	//TODO
 	public CheckBox getLepListOption() {
 		return lepListOption;
 	}
 
+	//TODO
 	public ListView<String> getPlantListView() {
 		return plantList;
 	}
 
+	//TODO
 	public ListView<String> getLepView() {
 		return lepList;
 	}
 
+	//TODO
 	public void openPlantListPopUp(MouseEvent a, ConcurrentHashMap<String,Plant> plantHash) {
-		System.out.println("Inside openPlantListPopUp");
 		ListView temp = (ListView)a.getSource();
 		String plantName = (String)temp.getSelectionModel().getSelectedItem();
-		System.out.println(plantName);
 		
 		Stage popupPlant = new Stage();
 		ImageView plantImgV = new ImageView();
 		Image plantImg = View.getImages().get(plantName);
 		plantImgV.setImage(plantImg);
 		Plant tempPlant = plantHash.get(plantName);
-		
 		
 		Text t = new Text("Scientific Name: " + tempPlant.getScientificName() + "\nCommon Name: "+ tempPlant.getCommonName());
 		
@@ -261,13 +253,12 @@ public class ReportView extends View {
 		Scene popupScene = new Scene(v,plantImgV.getImage().getWidth(),plantImgV.getImage().getHeight()+50);
 		popupPlant.setScene(popupScene);
 		popupPlant.show();
-		
 	}
 	
+	//TODO
 	public void openLepListPopUp(MouseEvent a, ConcurrentHashMap<String,Lep> lepHash) {
 		ListView temp = (ListView)a.getSource();
 		String lepName = (String)temp.getSelectionModel().getSelectedItem();
-		System.out.println(lepName);
 		
 		Stage popupLep = new Stage();
 		ImageView lepImgV = new ImageView();

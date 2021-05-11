@@ -138,6 +138,7 @@ public class PlotDesignView extends View {
 		scene.heightProperty().addListener(controller.getPDHeightChangeListener());
 	}
 	
+	//TODO
 	public void heightChanged(Object windowHeight) {
 		WINDOW_HEIGHT = (double) windowHeight;
 		CANVAS_HEIGHT = (double)windowHeight - MenuBox.MENU_HEIGHT;
@@ -146,6 +147,8 @@ public class PlotDesignView extends View {
 		gc = drawArea.getGraphicsContext2D();
 	}
 	
+	
+	//TODO
 	public void widthChanged(Object windowWidth) {
 		WINDOW_WIDTH =(double) windowWidth;
 		CANVAS_WIDTH = (double)windowWidth - LEFTBAR;
