@@ -178,7 +178,7 @@ public class PlotDesignView extends View {
 		Label gridSize = new Label("Grid Size");
 		widthInput = new TextField();
 		widthInput.setMaxWidth(LEFTBAR*0.6);
-		widthInput.setText("" + 100);
+		widthInput.setText("" + 150);
 		heightInput = new TextField();
 		heightInput.setMaxWidth(LEFTBAR*0.6);
 		heightInput.setText("" + 100);
@@ -255,7 +255,6 @@ public class PlotDesignView extends View {
 		int widthInc = (int)CANVAS_WIDTH/(width/boxWidth);
 		
 		double widthBorder = perciseWidth - widthInc;
-		
 		double heightBorder = perciseHeight - heightInc;
 		
 		heightBorder *= height/boxHeight;

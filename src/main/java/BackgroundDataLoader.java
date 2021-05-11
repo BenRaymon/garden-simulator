@@ -14,7 +14,7 @@ public class BackgroundDataLoader extends Thread {
 	private ConcurrentHashMap<String, Lep> allLeps;
 	
 	/**
-	 * Constructor for data loading
+	 * Constructor for data loading plants
 	 * @param name name of the thread
 	 * @param allPlants static concurrenthashmap from the model to load plant data to
 	 * @return none
@@ -25,7 +25,14 @@ public class BackgroundDataLoader extends Thread {
 		this.allPlants = allPlants;
 	}
 	
-	public BackgroundDataLoader(String name, ConcurrentHashMap<String, Set<Lep>> lepsByPlant, ConcurrentHashMap<String, Lep> allLeps, int i) {
+	/**
+	 * Constructor for data loading leps
+	 * @param name name of the thread
+	 * @param lepsByPlant static concurrenthashmap for holding list of leps per plant 
+	 * @params allLeps a static concurrenthashmap for all leps
+	 * @return none
+	 */
+	public BackgroundDataLoader(String name, ConcurrentHashMap<String, Set<Lep>> lepsByPlant, ConcurrentHashMap<String, Lep> allLeps) {
 		System.out.println("BackgroundDataLoader created with thread name: " + name);
 		this.threadName = name;
 		this.lepsByPlant = lepsByPlant;
@@ -94,13 +101,8 @@ public class BackgroundDataLoader extends Thread {
 		        numLines++;
 		    }
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    
-			//System.out.println("All Leps loaded sucessfully in the background");
-	
-
 	}
 	
 	public void loadLep(String line) {
@@ -109,8 +111,6 @@ public class BackgroundDataLoader extends Thread {
 		}
 		//split csv line into array of strings.
 		String[] words = line.split(",");
-		//System.out.println("First: " + words[0] + " Second: " + words[1] + " Third: " + words[2] + " Fourth: " + words[3] + " Fifth: " + words[4] + " Sixth: " + words[5]);
-		
 		
 		Lep addLep = null;
 		//check if the lep has already been seen
@@ -136,7 +136,6 @@ public class BackgroundDataLoader extends Thread {
 			Set<Lep> lepSet = new HashSet<Lep>();
 			lepSet.add(addLep);
 			lepsByPlant.put(words[4], lepSet);
-			//System.out.println(words[4]);
 		}
 		//if the set has been made already, add the new lep to the set
 		else {
@@ -159,8 +158,6 @@ public class BackgroundDataLoader extends Thread {
 		
 		//split csv line into array of strings
 		String[] words = line.split(",");
-		//load options for sunlevels, soiltypes and moistures
-		
 		
 		//create an options for the plant
 		int[] sl = new int[] {0,0,0};
@@ -208,10 +205,5 @@ public class BackgroundDataLoader extends Thread {
 		synchronized(allPlants) {
 			allPlants.put(addPlant.getScientificName(), addPlant);	
 		}
-		
-		
-		//DEBUG
-		System.out.println(addPlant.toString() + "||" + op.toString());
-		System.out.println(allPlants.size());
 	}
 }

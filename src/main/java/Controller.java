@@ -556,11 +556,10 @@ public class Controller extends Application{
 				radius =  selected.getSizeLower();
 			}
 			
-			
 			//Check if the selected plant was from the recommended bar or if it was in a plot
 			if(garden.isPlantInPlot(plotNumOfSelected, selected)) {
 				if (GardenEditor.isPlantWithinPlot(radius, garden.getScale(), garden.getPlots().get(plotNum))) {
-					if (GardenEditor.canPlantBePlaced(garden.getScale(), posOfSelectedPlant, radius, garden.getPlots().get(plotNum))) {
+					if (GardenEditor.canPlantBePlaced(garden.getScale(), pos, posOfSelectedPlant, radius, garden.getPlots().get(plotNum))) {
 						//plants in plot are removed and added back
 						garden.removePlantFromPlot(plotNumOfSelected, selected.getPosition());
 						//add plant to plot ultimately also updates the position of selected to the new pos
@@ -568,8 +567,13 @@ public class Controller extends Application{
 						//place the plant in the garden in the view
 						gardenEditorView.createNewImageInBase(drag,db, radius);
 					} else {
-						System.out.println("Plant is too close to another");
+						System.out.println("1: Plant is too close to another");
 						gardenEditorView.plantRadiusOverlapPopUp();
+						//clear canvas and draw the plants again
+						gardenEditorView.clearCanvas();
+						for (Plot p : garden.getPlots()) {
+							gardenEditorView.drawPlants(p.getPlantsInPlot());
+						}
 					}
 				} else {
 					System.out.println("Plant cannot fit into this plot, too large");
@@ -577,7 +581,7 @@ public class Controller extends Application{
 				}
 			} else {
 				if (GardenEditor.isPlantWithinPlot(radius, garden.getScale(), garden.getPlots().get(plotNum))) {
-					if (GardenEditor.canPlantBePlaced(garden.getScale(), pos, radius, garden.getPlots().get(plotNum))) {
+					if (GardenEditor.canPlantBePlaced(garden.getScale(), pos, null, radius, garden.getPlots().get(plotNum))) {
 						//plants from the recommended bar are cloned 
 						//selected plant is the plant in the static allPlants hashmap
 						Plant newPlant = selected.clone(); 
@@ -586,7 +590,7 @@ public class Controller extends Application{
 						//place the plant in the garden in the view
 						gardenEditorView.createNewImageInBase(drag,db, radius);
 					} else {
-						System.out.println("Plant is too close to another");
+						System.out.println("2: Plant is too close to another");
 						gardenEditorView.plantRadiusOverlapPopUp();
 					}
 				} else {

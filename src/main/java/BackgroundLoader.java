@@ -33,7 +33,6 @@ public class BackgroundLoader extends Thread {
 		loadImages();
 		loadLeps();
 		
-		
 		System.out.println("Background Loading Complete");
 	}
 	
@@ -92,8 +91,12 @@ public class BackgroundLoader extends Thread {
 		}
 	}
 	
+	/**
+	 * This starts the BackgroundDataLoader thread for loading in lep data
+	 * @return none
+	 */
 	public void loadLeps() {
-		BackgroundDataLoader bdl = new BackgroundDataLoader("Leps Thread", lepsByPlant, allLeps, 0);
+		BackgroundDataLoader bdl = new BackgroundDataLoader("Leps Thread", lepsByPlant, allLeps);
 		bdl.start();
 		
 		try {

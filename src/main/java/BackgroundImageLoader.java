@@ -28,6 +28,7 @@ public class BackgroundImageLoader extends Thread {
 	 * Constructor for data loading
 	 * @param name name of the thread
 	 * @param pi static concurrenthashmap from the view to load plant images to
+	 * @param li static concurrenthashmap from the view to load lep images to
 	 * @return none
 	 */
 	public BackgroundImageLoader(String name, ConcurrentHashMap<String, Image> pi, ConcurrentHashMap<String, Image> li) {
@@ -53,8 +54,8 @@ public class BackgroundImageLoader extends Thread {
 	 * @return none
 	 */
 	public void run() {
-		LoadImages();
-		LoadLepImages();
+		loadPlantImages();
+		loadLepImages();
 	}
 	
 	/**
@@ -66,14 +67,20 @@ public class BackgroundImageLoader extends Thread {
 		return BackgroundImageLoader.class.getResourceAsStream("images/"+fileName);
 	}
 	
+	/**
+	 * This loads a lep image in as an InputStream
+	 * @param fileName filename for the lep image
+	 * @return InputStream version of the image
+	 */
 	public InputStream getLepFile(String fileName) {
 		return BackgroundImageLoader.class.getResourceAsStream("lepImages/"+fileName);
 	}
+	
 	/**
-	 * This opens all the images and loads them into the map
+	 * This opens all the plant images and loads them into the map
 	 * @return none
 	 */
-	public void LoadImages() {
+	public void loadPlantImages() {
 		File dir = Paths.get("src/main/resources/images").toFile().getAbsoluteFile();
 		File[] directoryListing = dir.listFiles();
 		int x = 0;
@@ -86,18 +93,18 @@ public class BackgroundImageLoader extends Thread {
 				}
 			}
 		}
-		System.out.println(plant_images.size());
 	}
 	
-	public void LoadLepImages() {
-		//System.out.println("Inside LoadLepImages");
+	/**
+	 * This opens all the lep images and loads them into the map
+	 * @return none
+	 */
+	public void loadLepImages() {
 		File dir = Paths.get("src/main/resources/lepImages").toFile().getAbsoluteFile();
 		File[] directoryListing = dir.listFiles();
 		int x = 0;
 		if (directoryListing != null) {
 			for (File child : directoryListing) {
-				//System.out.println("In for loop");
-				//System.out.println("Printing childName: " + child.getName());
 				Image image = new Image(getLepFile(child.getName()));
 				String name = child.getName().replace(".jpg", "");
 				synchronized(lep_images) {
@@ -105,6 +112,6 @@ public class BackgroundImageLoader extends Thread {
 				}
 			}
 		}
-		System.out.println(lep_images.size());
 	}
+	
 }

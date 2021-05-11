@@ -32,6 +32,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -58,6 +59,7 @@ public class GardenEditorView extends View {
 	private VBox container;
 	private Stage Pristage;
 	private Popup lepPopUp;
+	private Canvas drawArea;
 	
 	private double LEFTBAR = 350;
 	private double RIGHTBAR = 250;
@@ -84,7 +86,7 @@ public class GardenEditorView extends View {
 		base.setOnDragDropped(controller.getOnDragDroppedHandler());
 		
 		//create canvas with correct dimensions
-		Canvas drawArea = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+		drawArea = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 		gc = drawArea.getGraphicsContext2D();
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(1);
@@ -126,7 +128,15 @@ public class GardenEditorView extends View {
 	
 	///TODO javadoc
 	public void clearCanvas() {
-		gc.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+		ArrayList<Circle> plantImages = new ArrayList<Circle>();
+		for(Node n : base.getChildren()) {
+			if (n instanceof Circle) {
+				plantImages.add((Circle)n);
+			}
+		}
+		for(Circle plantimage : plantImages) {
+			base.getChildren().remove(plantimage);
+		}
 	}
 	
 	
@@ -163,7 +173,7 @@ public class GardenEditorView extends View {
 	
 	/**
 	 * Draws plots on the canvas
-	 * TODO: 
+	 * TODO: remove fill white
 	 * @param points an array lit of coordinates to draw
 	 */
 	public void drawPlot(ArrayList<Point> points, HashMap<Point, Plant> plantsInPlot) {
@@ -189,13 +199,30 @@ public class GardenEditorView extends View {
 				Point tmp_pos = map_element.getValue().getPosition();
 				// the image corresponding to the plot
 				Image plantImage = View.getImages().get(map_element.getValue().getScientificName());
-				// method to add the image to the gardenEdtiorView base panel (draw duh plant)
-				if(addPlantImageToBase(tmp_pos, plantImage, radius)) {
-					System.out.println("success");
-				}
+				// method to fill the image
+				addPlantImageToBase(tmp_pos, new ImagePattern(plantImage), radius);
 			}
 		}
 		
+	}
+	
+	//draw plants
+	public void drawPlants(HashMap<Point, Plant> plantsInPlot) {
+		if(plantsInPlot != null) {
+			for(Map.Entry<Point, Plant> map_element : plantsInPlot.entrySet()) {
+				// used to determine plant image size in the plot
+				double radius = map_element.getValue().getSpreadRadiusLower();
+				if(radius == 0) {
+					radius = map_element.getValue().getSizeLower();
+				}
+				// get position of plant
+				Point tmp_pos = map_element.getValue().getPosition();
+				// the image corresponding to the plot
+				Image plantImage = View.getImages().get(map_element.getValue().getScientificName());
+				// method to fill the image
+				addPlantImageToBase(tmp_pos, new ImagePattern(plantImage), radius);
+			}
+		}
 	}
 	
 	/**
@@ -820,9 +847,9 @@ public class GardenEditorView extends View {
 	 * @param radius
 	 * @return base added children
 	 */
-	public boolean addPlantImageToBase(Point pos, Image img_v, double radius) {
+	public boolean addPlantImageToBase(Point pos, Paint fill, double radius) {
 		Circle circ = new Circle(pos.getX(), pos.getY(), radius*SCALE);
-        circ.setFill(new ImagePattern(img_v));
+        circ.setFill(fill);
         circ.setOnDragDetected(controller.getOnImageDraggedHandler());
     	return base.getChildren().add(circ);
 	}
