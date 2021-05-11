@@ -121,5 +121,53 @@ public class PlotTest {
 		assertEquals(0, p.getOptions().getSunLevels()[2]);
 		assertEquals(0, p.getOptions().getMoistures()[2]);
 	}
+	
+	@Test
+	public void testPlotBoundaries() {
+		// Necessary to test recommended plants
+		BackgroundLoader bl = null;
+		bl = new BackgroundLoader("bkgloader", View.getImages(),View.getLepImages(), Garden.getAllPlants(), Garden.getLepsByPlant(), Garden.getAllLeps());
+		try {
+			Thread.sleep(8000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Options o = new Options(1.0, 1.0, 1.0);
+		Plot pl = new Plot(o);
+		ArrayList<Point> coords = new ArrayList<Point>();
+		coords.add(new Point(0, 0));
+		coords.add(new Point(0, 100));
+		coords.add(new Point(100, 0));
+		coords.add(new Point(100, 100));
+		pl.setCoordinates(coords);
+		pl.setOriginalCoordinates(coords);
+		assertEquals(4, pl.getOriginalCoordinates().size());
+		
+		pl.calculatePlotBoundaries();
+		assertEquals(0, pl.getTop(), 0.01);
+		assertEquals(0, pl.getLeft(), 0.01);
+		assertEquals(100, pl.getBottom(), 0.01);
+		assertEquals(100, pl.getRight(), 0.01);
+		assertEquals(50, pl.getCx(), 0.01);
+		assertEquals(50, pl.getCy(), 0.01);
+		
+		pl.setTop(0.0);
+		pl.setBottom(0.0);
+		pl.setLeft(0.0);
+		pl.setRight(0.0);
+		pl.setCx(0.0);
+		pl.setCy(0.0);
+		assertEquals(0, pl.getTop(), 0.01);
+		assertEquals(0, pl.getLeft(), 0.01);
+		assertEquals(0, pl.getBottom(), 0.01);
+		assertEquals(0, pl.getRight(), 0.01);
+		assertEquals(0, pl.getCx(), 0.01);
+		assertEquals(0, pl.getCy(), 0.01);
+		
+		
+		pl.createRecommendedPlants();
+		assertEquals(26, pl.getRecommendedPlants().size());
+	}
 
 }

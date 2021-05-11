@@ -8,7 +8,7 @@ public class BackgroundLoaderTest {
 	static BackgroundLoader bl = null;
 	@BeforeClass
 	public static void SetupandRunLoaders() {
-		bl = new BackgroundLoader("test", View.getImages(), Garden.getAllPlants());
+		bl = new BackgroundLoader("bkgloader", View.getImages(),View.getLepImages(), Garden.getAllPlants(), Garden.getLepsByPlant(), Garden.getAllLeps());
 		try {
 			Thread.sleep(8000);
 		} catch (InterruptedException e) {

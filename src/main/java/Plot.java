@@ -19,9 +19,9 @@ public class Plot implements Serializable {
 		this.plantsInPlot = new HashMap<Point, Plant>();
 		this.options = o;
 		this.coordinates = null;
-		this.left = 0.0;
+		this.left = 1920;
 		this.right = 0.0;
-		this.top = 0.0;
+		this.top = 1080;
 		this.bottom = 0.0;
 		this.cy = 0.0;
 		this.cx = 0.0;
@@ -36,13 +36,13 @@ public class Plot implements Serializable {
 		Iterator<Point> itp = coordinates.iterator();
 		while(itp.hasNext()) {
 			Point p = itp.next();
-			if (p.getX() < left || left == 0) {
+			if (p.getX() < left) {
 				left = p.getX();
 			}
 			if (p.getX() > right) {
 				right = p.getX();
 			}
-			if (p.getY() < top || top == 0) {
+			if (p.getY() < top) {
 				top = p.getY();
 			}
 			if (p.getY() > bottom) {
