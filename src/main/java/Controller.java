@@ -59,9 +59,7 @@ public class Controller extends Application{
 		// BackgroundLoader loads the data and images in concurrently whilst showing a splash screen
 		// It then goes to the start screen when it is finished
 		BackgroundLoader backgroundLoader = new BackgroundLoader("bkgloader", View.getImages(),View.getLepImages(), Garden.getAllPlants(), Garden.getLepsByPlant(), Garden.getAllLeps());
-		
-		System.out.println("Printing out all leps as a test");
-		
+				
 		backgroundLoader.start();
 		try {
 			backgroundLoader.join();
@@ -383,7 +381,6 @@ public class Controller extends Application{
 	 */
 	public EventHandler getDrawPlotDragDetected() {
 		return (event->{
-        	System.out.println("Draw Plot Mouse Pressed");
 			MouseEvent me = (MouseEvent)event;
 			plotDesignView.startDrawingPlot(me);
         });
@@ -397,7 +394,6 @@ public class Controller extends Application{
 	 */
 	public EventHandler getDrawPlotDragged() {
 		return (event->{
-			System.out.println("Draw Plot Mouse Dragged");
 			MouseEvent me = (MouseEvent)event;
 			plotDesignView.drawPlot(me);
         });
@@ -412,7 +408,6 @@ public class Controller extends Application{
 	 */	
 	public EventHandler getOnDrawPlotDone() {
 		return (event->{
-			System.out.println("Draw Plot Mouse Released");
 			MouseEvent me = (MouseEvent)event;
         	
         	//add coords to the plot in the garden
@@ -445,7 +440,6 @@ public class Controller extends Application{
 	 */
 	public EventHandler getOnImageEnteredInfo() {
 		return (event-> {
-			System.out.println("In Image Clicked on Handler");
 			String plant = gardenEditorView.getPlantName(event);
 			Plant selectedPlant = Garden.getPlant(plant);
 			//update the left info bar
@@ -464,7 +458,6 @@ public class Controller extends Application{
 	 */
 	public EventHandler getOnImageDraggedHandler() {
 		return (event -> {
-			System.out.println("On dragged (drag detected plant image handler)");
 			
 			Circle circ = (Circle)event.getSource();
 			Dragboard db = circ.startDragAndDrop(TransferMode.ANY);
@@ -503,7 +496,6 @@ public class Controller extends Application{
 	 */
 	public EventHandler getOnDragOverHandler() {
 		return (event -> {
-			System.out.println("On drag over (while dragging image)");
 			((DragEvent) event).acceptTransferModes(TransferMode.ANY);
 			event.consume();
 		});
@@ -519,7 +511,6 @@ public class Controller extends Application{
 	 */
 	public EventHandler getOnDragDroppedHandler() {
 		return (event -> {
-			System.out.println("On drag dropped (drop plant image)");
 			DragEvent drag = (DragEvent) event;
 			Dragboard db = drag.getDragboard();
 			
@@ -679,27 +670,22 @@ public class Controller extends Application{
 	 */
 	public EventHandler listClickedHandler() {
 		return(event ->{
-			System.out.println("In listClickedHandler");
 			ListView<String> tempList = compPlantsView.getListView();
 			String currentItem = tempList.getSelectionModel().getSelectedItem();
 			
 			if(currentItem == "Lep Compare") {
-				System.out.println("Switching to Lep Compare");
 				String tempPlantAName = compPlantsView.getLeftBody();
 				String tempPlantBName = compPlantsView.getRightBody();
 				
 				compPlantsView.setLepCompare(Garden.getPlant(tempPlantAName), Garden.getPlant(tempPlantBName));
 			}
 			else if(currentItem == "Radius Compare") {
-				System.out.println("Switching to Radius Compare");
-				
 				String tempPlantAName = compPlantsView.getLeftBody();
 				String tempPlantBName = compPlantsView.getRightBody();
 				
 				compPlantsView.setRadiusCompare(Garden.getPlant(tempPlantAName), Garden.getPlant(tempPlantBName));
 			}
 			else if(currentItem == "Size Compare") {
-				System.out.println("Switching to Size Compare");
 				String tempPlantAName = compPlantsView.getLeftBody();
 				String tempPlantBName = compPlantsView.getRightBody();
 				
@@ -707,7 +693,6 @@ public class Controller extends Application{
 
 			}
 			else if(currentItem == "General Info") {
-				System.out.println("Switching to General Info");
 				String plantAName = compPlantsView.getLeftBody();
 				String plantBName = compPlantsView.getRightBody();
 				compPlantsView.setGeneralInfoComapre(Garden.getPlant(plantAName),Garden.getPlant(plantBName));				
@@ -746,8 +731,6 @@ public class Controller extends Application{
 	 */
 	public EventHandler SaveButtonClickedHandler() {
 		return (event -> {
-			System.out.println("Save Button clicked");
-			
 			try {
 				// set the garden name
 				TextField tmp = gardenEditorView.getGardenName();
@@ -776,11 +759,6 @@ public class Controller extends Application{
 			
 			try {
 				savedGardens = gardenSaverLoader.loadGardenList();
-				for(Garden g : savedGardens) {
-					System.out.println(g.getName());
-					for(Plant p : g.getPlantsInGarden())
-						System.out.println(p.getScientificName());
-				}
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -819,7 +797,7 @@ public class Controller extends Application{
 			ListView<String> tmp = loadSavedGardenView.getListView();
 			String curr_g = tmp.getSelectionModel().getSelectedItem();
 			garden = gardenSaverLoader.loadPickedGarden(curr_g, savedGardens);
-			
+			gardenEditorView.clearCanvas();
 			stage.setScene(gardenEditorView.getScene());
 			
 			setUpGardenEditor();
@@ -837,7 +815,6 @@ public class Controller extends Application{
 	 */
 	public EventHandler deleteSelectedGardenHandler() {
 		return (event -> {
-			System.out.println("delete button pushed");
 			ListView<String> tmp = loadSavedGardenView.getListView();
 			String curr_g = tmp.getSelectionModel().getSelectedItem();
 			savedGardens = gardenSaverLoader.deleteGarden(curr_g, savedGardens);
@@ -863,8 +840,6 @@ public class Controller extends Application{
 	 */
 	public EventHandler fromLoadToHome() {
 		return (event -> {
-			System.out.println("from load to home");
-			
 			stage.setScene(startView.getScene());
 		});
 	}
@@ -880,7 +855,6 @@ public class Controller extends Application{
 	 */
 	public EventHandler generateReportHandler() {
 		return(event -> {
-			System.out.println("Generate report button pushed");
 			
 			reportView.showReport();
 			
@@ -903,12 +877,10 @@ public class Controller extends Application{
 			tempGardenData = garden.generateShoppingListData();
 			ConcurrentHashMap<String, Set<Lep>> tempLeps =  garden.getLepsByPlant();
 			tempGardenData.forEach((key,val) ->{
-				System.out.println("In for each");
 				String scientific = val.getScientificName();
 				Set<Lep> leps = tempLeps.get(scientific);
 				if(leps != null) {
 				for(Lep l: leps) {
-					System.out.println("In nested forEach");
 					reportView.addLep(l.getLepName());
 				}
 				}

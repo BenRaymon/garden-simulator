@@ -612,6 +612,7 @@ public class GardenEditorView extends View {
 		box.setAlignment(Pos.CENTER);
 		box.setStyle("-fx-background-color: " + darkgrey);
 		Label message = new Label("Plant radius is too large for your plot");
+		message.getStyleClass().add("popup");
 		
 		box.getChildren().add(message);
         Scene myDialogScene = new Scene(box, 350, 75);
@@ -630,9 +631,12 @@ public class GardenEditorView extends View {
 		box.setAlignment(Pos.CENTER);
 		box.setStyle("-fx-background-color: " + darkgrey);
 		Label message = new Label("Plant radius overlaps with another plant's radius");
+		message.getStyleClass().add("popup");
+		message.setWrapText(true);
+		message.setPadding(new Insets(0,0,0,20));
 		
 		box.getChildren().add(message);
-        Scene myDialogScene = new Scene(box, 350, 75);
+        Scene myDialogScene = new Scene(box, 400, 75);
         String textStyle = getClass().getResource("labels.css").toExternalForm();
         myDialogScene.getStylesheets().add(textStyle);
         popup.setScene(myDialogScene);
