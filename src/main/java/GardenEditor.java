@@ -159,9 +159,10 @@ public class GardenEditor {
 	 * @param plot the plot the plant is trying to be placed in
 	 * @return boolean whether or not the plant can be placed
 	 */
-	public static boolean isPlantWithinPlot(double radius, Plot plot) {
+	public static boolean isPlantWithinPlot(double radius, double scale, Plot plot) {
 		System.out.println("Radius: " + radius);
-		double half_rad = radius / 2;
+		System.out.println("Scale: " + scale);
+		double half_rad = (radius) * scale;
 		System.out.println("Half radius: " + half_rad);
 		System.out.println("Side check: " + (plot.getRight() - plot.getLeft()));
 		System.out.println("Vertical check: " + (plot.getBottom() - plot.getTop()));
