@@ -138,7 +138,10 @@ public class PlotDesignView extends View {
 		scene.heightProperty().addListener(controller.getPDHeightChangeListener());
 	}
 	
-	//TODO
+	/**
+	 * Changes height of the canvas
+	 * @param windowHeight
+	 */
 	public void heightChanged(Object windowHeight) {
 		WINDOW_HEIGHT = (double) windowHeight;
 		CANVAS_HEIGHT = (double)windowHeight - MenuBox.MENU_HEIGHT;
@@ -148,7 +151,10 @@ public class PlotDesignView extends View {
 	}
 	
 	
-	//TODO
+	/**
+	 * Changes width of the canvas
+	 * @param windowWidth
+	 */
 	public void widthChanged(Object windowWidth) {
 		WINDOW_WIDTH =(double) windowWidth;
 		CANVAS_WIDTH = (double)windowWidth - LEFTBAR;
@@ -285,7 +291,6 @@ public class PlotDesignView extends View {
 	
 	/**
 	 * Draws plots on the canvas
-	 * TODO: javadoc
 	 * @param points an array lit of coordinates to draw
 	 */
 	public void drawPlot(ArrayList<Point> points) {
@@ -482,7 +487,6 @@ public class PlotDesignView extends View {
 	}
 
 	/**
-	 * TODO javadox
 	 * Getter for canvas height
 	 * @return canvas height
 	 */
@@ -580,7 +584,9 @@ public class PlotDesignView extends View {
 			gc.setFill(Color.SANDYBROWN);
 	}
 	
-	//TODO javadoc
+	/**
+	 * Shows the redraw button option on left bar
+	 */
 	public void showRedrawButton() {
 		if(drawRedrawPlot.getChildren().size() > 1) {
 			return;
