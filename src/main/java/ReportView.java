@@ -71,16 +71,16 @@ public class ReportView extends View {
 		ObservableList<Plant> plantsInGardenTableData = FXCollections.observableArrayList();
 
 		// Sets up checkboxes
-		Text optionTitle = new Text("Report Options");
-		reportGrid.add(optionTitle, 0, 0);
-		perennialDiversityOption = new CheckBox("Perennial Diversity");
-		reportGrid.add(perennialDiversityOption, 0, 1);
-		budgetOption = new CheckBox("Budget");
-		reportGrid.add(budgetOption, 0, 2);
-		tableOption = new CheckBox("List Supported Plants");
-		lepListOption = new CheckBox("List Supported Leps");
-		reportGrid.add(lepListOption, 0, 3);
-		// reportGrid.add(tableOption,0,3);
+		//Text optionTitle = new Text("Report Options");
+		//reportGrid.add(optionTitle, 0, 0);
+		//perennialDiversityOption = new CheckBox("Perennial Diversity");
+		//reportGrid.add(perennialDiversityOption, 0, 1);
+		//budgetOption = new CheckBox("Budget");
+		//reportGrid.add(budgetOption, 0, 2);
+		//tableOption = new CheckBox("List Supported Plants");
+		//lepListOption = new CheckBox("List Supported Leps");
+		//reportGrid.add(lepListOption, 0, 3);
+		 //reportGrid.add(tableOption,0,3);
 		generateButton = new Button("Generate Report");
 
 		// Sets event Handler

@@ -845,10 +845,10 @@ public class Controller extends Application{
 
 			
 			//Gets vlaues of checkboxes
-			boolean perennialDiversityOptionFlag = reportView.getPerennialDiversityOption().isSelected();
-			boolean budgetFlag = reportView.getBudgetOption().isSelected();
-			boolean lepListFlag = reportView.getLepListOption().isSelected();
-			boolean plantListFlag = true;
+			//boolean perennialDiversityOptionFlag = reportView.getPerennialDiversityOption().isSelected();
+			//boolean budgetFlag = reportView.getBudgetOption().isSelected();
+			//boolean lepListFlag = reportView.getLepListOption().isSelected();
+			//boolean plantListFlag = true;
 			//boolean tableFlag = reportView.get
 			
 			
