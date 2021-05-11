@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
@@ -28,12 +29,16 @@ public class ReportView extends View{
 	private CheckBox perennialDiversityOption;
 	private CheckBox budgetOption;
 	private CheckBox tableOption;
+	private CheckBox lepListOption;
 	private Button generateButton;
 	private ScrollPane sp;
 	private GridPane plantData;
 	private TableView plantTable;
 	private ObservableList<PieChart.Data> plantsInGardenPieChartData = FXCollections.observableArrayList();
-	private ObservableList<Plant> plantsInGardenTableData = FXCollections.observableArrayList();
+	private ObservableList<String> plantsInGarden = FXCollections.observableArrayList();
+	private ObservableList<String> lepsInGarden = FXCollections.observableArrayList();
+	private ListView <String> lepList;
+	private ListView <String> plantList;
 	
 	
 	/**
@@ -48,9 +53,7 @@ public class ReportView extends View{
 		base.setCenter(reportGrid);
 		
 		toGardenEditor = new Button("Garden Editor");
-		toGardenEditor.setOnMouseClicked(controller.getToGardenOnClickHandler2());
-		createBottom().add(toGardenEditor, 0, 0);
-		
+		toGardenEditor.setOnMouseClicked(controller.getToGardenOnClickHandler2());		
 		//Instantiates Scroll Pane
 		sp = new ScrollPane();
 		
@@ -69,7 +72,9 @@ public class ReportView extends View{
 		reportGrid.add(perennialDiversityOption,0,1);
 		budgetOption = new CheckBox("Budget");
 		reportGrid.add(budgetOption,0,2);
-		tableOption = new CheckBox("Plant Table");
+		tableOption = new CheckBox("List Supported Plants");
+		lepListOption = new CheckBox("List Supported Leps");
+		reportGrid.add(lepListOption,0,3);
 		//reportGrid.add(tableOption,0,3);
 		generateButton = new Button("Generate Report");
 		
@@ -110,7 +115,7 @@ public class ReportView extends View{
 	public void addGardenPieGraph() {
 		PieChart plantChart = new PieChart(plantsInGardenPieChartData);
 		plantChart.setTitle("Perennial Diversity");
-		plantData.add(plantChart,0,0);
+		plantData.add(plantChart,1,1);
 	}
 	
 	/**
@@ -131,7 +136,7 @@ public class ReportView extends View{
 		budgetGrid.add(budgetText,0,0);
 		budgetGrid.add(spentText,1,0);
 		//budgetGrid.setHgap(10);
-		plantData.add(budgetGrid,0,1);
+		plantData.add(budgetGrid,1,0);
 	}
 	
 	/**
@@ -144,20 +149,27 @@ public class ReportView extends View{
 		plantsInGardenPieChartData.add(new PieChart.Data(plantName,plantNum));
 	}
 	
-	/**
-	 * Creates the bottom pane that holds a button to return to return to the main garden editor screen.  
-	 * @param None
-	 * @return bottom_grid
-	 */
-	public GridPane createBottom() {
-		GridPane bottom_grid = new GridPane();
-		bottom_grid.setAlignment(Pos.CENTER_LEFT);
-		bottom_grid.setStyle("-fx-background-color: aqua");
-		bottom_grid.setGridLinesVisible(true);
-		bottom_grid.setHgap(10);
-		bottom_grid.setVgap(10);
-		base.setBottom(bottom_grid);
-		return bottom_grid;	
+	
+	public void addLep(String lepName) {
+		if(!lepsInGarden.contains(lepName)) {
+		lepsInGarden.add(lepName);
+		}		
+	}
+	
+	public void addLepList() {
+		lepList = new ListView<String>();
+		lepList.setItems(lepsInGarden);
+		System.out.println("Adding lepList to plantData");
+		plantData.add(lepList,2,2);
+	}
+	
+	public void addPlant(String plant) {
+		plantsInGarden.add(plant);
+	}
+	public void addPlantList() {
+		plantList = new ListView<String>();
+		plantList.setItems(plantsInGarden);
+		plantData.add(plantList,0,2);
 	}
 	
 	/**
@@ -184,5 +196,8 @@ public class ReportView extends View{
 		return budgetOption;
 	}
 	
+	public CheckBox getLepListOption() {
+		return lepListOption;
+	}
 	
 }
