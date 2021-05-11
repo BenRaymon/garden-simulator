@@ -568,6 +568,7 @@ public class Controller extends Application{
 					gardenEditorView.createNewImageInBase(drag,db, radius);
 				} else {
 					System.out.println("Plant cannot fit into this plot, too large");
+					gardenEditorView.plantTooBigPopUp();
 				}
 			} else {
 				if (GardenEditor.isPlantWithinPlot(radius, garden.getScale(), garden.getPlots().get(plotNum))) {
@@ -580,10 +581,11 @@ public class Controller extends Application{
 					gardenEditorView.createNewImageInBase(drag,db, radius);
 				} else {
 					System.out.println("Plant cannot fit into this plot, too large");
+					gardenEditorView.plantTooBigPopUp();
 				}	
 			}
 			gardenEditorView.updateGardenCounts(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
-			System.out.println("Size of plot: " + garden.getPlots().get(plotNum).getPlantsInPlot().size());
+			
 
 			drag.setDropCompleted(true);
 			drag.consume();

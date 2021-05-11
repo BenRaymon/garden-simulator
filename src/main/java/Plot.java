@@ -33,7 +33,7 @@ public class Plot implements Serializable {
 	 * @return none
 	 */
 	public void calculatePlotBoundaries() {
-		Iterator<Point> itp = originalCoordinates.iterator();
+		Iterator<Point> itp = coordinates.iterator();
 		while(itp.hasNext()) {
 			Point p = itp.next();
 			if (p.getX() < left || left == 0) {

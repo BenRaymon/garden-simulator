@@ -591,6 +591,24 @@ public class GardenEditorView extends View {
         lepPopup.show();
 	}
 	
+	//TODO javadox
+	public void plantTooBigPopUp() {
+		Stage popup = new Stage();
+		popup.setMaximized(false);
+		popup.initModality(Modality.WINDOW_MODAL);
+		VBox box = new VBox();
+		box.setAlignment(Pos.CENTER);
+		box.setStyle("-fx-background-color: " + darkgrey);
+		Label message = new Label("Plant radius is too large for your plot");
+		
+		box.getChildren().add(message);
+        Scene myDialogScene = new Scene(box, 350, 75);
+        String textStyle = getClass().getResource("labels.css").toExternalForm();
+        myDialogScene.getStylesheets().add(textStyle);
+        popup.setScene(myDialogScene);
+        popup.show();
+	}
+	
 	/**
 	 * Closes the lep image pop up window
 	 */

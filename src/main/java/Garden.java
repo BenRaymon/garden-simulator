@@ -224,7 +224,7 @@ public class Garden implements Serializable {
 			return plots.get(index).getPlantsInPlot().containsValue(p);
 		} catch (Exception e) {
 			System.out.println("Plant is not in plot");
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return false;
 	}
