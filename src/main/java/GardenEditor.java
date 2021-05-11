@@ -430,4 +430,32 @@ public class GardenEditor {
 	public static void setScale(double s) {
 		scale = s;
 	}
+
+	/**
+	 * This method figures out if a plant can be placed next to another plant based on the spread radius
+	 * @param scale the scale of the garden, its a conversion from feet to pixels 
+	 * @param posOfSelectedPlant position of the plant to check if it can fit
+	 * @param plot the plot to get any other plants from
+	 * @return true/false if plant can be placed here
+	 */
+	public static boolean canPlantBePlaced(double scale, Point posOfSelectedPlant, double radius, Plot plot) {
+		// Base check
+		if (plot.getPlantsInPlot().size() == 0)
+			return true;
+		for (Map.Entry<Point, Plant> entry : plot.getPlantsInPlot().entrySet()) {
+			Point pos = entry.getKey();
+			Plant plant = entry.getValue();
+			double secondRadius = plant.getSpreadRadiusLower();
+			if (secondRadius == 0)
+				secondRadius = plant.getSizeLower();
+			System.out.println("Distance: " + (pos.distance(posOfSelectedPlant)));
+			System.out.println("Rad + scale: " + (radius * scale));
+			System.out.println("2nd Rad + scale: " + (secondRadius * scale));
+			System.out.println("R1 + R2: " + (radius * scale + secondRadius * scale));
+			if (radius * scale + secondRadius * scale > pos.distance(posOfSelectedPlant)) {
+				return false;
+			}
+		}
+		return true;
+	}
 }
