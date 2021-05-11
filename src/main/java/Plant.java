@@ -306,7 +306,10 @@ public class Plant implements Serializable, Comparable<Plant>{
 		return options;
 	}
 
-	//TODO
+	/**
+	 * Getter for soil types
+	 * @return soils
+	 */
 	public String getSoilTypes() {
 		String soils = "";
 		int[] soilTypes = options.getSoilTypes();
@@ -323,7 +326,10 @@ public class Plant implements Serializable, Comparable<Plant>{
 		return soils;
 	}
 	
-	//TODO
+	/**
+	 * Getter for sunlight levels
+	 * @return sunlight
+	 */
 	public String getSunlightLevels() {
 		String sunlight = "";
 		int[] sunlevels = options.getSunLevels();
@@ -340,7 +346,10 @@ public class Plant implements Serializable, Comparable<Plant>{
 		return sunlight;
 	}
 		
-	//TODO
+	/**
+	 * Getter for moisture levels
+	 * @return moistures
+	 */
 	public String getMoistures() {
 		String moistures = "";
 		int[] moistureLevels = options.getSoilTypes();

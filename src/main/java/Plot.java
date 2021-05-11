@@ -199,14 +199,15 @@ public class Plot implements Serializable {
 		this.coordinates = points;
 	}
 	
-	/** TODO JAVADOC
+	/**
 	 * get the coordinates that house this plot
 	 * @return the coordinate arraylist
 	 */
 	public ArrayList<Point> getOriginalCoordinates() {
 		return originalCoordinates;
 	}
-	/** TODO JAVADOC
+	
+	/**
 	 * set the coordinate arraylist to specified coords
 	 * @param points the arraylist of coords
 	 * @return none
