@@ -42,7 +42,6 @@ public class BackgroundImageLoader extends Thread {
 	 * @return none
 	 */
 	public void start() {
-		System.out.println("Starting background load process");
 		if (thread == null) {
 			thread = new Thread(this, threadName);
 			thread.start();

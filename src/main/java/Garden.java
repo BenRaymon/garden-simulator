@@ -234,7 +234,6 @@ public class Garden implements Serializable {
 	 */
 	public HashMap<String, PlantShoppingListData> generateShoppingListData() {
 		HashMap<String, PlantShoppingListData> psld = new HashMap<String, PlantShoppingListData>();
-		System.out.println("Plant list size is as follows:" + plantsInGarden.size());
 		
 		Iterator itr = plantsInGarden.iterator();
 		while (itr.hasNext()) {
