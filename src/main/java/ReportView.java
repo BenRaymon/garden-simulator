@@ -55,6 +55,7 @@ public class ReportView extends View {
 		this.controller = c;
 		base = new BorderPane();
 		reportGrid = new GridPane();
+		reportGrid.setAlignment(Pos.CENTER);
 		base.setCenter(reportGrid);
 
 		toGardenEditor = new Button("Garden Editor");
