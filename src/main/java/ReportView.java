@@ -262,8 +262,6 @@ public class ReportView extends View {
 		popupPlant.setScene(popupScene);
 		popupPlant.show();
 		
-		
-		//popupPlant.setScene(plantImg);
 	}
 	
 	public void openLepListPopUp(MouseEvent a, ConcurrentHashMap<String,Lep> lepHash) {
