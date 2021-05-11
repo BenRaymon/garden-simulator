@@ -87,7 +87,7 @@ public class PlotDesignView extends View {
 		
 		VBox toGardenHolder = new VBox(); //need the vbox for alignment
 		toGardenHolder.setAlignment(Pos.CENTER);
-		Button toGarden = new Button("To Garden");
+		Button toGarden = new Button("Fill Garden");
 		toGarden.setMinWidth(LEFTBAR*0.6);
 		toGarden.setOnMouseClicked(controller.getToGardenOnClickHandler());
 		toGardenHolder.getChildren().add(toGarden);
@@ -161,13 +161,13 @@ public class PlotDesignView extends View {
 	 * @return none
 	 */
 	public void inputDimensions() {
-		Label widthText = new Label("Garden width");
+		Label widthText = new Label("Garden width (ft)");
 		widthText.setMinWidth(LEFTBAR*0.6);
-		Label heightText = new Label("Garden height");
+		Label heightText = new Label("Garden height (ft)");
 		heightText.setMinWidth(LEFTBAR*0.6);
-		Label boxHeightText = new Label("Grid Height");
+		Label boxHeightText = new Label("Grid Height (ft)");
 		boxHeightText.setMinWidth(LEFTBAR*0.6);
-		Label boxWidthText = new Label("Grid Width");
+		Label boxWidthText = new Label("Grid Width (ft)");
 		boxWidthText.setMinWidth(LEFTBAR*0.6);
 		Label budgetText = new Label("Budget");
 		budgetText.setMinWidth(LEFTBAR*0.6);
