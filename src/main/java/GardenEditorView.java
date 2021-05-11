@@ -518,7 +518,7 @@ public class GardenEditorView extends View {
 						Hyperlink lepName = new Hyperlink(l.getLepName());
 						lepHolder.getChildren().add(lepName);
 						lepName.setTextFill(Color.web(offWhite));
-						lepName.setOnAction(controller.lepPopUpHandler2());
+						lepName.setOnAction(controller.lepPopUpHandler());
 					}
 					else {
 						Text lepName = new Text(l.getLepName());
@@ -738,27 +738,6 @@ public class GardenEditorView extends View {
         }
 		else
 			return -1;
-	}
-	
-	/**
-	 * get the values of the current plot selections
-	 * @return an array list of 1s and 0s representing if the recommended plants for each plot should be shown
-	 */
-	public ArrayList<Integer> getSelections() {
-		
-		ArrayList<Integer> selections = new ArrayList<Integer>(); 
-		//iterate through the checkboxes
-		//add a 1 to the list if the box is checked, 0 if not
-		for(Node n : plotSelectors.getChildren()) {
-			if (n instanceof CheckBox) {
-				CheckBox chk = (CheckBox) n;
-				if(chk.isSelected())
-					selections.add(1);
-				else
-					selections.add(0);
-			}
-		}
-		return selections;
 	}
 	
 	

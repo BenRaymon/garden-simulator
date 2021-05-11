@@ -193,7 +193,7 @@ public class PlotDesignView extends View {
 		boxWidthInput.setText("" + 10);
 		
 		Button drawDimensions = new Button("Set Dimensions");
-		drawDimensions.setOnMouseClicked(controller.drawPlotGrid());
+		drawDimensions.setOnMouseClicked(controller.getSetDimensionsClickedHandler());
 		
 		VBox budget = new VBox();
 		budget.setAlignment(Pos.CENTER);

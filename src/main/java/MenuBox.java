@@ -40,7 +40,7 @@ public class MenuBox extends Pane {
 		learn = new Button("Learn More");
 		
 		load.setOnMouseClicked(controller.getLoadGardenViewOnClickHandler());
-		plotD.setOnMouseClicked(controller.getNewGardenOnClickHandler());
+		plotD.setOnMouseClicked(controller.getToPlotDesignHandler());
 		editor.setOnMouseClicked(controller.getToGardenOnClickHandler2());
 		shoppingL.setOnMouseClicked(controller.getToShoppingListOnClickHandler());
 		report.setOnMouseClicked(controller.getToReportOnClickHandler());

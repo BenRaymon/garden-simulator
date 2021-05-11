@@ -35,7 +35,6 @@ public class Controller extends Application{
 	Garden garden;
 	SaveLoadGarden gardenSaverLoader = new SaveLoadGarden();
 	ArrayList<Garden> savedGardens = new ArrayList<Garden>();
-	//BackgroundLoader backgroundLoader;
 	
 	
 	@Override
@@ -58,8 +57,6 @@ public class Controller extends Application{
 	public static void main(String[] args) {
 		// BackgroundLoader loads the data and images in concurrently whilst showing a splash screen
 		// It then goes to the start screen when it is finished
-		 
-		
 		BackgroundLoader backgroundLoader = new BackgroundLoader("bkgloader", View.getImages(),View.getLepImages(), Garden.getAllPlants(), Garden.getLepsByPlant(), Garden.getAllLeps());
 		
 		System.out.println("Printing out all leps as a test");
@@ -79,7 +76,7 @@ public class Controller extends Application{
 	/**
 	 * Create views for all views in the program
 	 * Load saved gardens
-	 * Set the start screen to the main into screen
+	 * Set the start screen to the main intro screen
 	 */
 	public void loadStartScreen() {
 		try {
@@ -109,6 +106,11 @@ public class Controller extends Application{
 		
 	}
 	
+	/**
+	 * Returns the event Handler for clicking the learn more button
+	 * When activated, this method opens the learn more page
+	 * @return event handler
+	 */
 	public EventHandler getLearnMoreOnClickHandler() {
 		return (event->{
 			stage.setScene(learnMoreView.getScene());
@@ -117,10 +119,11 @@ public class Controller extends Application{
 	
 	
 	/**
-	 * Returns the event handler for clicking the new garden button
+	 * Returns the event handler for clicking the "plot design" or "new garden" buttons
+	 * When activated, this method opens the plot designer page
 	 * @return event handler
 	 */
-	public EventHandler getNewGardenOnClickHandler() {
+	public EventHandler getToPlotDesignHandler() {
 		return (event -> {
 			stage.setScene(plotDesignView.getScene());
 			
@@ -142,8 +145,44 @@ public class Controller extends Application{
 		});
 	}
 	
+	/** 
+	 * Returns the event handler for the "to garden" button
+	 * When activated, this method prepares the garden for 
+	 * the garden editor, draws the plots and sends the user 
+	 * to the garden editor page
+	 * 
+	 * @return event handler
+	 */
+	public EventHandler getToGardenOnClickHandler() {
+		return (event -> {
+			//set the budget in the garden to the current budget in the plotdesignview
+			garden.setBudget(plotDesignView.getBudget());
+			//set new scene to gardeneditorview
+			stage.setScene(gardenEditorView.getScene());
+			//update budget in the view
+			gardenEditorView.setBudget(garden.getBudget());
+			//clear the current canvas (prevent redrawing on top of the previous drawings)
+			gardenEditorView.clearCanvas();
+		
+			setUpGardenEditor();
+		});
+	}
+		
+	/** 
+	 * Returns the event handler for going to the garden without redrawing everything
+	 * When activated, this method sends the user to the current garden editor page
+	 * @return event handler
+	 */
+	public EventHandler getToGardenOnClickHandler2() {
+		return (event -> {
+			stage.setScene(gardenEditorView.getScene());
+			
+		});
+	}
+	
 	/**
 	 * Returns the event handler for shopping list button clicked
+	 * When activated, this method opens the shopping list page
 	 * @return event handler
 	 */
 	public EventHandler getToShoppingListOnClickHandler() {
@@ -156,6 +195,7 @@ public class Controller extends Application{
 	
 	/**
 	 * Returns the event handler for report button clicked
+	 * When activated, this method opens the report page
 	 * @return event handler
 	 */
 	public EventHandler getToReportOnClickHandler() {
@@ -167,6 +207,7 @@ public class Controller extends Application{
 	
 	/**
 	 * Returns the event handler for compare plants button clicked
+	 * When activated, this method opens the compare plants page
 	 * @return event handler
 	 */
 	public EventHandler getToCompareOnClickHandler() {
@@ -180,7 +221,14 @@ public class Controller extends Application{
 		});
 	}
 	
-	//TODO: JAAVADOX
+	/**
+	 * Sets up the model and the view for the garden editor page.
+	 * 
+	 * Resizes plots to fill the garden editor canvas, 
+	 * smoothes the scaled plots, sets a value for 
+	 * pixels per foot (scale), draws the plots,
+	 * updates the in-garden counts, and sets the recommended plant list
+	 */
 	public void setUpGardenEditor() {
 		//create list of plots for recommended plant list selection
 		gardenEditorView.setPlotBoxes(garden.getPlots());
@@ -188,7 +236,7 @@ public class Controller extends Application{
 		//get the current canvas size
 		double h = gardenEditorView.getCanvasHeight();
 		double w = gardenEditorView.getCanvasWidth();
-		//transform plots to and calculate scale 
+		//transform plots to and calculate scale based on the available canvas size
 		double pixelsPerFoot = GardenEditor.transformPlots(garden.getPlots(), w, h, garden.getScale());
 		//set the new scale in both the model and the view
 		garden.setScale(pixelsPerFoot);
@@ -198,6 +246,7 @@ public class Controller extends Application{
 			p.setCoordinates(p.filterCoords(5));
 			p.setCoordinates(GardenEditor.smooth(p.getCoordinates(), 0.3, 20));
 			gardenEditorView.setFillColor(p.getOptions());
+			//draw the plot in the view (and draw the plants in the plot if applicable) 
 			if (p.getPlantsInPlot().size() == 0) 
 				gardenEditorView.drawPlot(p.getCoordinates(), null);
 			else
@@ -223,9 +272,12 @@ public class Controller extends Application{
 	
 	/**
 	 * Returns the event handler for set dimensions button clicked
+	 * When activated, this method sets the scale of the garden based
+	 * on the dimension inputs. A grid is drawn with the user's specifications
+	 * 
 	 * @return event handler
 	 */
-	public EventHandler drawPlotGrid() {
+	public EventHandler getSetDimensionsClickedHandler() {
 		return (event->{
 			double pixelsPerFoot = plotDesignView.drawGrid();
 			garden.setScale(pixelsPerFoot);
@@ -241,6 +293,8 @@ public class Controller extends Application{
 	
 	/**
 	 * Returns the change listener for plot design height change
+	 * When activated, this method sets a new scale based on the resulting height
+	 * and redraws the grid to fit in the new canvas
 	 * @return change listener
 	 */
 	public ChangeListener<Object> getPDHeightChangeListener() {
@@ -254,6 +308,8 @@ public class Controller extends Application{
 
 	/**
 	 * Returns the change listener for plot design width change
+	 * When activated, this method sets a new scale based on the resulting width
+	 * and redraws the grid to fit in the new canvas
 	 * @return change listener
 	 */
 	public ChangeListener<Object> getPDWidthChangeListener() {
@@ -266,6 +322,9 @@ public class Controller extends Application{
 
 	/**
 	 * Returns the event handler for draw plot button in plotdesignview
+	 * When activated, this method creates a new plot in the garden with the 
+	 * user specified soil, sunlight and moisture. 
+	 * The canvas in the plotdesignview is "unlocked" so the user can draw
 	 * @return event handler
 	 */
 	public EventHandler getDrawPlotHandler() {
@@ -286,7 +345,10 @@ public class Controller extends Application{
 	}
 	
 	/**
-	 * TODO 
+	 * Returns the event handler for clicking the redraw button
+	 * When activated, this method erases the current plot and 
+	 * lets the user redraw the plot. 
+	 * @return event handler
 	 */
 	public EventHandler getRedrawPlotHandler() {
 		return (event -> {
@@ -315,6 +377,9 @@ public class Controller extends Application{
 
 	/**
 	 * Returns the event handler for initiating drawing a plot
+	 * This method is activated when the user starts to drag 
+	 * their mouse on the canvas. Begins a path and starts recording 
+	 * coordinates for the plot boundaries
 	 * @return event handler
 	 */
 	public EventHandler getDrawPlotDragDetected() {
@@ -322,12 +387,13 @@ public class Controller extends Application{
         	System.out.println("Draw Plot Mouse Pressed");
 			MouseEvent me = (MouseEvent)event;
 			plotDesignView.startDrawingPlot(me);
-			
         });
 	}
 	
 	/**
-	 * Returns the event handler for while the plot is being drawn, while mouse is being dragged
+	 * Returns the event handler for while the plot is being drawn
+	 * This method is activated while the user is dragging their mouse.
+	 * When activated, coordinates for the plot are recorded
 	 * @return event handler
 	 */
 	public EventHandler getDrawPlotDragged() {
@@ -339,7 +405,10 @@ public class Controller extends Application{
 	}
 	
 	/**
-	 * Returns the event handler for when the plot is done drawing. On drag complete
+	 * Returns the event handler for when the plot is done drawing.
+	 * This method is activated after the user finishes drawing a plot,
+	 * when the mouse/drag is released. The plot coordinates get 
+	 * added to the garden and the final plot shape is filled in
 	 * @return event handler
 	 */	
 	public EventHandler getOnDrawPlotDone() {
@@ -367,40 +436,12 @@ public class Controller extends Application{
         });
 	}
 	
-	/** TODO JAVADOC REWRITE
-	 * Returns the event handler for the to garden button in plotdesignview
-	 * Transform plots to fit in the gardeneditor, set a new scale, smooth the newly scaled plots
-	 * Update information in right bar with garden info and send a recommended plant list based on plot
-	 * @return event handler
-	 */
-	public EventHandler getToGardenOnClickHandler() {
-		return (event -> {
-			//set the budget in the garden to the current budget in the plotdesignview
-			garden.setBudget(plotDesignView.getBudget());
-			//set new scene to gardeneditorview
-			stage.setScene(gardenEditorView.getScene());
-
-			//update budget in the view
-			gardenEditorView.setBudget(garden.getBudget());
-			
-			//i need to clear the garden editor first
-			gardenEditorView.clearCanvas();
-			//
-
-			setUpGardenEditor();
-			
-		});
-	}
-		
-	public EventHandler getToGardenOnClickHandler2() {
-		return (event -> {
-			stage.setScene(gardenEditorView.getScene());
-			
-		});
-	}
+	
 	/**
-	 * Returns the event handler for clicking an image in the garden editor
-	 * Updates plant info in gardeneditorview
+	 * Returns the event handler for selecting a plant in the garden editor
+	 * This method is activated when a user clicks on or hovers over a plant image
+	 * When activated, this method selects a plant to show information about in the view
+	 * 
 	 * @return event handler
 	 */
 	public EventHandler getOnImageEnteredInfo() {
@@ -408,7 +449,7 @@ public class Controller extends Application{
 			System.out.println("In Image Clicked on Handler");
 			String plant = gardenEditorView.getPlantName(event);
 			Plant selectedPlant = Garden.getPlant(plant);
-			
+			//update the left info bar
 			gardenEditorView.setPlantInfo(selectedPlant,Garden.getLepsByPlant().get(plant), event);
 			
 		});
@@ -416,7 +457,10 @@ public class Controller extends Application{
 	
 	
 	/**
-	 * Returns the event handler for initiating dragging a plant from the recommended bar to a plot
+	 * Returns the event handler for initiating drag and drop of a plant
+	 * This method is activated when the user begins dragging a plant within the garden editor
+	 * When activated, a plant is selected either from the recommended bar or within a plot
+	 * and the drag and drop action is started
 	 * @return event handler
 	 */
 	public EventHandler getOnImageDraggedHandler() {
@@ -455,6 +499,7 @@ public class Controller extends Application{
 
 	/**
 	 * Returns the event handler for while the plant/image is being dragged
+	 * This method is activated while the user is dragging a plant in the garden editor
 	 * @return event handler
 	 */
 	public EventHandler getOnDragOverHandler() {
@@ -466,7 +511,11 @@ public class Controller extends Application{
 	}
 	
 	/**
-	 * Returns the event handler for when the image is dropped, drag complete
+	 * Returns the event handler for when the image is dropped
+	 * This method is activated when the user releases their mouse
+	 * and the drag and drop is completed. 
+	 * When activated, this method adds the plant to the 
+	 * plot it belongs to (or removes the plant from the garden)
 	 * @return event handler
 	 */
 	public EventHandler getOnDragDroppedHandler() {
@@ -479,7 +528,6 @@ public class Controller extends Application{
 			Point pos = new Point(drag.getX(), drag.getY());
 			int plotNum = GardenEditor.inPlot(pos, garden.getPlots(), gardenEditorView.getTopBar() + MenuBox.MENU_HEIGHT, gardenEditorView.getLeftBar());
 			if(plotNum == -1) { 
-				
 				Plant plant = GardenEditor.getSelectedPlant();
 				plotNum = GardenEditor.inPlot(plant.getPosition(), garden.getPlots(), gardenEditorView.getTopBar() + MenuBox.MENU_HEIGHT, gardenEditorView.getLeftBar());
 				garden.removePlantFromPlot(plotNum,plant.getPosition());
@@ -497,7 +545,7 @@ public class Controller extends Application{
 				radius =  selected.getSizeLower();
 			}
 			//place the plant in the garden in the view
-			gardenEditorView.createNewImageInBase(drag,db, radius);
+			gardenEditorView.createNewImageInBase(drag,db,radius);
 			
 			//Check if the selected plant was from the recommended bar or if it was in a plot
 			if(garden.isPlantInPlot(plotNum, selected)) {
@@ -537,11 +585,15 @@ public class Controller extends Application{
 		});
 	}
 	
-	//TODO
+	/**
+	 * Returns the change listener that activates when a plot is selected in the plots dropdown
+	 * This method changes the recommended plant list to be based on the selected plot
+	 * @return ChangeListener
+	 */
 	public ChangeListener getPlotSelectHandler() {
 		return ((ov, t, t1) -> {
+			//get the plot index from the string
 			int plotIndex = Integer.parseInt("" + t1.toString().charAt(t1.toString().length() - 1)) - 1;
-			ArrayList<Integer> plotSelections = gardenEditorView.getSelections();
 			//Construct the recommended plant list if this plot does not have one already
 			if(garden.getPlots().get(plotIndex).getRecommendedPlants() == null) {
 				garden.getPlots().get(plotIndex).createRecommendedPlants();
@@ -558,10 +610,8 @@ public class Controller extends Application{
 	}
 	
 	/**
-	 * Event handler that gets text from search bar in compPlantsView, searches for plant from all loaded plants in model,
-	 * and sends info gotten from compPlants to compPlantsView on button Click (Right Button Click).
-	 * @param None
-	 * @return None
+	 * Returns the event handler that sets the right-hand-side plant for comparing plants
+	 * @return event handler
 	 */
 	public EventHandler RightPlantButtonClickedHandler() {
 		return (event ->{
@@ -587,10 +637,8 @@ public class Controller extends Application{
 	}
 	
 	/**
-	 * Event handler that gets text from search bar in compPlantsView, searches for plant from all loaded plants in model,
-	 * and sends info gotten from compPlants to compPlantsView on button Click (Left Button Click).
-	 * @param None
-	 * @return None
+	 * Returns the event handler that sets the left-hand-side plant for comparing plants
+	 * @return event handler
 	 */
 	public EventHandler LeftPlantButtonClickedHandler() {
 		return (event ->{
@@ -615,11 +663,10 @@ public class Controller extends Application{
 	
 	
 	/**
-	 * Event handler for listView in compPlantView. 
-	 * On list click, this handler finds the element clicked on, gets the coresponding information from CompPlants, 
-	 * and sends the gotten info to compPlantsView.
-	 * @param None
-	 * @return None
+	 * Returns the Event handler for comparison dropdown in compPlantView. 
+	 * On list click, this handler finds the element clicked on, 
+	 * gets the corresponding information from CompPlants, and sends the gotten info to compPlantsView.
+	 * @return event handler
 	 */
 	public EventHandler listClickedHandler() {
 		return(event ->{
@@ -674,7 +721,11 @@ public class Controller extends Application{
 	}
 	
 
-	//TODO : javadoc
+	/**
+	 * Returns the event handler for clicking the show / hide gridlines button
+	 * When activated, this method toggles the gridlines being shown
+	 * @return ChangeListener
+	 */
 	public EventHandler getDisplayGridlinesHandler() {
 		return (event ->{
 			//change the value of showGridLines in plotdesignview
@@ -691,14 +742,13 @@ public class Controller extends Application{
 	
 	
 	/**
-	 * Called from the Garden Editor View when the user clicks the save button.
-	 * creates a copy of the current garden and if a unique name is given it will save the
-	 * current garden as a unique entry in the list of saved gardens but if no name or the same
-	 * name is given it will overwrite the loaded garden.
-	 * 
-	 * @param none
-	 * @return event - creates and saves copy garden.
-	 * */
+	 * Returns the event handler for clicking on the save garden button
+	 * This method creates a copy of the current garden and if a unique name is given 
+	 * it will save the current garden as a unique entry in the list of saved gardens. 
+	 * If the same name or no name is given it will overwrite the loaded garden.
+	 *
+	 * @return event handler
+	 */
 	public EventHandler SaveButtonClickedHandler() {
 		return (event -> {
 			System.out.println("Save Button clicked");
@@ -746,12 +796,13 @@ public class Controller extends Application{
 	}
 	
 	/**
-	 * Sets the scene to the load menu when the Load Garden button is clicked
-	 * on the home screen.
+	 * Returns the event handler for clicking the load 
+	 * garden button in the main screen. 
+	 * When activated, this method sends the user 
+	 * to the load gardens page
 	 * 
-	 * @param none
-	 * @return event - loads the view for the load screen
-	 * */
+	 * @return event handler
+	 */
 	public EventHandler getLoadGardenViewOnClickHandler() {
 		return (event -> {
 			loadSavedGardenView = new LoadSavedGardenView(stage, savedGardens, this);
@@ -763,13 +814,14 @@ public class Controller extends Application{
 	
 	
 	/**
-	 * Loads the garden picked by the user on the load menu. Uses the string highlighted
-	 * in the ListView to find the garden in list of saved gardens. Once it has the garden
-	 * it draws the plots in the garden and every plant in each plot in the Garden Editor
+	 * Returns the event handler for selecting a garden to load.
+	 * When activated, this method loads the garden picked by the user 
+	 * on the load menu. The string highlighted in the ListView is used to 
+	 * find the garden in list of saved gardens. Once it has the garden
+	 * it draws the plots in their plants in the garden editor
 	 * 
-	 * @param none
-	 * @return event - loads and displays the chosen garden.
-	 * */
+	 * @return event
+	 */
 	public EventHandler loadSelectedGardenHandler() {
 		return (event -> {
 			ListView<String> tmp = loadSavedGardenView.getListView();
@@ -783,14 +835,14 @@ public class Controller extends Application{
 	}
 	
 	/**
-	 * Deletes the garden selected by the user in the load menu. Uses the string from the listView
-	 * to find the right garden, removes it from the arrayList of saved gardens, and then saves the arraylist
-	 * to overwrite the old list.
-	 * 
-	 * @param none
-	 * @return event - deletes the selected garden
-	 * */
-	
+	 * Returns the event handler for deleting a garden. 
+	 * When activated, this method deletes the garden selected 
+	 * by the user in the load menu. Uses the string from the listView
+	 * to find the right garden, removes it from the arrayList of saved 
+	 * gardens, and then saves the arraylist to overwrite the old list.
+	 *
+	 * @return event
+	 */
 	public EventHandler deleteSelectedGardenHandler() {
 		return (event -> {
 			System.out.println("delete button pushed");
@@ -812,11 +864,12 @@ public class Controller extends Application{
 	}
 	
 	/**
-	 * Takes the user from the load menu to the home screen if they click the back button.
+	 * Returns the event handler for clicking the home button
+	 * When activated, this method takes the user from the load 
+	 * menu to the home screen if they click the back button.
 	 * 
-	 * @param - none
-	 * @return event - sets the stage back to the home view.
-	 * */
+	 * @return event
+	 */
 	public EventHandler fromLoadToHome() {
 		return (event -> {
 			System.out.println("from load to home");
@@ -827,10 +880,12 @@ public class Controller extends Application{
 	
 	
 	/**
-	 * Handles the report generation when the generate report button is clicked in ReportView.
-	 * This will send different pieces of information to reportView depending on the reportView checkBoxes. 
-	 * @param None
-	 * @return None
+	 * Returns the event handler that handles the report generation 
+	 * when the generate report button is clicked in ReportView.
+	 * When activated, this method will send the proper information
+	 * to display the desired report
+	 * 
+	 * @return event handler
 	 */
 	public EventHandler generateReportHandler() {
 		return(event -> {
@@ -862,8 +917,9 @@ public class Controller extends Application{
 		
 	}
 	/**
-	 * Event Handler for opening a webpage from Learn More Hyperlinks
-	 * @return event
+	 * Returns the event handler for opening a webpage from Learn More Hyperlinks
+	 * When activated this method will launch the hyperlink that was clicked on
+	 * @return event handler
 	 */
 	public EventHandler onClickedWebpageHandler() {
 		return (event -> {
@@ -872,21 +928,14 @@ public class Controller extends Application{
 	}
 	
 	
-	//TODO
-	public EventHandler lepPopUpHandler2() {
+	/**
+	 * Returns the event handler for clicking the hyperlink of a lep
+	 * When activated, this method opens a pop up with the lep image and more info
+	 * @return event handler
+	 */
+	public EventHandler lepPopUpHandler() {
 		return (event->{
 			gardenEditorView.lepPopUp((ActionEvent)event, Garden.getAllLeps());
-		});
-	}
-	
-	
-	/**
-	 * Event Handler called to close the pop up window
-	 * @return
-	 */
-	public EventHandler closePopUp() {
-		return (event->{
-			gardenEditorView.closeLepWindow();
 		});
 	}
 }
