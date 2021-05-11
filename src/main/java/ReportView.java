@@ -111,8 +111,15 @@ public class ReportView extends View {
 	public void showReport() {
 		// Clears out content in reportGrid, and adds Scroll Pane
 		reportGrid.getChildren().clear();
+		plantData.getChildren().clear();
+		//reportGrid = new GridPane();
+		plantsInGardenPieChartData.clear();
+		plantsInGarden.clear();
+		lepsInGarden.clear();
+		
 		sp.setContent(plantData);
 		reportGrid.add(sp, 0, 0);
+		reportGrid.add(generateButton,0,1);
 	}
 
 	/**

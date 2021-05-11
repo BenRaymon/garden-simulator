@@ -840,6 +840,10 @@ public class Controller extends Application{
 	public EventHandler generateReportHandler() {
 		return(event -> {
 			System.out.println("Generate report button pushed");
+			
+			reportView.showReport();
+
+			
 			//Gets vlaues of checkboxes
 			boolean perennialDiversityOptionFlag = reportView.getPerennialDiversityOption().isSelected();
 			boolean budgetFlag = reportView.getBudgetOption().isSelected();
@@ -898,7 +902,6 @@ public class Controller extends Application{
 			//-------------
 				
 			//Draw
-			reportView.showReport();
 			
 		});
 		
