@@ -426,18 +426,22 @@ public class GardenEditor {
 		return newPoints;     
 	}
 	
-	//TODO: javadoc
+	/**
+	 * Setter for scale
+	 * @param s
+	 */
 	public static void setScale(double s) {
 		scale = s;
 	}
 
 	/**
-	 * TODO update this
-	 * This method figures out if a plant can be placed next to another plant based on the spread radius
-	 * @param scale the scale of the garden, its a conversion from feet to pixels 
-	 * @param posOfSelectedPlant position of the plant to check if it can fit
-	 * @param plot the plot to get any other plants from
-	 * @return true/false if plant can be placed here
+	 * Calculates if a plant can be placed down
+	 * @param scale
+	 * @param posOfSelectedPlant
+	 * @param originalPosition
+	 * @param radius
+	 * @param plot
+	 * @return boolean
 	 */
 	public static boolean canPlantBePlaced(double scale, Point posOfSelectedPlant, Point originalPosition, double radius, Plot plot) {
 		// Base check
