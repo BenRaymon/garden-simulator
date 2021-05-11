@@ -36,19 +36,13 @@ public class Lep implements Serializable {
 		return lepFamily;
 	}
 
-
-
 	public void setLepFamily(String lepFamily) {
 		this.lepFamily = lepFamily;
 	}
 
-
-
 	public String getLepName() {
 		return lepName;
 	}
-
-
 
 	public void setLepName(String lepName) {
 		this.lepName = lepName;
@@ -57,8 +51,6 @@ public class Lep implements Serializable {
 	public Set<String> getCountries() {
 		return countries;
 	}
-
-
 
 	public void addCountry(String country) {
 		countries.add(country);
@@ -69,5 +61,9 @@ public class Lep implements Serializable {
 	}
 	public Set<String> getNames(){
 		return hostPlantName;
+	}
+	
+	public void setLepFamilies(HashSet<String> families) {
+		this.hostPlantFamily = families;
 	}
 }
