@@ -890,12 +890,20 @@ public class Controller extends Application{
 	public EventHandler generateReportHandler() {
 		return(event -> {
 			System.out.println("Generate report button pushed");
+			
+			reportView.showReport();
+
+			
 			//Gets vlaues of checkboxes
-			boolean perennialDiversityOptionFlag = reportView.getPerennialDiversityOption().isSelected();
-			boolean budgetFlag = reportView.getBudgetOption().isSelected();
+			//boolean perennialDiversityOptionFlag = reportView.getPerennialDiversityOption().isSelected();
+			//boolean budgetFlag = reportView.getBudgetOption().isSelected();
+			//boolean lepListFlag = reportView.getLepListOption().isSelected();
+			//boolean plantListFlag = true;
 			//boolean tableFlag = reportView.get
 			
-			if(perennialDiversityOptionFlag) {
+			
+			//Perenial Diversity
+			
 			HashMap<String, PlantShoppingListData> tempGardenData = garden.generateShoppingListData();
 			
 			//Adds plant info to reportGardenPieGraph
@@ -907,11 +915,43 @@ public class Controller extends Application{
 			}
 			
 			reportView.addGardenPieGraph();
-			}
-			if(budgetFlag) {
+			//---------------------------------
+			
+			
+			//Garden Budget
 				reportView.addBudgetBox(garden.getSpent(),garden.getBudget());
-			}
-			reportView.showReport();
+			//-----------------------
+			
+			//Lep List
+				tempGardenData = garden.generateShoppingListData();
+				ConcurrentHashMap<String, Set<Lep>> tempLeps =  garden.getLepsByPlant();
+				tempGardenData.forEach((key,val) ->{
+					System.out.println("In for each");
+					String scientific = val.getScientificName();
+					Set<Lep> leps = tempLeps.get(scientific);
+					if(leps != null) {
+					for(Lep l: leps) {
+						System.out.println("In nested forEach");
+						reportView.addLep(l.getLepName());
+					}
+					}
+				});
+				reportView.addLepList();
+				
+				
+			//------------------------------
+			
+			//Plant List
+				tempGardenData = garden.generateShoppingListData();
+				tempGardenData.forEach((key,val) ->{
+					String scientific = val.getScientificName();
+					reportView.addPlant(scientific);
+				});
+				reportView.addPlantList();
+			
+			//-------------
+				
+			//Draw
 			
 		});
 		
@@ -938,4 +978,31 @@ public class Controller extends Application{
 			gardenEditorView.lepPopUp((ActionEvent)event, Garden.getAllLeps());
 		});
 	}
+<<<<<<< HEAD
+=======
+	
+	
+	/**
+	 * Event Handler called to close the pop up window
+	 * @return
+	 */
+	public EventHandler closePopUp() {
+		return (event->{
+			gardenEditorView.closeLepWindow();
+		});
+	}
+	
+	public EventHandler plantListClicked() {
+		return(event ->{
+			//System.out.println("In controller");
+			reportView.openPlantListPopUp((MouseEvent)event, Garden.getAllPlants());
+			});
+	}
+	
+	public EventHandler lepListClicked() {
+		return(event ->{
+			reportView.openLepListPopUp((MouseEvent)event, Garden.getAllLeps());
+		});
+	}
+>>>>>>> release_reportView
 }
