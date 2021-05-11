@@ -175,6 +175,7 @@ public class ReportView extends View {
 		lepList.setItems(lepsInGarden);
 		System.out.println("Adding lepList to plantData");
 		Text lepText = new Text("Leps in Garden");
+		lepList.setOnMouseClicked(controller.lepListClicked());
 		plantData.add(lepText, 2, 2);
 		plantData.add(lepList, 2, 3);
 	}
@@ -249,11 +250,43 @@ public class ReportView extends View {
 		VBox v = new VBox();
 		v.getChildren().add(plantImgV);
 		v.getChildren().add(t);
-		Scene popupScene = new Scene(v,plantImgV.getImage().getWidth(),plantImgV.getImage().getHeight());
+		Scene popupScene = new Scene(v,plantImgV.getImage().getWidth(),plantImgV.getImage().getHeight()+50);
 		popupPlant.setScene(popupScene);
 		popupPlant.show();
 		
 		
 		//popupPlant.setScene(plantImg);
+	}
+	
+	public void openLepListPopUp(MouseEvent a, ConcurrentHashMap<String,Lep> lepHash) {
+		ListView temp = (ListView)a.getSource();
+		String lepName = (String)temp.getSelectionModel().getSelectedItem();
+		System.out.println(lepName);
+		
+		Stage popupLep = new Stage();
+		ImageView lepImgV = new ImageView();
+		Image lepImg = View.getLepImages().get(lepName);
+		
+		VBox v = new VBox();
+		if(lepImg != null) {
+			lepImgV.setImage(lepImg);
+			v.getChildren().add(lepImgV);
+		}
+		else {
+			Text noImg = new Text("No Image Found");
+			v.getChildren().add(noImg);
+		}
+		Text t = new Text("Lep Name: " + lepHash.get(lepName).getLepName() + "\nLep Family Name: " + lepHash.get(lepName).getLepFamily());
+		
+		v.getChildren().add(t);
+		Scene popupScene;
+		if(lepImg != null) {
+		popupScene = new Scene(v,lepImgV.getImage().getWidth(),lepImgV.getImage().getHeight()+50);
+		}
+		else {
+			popupScene = new Scene(v,500,500);
+		}
+		popupLep.setScene(popupScene);
+		popupLep.show();
 	}
 }

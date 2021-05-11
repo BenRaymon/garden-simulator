@@ -946,4 +946,10 @@ public class Controller extends Application{
 			reportView.openPlantListPopUp((MouseEvent)event, Garden.getAllPlants());
 			});
 	}
+	
+	public EventHandler lepListClicked() {
+		return(event ->{
+			reportView.openLepListPopUp((MouseEvent)event, Garden.getAllLeps());
+		});
+	}
 }
