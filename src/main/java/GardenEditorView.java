@@ -119,20 +119,14 @@ public class GardenEditorView extends View {
 		scene.getStylesheets().add(checkStyle);
 		scene.getStylesheets().add(labelStyle);
 		stage.setScene(scene);
-        stage.show();
-        
-       
-        
+        stage.show(); 
 	}
 	
 	
 	
 	///TODO javadoc
 	public void clearCanvas() {
-		//gc.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-		Canvas drawArea = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
-		gc = drawArea.getGraphicsContext2D();
-
+		gc.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 	}
 	
 	
