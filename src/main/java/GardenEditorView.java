@@ -122,7 +122,10 @@ public class GardenEditorView extends View {
         stage.show();
 	}
 	
-	///TODO javadoc
+	/**
+	 * Clears the Canvas and all circle nodes in base
+	 * 
+	 */
 	public void clearCanvas() {
 		ArrayList<Circle> plantImages = new ArrayList<Circle>();
 		for(Node n : base.getChildren()) {
@@ -166,7 +169,6 @@ public class GardenEditorView extends View {
 	
 	/**
 	 * Draws plots on the canvas
-	 * TODO: remove fill white
 	 * @param points an array lit of coordinates to draw
 	 */
 	public void drawPlot(ArrayList<Point> points, HashMap<Point, Plant> plantsInPlot) {
@@ -198,21 +200,24 @@ public class GardenEditorView extends View {
 		}
 	}
 	
-	//TODO
+	/**
+	 * Draws the plants in the given plots
+	 * @param plantsInPlot
+	 */
 	public void drawPlants(HashMap<Point, Plant> plantsInPlot) {
 		if(plantsInPlot != null) {
-			for(Map.Entry<Point, Plant> map_element : plantsInPlot.entrySet()) {
+			for(Map.Entry<Point, Plant> mapElement : plantsInPlot.entrySet()) {
 				// used to determine plant image size in the plot
-				double radius = map_element.getValue().getSpreadRadiusLower();
+				double radius = mapElement.getValue().getSpreadRadiusLower();
 				if(radius == 0) {
-					radius = map_element.getValue().getSizeLower();
+					radius = mapElement.getValue().getSizeLower();
 				}
 				// get position of plant
-				Point tmp_pos = map_element.getValue().getPosition();
+				Point tmpPos = mapElement.getValue().getPosition();
 				// the image corresponding to the plot
-				Image plantImage = View.getImages().get(map_element.getValue().getScientificName());
+				Image plantImage = View.getImages().get(mapElement.getValue().getScientificName());
 				// method to fill the image
-				addPlantImageToBase(tmp_pos, new ImagePattern(plantImage), radius);
+				addPlantImageToBase(tmpPos, new ImagePattern(plantImage), radius);
 			}
 		}
 	}
@@ -492,7 +497,10 @@ public class GardenEditorView extends View {
 		left.add(colorStr, 1, 5);
 	}
 	
-	//TODO javadoc
+	/**
+	 * Displays the Options Info in left hand bar
+	 * @param plant
+	 */
 	public void addOptionsInfo(Plant plant) {
 		Text soilText = new Text("Soil Types Supported:");
 		Text soilStr = new Text(plant.getSoilTypes());
@@ -516,7 +524,10 @@ public class GardenEditorView extends View {
 		left.add(moistureStr, 1, 14);
 	}
 	
-	//TODO javadoc
+	/**
+	 * Puts lep names and hyperlinks in left column
+	 * @param supportedLeps
+	 */
 	public void addLepsInfo(Set<Lep> supportedLeps) {
 		Text lepInfoText = new Text("Some Leps supported:");
 		VBox lepHolder = new VBox();
@@ -547,7 +558,11 @@ public class GardenEditorView extends View {
 	}
 	
 	
-	//TODO javadox
+	/**
+	 * Creates the lep pop up window
+	 * @param event
+	 * @param allLeps
+	 */
 	public void lepPopUp(ActionEvent event, ConcurrentHashMap<String, Lep> allLeps) {
 		Stage lepPopup = new Stage();
 		lepPopup.setMaximized(false);
@@ -603,7 +618,9 @@ public class GardenEditorView extends View {
         lepPopup.show();
 	}
 	
-	//TODO javadox
+	/**
+	 * Pop Up Window if Plant size is too big for plot
+	 */
 	public void plantTooBigPopUp() {
 		Stage popup = new Stage();
 		popup.setMaximized(false);
@@ -622,7 +639,9 @@ public class GardenEditorView extends View {
         popup.show();
 	}
 	
-	//TODO javadox
+	/**
+	 * Pop up window displayed when plant radius overlap
+	 */
 	public void plantRadiusOverlapPopUp() {
 		Stage popup = new Stage();
 		popup.setMaximized(false);
@@ -652,9 +671,9 @@ public class GardenEditorView extends View {
 	
 	
 	/**
-	 * TODO update javadox
+	 * 
 	 * Sets all the plants info on left pane
-	 * @param plant
+	 * @param plant, supportedLeps, event
 	 */
 	public void setPlantInfo(Plant plant, Set<Lep> supportedLeps, Event event) { // ConcurrentHashap<String, Set<Lep>> allLeps
 		left.getChildren().clear();
