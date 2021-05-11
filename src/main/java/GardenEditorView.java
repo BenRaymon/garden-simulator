@@ -580,29 +580,29 @@ public class GardenEditorView extends View {
         lepInfo.setMinWidth(lepImage.getImage().getWidth());
         lepInfo.setAlignment(Pos.CENTER);
 
-        Text nameVal = new Text(lep.getLepName());
-		Text nameText = new Text("Butterfly Name:");
-		nameVal.getStyleClass().add("editor-t");
-		nameText.getStyleClass().add("editor-t");
+        Label nameVal = new Label(lep.getLepName());
+		Label nameText = new Label("Butterfly Name:");
+		nameVal.getStyleClass().add("popup");
+		nameText.getStyleClass().add("popup");
 		lepInfo.add(nameText, 0, 0);
 		lepInfo.add(nameVal, 1, 0);
 
-        Text famVal = new Text(lep.getLepFamily());
-		Text famText = new Text("Butterfly Family:");
-		famVal.getStyleClass().add("editor-t");
-		famText.getStyleClass().add("editor-t");
+        Label famVal = new Label(lep.getLepFamily());
+		Label famText = new Label("Butterfly Family:");
+		famVal.getStyleClass().add("popup");
+		famText.getStyleClass().add("popup");
 		lepInfo.add(famText, 0, 1);
 		lepInfo.add(famVal, 1, 1);
 
-        Text countryVal = new Text(lep.getCountries().toString());
-		Text countryText = new Text("Country of Origin:");
-		countryVal.getStyleClass().add("editor-t");
-		countryText.getStyleClass().add("editor-t");
+        Label countryVal = new Label(lep.getCountries().toString());
+		Label countryText = new Label("Country of Origin:");
+		countryVal.getStyleClass().add("popup");
+		countryText.getStyleClass().add("popup");
 		lepInfo.add(countryText, 0, 2);
 		lepInfo.add(countryVal, 1, 2);
 
-		Text pfText = new Text("Feeds off of " + lep.getNames().size() + " plants from " + lep.getFamilies().size() + " different families");
-		pfText.getStyleClass().add("editor-t");
+		Label pfText = new Label("Feeds off of " + lep.getNames().size() + " plants from " + lep.getFamilies().size() + " different families");
+		pfText.getStyleClass().add("popup");
 
 		
 		VBox pop = new VBox();
@@ -613,7 +613,8 @@ public class GardenEditorView extends View {
 		pop.setAlignment(Pos.CENTER);
 		
         Scene myDialogScene = new Scene(pop, lepImage.getImage().getWidth() + 100, lepImage.getImage().getHeight() + 100);
-      
+        String labelStyle = getClass().getResource("labels.css").toExternalForm();
+        myDialogScene.getStylesheets().add(labelStyle);
         lepPopup.setScene(myDialogScene);
         lepPopup.show();
 	}
