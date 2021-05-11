@@ -569,6 +569,7 @@ public class Controller extends Application{
 						gardenEditorView.createNewImageInBase(drag,db, radius);
 					} else {
 						System.out.println("Plant is too close to another");
+						gardenEditorView.plantRadiusOverlapPopUp();
 					}
 				} else {
 					System.out.println("Plant cannot fit into this plot, too large");
@@ -586,6 +587,7 @@ public class Controller extends Application{
 						gardenEditorView.createNewImageInBase(drag,db, radius);
 					} else {
 						System.out.println("Plant is too close to another");
+						gardenEditorView.plantRadiusOverlapPopUp();
 					}
 				} else {
 					System.out.println("Plant cannot fit into this plot, too large");
