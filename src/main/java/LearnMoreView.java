@@ -60,7 +60,7 @@ public class LearnMoreView extends View{
 		createRight();
 		createCenter();
 		
-		String textStyle = getClass().getResource("labels.css").toExternalForm();
+		String textStyle = getClass().getResource("learnmore.css").toExternalForm();
 		scene.getStylesheets().add(textStyle);
 		
 		stage.setScene(scene);
@@ -97,7 +97,7 @@ public class LearnMoreView extends View{
 		box2.setSpacing(SPACING);
 		gardenTipsText(box2);
 		//base.setLeft(box1);
-		container.add(box1, 60, 7);
+		container.add(box1, 50, 6);
 	}
 	
 	/**
@@ -115,7 +115,7 @@ public class LearnMoreView extends View{
 		box2.setSpacing(SPACING);
 		moreResources(box2);
 		//base.setRight(box1);
-		container.add(box1, 60, 6);
+		container.add(box1, 50, 5);
 	}
 	
 	/**
@@ -227,9 +227,9 @@ public class LearnMoreView extends View{
 		box2.setBackground(new Background(new BackgroundFill(Color.web(lightBlue), CornerRadii.EMPTY, Insets.EMPTY)));
 		box2.setAlignment(Pos.CENTER);
 		box2.setSpacing(SPACING);
-		box2.setMaxWidth(WINDOW_WIDTH/2);
+		box2.setMinWidth(WINDOW_WIDTH/2);
 		createCenterText(box2);
-		container.add(box2, 60, 5);
+		container.add(box2, 50, 4);
 		base.setCenter(container);
 	}
 	
