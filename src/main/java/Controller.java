@@ -556,7 +556,6 @@ public class Controller extends Application{
 				radius =  selected.getSizeLower();
 			}
 			
-			
 			//Check if the selected plant was from the recommended bar or if it was in a plot
 			if(garden.isPlantInPlot(plotNumOfSelected, selected)) {
 				if (GardenEditor.isPlantWithinPlot(radius, garden.getScale(), garden.getPlots().get(plotNum))) {
@@ -570,11 +569,10 @@ public class Controller extends Application{
 					} else {
 						System.out.println("1: Plant is too close to another");
 						gardenEditorView.plantRadiusOverlapPopUp();
-						//clear canvas and draw current plots back
+						//clear canvas and draw the plants again
 						gardenEditorView.clearCanvas();
 						for (Plot p : garden.getPlots()) {
-							gardenEditorView.setFillColor(p.getOptions());
-							gardenEditorView.drawPlot(p.getCoordinates(), p.getPlantsInPlot());
+							gardenEditorView.drawPlants(p.getPlantsInPlot());
 						}
 					}
 				} else {

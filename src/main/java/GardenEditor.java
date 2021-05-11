@@ -432,6 +432,7 @@ public class GardenEditor {
 	}
 
 	/**
+	 * TODO update this
 	 * This method figures out if a plant can be placed next to another plant based on the spread radius
 	 * @param scale the scale of the garden, its a conversion from feet to pixels 
 	 * @param posOfSelectedPlant position of the plant to check if it can fit
