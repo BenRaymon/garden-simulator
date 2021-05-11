@@ -595,7 +595,7 @@ public class GardenEditorView extends View {
 		lepInfo.add(famVal, 1, 1);
 
         Label countryVal = new Label(lep.getCountries().toString());
-		Label countryText = new Label("Country of Origin:");
+		Label countryText = new Label("Country of Origin: ");
 		countryVal.getStyleClass().add("popup");
 		countryText.getStyleClass().add("popup");
 		lepInfo.add(countryText, 0, 2);
