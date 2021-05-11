@@ -612,6 +612,7 @@ public class GardenEditorView extends View {
 		box.setAlignment(Pos.CENTER);
 		box.setStyle("-fx-background-color: " + darkgrey);
 		Label message = new Label("Plant radius is too large for your plot");
+		message.getStyleClass().add("popup");
 		
 		box.getChildren().add(message);
         Scene myDialogScene = new Scene(box, 350, 75);
