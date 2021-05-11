@@ -7,6 +7,7 @@ public class Plot implements Serializable {
 	private Options options;
 	private ArrayList<Point> coordinates;
 	private ArrayList<Point> originalCoordinates;
+	private double cx, cy, left, right, top, bottom;
 	
 	/**
 	 * Plot constructor with passing options in
@@ -18,6 +19,40 @@ public class Plot implements Serializable {
 		this.plantsInPlot = new HashMap<Point, Plant>();
 		this.options = o;
 		this.coordinates = null;
+		this.left = 0.0;
+		this.right = 0.0;
+		this.top = 0.0;
+		this.bottom = 0.0;
+		this.cy = 0.0;
+		this.cx = 0.0;
+	}
+	
+	/**
+	 * figure out where the plot boundaries are
+	 * @param none
+	 * @return none
+	 */
+	public void calculatePlotBoundaries() {
+		Iterator<Point> itp = originalCoordinates.iterator();
+		while(itp.hasNext()) {
+			Point p = itp.next();
+			if (p.getX() < left || left == 0) {
+				left = p.getX();
+			}
+			if (p.getX() > right) {
+				right = p.getX();
+			}
+			if (p.getY() < top || top == 0) {
+				top = p.getY();
+			}
+			if (p.getY() > bottom) {
+				bottom = p.getY();
+			}
+		}
+		
+		cx = left + ((right-left)/2);
+		cy = top + ((bottom-top)/2);
+		
 	}
 	
 	/**
@@ -36,6 +71,102 @@ public class Plot implements Serializable {
 		return filtered;
 	}
 	
+	/**
+	 * get the center x of the plot
+	 * @return double the center x coord
+	 */
+	public double getCx() {
+		return cx;
+	}
+
+	/**
+	 * set the center x coord of the plot
+	 * @param cx the center x
+	 */
+	public void setCx(double cx) {
+		this.cx = cx;
+	}
+
+	/**
+	 * get the center y of the plot
+	 * @return double the center y coord
+	 */
+	public double getCy() {
+		return cy;
+	}
+
+	/**
+	 * set the center y of the plot
+	 * @param cy double
+	 */
+	public void setCy(double cy) {
+		this.cy = cy;
+	}
+	
+	/**
+	 * get the left most point of the plot
+	 * @return the point
+	 */
+	public double getLeft() {
+		return left;
+	}
+	
+	/**
+	 * set the left most point of the plot
+	 * @param left double
+	 */
+	public void setLeft(double left) {
+		this.left = left;
+	}
+
+	/**
+	 * get the right most point of the plot
+	 * @return double
+	 */
+	public double getRight() {
+		return right;
+	}
+
+	/**
+	 * set the right most point of the plot
+	 * @param right double
+	 */
+	public void setRight(double right) {
+		this.right = right;
+	}
+
+	/**
+	 * get the top most point of the plot
+	 * @return double
+	 */
+	public double getTop() {
+		return top;
+	}
+
+	/**
+	 * set the top most point of the plot
+	 * @param top double
+	 */
+	public void setTop(double top) {
+		this.top = top;
+	}
+
+	/**
+	 * get the bottom most point of the plot
+	 * @return double
+	 */
+	public double getBottom() {
+		return bottom;
+	}
+
+	/**
+	 * set the bottom most point of the plot
+	 * @param bottom double
+	 */
+	public void setBottom(double bottom) {
+		this.bottom = bottom;
+	}
+
 	/**
 	 * add a coordinate to the plots list of coords
 	 * @param point point to add

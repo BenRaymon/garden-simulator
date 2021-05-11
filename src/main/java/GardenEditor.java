@@ -156,6 +156,27 @@ public class GardenEditor {
 	}
 	
 	/**
+	 * determine if the plant that is trying to be placed can fit in the current plot based on the
+	 * plants spread radius and the plots boundaries
+	 * @param radius the spread radius of the plant
+	 * @param plot the plot the plant is trying to be placed in
+	 * @return boolean whether or not the plant can be placed
+	 */
+	public static boolean isPlantWithinPlot(double radius, double scale, Plot plot) {
+		System.out.println("Radius: " + radius);
+		System.out.println("Scale: " + scale);
+		double half_rad = (radius) * scale;
+		System.out.println("Half radius: " + half_rad);
+		System.out.println("Side check: " + (plot.getRight() - plot.getLeft()));
+		System.out.println("Vertical check: " + (plot.getBottom() - plot.getTop()));
+		if (half_rad >= Math.abs(plot.getRight() - plot.getLeft()) || 
+			half_rad >= Math.abs(plot.getBottom() - plot.getTop()))
+			return false;
+		else
+			return true;
+	}
+	
+	/**
 	 * Calculate the scale factor that is needed to fit the garden in the desired canvas
 	 * @return scale factor as a double
 	 */
