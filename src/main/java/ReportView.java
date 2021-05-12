@@ -130,6 +130,14 @@ public class ReportView extends View {
 		plantData.add(plantChart, 1, 1);
 	}
 	
+	/**
+	 *  Creates an instance of a pie chart, using the data found in the
+	 * lepsInGardenPieChartData observable list. Adds this to the lepData Scroll
+	 * Pane.
+	 * 
+	 * @param None
+	 * @return None
+	 */
 	public void addLepPieGraph() {
 		PieChart lepChart = new PieChart(lepsInGardenPieChartData);
 		lepChart.setTitle("Lep Diversity");
@@ -176,13 +184,20 @@ public class ReportView extends View {
 	}
 
 	//TODO
+	/**
+	 * 
+	 *Adds lep name to lepsInGarden observableArrayList.  
+	 * @param lepName
+	 */
 	public void addLep(String lepName) {
 		if (!lepsInGarden.contains(lepName)) {
 			lepsInGarden.add(lepName);
 		}
 	}
 
-	//TODO
+	/**
+	 * Adds the lepList to the plantData pane. 
+	 */
 	public void addLepList() {
 		lepList = new ListView<String>();
 		lepList.setItems(lepsInGarden);
@@ -192,12 +207,17 @@ public class ReportView extends View {
 		plantData.add(lepList, 2, 3);
 	}
 
-	//TODO
+	/**
+	 * Adds a plant name to the plantsInGarden observable array list. 
+	 * @param plant
+	 */
 	public void addPlant(String plant) {
 		plantsInGarden.add(plant);
 	}
 
-	//TODO
+	/**
+	 * Adds the plantList to the plantData pane. 
+	 */
 	public void addPlantList() {
 		plantList = new ListView<String>();
 		plantList.setItems(plantsInGarden);
@@ -216,40 +236,31 @@ public class ReportView extends View {
 		return scene;
 	}
 
-	/**
-	 * Getter for PerennialDiversityOption checkbox.
-	 * 
-	 * @return perennialDiversityOption
-	 */
-	public CheckBox getPerennialDiversityOption() {
-		return perennialDiversityOption;
-	}
+
+	
 
 	/**
-	 * Getter for BudgetOption checkbox.
-	 * 
-	 * @return budgetOption
+	 * PlantListView getter. 
+	 * @return ListView<String> plantList
 	 */
-	public CheckBox getBudgetOption() {
-		return budgetOption;
-	}
-
-	//TODO
-	public CheckBox getLepListOption() {
-		return lepListOption;
-	}
-
-	//TODO
 	public ListView<String> getPlantListView() {
 		return plantList;
 	}
 
-	//TODO
+	/**
+	 * LepView getter.
+	 * @return ListView<String> lepView
+	 */
 	public ListView<String> getLepView() {
 		return lepList;
 	}
 
-	//TODO
+	/**
+	 * Opens the plantList popup based on the plant that was clicked on. 
+	 * 
+	 * @param a
+	 * @param plantHash
+	 */
 	public void openPlantListPopUp(MouseEvent a, ConcurrentHashMap<String,Plant> plantHash) {
 		ListView temp = (ListView)a.getSource();
 		String plantName = (String)temp.getSelectionModel().getSelectedItem();
@@ -270,7 +281,12 @@ public class ReportView extends View {
 		popupPlant.show();
 	}
 	
-	//TODO
+	/**
+	 * Opens the lepList popup based on the lep that was clicked on. 
+	 * 
+	 * @param a
+	 * @param lepHash
+	 */
 	public void openLepListPopUp(MouseEvent a, ConcurrentHashMap<String,Lep> lepHash) {
 		ListView temp = (ListView)a.getSource();
 		String lepName = (String)temp.getSelectionModel().getSelectedItem();
@@ -302,6 +318,10 @@ public class ReportView extends View {
 		popupLep.show();
 	}
 	
+	/**
+	 * Adds a lepName to the lepCount hash map. If the lep name is already in the hasmap, add one to the hash map value. 
+	 * @param s
+	 */
 	public void addToLepList(String s) {
 		if(lepCount.get(s) != null) {
 			lepCount.put(s,lepCount.get(s)+1);
@@ -311,12 +331,19 @@ public class ReportView extends View {
 		}
 	}
 	
+	/**
+	 * Adds elements from the hashMap lepCount to LepPieGraphData.
+	 */
 	public void addCountToList() {
 		lepCount.forEach((k,v) ->{
 			addItemToLepPieGraph(k,v);
 		});
 	}
 	
+	/**
+	 * Gets generate report button. 
+	 * @return Button generateReportButton
+	 */
 	public Button getButton() {
 		return generateButton;
 	}
