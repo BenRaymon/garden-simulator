@@ -29,15 +29,15 @@ public class SaveLoadGarden {
 			}
 			
 			// make the output streams for the file and garden
-			FileOutputStream f_out = new FileOutputStream(f, false); // append is false to keep one arraylist in save file
-			ObjectOutputStream o_out = new ObjectOutputStream(f_out);
+			FileOutputStream fout = new FileOutputStream(f, false); // append is false to keep one arraylist in save file
+			ObjectOutputStream oout = new ObjectOutputStream(fout);
 			
 			// write the garden to f_out
-			o_out.writeObject(g);
+			oout.writeObject(g);
 			
 			// close the file and object output streams
-			o_out.close();
-			f_out.close();
+			oout.close();
+			fout.close();
 			
 	      // catch exceptions and errors
 		} catch (FileNotFoundException e) {
@@ -66,15 +66,15 @@ public class SaveLoadGarden {
 			// check for empty file to avoid EOFException
 			if(f.length() != 0) {
 				// open the file and object input streams to read the gardens into the app
-				FileInputStream f_in = new FileInputStream(f);
-				ObjectInputStream o_in = new ObjectInputStream(f_in);
+				FileInputStream fin = new FileInputStream(f);
+				ObjectInputStream oin = new ObjectInputStream(fin);
 				
 				// read gardens into our return variable and type case appropriately
-				ret_gardens = (ArrayList<Garden>) o_in.readObject();
+				ret_gardens = (ArrayList<Garden>) oin.readObject();
 				
 				// close the input streams
-				o_in.close();
-				f_in.close();
+				oin.close();
+				fin.close();
 			} else {
 				// if file is empty, tell me
 				System.out.println("File is empty...");
@@ -98,16 +98,16 @@ public class SaveLoadGarden {
 	 */
 	public ArrayList<Garden> deleteGarden(String g_name, ArrayList<Garden> list) {
 		// find and delete the garden
-		Garden ret_g = null;
-		
+		Garden retg = null;
+	
 		for(Garden g : list) {
 			if(g.getName() == g_name) {
-				ret_g = g;
+				retg = g;
 				break;
 			}
 		}
 		
-		list.remove(ret_g);
+		list.remove(retg);
 		return list;
 	}
 	
@@ -121,15 +121,15 @@ public class SaveLoadGarden {
 	public Garden loadPickedGarden(String g_name, ArrayList<Garden> list) {
 		// find the garden by iterating over the given list and finding the element
 		// with a name that matches the given name.
-		Garden ret_g = null;
+		Garden retg = null;
 		
 		for(Garden g : list) {
 			if(g.getName() == g_name) {
-				ret_g = g;
+				retg = g;
 				break;
 			}
 		}
 		
-		return ret_g;
+		return retg;
 	}
 }
