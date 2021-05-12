@@ -207,12 +207,14 @@ public class Controller extends Application{
 	 */
 	public EventHandler getToCompareOnClickHandler() {
 		return (event -> {
+			compPlantsView.setPlantImages(garden.getRecPlantNames());
+			
 			stage.setScene(compPlantsView.getScene());
 			
-			compPlantsView.clearPlantList();
-			for(String key: garden.getAllPlants().keySet()) {
-				compPlantsView.setPlantList(garden.getAllPlants().get(key).getScientificName());
-			}
+			//compPlantsView.clearPlantList();
+//			for(String key: garden.getAllPlants().keySet()) {
+//				compPlantsView.setPlantList(garden.getAllPlants().get(key).getScientificName());
+//			}
 		});
 	}
 	
@@ -633,13 +635,13 @@ public class Controller extends Application{
 	 */
 	public EventHandler RightPlantButtonClickedHandler() {
 		return (event ->{
-			ListView<String> tempList = compPlantsView.getplantList();
-			
-			String plantInfo = "Plant A\n";		
-			plantInfo = plantInfo + CompPlants.getInfo(tempList.getSelectionModel().getSelectedItem());
+			String plant = compPlantsView.getSelectedPlant();
 
-			compPlantsView.setRightBody(tempList.getSelectionModel().getSelectedItem());
-			compPlantsView.setRightImage(tempList.getSelectionModel().getSelectedItem());
+			String plantInfo = "Plant B\n";		
+			plantInfo = plantInfo + CompPlants.getInfo(plant);
+
+			compPlantsView.setRightBody(plant);
+			compPlantsView.setRightImage(plant);
 		});
 		
 	}
@@ -650,13 +652,13 @@ public class Controller extends Application{
 	 */
 	public EventHandler LeftPlantButtonClickedHandler() {
 		return (event ->{
-			ListView<String> tempList = compPlantsView.getplantList();
+			String plant = compPlantsView.getSelectedPlant();
 
-			String plantInfo = "Plant B\n";		
-			plantInfo = plantInfo + CompPlants.getInfo(tempList.getSelectionModel().getSelectedItem());
+			String plantInfo = "Plant A\n";		
+			plantInfo = plantInfo + CompPlants.getInfo(plant);
 
-			compPlantsView.setLeftBody(tempList.getSelectionModel().getSelectedItem());
-			compPlantsView.setLeftImage(tempList.getSelectionModel().getSelectedItem());
+			compPlantsView.setLeftBody(plant);
+			compPlantsView.setLeftImage(plant);
 		});
 		
 	}
@@ -933,12 +935,14 @@ public class Controller extends Application{
 		});
 	}
 	
+	//TODO javadoc
 	public EventHandler plantListClicked() {
 		return(event ->{
 			reportView.openPlantListPopUp((MouseEvent)event, Garden.getAllPlants());
 			});
 	}
 	
+	//TODO javadoc
 	public EventHandler lepListClicked() {
 		return(event ->{
 			reportView.openLepListPopUp((MouseEvent)event, Garden.getAllLeps());

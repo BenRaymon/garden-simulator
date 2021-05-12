@@ -3,6 +3,7 @@ import java.util.*;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javafx.scene.image.ImageView;
@@ -304,5 +305,16 @@ public class Garden implements Serializable {
 	//TODO
 	public static ConcurrentHashMap<String, Lep> getAllLeps(){
 		return allLeps;
+	}
+	
+	//TODO
+	public ArrayList<String> getRecPlantNames() {
+		ArrayList<String> res = new ArrayList<String>();
+		
+		recommendedPlants.forEach((k, v) -> {
+			res.add(k);
+		});
+
+		return res;
 	}
 }
