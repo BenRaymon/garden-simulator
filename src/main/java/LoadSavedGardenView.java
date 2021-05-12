@@ -39,8 +39,8 @@ public class LoadSavedGardenView extends View {
 	private Controller controller;
 	private Button to_garden_editor = new Button("Load Garden");
 	private Button delete_garden = new Button("Delete Garden");
-	private Button to_home = new Button("Back to Home");
-	private VBox list_box;
+	private Button toHome = new Button("Back to Home");
+	private VBox listBox;
 	private Label label = new Label("Saved Gardens, pick a garden to load");
 	private ObservableList<String> garden_names = FXCollections.observableArrayList();
 	private ListView<String> listView;
@@ -66,14 +66,14 @@ public class LoadSavedGardenView extends View {
 		
 		to_garden_editor.setOnMouseClicked(controller.loadSelectedGardenHandler());
 		delete_garden.setOnMouseClicked(controller.deleteSelectedGardenHandler());
-		to_home.setOnMouseClicked(controller.fromLoadToHome());
-		list_box = createVBox();
+		toHome.setOnMouseClicked(controller.fromLoadToHome());
+		listBox = createVBox();
 		
 		right.setHgap(10);
 		right.setVgap(10);
 		right.add(to_garden_editor, 2, 3);
 		right.add(delete_garden, 2, 8);
-		right.add(to_home, 2, 13);
+		right.add(toHome, 2, 13);
 		right.setMinWidth(200);
 		right.setStyle("-fx-background-color: #678B5E");
 
@@ -103,12 +103,12 @@ public class LoadSavedGardenView extends View {
 	 * @return VBox - the created VBox with the label and listView added to it
 	 * */
 	public VBox createVBox() {
-		VBox vbox_g = new VBox(10);
+		VBox vboxg = new VBox(10);
 		Insets inset = new Insets(5, 5, 5, 50);
-		vbox_g.setPadding(inset);
-		vbox_g.getChildren().addAll(label, listView);
-		vbox_g.setStyle("-fx-background-color: #678B5E");
-		return vbox_g;
+		vboxg.setPadding(inset);
+		vboxg.getChildren().addAll(label, listView);
+		vboxg.setStyle("-fx-background-color: #678B5E");
+		return vboxg;
 	}
 	
 	/**
@@ -121,9 +121,9 @@ public class LoadSavedGardenView extends View {
 	public void setObservableList(ArrayList<Garden> list_g) {
 		// get the names of saved gardens into our observable list
 		ObservableList<String> tmp = FXCollections.observableArrayList();
-		Iterator garden_itr = list_g.iterator();
-		while(garden_itr.hasNext()) {
-			Garden g = (Garden) garden_itr.next();
+		Iterator gardenItr = list_g.iterator();
+		while(gardenItr.hasNext()) {
+			Garden g = (Garden) gardenItr.next();
 			tmp.add(g.name);
 		}
 		

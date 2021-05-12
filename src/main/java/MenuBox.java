@@ -103,7 +103,7 @@ public class MenuBox extends Pane {
 		case "load":
 			load.setDisable(true);
 			break;
-		case "plot_d":
+		case "plotD":
 			plotD.setDisable(true);
 			break;
 		case "editor":
@@ -112,10 +112,10 @@ public class MenuBox extends Pane {
 		case "report":
 			report.setDisable(true);
 			break;
-		case "shopping_l":
+		case "shopping":
 			shoppingL.setDisable(true);
 			break;
-		case "comp_p":
+		case "comp":
 			compP.setDisable(true);
 			break;
 		case "learn":

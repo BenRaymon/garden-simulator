@@ -102,7 +102,7 @@ public class PlotDesignView extends View {
 		// get text styles
 		String textStyle = getClass().getResource("labels.css").toExternalForm();
 		
-		MenuBox menu = new MenuBox(c, "plot_d");
+		MenuBox menu = new MenuBox(c, "plotD");
 		menu.getEditorButton().setOnMouseClicked(controller.getToGardenOnClickHandler());
 		//make show/hide button
 		toggleGridLines = new Button();
@@ -577,11 +577,11 @@ public class PlotDesignView extends View {
 	public void setFillColor(Options o) {
 		int[] soil = o.getSoilTypes();
 		if(soil[0] == 1) 
-			gc.setFill(Color.GREY);
+			gc.setFill(Color.valueOf("#C29689"));
 		else if (soil[1] == 1) 
 			gc.setFill(Color.SADDLEBROWN);
 		else if (soil[2] == 1) 
-			gc.setFill(Color.SANDYBROWN);
+			gc.setFill(Color.TAN);
 	}
 	
 	/**

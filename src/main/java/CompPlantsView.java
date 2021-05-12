@@ -129,7 +129,7 @@ public class CompPlantsView extends View {
 		imageViewB.setPreserveRatio(true);
 		
 		
-		MenuBox menu = new MenuBox(c, "comp_p");
+		MenuBox menu = new MenuBox(c, "comp");
 		container.getChildren().add(menu);
 		left.add(plantSummaryA, 2, 3);
 		right.add(plantSummaryB, 2, 3);
