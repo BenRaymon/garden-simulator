@@ -12,15 +12,15 @@
 OK BLOOMER Gardening is a garden planner created as a final project for CISC 275. This gardening application can be used to build gardens that have a focus on native perennials and other native plants.
 # USING THE PROGRAM
 ![StartScreen](https://user-images.githubusercontent.com/54713482/117983885-59ef5e80-b305-11eb-8cc5-d9b9b9b806f2.PNG)
-The gardening application allows users to both create a new garden, and load a garden from a previous garden cration session. To create a new garden, simply click the new garden button.
+The gardening application allows users to both create a new garden, and load a garden from a previous session. To create a new garden, simply click the new garden button.
 
 
 ![DrawPlot](https://user-images.githubusercontent.com/54713482/117980675-34ad2100-b302-11eb-89e4-fdba47ea584f.PNG)
 ![AfterDraw](https://user-images.githubusercontent.com/54713482/117980872-658d5600-b302-11eb-8c9b-c185fadb2128.PNG)
 
 
-This will bring the user to the plot creation screen. This screen has an easy to use plot selection and free drawing system that makes it simple and easy to create garden plots of any size. Users can set their x and y dimensions in feet, pick their budget, and draw pplots based on the setting used in the three sliders. Choosing different slider options will curate the plants that show up in the next screen.  
-After creating a plot, users can click the fill garden button to complete the plot selection process and travel to the garden editor screen. 
+This will bring the user to the plot designer screen. This screen has an easy to use plot selection and free drawing system that makes it simple and easy to create garden plots of any size. Users can set their x and y dimensions in feet, pick their budget, and draw plots based on the settings used in the three sliders. Choosing different slider options will curate the plants that show up in the next screen.  
+After creating a plot, users can click the fill garden button to complete the plot designer process and travel to the garden editor screen. 
 
 
 ![Editor View](https://user-images.githubusercontent.com/54713482/117980931-75a53580-b302-11eb-9626-6f25ecfff5a8.PNG)
@@ -30,18 +30,18 @@ Along the top of the garden editing screen, a curated list of perennials and oth
 ![Hover](https://user-images.githubusercontent.com/54713482/117981062-99687b80-b302-11eb-8856-1ba2d3f0deea.PNG)
 
 
-By hovering over or clicking on a plant in the top bar, it is possible to see additional information about the currently selected perennial or plant on the left hand side of the screen. 
+By hovering over or clicking on a plant in the top bar, additional information about that plant is shown on the left hand side of the screen. 
 
 ![LepButton](https://user-images.githubusercontent.com/54713482/117981129-aedda580-b302-11eb-84ff-1e0e7a2c2563.PNG)
 
 
-Under the ‘Some Leps Supported’ section on the left hand side of the screen, some lep names may be underlined and white. If this is the case, it is possible to click on the lep name to bring up a window with a lep image and additional lep information. 
+Under the ‘Some Leps Supported’ section on the left hand side of the screen, some lep names may be underlined and white. If this is the case, the user can click on the lep name to bring up a window with an image and additional lep information. 
 
  ![SelectPlot1](https://user-images.githubusercontent.com/54713482/117981180-bac96780-b302-11eb-98b9-c6ca67d0df6e.PNG)
 ![SelectPlot2](https://user-images.githubusercontent.com/54713482/117981181-bac96780-b302-11eb-826a-34fe460653ee.PNG)
 
 
-On the right hand side of the screen, the first drop down menu allows the user to choose the recommended plants that appear based on the plots in the garden editor. In the two images above, notice how the curated plants change between the reccomendations for the two different plots.  
+On the right hand side of the screen, the first drop down menu allows the user to choose which plot the recommended plants are based on. In the two images above, notice how the curated plants change between the recommendations for the two different plots.  
 
 The sort plants by drop down menu can be used to sort the plants by number of leps supported, cost, spread radius, and plant size.  
 
@@ -50,11 +50,11 @@ Below the two drop down menus, the ‘remaining budget’, ‘number of plants�
 ![Drag](https://user-images.githubusercontent.com/54713482/117981386-f5330480-b302-11eb-9491-79f31a9aad96.PNG)
 
 
-Plants can be dragged from the recommended plants bar onto the plot. A plant's lower radius will determine the size of the plant circle on the plot. 
+Plants can be dragged from the recommended plants list into a plot. A plant's lower spread radius will determine the size of the plant circle on the plot. Some plants have an unknown spread radius, in this case the lower size value is used for the circle radius.
 
 ![Overlap Popup](https://user-images.githubusercontent.com/54713482/117981408-fb28e580-b302-11eb-942f-47df6ec7fd13.PNG)
 
-Note. Plants can only be placed on the plot, and can not overlap each other. If two plants are placed in one another, a popup message with an error will be displayed. 
+Note. Plants can only be placed on the plot, and can not overlap each other. If two plants overlap, a popup message with an error will be displayed. 
 ![MenuBar](https://user-images.githubusercontent.com/54713482/117981430-02e88a00-b303-11eb-81b7-3a76bb0eef9c.PNG)
 
 
