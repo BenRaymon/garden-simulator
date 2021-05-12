@@ -1,13 +1,21 @@
+import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.TextField;
@@ -15,6 +23,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.collections.ObservableList;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+
 import javafx.collections.FXCollections;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -26,8 +39,8 @@ public class CompPlantsView extends View {
 
 	private ImageView imageViewA;
 	private ImageView imageViewB;
-	private Text plantSummaryA;
-	private Text plantSummaryB;
+	private Label plantSummaryA;
+	private Label plantSummaryB;
 	private Scene scene;
 	private Controller controller;
 	private ListView<String> list;
@@ -38,9 +51,18 @@ public class CompPlantsView extends View {
 	private XYChart.Series series1;
 	private XYChart.Series series2;
 	private BarChart<String, Number> bc;
-
+	
+	// for the carousel
+	private HashMap<String, Plant> recPlants;
+	private HashMap<Image, String> recommendedPlantImages;
+	private ObservableList<String> recList;
+	private ListView<VBox> top;
+	private VBox container;
+	
 	// Hbox holds plant data
 	private HBox plantDataHbox;
+	private GridPane left;
+	private GridPane right;
 	private GridPane center = new GridPane();
 	private ObservableList<String> plantsList;
 	private ListView<String> plantsListView;
@@ -54,23 +76,35 @@ public class CompPlantsView extends View {
 	 */
 	public CompPlantsView(Stage stage, Controller c) {
 		this.controller = c;
+		container = new VBox();
+		left = new GridPane();
+		right = new GridPane();
+		
+		right.setHgap(10);
+		right.setVgap(10);
+		left.setHgap(10);
+		left.setVgap(10);
+		
+		right.setMinWidth(300);
+		left.setMinWidth(300);
 		
 		base = new BorderPane();
 		center.setHgap(10);
 		center.setVgap(10);
-		center.setAlignment(Pos.CENTER);
+		center.setAlignment(Pos.TOP_CENTER);
+		center.setPadding(new Insets(0,1,2,3));
 
 
 		// Creating table
 		items = FXCollections.observableArrayList("General Info", "Lep Compare", "Radius Compare", "Size Compare");
 		list = new ListView<String>();
 		list.setItems(items);
-		list.setPrefHeight(70);
+		list.setMaxSize(500, 190);
 		list.setOnMouseClicked(controller.listClickedHandler());
 
 		// Setting plant Summary Values
-		plantSummaryA = new Text("Plant summary A");
-		plantSummaryB = new Text("Plant summary B");
+		plantSummaryA = new Label("Plant summary A");
+		plantSummaryB = new Label("Plant summary B");
 
 		Button leftPlantButton = new Button("Left Plant");
 		Button rightPlantButton = new Button("Right Plant");
@@ -78,11 +112,11 @@ public class CompPlantsView extends View {
 		plantsList = FXCollections.observableArrayList("Test Plant A", "Test Plant B", "Test Plant C");
 		plantsListView = new ListView<String>();
 		plantsListView.setItems(plantsList);
-		plantsListView.setPrefHeight(100);
+		plantsListView.setPrefHeight(300);
 
 		rightPlantButton.setOnMouseClicked(c.RightPlantButtonClickedHandler());
 		leftPlantButton.setOnMouseClicked(c.LeftPlantButtonClickedHandler());
-
+	
 		imageViewA = new ImageView();
 		imageViewB = new ImageView();
 		
@@ -96,27 +130,55 @@ public class CompPlantsView extends View {
 		
 		
 		MenuBox menu = new MenuBox(c, "comp_p");
-		center.add(plantSummaryA, 0, 1, 1, 1);
-		center.add(plantSummaryB, 2, 1, 1, 1);
-		center.add(leftPlantButton, 0, 2, 1, 1);
-		center.add(rightPlantButton, 2, 2, 1, 1);
-		center.add(list, 1, 3, 1, 1);
+		container.getChildren().add(menu);
+		left.add(plantSummaryA, 2, 3);
+		right.add(plantSummaryB, 2, 3);
+//		center.add(leftPlantButton, 0, 3, 1, 1);
+//		center.add(rightPlantButton, 2, 3, 1, 1);
+		
+		center.add(list, 1, 2, 1, 1);
+		
+		right.add(rightPlantButton, 2, 6);
+		left.add(leftPlantButton, 2, 6);
+		
+		right.setStyle("-fx-background-color: "+darkGreen);
+		left.setStyle("-fx-background-color: "+darkGreen);
 		
 		//Adds image Views
-		center.add(imageViewA,0,0,1,1);
-		center.add(imageViewB,2,0,1,1);
+		right.add(imageViewB, 2, 9);
+		left.add(imageViewA, 2, 9);
 		
+		GridPane.setValignment(rightPlantButton, VPos.CENTER);
+		GridPane.setValignment(leftPlantButton, VPos.CENTER);
+		GridPane.setValignment(plantSummaryA, VPos.CENTER);
+		GridPane.setValignment(plantSummaryB, VPos.CENTER);
+		GridPane.setValignment(imageViewB, VPos.CENTER);
+		GridPane.setValignment(imageViewA, VPos.CENTER);
 		//Adds Lists
-		center.add(plantsListView, 1, 2, 1, 1);
-
+		//center.add(plantsListView, 1, 2, 1, 1);
+	
+		base.setLeft(left);
+		base.setRight(right);
+		
 		// get button styles
 		String buttonStyle = getClass().getResource("buttons.css").toExternalForm();
+		String scrollStyle = getClass().getResource("scrollbars.css").toExternalForm();
+		String labelStyle = getClass().getResource("labels.css").toExternalForm();
+		String smallStyle = getClass().getResource("smallview.css").toExternalForm();
+		list.getStylesheets().add(smallStyle);
+		plantSummaryA.getStylesheets().add(labelStyle);
+		plantSummaryB.getStylesheets().add(labelStyle);
+		
 		base.setCenter(center);
-		base.setTop(menu);
+		base.setTop(container);
 
+		base.setStyle("-fx-background-color: "+offWhite);
+		
 		// create and set scene with base
 		scene = new Scene(base, WINDOW_WIDTH, WINDOW_HEIGHT);
 		scene.getStylesheets().add(buttonStyle);
+		scene.getStylesheets().add(scrollStyle);
+		//scene.getStylesheets().add(labelStyle);
 		stage.setScene(scene);
 		stage.show();
 	}
@@ -332,5 +394,57 @@ public class CompPlantsView extends View {
 	public void setRightImage(String s) {
 		Image tempImg = getImages().get(s);
 		imageViewB.setImage(tempImg);
+	}
+	
+	public String getSelectedPlant() {
+		VBox tmp = top.getSelectionModel().getSelectedItem();
+		return ((Text) tmp.getChildren().get(1)).getText();
+	}
+	
+	/**
+	 * Draws images on top grid
+	 * @param plantNames
+	 */
+	public void setPlantImages(ArrayList<String> plantNames){
+		//reset the map of current recommended images
+		recommendedPlantImages = new HashMap<Image, String>();
+		//make a list to hold the circle objects for each plant 
+		ArrayList<VBox> recommendedPlantCircs = new ArrayList<VBox>();
+		//master static list of all images from the abstract view
+		ConcurrentHashMap<String, Image> allImages = View.getImages();
+		
+		//iterate through every string in the list of plant names to add
+		for (String name : plantNames) {
+			try {
+				//create a circle object with the corresponding plant image
+				Image image = allImages.get(name);
+				recommendedPlantImages.put(image, name);
+				Circle circ = new Circle(40);
+				VBox holder = new VBox();
+		        circ.setFill(new ImagePattern(image));
+		        
+		        holder.setAlignment(Pos.CENTER);
+		        holder.getChildren().add(circ);
+		        Text nameText = new Text(name);
+		        nameText.setTextAlignment(TextAlignment.CENTER);
+		        holder.getChildren().add(nameText);
+		        recommendedPlantCircs.add(holder);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		//convert the array list into a backing list for the list view
+		//add list of recommended plant circles to the listview and add the listview to the base border pane 
+		ObservableList<VBox> backingList = FXCollections.observableArrayList(recommendedPlantCircs);
+		if(container.getChildren().contains(top))
+			container.getChildren().remove(top);
+		top = new ListView<>(backingList);
+		top.setOrientation(Orientation.HORIZONTAL);
+		top.setMaxHeight(125);
+		String topStyle = getClass().getResource("listview.css").toExternalForm();
+		top.getStylesheets().add(topStyle);
+		container.getChildren().add(top);
+		
 	}
 }
