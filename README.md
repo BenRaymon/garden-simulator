@@ -19,18 +19,18 @@ The gardening application allows users to both create a new garden, and load a g
 ![AfterDraw](https://user-images.githubusercontent.com/54713482/117980872-658d5600-b302-11eb-8c9b-c185fadb2128.PNG)
 
 
-This will bring the user to the plot designer screen. This screen has an easy to use plot selection and free drawing system that makes it simple and easy to create garden plots of any size. Users can set their x and y dimensions in feet, pick their budget, and draw plots based on the settings used in the three sliders. Choosing different slider options will curate the plants that show up in the next screen.  
-After creating a plot, users can click the fill garden button to complete the plot designer process and travel to the garden editor screen. 
+This will bring the user to the plot designer screen. This screen has an easy to use plot selection and free drawing system that makes it simple and easy to create garden plots of any size. Users can set their height and width dimensions in feet, pick their budget, and draw plots based on the settings used in the three sliders. Choosing different slider options will curate the plants that show up in the next screen. The color of the drawn plot will also change depending on which soil option the user selects. Allowing for the creation of multiple distinct plots in the garden. After creating a plot, users can click the fill garden button to complete the plot designer process and travel to the garden editor screen. 
 
 
 ![Editor View](https://user-images.githubusercontent.com/54713482/117980931-75a53580-b302-11eb-9626-6f25ecfff5a8.PNG)
 
+When entering the Garden Editor screen the user's plots are first scaled to fully fit the editor screen in the middle of the window.
 Along the top of the garden editing screen, a curated list of perennials and other plants are shown that are specially talored to work in the current plot's conditions.
 
 ![Hover](https://user-images.githubusercontent.com/54713482/117981062-99687b80-b302-11eb-8856-1ba2d3f0deea.PNG)
 
 
-By hovering over or clicking on a plant in the top bar, additional information about that plant is shown on the left hand side of the screen. 
+By hovering over a plant in the top bar, additional information about that plant is shown on the left hand side of the screen. 
 
 ![LepButton](https://user-images.githubusercontent.com/54713482/117981129-aedda580-b302-11eb-84ff-1e0e7a2c2563.PNG)
 
