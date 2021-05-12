@@ -170,8 +170,10 @@ public class GardenEditorView extends View {
 	/**
 	 * Draws plots on the canvas
 	 * @param points an array lit of coordinates to draw
+	 * @param plantsInPlot a list of plants to draw in the plot
+	 * @param outline a boolean to determine if this plot should be outlined
 	 */
-	public void drawPlot(ArrayList<Point> points, HashMap<Point, Plant> plantsInPlot) {
+	public void drawPlot(ArrayList<Point> points, HashMap<Point, Plant> plantsInPlot, boolean outline) {
 		//split the array list of points into two arrays of doubles
 		//(fillPolygon method requires 2 arrays of doubles)
 		double[] xcords = new double[points.size()];
@@ -180,6 +182,15 @@ public class GardenEditorView extends View {
 		for(Point p : points) {
 			xcords[i] = (p.getX());
 			ycords[i++] = (p.getY());
+		}
+		
+		if(outline) {
+			gc.setStroke(Color.BLACK);
+			gc.setLineWidth(3);
+			gc.strokePolygon(xcords, ycords, i);
+		} else {
+			gc.setStroke(Color.web("#f4f4f4"));
+			gc.strokePolygon(xcords, ycords, i);
 		}
 		gc.fillPolygon(xcords, ycords, i);
 		
@@ -229,11 +240,11 @@ public class GardenEditorView extends View {
 	public void setFillColor(Options o) {
 		int[] soil = o.getSoilTypes();
 		if(soil[0] == 1) 
-			gc.setFill(Color.GREY);
+			gc.setFill(Color.valueOf("#C29689"));
 		else if (soil[1] == 1) 
 			gc.setFill(Color.SADDLEBROWN);
 		else if (soil[2] == 1) 
-			gc.setFill(Color.SANDYBROWN);
+			gc.setFill(Color.TAN);
 	}
 	
 	
@@ -259,7 +270,7 @@ public class GardenEditorView extends View {
 	}
 	
 	/**
-	 * Add the plot selector check box component to the right side bar
+	 * Add the plot selector dropdown component to the right side bar
 	 */
 	public void createPlotSelectors() {
 		//create plot selectors vbox

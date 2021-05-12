@@ -240,17 +240,22 @@ public class Controller extends Application{
 		garden.setScale(pixelsPerFoot);
 		gardenEditorView.setScale(pixelsPerFoot);
 		//smooth the plots in the model and fill them based on soil type
+		int plotIndex = 0;
 		for (Plot p : garden.getPlots()) {
 			p.setCoordinates(p.filterCoords(5));
 			p.setCoordinates(GardenEditor.smooth(p.getCoordinates(), 0.3, 20));
 			gardenEditorView.setFillColor(p.getOptions());
 			//draw the plot in the view (and draw the plants in the plot if applicable) 
+			boolean outline = false;
+			if(plotIndex == 0) 
+				outline = true;
 			if (p.getPlantsInPlot().size() == 0) 
-				gardenEditorView.drawPlot(p.getCoordinates(), null);
+				gardenEditorView.drawPlot(p.getCoordinates(), null, outline);
 			else
-				gardenEditorView.drawPlot(p.getCoordinates(), p.getPlantsInPlot());
+				gardenEditorView.drawPlot(p.getCoordinates(), p.getPlantsInPlot(), outline);
 			// Calculate the plot boundaries for later use
 			p.calculatePlotBoundaries();
+			plotIndex++;
 		}
 		//update leps supported
 		gardenEditorView.updateGardenCounts(garden.getLepsSupported(), garden.getPlantsInGarden().size(), garden.getSpent());
@@ -627,6 +632,20 @@ public class Controller extends Application{
 			ArrayList<String> plantNames = new ArrayList<String>();
 			plantNames.addAll(recommendedPlants.keySet());
 			gardenEditorView.setPlantImages(plantNames);
+			//redraw the plots and give the current one a stroke
+			if(t != null) {
+				int currIndex = 0;
+				gardenEditorView.clearCanvas();
+				for(Plot plot:garden.getPlots()) {
+					gardenEditorView.setFillColor(plot.getOptions());
+					boolean outline = false;
+					if(plotIndex == currIndex) 
+						outline = true;
+					gardenEditorView.drawPlot(plot.getCoordinates(), plot.getPlantsInPlot(), outline);
+					currIndex++;
+				}
+			}
+			
 		});
 	}
 	
