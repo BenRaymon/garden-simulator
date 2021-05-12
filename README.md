@@ -37,11 +37,12 @@ By hovering over a plant in the top bar, additional information about that plant
 
 Under the ‘Some Leps Supported’ section on the left hand side of the screen, some lep names may be underlined and white. If this is the case, the user can click on the lep name to bring up a window with an image and additional lep information. 
 
- ![SelectPlot1](https://user-images.githubusercontent.com/54713482/117981180-bac96780-b302-11eb-98b9-c6ca67d0df6e.PNG)
-![SelectPlot2](https://user-images.githubusercontent.com/54713482/117981181-bac96780-b302-11eb-826a-34fe460653ee.PNG)
+![newSelectPlot1](https://user-images.githubusercontent.com/54713482/118003594-b73fdb80-b316-11eb-86fc-fc4b88d14036.PNG)
+![newSelectPlot2](https://user-images.githubusercontent.com/54713482/118003592-b73fdb80-b316-11eb-9186-0375bf8694e9.PNG)
 
 
-On the right hand side of the screen, the first drop down menu allows the user to choose which plot the recommended plants are based on. In the two images above, notice how the curated plants change between the recommendations for the two different plots.  
+
+On the right hand side of the screen, the first drop down menu allows the user to choose which plot the recommended plants are based on. In the two images above, notice how the curated plants change when the selected plot changes. The currently selected plot is shown thrrough a black outline.  
 
 The sort plants by drop down menu can be used to sort the plants by number of leps supported, cost, spread radius, and plant size.  
 
