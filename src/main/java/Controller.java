@@ -944,6 +944,9 @@ public class Controller extends Application{
 	}
 	
 	//TODO javadoc
+	/**Event handler to open reportView plant popup. 
+	 * @return event handler
+	 */
 	public EventHandler plantListClicked() {
 		return(event ->{
 			reportView.openPlantListPopUp((MouseEvent)event, Garden.getAllPlants());
@@ -951,6 +954,9 @@ public class Controller extends Application{
 	}
 	
 	//TODO javadoc
+	/**Event handler to open reportView lep popup. 
+	 * @return event handler
+	 */
 	public EventHandler lepListClicked() {
 		return(event ->{
 			reportView.openLepListPopUp((MouseEvent)event, Garden.getAllLeps());
