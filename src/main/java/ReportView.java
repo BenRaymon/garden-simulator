@@ -1,5 +1,6 @@
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,10 +41,12 @@ public class ReportView extends View {
 	private GridPane plantData;
 	private TableView plantTable;
 	private ObservableList<PieChart.Data> plantsInGardenPieChartData = FXCollections.observableArrayList();
+	private ObservableList<PieChart.Data> lepsInGardenPieChartData = FXCollections.observableArrayList(); 
 	private ObservableList<String> plantsInGarden = FXCollections.observableArrayList();
 	private ObservableList<String> lepsInGarden = FXCollections.observableArrayList();
 	private ListView<String> lepList = new ListView<String>();
 	private ListView<String> plantList = new ListView<String>();
+	private HashMap <String,Integer> lepCount = new HashMap<String, Integer>();
 
 	/**
 	 * Constructor
@@ -103,6 +106,7 @@ public class ReportView extends View {
 		reportGrid.getChildren().clear();
 		plantData.getChildren().clear();
 		//reportGrid = new GridPane();
+		lepsInGardenPieChartData.clear();
 		plantsInGardenPieChartData.clear();
 		plantsInGarden.clear();
 		lepsInGarden.clear();
@@ -124,6 +128,13 @@ public class ReportView extends View {
 		PieChart plantChart = new PieChart(plantsInGardenPieChartData);
 		plantChart.setTitle("Perennial Diversity");
 		plantData.add(plantChart, 1, 1);
+	}
+	
+	public void addLepPieGraph() {
+		PieChart lepChart = new PieChart(lepsInGardenPieChartData);
+		lepChart.setTitle("Lep Diversity");
+		plantData.add(lepChart,1,3);
+		
 	}
 
 	/**
@@ -158,6 +169,10 @@ public class ReportView extends View {
 	 */
 	public void addItemToPieGraph(String plantName, int plantNum) {
 		plantsInGardenPieChartData.add(new PieChart.Data(plantName, plantNum));
+	}
+	
+	public void addItemToLepPieGraph(String lepName, int lepNum) {
+		lepsInGardenPieChartData.add(new PieChart.Data(lepName, lepNum));
 	}
 
 	//TODO
@@ -285,5 +300,24 @@ public class ReportView extends View {
 		}
 		popupLep.setScene(popupScene);
 		popupLep.show();
+	}
+	
+	public void addToLepList(String s) {
+		if(lepCount.get(s) != null) {
+			lepCount.put(s,lepCount.get(s)+1);
+		}
+		else {
+			lepCount.put(s,1);
+		}
+	}
+	
+	public void addCountToList() {
+		lepCount.forEach((k,v) ->{
+			addItemToLepPieGraph(k,v);
+		});
+	}
+	
+	public Button getButton() {
+		return generateButton;
 	}
 }

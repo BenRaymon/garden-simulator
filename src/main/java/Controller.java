@@ -869,6 +869,7 @@ public class Controller extends Application{
 			}
 			
 			reportView.addGardenPieGraph();
+			reportView.addLepPieGraph();
 
 			//Garden Budget
 			reportView.addBudgetBox(garden.getSpent(),garden.getBudget());
@@ -882,10 +883,14 @@ public class Controller extends Application{
 				if(leps != null) {
 				for(Lep l: leps) {
 					reportView.addLep(l.getLepName());
+					reportView.addToLepList(l.getLepName());
+					
 				}
 				}
 			});
+			reportView.addCountToList();
 			reportView.addLepList();
+			
 				
 			//Plant List
 			tempGardenData = garden.generateShoppingListData();
@@ -894,6 +899,8 @@ public class Controller extends Application{
 				reportView.addPlant(scientific);
 			});
 			reportView.addPlantList();
+			
+			reportView.getButton().setDisable(true);
 
 		});
 		
