@@ -26,8 +26,20 @@ public class LepTest {
 	
 	@Test
 	public void testSetLepFamily() {
-		testLep.setLepName("harvey");
-		assertEquals(testLep.getLepName(), "harvey");
+		testLep.setLepFamily("test");
+		assertEquals(testLep.getLepFamily(), "test");
+	}
+	
+	@Test
+	public void testGetLepName() {
+		testLep.setLepName("test");
+		assertEquals(testLep.getLepName(), "test");
+	}
+	
+	@Test
+	public void testSetLepName() {
+		testLep.setLepName("Harvey");
+		assertEquals(testLep.getLepName(), "Harvey");
 	}
 	
 	@Test

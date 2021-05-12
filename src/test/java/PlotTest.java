@@ -164,8 +164,7 @@ public class PlotTest {
 		assertEquals(0, pl.getRight(), 0.01);
 		assertEquals(0, pl.getCx(), 0.01);
 		assertEquals(0, pl.getCy(), 0.01);
-		
-		
+
 		pl.createRecommendedPlants();
 		assertEquals(26, pl.getRecommendedPlants().size());
 	}
