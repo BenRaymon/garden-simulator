@@ -195,6 +195,7 @@ public class Controller extends Application{
 	 */
 	public EventHandler getToReportOnClickHandler() {
 		return (event -> {
+			reportView = new ReportView(stage, this);
 			stage.setScene(reportView.getScene());
 			
 		});
