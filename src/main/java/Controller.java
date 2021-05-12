@@ -171,7 +171,7 @@ public class Controller extends Application{
 	public EventHandler getToGardenOnClickHandler2() {
 		return (event -> {
 			stage.setScene(gardenEditorView.getScene());
-			
+
 		});
 	}
 	
@@ -817,8 +817,8 @@ public class Controller extends Application{
 	public EventHandler loadSelectedGardenHandler() {
 		return (event -> {
 			ListView<String> tmp = loadSavedGardenView.getListView();
-			String curr_g = tmp.getSelectionModel().getSelectedItem();
-			garden = gardenSaverLoader.loadPickedGarden(curr_g, savedGardens);
+			String currG = tmp.getSelectionModel().getSelectedItem();
+			garden = gardenSaverLoader.loadPickedGarden(currG, savedGardens);
 			gardenEditorView.clearCanvas();
 			stage.setScene(gardenEditorView.getScene());
 			
@@ -838,8 +838,8 @@ public class Controller extends Application{
 	public EventHandler deleteSelectedGardenHandler() {
 		return (event -> {
 			ListView<String> tmp = loadSavedGardenView.getListView();
-			String curr_g = tmp.getSelectionModel().getSelectedItem();
-			savedGardens = gardenSaverLoader.deleteGarden(curr_g, savedGardens);
+			String currG = tmp.getSelectionModel().getSelectedItem();
+			savedGardens = gardenSaverLoader.deleteGarden(currG, savedGardens);
 			
 			try {
 				gardenSaverLoader.saveGarden(savedGardens);
