@@ -10,8 +10,7 @@ public class PlantTest {
 	
 	@Test
 	public void testToString() {
-		String str = "name" +"|"+"sciName"+"|"+"fam"+"|"+"blue"+"|"+1.0+"|"+5.0+"|"+
-				69.0+"|"+80.0+"|"+600.0+"|"+5+"|"+'t';
+		String str = "name\nsciName\nfam\nblue\n1.0\n5.0\n69.0\n80.0\n";
 		assertEquals(p.toString(), str);
 	}
 	@Test
