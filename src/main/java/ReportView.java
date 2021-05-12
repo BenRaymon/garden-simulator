@@ -60,6 +60,7 @@ public class ReportView extends View {
 		reportGrid = new GridPane();
 		reportGrid.setAlignment(Pos.CENTER);
 		base.setCenter(reportGrid);
+		base.setStyle("-fx-background-color: " + offWhite);
 
 		toGardenEditor = new Button("Garden Editor");
 		toGardenEditor.setOnMouseClicked(controller.getToGardenOnClickHandler2());
@@ -157,10 +158,14 @@ public class ReportView extends View {
 		GridPane budgetGrid = new GridPane();
 		budgetGrid.setHgap(10);
 		budgetGrid.setVgap(10);
-		budgetGrid.setGridLinesVisible(true);
+		budgetGrid.setGridLinesVisible(false);
+		
 		budgetGrid.setAlignment(Pos.CENTER);
 		Text spentText = new Text("Spent: " + spent);
+		spentText.setStyle("-fx-font-size: 24px");
 		Text budgetText = new Text("Budget: " + budget);
+		budgetText.setStyle("-fx-font-size: 24px");
+
 
 		budgetGrid.add(budgetText, 0, 0);
 		budgetGrid.add(spentText, 1, 0);
