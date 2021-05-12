@@ -10,8 +10,7 @@ public class PlantTest {
 	
 	@Test
 	public void testToString() {
-		String str = "name" +"|"+"sciName"+"|"+"fam"+"|"+"blue"+"|"+1.0+"|"+5.0+"|"+
-				69.0+"|"+80.0+"|"+600.0+"|"+5+"|"+'t';
+		String str = "name\nsciName\nfam\nblue\n1.0\n5.0\n69.0\n80.0\n";
 		assertEquals(p.toString(), str);
 	}
 	@Test
@@ -190,5 +189,26 @@ public class PlantTest {
 		assertFalse(p.getColor().equals(clone.getColor()));
 	}
 	
-
+	@Test
+	public void testgetSoilTypes() {
+		Plant testPlant = new Plant("name", "sciName", "genera", "fam", "blue", 1.0, 5.0,69,80, op, 600.0, 5, 't');
+		String soil = testPlant.getSoilTypes();
+		assertEquals(soil, "Clay, Loam, Sand");
+	}
+	
+	@Test
+	public void testgetSunlightLevels() {
+		Options o = new Options(new int[] {1,1,1}, new int[] {1,1,1}, new int[] {1,1,1});
+		Plant testPlant = new Plant("name", "sciName", "genera", "fam", "blue", 1.0, 5.0,69,80, o, 600.0, 5, 't');
+		String sun = testPlant.getSunlightLevels();
+		assertEquals(sun, "Shade, Partial Sun, Full Sun");
+	}
+	
+	@Test
+	public void testgetMoistures() {
+		Options o = new Options(new int[] {1,1,1}, new int[] {1,1,1}, new int[] {1,1,1});
+		Plant testPlant = new Plant("name", "sciName", "genera", "fam", "blue", 1.0, 5.0,69,80, o, 600.0, 5, 't');
+		String moisture = testPlant.getMoistures();
+		assertEquals(moisture, "Dry, Moist, Wet");
+	}
 }
