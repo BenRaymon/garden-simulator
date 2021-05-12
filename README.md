@@ -9,7 +9,7 @@
 -  Alex Sederquest
 
 # DESCRIPTION
-OK BLOOMER Gardening is a garden planner created as a final project for CISC 275. This gardening application can be used to build gardens that have a focus on local perennials and other plants.
+OK BLOOMER Gardening is a garden planner created as a final project for CISC 275. This gardening application can be used to build gardens that have a focus on native perennials and other native plants.
 # USING THE PROGRAM
 ![StartScreen](https://user-images.githubusercontent.com/54713482/117983885-59ef5e80-b305-11eb-8cc5-d9b9b9b806f2.PNG)
 The gardening application allows users to both create a new garden, and load a garden from a previous garden cration session. To create a new garden, simply click the new garden button.
