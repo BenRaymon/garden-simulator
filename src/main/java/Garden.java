@@ -313,7 +313,10 @@ public class Garden implements Serializable {
 		return allLeps;
 	}
 	
-	//TODO
+	/**
+	 * Gets the names of the plants in the recommended plant list
+	 * @return recommended plant names
+	 */
 	public ArrayList<String> getRecPlantNames() {
 		ArrayList<String> res = new ArrayList<String>();
 		
