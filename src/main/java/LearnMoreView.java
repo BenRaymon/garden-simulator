@@ -99,7 +99,7 @@ public class LearnMoreView extends View{
 		box2.setAlignment(Pos.CENTER);
 		box2.setSpacing(SPACING);
 		gardenTipsText(box2);
-		container.add(box1, 60, 7);
+		container.add(box1, 40, 7);
 	}
 	
 	/**
@@ -116,7 +116,7 @@ public class LearnMoreView extends View{
 		box2.setAlignment(Pos.CENTER);
 		box2.setSpacing(SPACING);
 		moreResources(box2);
-		container.add(box1, 60, 6);
+		container.add(box1, 40, 6);
 	}
 	
 	/**
@@ -224,7 +224,7 @@ public class LearnMoreView extends View{
 		box2.setSpacing(SPACING);
 		box2.setMinWidth(WINDOW_WIDTH/2);
 		createCenterText(box2);
-		container.add(box2, 50, 4);
+		container.add(box2, 40, 4);
 		base.setCenter(container);
 	}
 	

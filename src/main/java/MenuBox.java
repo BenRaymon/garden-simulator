@@ -85,7 +85,10 @@ public class MenuBox extends Pane {
 		return container;
 	}
 	
-	//TODO javadoc
+	/**
+	 * Getter for EditorButton()
+	 * @return editor
+	 */
 	public Button getEditorButton() {
 		return editor;
 	}
